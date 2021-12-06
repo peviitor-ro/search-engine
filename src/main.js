@@ -1,18 +1,6 @@
-// Create a class property without a constructor
-class Game {
-  name = 'Violin Charades'
-}
-const myGame = new Game()
-// Create paragraph node
-const p = document.createElement('p')
-p.textContent = `I like ${myGame.name}.`
+import {searchComponent} from './components/search/search.component.js';
 
-// Create heading node
-const heading = document.createElement('h1')
-heading.textContent = 'Interesting! as dd'
+const root = document.querySelector('#root');
 
-// Append heading node to the DOM
-const app = document.querySelector('#root')
-app.append(heading)
-app.append(p)
-
+const search = searchComponent();
+root.appendChild(search);
