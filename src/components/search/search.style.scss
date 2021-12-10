@@ -1,9 +1,4 @@
-@font-face {
-  font-family: "Oswald";
-  src: url("../../styles/fonts/Oswald-VariableFont_wght.ttf");
-}
-
-$text-color: aquamarine;
+@import "../../styles/variables.scss";
 
 .search {
   width: 500px;
@@ -18,8 +13,8 @@ $text-color: aquamarine;
         padding: 10px 45px 10px 55px;
         font-size: 24px;
         border-radius: 100px;
-        font-family: "Oswald", Helvetica, sans-serif;
-        color: $text-color;
+        font-family: $oswald;
+        color: $search-input-color;
         background-color: #8b573d;
       }
 
@@ -36,18 +31,18 @@ $text-color: aquamarine;
 
     ::placeholder {
       /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: $text-color;
+      color: $search-input-color;
       opacity: 1; /* Firefox */
     }
 
     :-ms-input-placeholder {
       /* Internet Explorer 10-11 */
-      color: $text-color;
+      color: $search-input-color;
     }
 
     ::-ms-input-placeholder {
       /* Microsoft Edge */
-      color: $text-color;
+      color: $search-input-color;
     }
   }
 }

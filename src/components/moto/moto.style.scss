@@ -1,0 +1,18 @@
+@import "../../styles/variables.scss";
+
+.moto {
+  text-align: center;
+
+  &__title {
+    font-size: 40px;
+    font-family: $oswald-extra-light;
+    color: $moto-title;
+  }
+
+  &__subtitle {
+    font-size: 24px;
+    font-family: $oswald-extra-light;
+    color: $moto-subtitle;
+    margin-top: 12px;
+  }
+}

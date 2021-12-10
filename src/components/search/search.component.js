@@ -1,4 +1,4 @@
-import searchStyle from './search.component.scss';
+import searchStyle from './search.style.scss';
 import mGlassImg from '../../images/mglass.png';
 import mGlassWhiteImg from '../../images/mglass-white.png';
  

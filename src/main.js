@@ -1,17 +1,25 @@
-import LandingPage from './styles/landing-page.scss';
-import {searchComponent} from './components/search/search.component.js';
+import LandingPage from './styles/landing-page.style.scss';
+import { searchComponent } from './components/search/search.component.js';
+import { motoComponent } from './components/moto/moto.component.js';
 
 
 const root = document.querySelector('#root');
 const landingPage = document.createElement('div');
+const overlay = document.createElement('div');
+const title = document.createElement('div');
 
-const title = document.createElement('p');
+title.classList = 'logo';
 title.innerText = 'pe viitor';
 
+overlay.classList = 'overlay'
+
 const search = searchComponent();
+const moto = motoComponent();
 
 landingPage.classList = 'landing-page';
 landingPage.appendChild(title);
 landingPage.appendChild(search);
+landingPage.appendChild(moto);
 
-root.appendChild(landingPage);
+overlay.appendChild(landingPage);
+root.appendChild(overlay);
