@@ -1,4 +1,53 @@
+@font-face {
+  font-family: "Oswald";
+  src: url("../../styles/fonts/Oswald-VariableFont_wght.ttf");
+}
+
+$text-color: aquamarine;
+
 .search {
-  background-color: red;
-  height: 30px;
+  width: 500px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .search {
+      &__input {
+        padding: 10px 45px 10px 55px;
+        font-size: 24px;
+        border-radius: 100px;
+        font-family: "Oswald", Helvetica, sans-serif;
+        color: $text-color;
+        background-color: #8b573d;
+      }
+
+      &__icon {
+        position: absolute;
+        top: 16px;
+        left: 15px;
+
+        img {
+          width: 30px;
+        }
+      }
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: $text-color;
+      opacity: 1; /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: $text-color;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: $text-color;
+    }
+  }
 }

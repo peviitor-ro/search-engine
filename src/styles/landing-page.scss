@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "justMandrawn";
+  src: url("fonts/JustMandrawn.ttf");
+}
+
+body {
+  margin: 0;
+  height: 67vh;
+  // background-image: url("../images/landing-page-background.png");
+  background: url("../images/landing-page-background.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.landing-page {
+  margin-top: 33vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  p {
+    font-family: "justMandrawn", Courier, monospace;
+    font-size: 60px;
+    color: white;
+    padding: 0;
+    margin: 0;
+  }
+}

@@ -1,29 +1,25 @@
 import searchStyle from './search.component.scss';
-
+import mGlassImg from '../../images/mglass.png';
+import mGlassWhiteImg from '../../images/mglass-white.png';
+ 
 export const searchComponent = () => {
   const search = document.createElement('div');
   const form = document.createElement('form');
   const searchInput = document.createElement('input');
-  const label = document.createElement('label');
-  const btn = document.createElement('button');
+  const mGlass = document.createElement('div');
 
   search.classList = 'search';
 
-  label.innerText = "type a job title";
-  label.htmlFor = 'search-input';
-  label.classList = 'search__label'
-
   searchInput.id = "search-input";
   searchInput.classList = "search__input";
-  searchInput.placeholder = "say something..."
+  searchInput.placeholder = "ce vrei sa te faci cand vei fi mare?";
 
-  btn.innerText = 'Search';
-  btn.classList = 'search__btn'
+  mGlass.classList = 'search__icon'
+  mGlass.innerHTML = `<img src=${mGlassWhiteImg} />`;
 
+  form.appendChild(mGlass);
   search.appendChild(form);
   form.appendChild(searchInput);
-  form.appendChild(label);
-  form.appendChild(btn);
 
   return search;
 }
