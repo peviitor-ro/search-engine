@@ -1,10 +1,10 @@
-import searchStyle from './search.style.scss';
-import mGlassImg from '../../images/mglass.png';
+import './search.style.scss';
 import mGlassWhiteImg from '../../images/mglass-white.png';
  
 export const searchComponent = () => {
   const search = document.createElement('div');
-  const form = document.createElement('form');
+  const form = document.createElement('div');
+  form.classList = 'search__wrapper';
   const searchInput = document.createElement('input');
   const mGlass = document.createElement('div');
 

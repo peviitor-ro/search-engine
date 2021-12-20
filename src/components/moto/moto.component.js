@@ -1,4 +1,4 @@
-import motoStyle from './moto.style.scss';
+import './moto.style.scss';
 
 export const motoComponent = () => {
   const moto = document.createElement('div');
