@@ -1,0 +1,16 @@
+.job {
+  margin-bottom: 15px;
+
+  &__url {
+    color: blueviolet;
+  }
+
+  &__title {
+    font-size: 30px;
+    color: burlywood;
+  }
+
+  &__description {
+    color: cornflowerblue;
+  }
+}

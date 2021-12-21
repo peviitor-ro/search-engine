@@ -6,7 +6,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     main: path.resolve(__dirname, './src/main.js'),
-    serp: path.resolve(__dirname, './src/rezultate/serp.js'),
+    serp: path.resolve(__dirname, './src/serp/serp.js'),
   },
   // output: {
   //   path: path.resolve(__dirname, './dist'),
@@ -22,7 +22,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       title: 'pe viitor',
-      template: path.resolve(__dirname, './src/rezultate/index.html'), // template file
+      template: path.resolve(__dirname, './src/serp/index.html'), // template file
       filename: 'rezultate/index.html', // output file
       chunks: ['serp']
     }),
