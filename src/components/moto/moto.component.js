@@ -8,10 +8,10 @@ export const motoComponent = () => {
   moto.classList = 'moto';
 
   title.classList = 'moto__title';
-  title.innerText = 'motor de cautare';
+  title.innerText = 'motor de căutare';
 
   subTitle.classList = 'moto__subtitle';
-  subTitle.innerText = 'locuri de munca';
+  subTitle.innerText = 'locuri de muncă';
 
   moto.appendChild(title);
   moto.appendChild(subTitle);
