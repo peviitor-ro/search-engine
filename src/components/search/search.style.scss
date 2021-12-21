@@ -14,7 +14,9 @@
 
 .search {
   width: 500px;
-  animation: reveal 2000ms;
+  &__animation {
+    animation: reveal 2000ms;
+  }
 
   .search__wrapper {
     display: flex;

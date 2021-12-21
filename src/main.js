@@ -12,7 +12,7 @@ const logoDiv = logo();
 
 overlay.classList = 'overlay'
 
-const search = searchComponent();
+const search = searchComponent(true);
 const moto = motoComponent();
 
 landingPage.classList = 'landing-page';
