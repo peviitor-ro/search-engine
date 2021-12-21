@@ -12,7 +12,7 @@ export const searchComponent = () => {
 
   searchInput.id = "search-input";
   searchInput.classList = "search__input";
-  searchInput.placeholder = "ce vrei sa te faci cand vei fi mare?";
+  searchInput.placeholder = "ce vrei să te faci când vei fi mare?";
 
   mGlass.classList = 'search__icon'
   mGlass.innerHTML = `<img src=${mGlassWhiteImg} />`;
