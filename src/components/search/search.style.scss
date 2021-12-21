@@ -4,7 +4,7 @@
   0% {
     opacity: 0;
   }
-  50% {
+  20% {
     opacity: 0;
   }
   100% {
@@ -15,7 +15,7 @@
 .search {
   width: 500px;
   &__animation {
-    animation: reveal 2000ms;
+    animation: reveal 3000ms;
   }
 
   .search__wrapper {
