@@ -17,13 +17,7 @@ export const filter = (options) => {
  
   filter.appendChild(optionsDiv)
 
-  options.forEach(x => {
-    const option = document.createElement('div');
-    option.classList = 'filter__option';
-    option.innerText = x;
-    optionsDiv.appendChild(option);
-  })
-
+  filterOptions(options);
 
   return filter;
 }
