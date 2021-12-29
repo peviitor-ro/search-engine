@@ -9,17 +9,23 @@ export const results = () => {
     {
       url: 'www.google.com',
       title: 'This is a job',
-      description: 'the best description',
+      company: 'Endava',
+      country: 'Romania',
+      city: 'Cluj'
     },
     {
       url: 'www.google.com',
       title: 'This is a job',
-      description: 'the best description',
+      company: 'Endava',
+      country: 'Romania',
+      city: 'Cluj'
     },
     {
       url: 'www.google.com',
       title: 'This is a job',
-      description: 'the best description',
+      company: 'Endava',
+      country: 'Romania',
+      city: 'Cluj'
     },
   ]
 

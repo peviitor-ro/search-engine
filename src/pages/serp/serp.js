@@ -1,4 +1,5 @@
 import './serp.style.scss';
+import a from '../../axios';
 
 import {header} from '../../components/header/header.component.js';
 import { searchOnEnterPress } from '../../utils/searchOnEnterKeyPress.js';

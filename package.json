@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode production",
-    "dev":  "webpack serve"
+    "dev": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "clean-webpack-plugin": "^4.0.0"
   }
 }
