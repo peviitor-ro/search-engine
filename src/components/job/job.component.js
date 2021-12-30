@@ -7,7 +7,7 @@ export const job = ({url, title, company, country, city}) => {
   job.setAttribute('itemtype','https://schema.org/JobPosting')
 
   job.innerHTML = `
-      <a class="job__url" itemprop="url" href="http://${url}">${url}</a>
+      <a class="job__url" itemprop="url" href="https://${url}">${url}</a>
       <div class="job__title" itemprop="title">${title}</div>
       <div class="job__description">
         <span itemprop="hiringOrganization" itemscope itemtype="https://schema.org/Organization">
