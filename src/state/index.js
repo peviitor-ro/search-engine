@@ -1,6 +1,6 @@
 import a from '../axios';
 
-a.get('/countries')
+a.get('countries/')
   .then((respons) => {
     console.log(respons.data.countries);
   })
