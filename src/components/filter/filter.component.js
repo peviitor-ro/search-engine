@@ -1,17 +1,46 @@
 import './filter.style.scss';
+import state from '../../state';
 
-const optionsDiv = document.createElement('div');
-optionsDiv.classList = 'filter__options';
 
-const input = document.createElement('input');
-input.classList = 'filter__dropdown';
 
-export const filter = (options) => {
+export const filter = (options, type) => {
+  const optionsDiv = document.createElement('div');
+  optionsDiv.classList = 'filter__options  filter--hide';
+
+  const input = document.createElement('input');
+  input.classList = 'filter__dropdown';
+
+  const filterOptions = (options) => {
+    optionsDiv.innerText = '';
+  
+    options.filter(x => x.includes(input.value)).slice(0, 5).forEach(x => {
+      const option = document.createElement('div');
+      option.classList = 'filter__option';
+      option.innerText = x;
+  
+      option.addEventListener('click', (e) => {
+        input.value = e.target.innerText;
+        optionsDiv.classList.add('filter--hide')
+      })
+  
+      optionsDiv.appendChild(option);
+    })
+  }
+
   const filter = document.createElement('div');
-  filter.classList = 'filter';
+  filter.classList = `filter ${type}`;
   // filter.innerText = text;
 
   input.placeholder = 'Alege ceva...';
+  input.classList = 'filter__input';
+
+  input.addEventListener('click', () => {optionsDiv.classList.remove('filter--hide')})
+  input.addEventListener('blur', () => {
+    setTimeout(()=>{
+      optionsDiv.classList.add('filter--hide');
+    }, 100)
+  })
+
   input.onkeyup = () => filterOptions(options);
   filter.appendChild(input);
  
@@ -22,12 +51,3 @@ export const filter = (options) => {
   return filter;
 }
 
-const filterOptions = (options) => {
-  optionsDiv.innerText = '';
-  options.filter(x => x.includes(input.value)).forEach(x => {
-    const option = document.createElement('div');
-    option.classList = 'filter__option';
-    option.innerText = x;
-    optionsDiv.appendChild(option);
-  })
-}
