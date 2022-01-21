@@ -1,6 +1,10 @@
 import './search.style.scss';
 import mGlassWhiteImg from '../../images/mglass-white.png';
 import a from "../../axios";
+import { state } from '../../state';
+import { query } from '../../variables/queryVariables';
+
+
 
 
 export const searchComponent = (animation) => {
@@ -27,6 +31,9 @@ export const searchComponent = (animation) => {
   searchInput.classList = "search__input";
   searchInput.placeholder = "ce vrei să te faci când vei fi mare?";
   searchInput.autocomplete="off";
+  if (state[query.q]) {
+    searchInput.value = state[query.q];
+  }
 
   mGlass.classList = 'search__icon'
   mGlass.innerHTML = `<img src=${mGlassWhiteImg} />`;

@@ -1,6 +1,9 @@
-import a from '../axios';
+import { query } from '../variables/queryVariables';
 
-a.get('countries/')
-  .then((respons) => {
-    console.log(respons.data.countries);
-  })
+export let state = { 
+  [query.q]: null,
+  [query.country]: null,
+  [query.company]: null,
+  [query.city]: null,
+  [query.page]: null,
+}

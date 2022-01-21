@@ -1,14 +1,14 @@
 import './filter.style.scss';
-import state from '../../state';
 
-
-
-export const filter = (options, type) => {
+export const filter = (options, type, option) => {
   const optionsDiv = document.createElement('div');
   optionsDiv.classList = 'filter__options  filter--hide';
 
   const input = document.createElement('input');
   input.classList = 'filter__dropdown';
+  if(option) {
+    input.value = option;
+  }
 
   const filterOptions = (options) => {
     optionsDiv.innerText = '';
