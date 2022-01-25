@@ -1,6 +1,6 @@
 import { query } from '../variables/queryVariables';
 
-export let state = { 
+export let state = {
   [query.q]: null,
   [query.country]: null,
   [query.company]: null,

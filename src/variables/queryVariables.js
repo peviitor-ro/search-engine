@@ -1,5 +1,5 @@
 export const query = {
-  q:'q',
+  q: 'q',
   city: 'city',
   company: 'company',
   country: 'country',
