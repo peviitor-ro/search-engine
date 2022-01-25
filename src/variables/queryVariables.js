@@ -1,6 +1,7 @@
 export const query = {
-  q:'q',
-  cities: 'cities',
-  companies: 'companies',
-  countries: 'countries',
+  q: 'q',
+  city: 'city',
+  company: 'company',
+  country: 'country',
+  page: 'page'
 }
