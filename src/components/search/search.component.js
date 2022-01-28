@@ -13,7 +13,9 @@ export const searchComponent = (animation) => {
   form.classList = 'search__wrapper';
   const searchInput = document.createElement('input');
 
+
   const mGlass = document.createElement('div');
+
 
   a.get("total/")
       .then(response=>{
@@ -35,6 +37,8 @@ export const searchComponent = (animation) => {
     searchInput.value = state[query.q];
   }
 
+
+
   mGlass.classList = 'search__icon'
   mGlass.innerHTML = `<img src=${mGlassWhiteImg} />`;
 
@@ -44,5 +48,11 @@ export const searchComponent = (animation) => {
   form.appendChild(searchInput);
 
 
+
   return search;
 }
+
+
+
+
+
