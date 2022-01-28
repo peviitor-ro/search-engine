@@ -1,16 +1,37 @@
 .job {
-  margin-bottom: 15px;
+  margin-bottom: 28px;
+
 
   &__url {
-    color: blueviolet;
+    color: aquamarine;
+    font-family: 'Oswald', sans-serif;
   }
 
   &__title {
     font-size: 30px;
-    color: burlywood;
+    //color: burlywood;
+    color: wheat;
+    //font-size: 1.2em;
+    text-decoration: none;
+    font-family: 'Oswald', sans-serif;
+
+
   }
 
   &__description {
-    color: cornflowerblue;
+
+    font-family: 'Oswald', sans-serif;
+
   }
+ #nameOfCompany{
+    color: aquamarine;
+  }
+#locationOfCompany{
+  color: antiquewhite;
+
+}
+  //span{
+  //  color: aquamarine;
+  //  font-family: 'Oswald', sans-serif;
+  //}
 }
