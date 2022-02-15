@@ -4,6 +4,12 @@ import { motoComponent } from './components/moto/moto.component.js';
 import { logo } from './components/logo/logo.component';
 import { searchOnEnterPress } from './utils/searchOnEnterKeyPress';
 
+import { state } from './state';
+
+console.log(state);
+state.company = 'another company';
+
+console.log(state);
 
 const root = document.querySelector('#root');
 const landingPage = document.createElement('div');
