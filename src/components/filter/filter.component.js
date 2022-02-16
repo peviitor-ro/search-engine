@@ -1,4 +1,6 @@
 import './filter.style.scss';
+import state from '../../state';
+
 
 export const filter = (options, type, value) => {
   const optionsDiv = document.createElement('div');
@@ -34,7 +36,7 @@ export const filter = (options, type, value) => {
   input.placeholder = 'Alege ceva...';
   input.classList = 'filter__input';
 
-  input.addEventListener('click', () => { optionsDiv.classList.remove('filter--hide') })
+  input.addEventListener('click', () => {optionsDiv.classList.remove('filter--hide')})
   input.addEventListener('blur', () => {
     setTimeout(() => {
       optionsDiv.classList.add('filter--hide');
@@ -42,6 +44,7 @@ export const filter = (options, type, value) => {
   })
 
   input.onkeyup = () => filterOptions(options);
+
   filter.appendChild(input);
 
   filter.appendChild(optionsDiv)
