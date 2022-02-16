@@ -46,8 +46,8 @@ input:focus + .slider {
 }
 
 input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
+  //-webkit-transform: translateX(26px);
+  //-ms-transform: translateX(26px);
   transform: translateX(26px);
 }
 
@@ -58,4 +58,9 @@ input:checked + .slider:before {
 
 .slider.round:before {
   border-radius: 50%;
+}
+
+.toggler{
+  color:red;
+  padding-top:5px;
 }
