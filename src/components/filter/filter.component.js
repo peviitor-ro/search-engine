@@ -2,27 +2,29 @@ import './filter.style.scss';
 import state from '../../state';
 
 
-
-export const filter = (options, type) => {
+export const filter = (options, type, value) => {
   const optionsDiv = document.createElement('div');
   optionsDiv.classList = 'filter__options  filter--hide';
 
   const input = document.createElement('input');
   input.classList = 'filter__dropdown';
+  if (value) {
+    input.value = value;
+  }
 
   const filterOptions = (options) => {
     optionsDiv.innerText = '';
-  
+
     options.filter(x => x.includes(input.value)).slice(0, 5).forEach(x => {
       const option = document.createElement('div');
       option.classList = 'filter__option';
       option.innerText = x;
-  
+
       option.addEventListener('click', (e) => {
         input.value = e.target.innerText;
         optionsDiv.classList.add('filter--hide')
       })
-  
+
       optionsDiv.appendChild(option);
     })
   }
@@ -36,14 +38,15 @@ export const filter = (options, type) => {
 
   input.addEventListener('click', () => {optionsDiv.classList.remove('filter--hide')})
   input.addEventListener('blur', () => {
-    setTimeout(()=>{
+    setTimeout(() => {
       optionsDiv.classList.add('filter--hide');
     }, 100)
   })
 
   input.onkeyup = () => filterOptions(options);
+
   filter.appendChild(input);
- 
+
   filter.appendChild(optionsDiv)
 
   filterOptions(options);

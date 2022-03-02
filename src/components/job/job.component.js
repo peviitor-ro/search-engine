@@ -11,11 +11,11 @@ export const job = ({url, title, company, country, city}) => {
       <div class="job__title" itemprop="title">${title}</div>
       <div class="job__description">
         <span itemprop="hiringOrganization" itemscope itemtype="https://schema.org/Organization">
-          <span itemprop="name">${company} | </span>
+          <span itemprop="name" id="nameOfCompany">${company} | </span>
         </span>
 
         <span itemprop="jobLocation" itemscope itemtype="https://schema.org/Place">
-          <span itemprop="location">${country}, ${city}</span>
+          <span itemprop="location" id="locationOfCompany">${country}, ${city}</span>
         </span>
       </div>
   `

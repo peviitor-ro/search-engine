@@ -3,7 +3,15 @@ import { searchComponent } from './components/search/search.component.js';
 import { motoComponent } from './components/moto/moto.component.js';
 import { logo } from './components/logo/logo.component';
 import { searchOnEnterPress } from './utils/searchOnEnterKeyPress';
+import { setFavicon } from './utils/setFavicon';
+import { state } from './state';
 
+
+setFavicon();
+console.log(state);
+state.company = 'another company';
+
+console.log(state);
 
 const root = document.querySelector('#root');
 const landingPage = document.createElement('div');

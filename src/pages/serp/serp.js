@@ -1,12 +1,14 @@
 import './serp.style.scss';
-import a from '../../axios';
 
-import {header} from '../../components/header/header.component.js';
+import { header } from '../../components/header/header.component.js';
 import { searchOnEnterPress } from '../../utils/searchOnEnterKeyPress.js';
-import {results} from '../../components/results/results.component.js';
-import { queryUrl } from '../../utils/queryUrl';
+import { results } from '../../components/results/results.component.js';
+import { getStateFromUrl } from '../../state/getStateFromUrl';
+import { state } from '../../state';
 
-queryUrl();
+
+getStateFromUrl()
+console.log(state)
 
 const root = document.querySelector('#root');
 
