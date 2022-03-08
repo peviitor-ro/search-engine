@@ -19,49 +19,56 @@ export const results = () => {
     const url_string = window.location.href
     const url = new URL(url_string);
     const q = url.searchParams.get("q");
+    const page = url.searchParams.get("page");
+
 // const city= "Cluj";
 // const company="Yonder";
 
+//
+// function generateQueryString(){
+//     let queryString="";
+//
+//     if(state[query.q]!=null){
+//         queryString+= state[query.q];
+//
+//     }
+//     else if((state[query.company]!=null)){
+//         queryString+= state[query.company];
+//     }
+//
+//     else if((state[query.city]!=null)){
+//         queryString+= state[query.city];
+//     }
+//     else if((state[query.country]!=null)){
+//         queryString+= state[query.country];
+//     }
+//
+//     else if((state[query.page]!=null)){
+//         queryString+= state[query.page];
+//     }
+//     console.log(queryString)
+//     return queryString
+// }
 
-function generateQueryString(){
-    let queryString="";
 
-    if(state[query.q]!=null){
-        queryString+= state[query.q]
-
-    }
-    else if((state[query.company]!=null)){
-        queryString+= state[query.company];
-    }
-
-    else if((state[query.city]!=null)){
-        queryString+= state[query.city];
-    }
-    else if((state[query.country]!=null)){
-        queryString+= state[query.country];
-    }
-
-    else if((state[query.page]!=null)){
-        queryString+= state[query.page];
-    }
-    return queryString
-}
 
 function search() {
         // q=tester&city=some20%city&company=company&page=3
-    a.get(`search/?q=${generateQueryString()}`)
+if(page !=null) {
+    a.get(`search/?q=${q}&page=${page}`)
         .then(response => {
 
-let jobs=[];
+            let jobs = [];
             const data = response.data.response.docs
+            console.log(response.data.response.numFound);
             data.map((value) => {
-                let obj = {url:"",title:"",company:"",city:""};
+                let obj = {url: "", title: "", company: "", city: ""};
 
                 obj.url = value.job_link[0];
                 obj.title = value.job_title[0];
-                obj.company =value.company[0];
-                obj.country=value.country[0];
-                obj.city=value.city[0];
+                obj.company = value.company[0];
+                obj.country = value.country[0];
+                obj.city = value.city[0];
 
                 jobs.push(obj);
             })
@@ -74,6 +81,35 @@ let jobs=[];
             })
 
         })
+}
+else
+{
+    a.get(`search/?q=${q}`)
+        .then(response => {
+
+            let jobs = [];
+            const data = response.data.response.docs
+            data.map((value) => {
+                let obj = {url: "", title: "", company: "", city: ""};
+
+                obj.url = value.job_link[0];
+                obj.title = value.job_title[0];
+                obj.company = value.company[0];
+                obj.country = value.country[0];
+                obj.city = value.city[0];
+
+                jobs.push(obj);
+            })
+
+            jobs.forEach(j => {
+                const newJob = job(j);
+                results.appendChild(newJob);
+
+
+            })
+
+        })
+}
 
 }
 

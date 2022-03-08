@@ -30,6 +30,14 @@ export const filters = () => {
     axios.get("https://api.peviitor.ro/v3/companies/")
         .then(response => {
             const filter2 = filter(response.data, query.company, state[query.company])
+//             filter2.onchange=function (){
+//                 let qs = new URLSearchParams(window.location.search);
+//                 const current = qs.get("page");
+//                 const getQ=qs.get("q");
+//                 const url=window.location.href=`rezultate?q=${getQ}&page=${current}&company=${event.target.value}`;
+//                 console.log(url)
+// console.log(event.target.value)
+//             }
             filters.appendChild(filter2)
         })
 
