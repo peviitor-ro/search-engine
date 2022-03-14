@@ -1,10 +1,10 @@
 import './job.style.scss';
 
-export const job = ({url, title, company, country, city}) => {
+export const job = ({ url, title, company, country, city }) => {
   const job = document.createElement('div');
   job.classList = 'job';
-  job.setAttribute('itemscope','')
-  job.setAttribute('itemtype','https://schema.org/JobPosting')
+  job.setAttribute('itemscope', '')
+  job.setAttribute('itemtype', 'https://schema.org/JobPosting')
 
   job.innerHTML = `
       <a class="job__url" itemprop="url" href="https://${url}">${url}</a>
