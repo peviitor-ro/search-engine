@@ -8,10 +8,6 @@ import { state } from './state';
 
 
 setFavicon();
-console.log(state);
-state.company = 'another company';
-
-console.log(state);
 
 const root = document.querySelector('#root');
 const landingPage = document.createElement('div');

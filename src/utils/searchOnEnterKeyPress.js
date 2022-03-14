@@ -1,15 +1,14 @@
-import { ceateNewUrl } from "./ceateNewUrl";
-import { getUserQueryData } from "./getUserQueryData";
+import { state } from "../state";
+import { createNewUrl } from "./createNewUrl";
 
 export const searchOnEnterPress = () => {
   const inputField = document.querySelector('.search')
 
   inputField.addEventListener('keydown', (e) => {
-    if(e.code === 'Enter' || e.code === 'NumpadEnter') {
-      const queryData = getUserQueryData();
-      const newUrl = ceateNewUrl(queryData);
+    if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+      const newUrl = createNewUrl(state);
 
-      if(newUrl) {
+      if (newUrl) {
         window.location.href = newUrl;
       }
     }
