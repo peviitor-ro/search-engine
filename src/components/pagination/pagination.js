@@ -1,90 +1,30 @@
 import "./pagination.style.scss";
 
-export const pagination = () => {
+import { state } from "../../state";
+import { query } from "../../variables/queryVariables";
+import { updateStatePage } from "../../state/updateStatePage";
+import { createNewUrl } from "../../utils/createNewUrl";
 
-    function page(number) {
-        const urltext = window.location.href;
-        let url = new URL(urltext);
-        url.searchParams.set("page", number);
+export const pagination = (totalResults) => {
+    console.log({ totalResults })
+    const pagination = document.createElement('div');
+    pagination.className = "pagination";
 
-        return url.search
+    const step = 10;
+    const pages = Math.ceil(totalResults / step);
+
+    for (let i = 1; i <= pages; i++) {
+        const page = document.createElement('div');
+        const selected = state[query.page] === i.toString() ? 'selected' : '';
+        page.className = `page ${selected}`;
+        page.innerText = i;
+        page.addEventListener('click', () => {
+            updateStatePage(i);
+            const newUrl = createNewUrl(state);
+            window.location.href = newUrl;
+        });
+        pagination.appendChild(page);
     }
 
-    function pageMax() {
-
-
-
-    let resultsNumber = 91
-
-    return (Math.ceil(
-        resultsNumber / 10))
-
-    // console.log(pageMax())
-}
-
-// console.log(currentPage())
-    let startPage=1;
-
-    const test = document.createElement('div');
-
-
-
-    for (startPage = 1; startPage <=pageMax() ; startPage++) {
-
-        //add page number to href
-        test.innerHTML+=`<a  href="${page(startPage)}" id="page_${startPage}" }">${startPage}</a`;
-
-
-    }
-
-   function nextPage(){
-       const button= document.createElement("button")
-       button.innerText="next";
-       button.classList="nextButton";
-
-       let qs = new URLSearchParams(window.location.search);
-       const current = qs.get("page");
-       const getQ=qs.get("q");
-
-       button.onclick=function (){
-
-           const nextPage=parseInt(current)+1;
-
-           const url=window.location.href=`rezultate?q=${getQ}&page=${nextPage}`;
-           console.log(url)
-
-
-       }
-
-       test.appendChild(button)
-   }
-    prevPage()
-    nextPage()
-
-    function prevPage(){
-        const button= document.createElement("button")
-        button.innerText="prev";
-        button.classList="prevButton";
-
-        let qs = new URLSearchParams(window.location.search);
-        const current = qs.get("page");
-        const getQ=qs.get("q");
-
-        button.onclick=function (){
-
-            const nextPage=parseInt(current)-1;
-
-            const url=window.location.href=`rezultate?q=${getQ}&page=${nextPage}`;
-            console.log(url);
-
-
-        }
-
-        // const newUrl=window.location.search=`&page=${nextP}`
-        test.appendChild(button)
-    }
-
-
-
-    return test;
-}
+    return pagination;
+};

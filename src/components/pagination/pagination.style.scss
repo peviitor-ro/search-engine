@@ -1,16 +1,18 @@
-a {
-  font-size: 1.4em;
-  color: aquamarine;
-  margin: 10px;
-}
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
 
-.highlighted {
-  font-size: 1.4em;
-  color: red;
-  margin: 10px;
-}
+  .page {
+    padding: 10px;
+    background-color: white;
 
-.prevButton{
-  display:inline;
-  float: left;
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: red;
+    }
+  }
 }
