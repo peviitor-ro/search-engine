@@ -1,0 +1,18 @@
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+
+  .page {
+    padding: 10px;
+    background-color: white;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.selected {
+      background-color: red;
+    }
+  }
+}
