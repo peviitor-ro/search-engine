@@ -2,6 +2,7 @@ import './filter.style.scss';
 import { state } from '../../state';
 import { updateStateCompany } from '../../state/updateStateCompany';
 import { createNewUrl } from '../../utils/createNewUrl';
+import { query } from '../../variables/queryVariables';
 
 export const filter = (options, type, companySelected) => {
   const optionsDiv = document.createElement('div');
@@ -13,8 +14,10 @@ export const filter = (options, type, companySelected) => {
     input.value = companySelected;
   }
   input.addEventListener('blur', (e) => {
-    updateStateCompany(e.target.value);
-    window.location.href = createNewUrl(state);
+    if (!!e.target.value !== !!state[query.company]) {
+      updateStateCompany(e.target.value);
+      window.location.href = createNewUrl(state);
+    }
   });
 
   const filterOptions = (options) => {

@@ -6,7 +6,6 @@ import { updateStatePage } from "../../state/updateStatePage";
 import { createNewUrl } from "../../utils/createNewUrl";
 
 export const pagination = (totalResults) => {
-    console.log({ totalResults })
     const pagination = document.createElement('div');
     pagination.className = "pagination";
 

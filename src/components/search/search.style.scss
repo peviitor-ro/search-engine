@@ -18,6 +18,15 @@
     animation: reveal 3000ms;
   }
 
+  .total-jobs {
+    text-align: center;
+    display: block;
+    color: #b45f06;
+    font-family:  $oswald-extra-light;
+    height: 24px;
+  }
+
+
   .search__wrapper {
     display: flex;
     flex-direction: column;

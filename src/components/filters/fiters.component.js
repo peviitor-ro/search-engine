@@ -1,8 +1,10 @@
 import './filters.style.scss';
+import axios from "axios";
 import { filter } from '../filter/filter.component';
 import { state } from '../../state';
 import { query } from '../../variables/queryVariables';
-import axios from "axios";
+import { updateStateCountry } from '../../state/updateStateCountry';
+import { createNewUrl } from '../../utils/createNewUrl';
 
 export const filters = () => {
     const filters = document.createElement('div');
@@ -25,8 +27,14 @@ export const filters = () => {
     `;
 
     const checkbox = toggleButton.querySelector('.checkbox-romania');
-    checkbox.addEventListener('input', (e) => {
-        console.log(e.target.value)
+    if (state[query.country] === 'romania') {
+        checkbox.checked = true;
+    }
+    console.log(checkbox.checked)
+    checkbox.addEventListener('change', (e) => {
+        console.log(e.target.checked)
+        updateStateCountry(e.target.checked ? 'romania' : '');
+        window.location.href = createNewUrl(state);
     })
 
     axios.get("https://api.peviitor.ro/v3/companies/")

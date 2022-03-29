@@ -31,11 +31,15 @@ export const searchComponent = (animation) => {
     searchInput.value = state[query.q];
   }
 
+  const totalJobsCount = document.createElement('div');
+  totalJobsCount.classList = 'total-jobs';
+
   mGlass.classList = 'search__icon'
   mGlass.innerHTML = `<img src=${mGlassWhiteImg} />`;
 
   form.appendChild(mGlass);
   search.appendChild(form);
+  search.appendChild(totalJobsCount);
   form.appendChild(searchInput);
 
   return search;
