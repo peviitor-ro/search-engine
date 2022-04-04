@@ -1,6 +1,11 @@
 # ui-js
 
-Documnetations - 2021 12 06
+# Current designs
+https://www.figma.com/file/ZnxmiUT0MBUvGFv2D3vaZz/Website-designs?node-id=0%3A1
+        
+! Please note that the logo is not supposed to have a different background that the landing page photo/ header background, but the used Font (Just Mandrown) was not available when putting together the new designs, so a picture was used insetad as an easy fix. 
+
+Documentations - 2021 12 06
 
 # Structure
 
