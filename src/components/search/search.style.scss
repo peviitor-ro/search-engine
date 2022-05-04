@@ -1,12 +1,15 @@
-@import "../../styles/variables.scss";
+@import '../../styles/fonts.scss';
+@import "../../styles/_colors";
 
 @keyframes reveal {
   0% {
     opacity: 0;
   }
+
   20% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -14,6 +17,7 @@
 
 .search {
   width: 500px;
+
   &__animation {
     animation: reveal 3000ms;
   }
@@ -21,8 +25,8 @@
   .total-jobs {
     text-align: center;
     display: block;
-    color: #b45f06;
-    font-family:  $oswald-extra-light;
+    color: $text-brown;
+    font-family: $oswald-extra-light;
     height: 24px;
   }
 
@@ -36,10 +40,10 @@
       &__input {
         padding: 10px 45px 10px 55px;
         font-size: 24px;
-        border-radius: 100px;
+        border-radius: 25px;
         font-family: $oswald-extra-light;
-        color: $search-input-color;
-        background-color: #8b573d;
+        color: $text-purple;
+        background-color: transparent;
       }
 
       &__icon {
@@ -54,18 +58,14 @@
     }
 
     ::placeholder {
-      /* Chrome, Firefox, Opera, Safari 10.1+ */
-      color: $search-input-color;
-      opacity: 1; /* Firefox */
+      color: $text-purple;
     }
 
     :-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
       color: $search-input-color;
     }
 
     ::-ms-input-placeholder {
-      /* Microsoft Edge */
       color: $search-input-color;
     }
   }

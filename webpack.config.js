@@ -5,13 +5,9 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, './src/main.js'),
+    main: path.resolve(__dirname, './src/pages/landing-page/landing-page.component.js'),
     serp: path.resolve(__dirname, './src/pages/serp/serp.js'),
   },
-  // output: {
-  //   path: path.resolve(__dirname, './dist'),
-  //   filename: '[name].bundle.js',
-  // },
 
   plugins: [
     new HtmlWebpackPlugin({
@@ -46,7 +42,7 @@ module.exports = {
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
-       // Images
+      // Images
       {
         test: /\.(?:ico|gif|png|jpg|jpeg)$/i,
         type: 'asset/resource',

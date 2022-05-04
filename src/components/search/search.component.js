@@ -8,7 +8,7 @@ import { totalJobs } from '../total-posts/total-posts.component';
 
 
 
-export const searchComponent = (animation) => {
+export const searchComponent = (isAnimation) => {
   const search = document.createElement('div');
   const form = document.createElement('div');
   form.classList = 'search__wrapper';
@@ -21,7 +21,7 @@ export const searchComponent = (animation) => {
 
   totalJobs()
 
-  search.classList = `search ${animation ? 'search__animation' : ''}`;
+  search.classList = `search ${isAnimation ? 'search__animation' : ''}`;
 
   searchInput.id = "search-input";
   searchInput.classList = "search__input";

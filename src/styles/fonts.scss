@@ -2,13 +2,15 @@
   font-family: "Oswald";
   src: url("../../styles/fonts/Oswald-VariableFont_wght.ttf");
 }
+
 @font-face {
   font-family: "Oswald-Extra-Light";
   src: url("../../styles/fonts/Oswald/Oswald-ExtraLight.ttf");
 }
 
-$oswald: "Oswald", Helvetica, sans-serif;
-$oswald-extra-light: "Oswald-Extra-Light", Helvetica, sans-serif;
-$moto-title: #b45f06;
-$moto-subtitle: #212121;
-$search-input-color: aquamarine;
+$oswald: "Oswald",
+Helvetica,
+sans-serif;
+$oswald-extra-light: "Oswald-Extra-Light",
+Helvetica,
+sans-serif;
