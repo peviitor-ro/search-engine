@@ -22,20 +22,10 @@
     animation: reveal 3000ms;
   }
 
-  .total-jobs {
-    text-align: center;
-    display: block;
-    color: $text-purple;
-    font-family: $poppins-light;
-    height: 24px;
-  }
-
-
   .search__wrapper {
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-bottom: 31px;
 
     .search {
       &__input {

@@ -1,3 +1,6 @@
+@import '../../styles/fonts.scss';
+@import "../../styles/_colors";
+
 body {
   margin: 0;
 }
@@ -24,4 +27,12 @@ body {
   align-items: center;
   justify-content: center;
   gap: 31px;
+
+  .total-jobs {
+    text-align: center;
+    display: block;
+    color: $text-purple;
+    font-family: $poppins-light;
+    height: 24px;
+  }
 }

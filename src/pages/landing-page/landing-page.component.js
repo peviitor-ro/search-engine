@@ -18,9 +18,13 @@ overlay.classList = 'overlay'
 
 const search = searchComponent(true);
 
+const totalJobsCount = document.createElement('div');
+totalJobsCount.classList = 'total-jobs';
+
 landingPage.classList = 'landing-page';
 landingPage.appendChild(logoDiv);
 landingPage.appendChild(search);
+landingPage.appendChild(totalJobsCount);
 
 overlay.appendChild(landingPage);
 root.appendChild(overlay);
