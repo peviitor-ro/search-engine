@@ -25,8 +25,8 @@
   .total-jobs {
     text-align: center;
     display: block;
-    color: $text-brown;
-    font-family: $oswald-extra-light;
+    color: $text-purple;
+    font-family: $poppins-light;
     height: 24px;
   }
 
@@ -35,20 +35,26 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    margin-bottom: 31px;
 
     .search {
       &__input {
         padding: 10px 45px 10px 55px;
-        font-size: 24px;
+        font-size: 20px;
         border-radius: 25px;
-        font-family: $oswald-extra-light;
+        border-width: 1px;
+        font-family: $poppins-bold;
         color: $text-purple;
         background-color: transparent;
+
+        &:focus {
+          outline: 1px;
+        }
       }
 
       &__icon {
         position: absolute;
-        top: 16px;
+        top: 12px;
         left: 15px;
 
         img {

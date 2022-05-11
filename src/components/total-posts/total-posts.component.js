@@ -6,6 +6,6 @@ export const totalJobs = () => {
   a.get("total/")
     .then(response => {
       const total = document.querySelector('.total-jobs');
-      total.innerText = "avem " + response.data.total.jobs + " oportunități";
+      total.innerHTML = "avem <span class=\"number\">" + response.data.total.jobs + "</span> oportunități";
     })
 };
