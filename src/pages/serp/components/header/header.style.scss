@@ -1,0 +1,26 @@
+header {
+    background-color: #E8CBBD;
+    height: 82px;
+    
+    display: flex;
+    align-items: center;
+
+    .logo {
+        margin-right: 64px;
+        margin-left: 20px;
+    }
+
+    .search {
+        .search__wrapper .search__icon img {
+            width: 23px;
+        }
+    }
+
+    #search-input {
+        font-size: 16px;
+        padding-top: 8px;
+        padding-bottom: 9px;
+
+    }
+
+}

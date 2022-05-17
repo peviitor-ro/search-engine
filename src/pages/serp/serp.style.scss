@@ -1,8 +1,10 @@
-body {
-  background-color: rgb(56, 56, 56);
-  margin: 0;
+@import '../../styles/reset.css';
 
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 56px;
 
-
-
+  padding: 20px;
+  background-color: rgb(240, 240, 240);
 }
