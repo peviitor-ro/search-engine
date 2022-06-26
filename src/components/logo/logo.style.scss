@@ -1,0 +1,13 @@
+.logo {
+  .text {
+    a {
+      all: unset;
+      font-size: 50px;
+      font-family: JustMandrone, 'Courier New', Courier, monospace;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

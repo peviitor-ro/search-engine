@@ -11,18 +11,9 @@ import LandingPage from './pages/landing/landing.component';
 import Serp from './pages/serp/serp.component';
 import Error404 from './pages/404/404.component';
 
-const Demo = () => (
-  <div>
-    Demo
-  </div>
-)
-
 const App = () => {
   return (
     <Router>
-      <div className="App">
-        Pe viitor
-      </div>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="rezultate" element={<Serp />} />

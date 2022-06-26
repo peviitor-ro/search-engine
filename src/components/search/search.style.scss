@@ -1,0 +1,32 @@
+@use '../../styles/colors';
+
+.search {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+
+  input {
+    height: 64px;
+    width: calc(100% - 87px - 16px - 2px);
+
+    background-color: transparent;
+    border: 1px solid colors.$dark-border;
+    border-radius: 30px;
+
+    padding-left: 87px;
+    padding-right: 16px;
+
+    font-size: 20px;
+    font-family: PoppinsRegular, 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: colors.$text-purple;
+
+
+  }
+
+  .image {
+    position: absolute;
+    top: 16px;
+    left: 22px;
+  }
+}
