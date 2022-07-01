@@ -7,11 +7,18 @@ import {
   Route,
 } from "react-router-dom";
 
+import baseUrl from './axios/baseUrl';
+
 import LandingPage from './pages/landing/landing.component';
 import Serp from './pages/serp/serp.component';
 import Error404 from './pages/404/404.component';
 
 const App = () => {
+  baseUrl.get('cities')
+    .then((response) => {
+      console.log(response)
+    })
+
   return (
     <Router>
       <Routes>
