@@ -14,7 +14,7 @@ import Serp from './pages/serp/serp.component';
 import Error404 from './pages/404/404.component';
 
 const App = () => {
-  baseUrl.get('cities')
+  baseUrl.get('total')
     .then((response) => {
       console.log(response)
     })
