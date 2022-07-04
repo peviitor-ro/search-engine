@@ -2,8 +2,10 @@
 
 .search {
   position: relative;
-  width: 100%;
-  max-width: 480px;
+  width: calc(100% - 20px);
+  max-width: 490px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   input {
     height: 64px;
