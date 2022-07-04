@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/static/media/landing-page-background.19600518.png"
   },
   {
-    "revision": "ea3ce7111ce51ca050d2cb95eb691854",
+    "revision": "dbc543e54f1a2f6234b08fdc177028c6",
     "url": "/index.html"
   }
 ];
