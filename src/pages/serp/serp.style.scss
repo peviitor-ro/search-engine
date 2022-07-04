@@ -1,0 +1,31 @@
+@use '../../styles/colors';
+
+.serp {
+  header {
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    padding: 20px;
+
+    background-color: colors.$background-light;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: row;
+    gap: 56px;
+    padding: 20px;
+
+    &__aside {
+      border: 2px solid red;
+      width: 280px;
+    }
+
+    &__results {
+      border: 2px solid purple;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
