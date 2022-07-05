@@ -6,7 +6,12 @@ import Search from '../../components/search/search.component';
 import Results from '../../components/results-count/results-count.component';
 import Job from '../../components/job/job.component';
 
+import { useSelector, useDispatch } from 'react-redux'
+
 const Serp = () => {
+  const q = useSelector(state => state.queries.q);
+  const count = useSelector(state => state.results.total);
+
 
   return (
     <section className='serp'>
@@ -19,9 +24,9 @@ const Serp = () => {
           this is some menu
         </aside>
         <section className='serp__content__results'>
-          <Results count={2} search={'tester'} />
-          <Job />
-          <Job />
+          <Results count={count} search={q} />
+          <Job isNew={true} />
+          <Job isNew={true} />
           <Job />
         </section>
       </section>

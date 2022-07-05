@@ -18,7 +18,8 @@
 
     &__aside {
       border: 2px solid red;
-      width: 280px;
+      max-width: 280px;
+      min-width: 280px;
     }
 
     &__results {
