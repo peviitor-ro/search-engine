@@ -5,13 +5,18 @@
   flex-direction: row;
   align-items: center;
 
-  &__new {
+  font-family: PoppinsRegular, 'Courier New', Courier, monospace;
+
+  .new {
+    padding-left: 20px;
+    padding-right: 27px;
+
     &.hide {
       visibility: hidden;
     }
   }
 
-  &__description {
+  .description {
     border-style: solid;
     border-width: 1px;
     border-color: colors.$dark-border-light;
@@ -28,13 +33,57 @@
 
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: flex-start;
 
-  }
+    .details {
+      flex-grow: 2;
 
-  &__section {
-    display: flex;
-    flex-direction: row;
+      .company {
+        font-size: 16px;
+      }
+
+      .section {
+        display: flex;
+        flex-direction: row;
+
+        .title {
+          font-size: 18px;
+          font-weight: 700;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+
+        .location {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+
+          margin-left: 15px;
+
+          color: colors.$text-light-blue;
+        }
+      }
+
+      .url {
+        font-size: 14px;
+        color: colors.$text-light-gray;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    .type {
+      flex-grow: 1;
+      max-width: 150px;
+    }
+
+    .btn {
+      flex-grow: 1;
+      max-width: 150px;
+    }
   }
 }
