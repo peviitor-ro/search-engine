@@ -3,7 +3,10 @@ import './job.style.scss';
 
 import mapPointerIcon from '../../assets/images/map-pinter-icon.svg';
 
+import { useNavigate } from "react-router-dom";
+
 const Job = ({ company, city, title, link, isNew }) => {
+  let navigate = useNavigate();
 
   return (
     <section className='job'>
@@ -18,7 +21,7 @@ const Job = ({ company, city, title, link, isNew }) => {
           <section className='url'>https://peviitor.ro/dream-job-of-best-jobs-you-can-dream</section>
         </section>
         <section className='type'>full-tite | mid</section>
-        <button className='btn'>Vezi jobul</button>
+        <a className='btn' target='_blank' href='https://www.google.com'>Vezi jobul</a>
       </section>
     </section>
   )

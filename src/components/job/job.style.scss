@@ -82,8 +82,21 @@
     }
 
     .btn {
+      all: unset;
+
       flex-grow: 1;
       max-width: 150px;
+      min-width: 100px;
+      height: 22px;
+      line-height: 24px;
+      cursor: pointer;
+
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      color: white;
+      background-color: colors.$background-blue;
+      border-radius: 100px;
     }
   }
 }
