@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.6adf90ac.chunk.css",
-  "main.js": "/static/js/main.0d21ece0.chunk.js",
-  "main.js.map": "/static/js/main.0d21ece0.chunk.js.map",
+  "main.js": "/static/js/main.6ba128b3.chunk.js",
+  "main.js.map": "/static/js/main.6ba128b3.chunk.js.map",
   "static/js/1.cf6b6bf5.chunk.js": "/static/js/1.cf6b6bf5.chunk.js",
   "static/js/1.cf6b6bf5.chunk.js.map": "/static/js/1.cf6b6bf5.chunk.js.map",
   "static/js/2.7c9eeaba.chunk.js": "/static/js/2.7c9eeaba.chunk.js",
@@ -10,10 +10,10 @@
   "runtime~main.js.map": "/static/js/runtime~main.2a4bae67.js.map",
   "static/media/magnify-glass.svg": "/static/media/magnify-glass.57b4ba36.svg",
   "static/media/map-pinter-icon.svg": "/static/media/map-pinter-icon.1bf83b83.svg",
-  "static/media/index.css": "/static/media/Poppins-Light.fcc40ae9.ttf",
+  "static/media/index.css": "/static/media/Poppins-Regular.093ee89b.ttf",
   "static/media/landing.style.scss": "/static/media/landing-page-background.19600518.png",
   "static/css/main.6adf90ac.chunk.css.map": "/static/css/main.6adf90ac.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.6eb87a0e32cbeb2477f0433ff067cff8.js": "/precache-manifest.6eb87a0e32cbeb2477f0433ff067cff8.js",
+  "precache-manifest.2a1c25314f81835cfe83a570c2c26c03.js": "/precache-manifest.2a1c25314f81835cfe83a570c2c26c03.js",
   "service-worker.js": "/service-worker.js"
 }

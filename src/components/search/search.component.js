@@ -17,7 +17,7 @@ const Search = () => {
   return (
     <section className='search'>
       <img src={magnifyGlass} alt='' className='image' />
-      <input type='text' placeholder='hehe' onChange={onChange} value={query} />
+      <input type='text' placeholder='Ce vrei să te faci când vei fi mare?' onChange={onChange} value={query} />
     </section>
   )
 }
