@@ -1,7 +1,7 @@
 {
-  "main.css": "/static/css/main.5950e18a.chunk.css",
-  "main.js": "/static/js/main.644dc1dc.chunk.js",
-  "main.js.map": "/static/js/main.644dc1dc.chunk.js.map",
+  "main.css": "/static/css/main.15dada1d.chunk.css",
+  "main.js": "/static/js/main.017433be.chunk.js",
+  "main.js.map": "/static/js/main.017433be.chunk.js.map",
   "static/js/1.cf6b6bf5.chunk.js": "/static/js/1.cf6b6bf5.chunk.js",
   "static/js/1.cf6b6bf5.chunk.js.map": "/static/js/1.cf6b6bf5.chunk.js.map",
   "static/js/2.fb9b0792.chunk.js": "/static/js/2.fb9b0792.chunk.js",
@@ -12,8 +12,8 @@
   "static/media/map-pinter-icon.svg": "/static/media/map-pinter-icon.1bf83b83.svg",
   "static/media/index.css": "/static/media/Poppins-Regular.093ee89b.ttf",
   "static/media/landing.style.scss": "/static/media/landing-page-background.19600518.png",
-  "static/css/main.5950e18a.chunk.css.map": "/static/css/main.5950e18a.chunk.css.map",
+  "static/css/main.15dada1d.chunk.css.map": "/static/css/main.15dada1d.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.514fa81bc0c97770a9ada7c24113b089.js": "/precache-manifest.514fa81bc0c97770a9ada7c24113b089.js",
+  "precache-manifest.acf7851618183ac2e37e7117d2b3bffb.js": "/precache-manifest.acf7851618183ac2e37e7117d2b3bffb.js",
   "service-worker.js": "/service-worker.js"
 }
