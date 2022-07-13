@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "017433be98a0abba6d36",
-    "url": "/static/css/main.15dada1d.chunk.css"
+    "revision": "035c816ac0fea44f21b3",
+    "url": "/static/css/main.5b1651ca.chunk.css"
   },
   {
-    "revision": "017433be98a0abba6d36",
-    "url": "/static/js/main.017433be.chunk.js"
+    "revision": "035c816ac0fea44f21b3",
+    "url": "/static/js/main.035c816a.chunk.js"
   },
   {
     "revision": "cf6b6bf545d5975ec723",
@@ -28,12 +28,12 @@ self.__precacheManifest = [
     "url": "/static/media/map-pinter-icon.1bf83b83.svg"
   },
   {
-    "revision": "fcc40ae9a542d001971e53eaed948410",
-    "url": "/static/media/Poppins-Light.fcc40ae9.ttf"
-  },
-  {
     "revision": "5a147d5f3bc744b33ebecb8f5ee7ee3b",
     "url": "/static/media/Just-Mandrawn.5a147d5f.ttf"
+  },
+  {
+    "revision": "fcc40ae9a542d001971e53eaed948410",
+    "url": "/static/media/Poppins-Light.fcc40ae9.ttf"
   },
   {
     "revision": "093ee89be9ede30383f39a899c485a82",
@@ -44,7 +44,7 @@ self.__precacheManifest = [
     "url": "/static/media/landing-page-background.19600518.png"
   },
   {
-    "revision": "0f4cf960e272c3927d37f70d702182a7",
+    "revision": "f623b22705b9ca242ee45475e5026dee",
     "url": "/index.html"
   }
 ];
