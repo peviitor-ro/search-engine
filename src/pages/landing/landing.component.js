@@ -21,10 +21,12 @@ const LandingPage = () => {
 
   return (
     <section className='landing-page' onKeyDown={onEnterPress}>
-      <section className='content'>
+      <section className='content display-flex'>
         <Logo />
-        <Search />
-        <ResultsCount count={count} />
+        <section className='animation display-flex'>
+          <Search />
+          <ResultsCount count={count} />
+        </section>
       </section>
     </section>
   )
