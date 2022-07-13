@@ -33,11 +33,11 @@
 
     display: flex;
     flex-direction: row;
-    // justify-content: space-between;
     align-items: flex-start;
 
     .details {
       flex-grow: 2;
+      max-width: 100%;
 
       .company {
         font-size: 16px;
@@ -97,6 +97,29 @@
       color: white;
       background-color: colors.$background-blue;
       border-radius: 100px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .job {
+    .new {
+      display: none;
+    }
+
+    .description {
+      flex-direction: column;
+      gap: 16px;
+
+      padding: 25px;
+
+      .details {
+        flex-grow: 2;
+
+        .company {
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 }
