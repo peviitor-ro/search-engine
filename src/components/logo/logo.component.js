@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './logo.style.scss';
 
 const Logo = () => {
 
   return (
     <section className='logo'>
-      <h1 className='text'><a href='./'>pe viitor</a></h1>
+      <h1><Link to='/' className='text'>pe viitor</Link></h1>
     </section>
   )
 }

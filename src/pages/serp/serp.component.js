@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './serp.style.scss';
 
 import Logo from '../../components/logo/logo.component';
@@ -6,30 +6,69 @@ import Search from '../../components/search/search.component';
 import Results from '../../components/results-count/results-count.component';
 import Job from '../../components/job/job.component';
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getNewJobs, updateQuerySearched, updateTotal } from '../../state/slices/results.slice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { handleClick } from '../../helpers/handleClick';
+import { updateStateWithQueryString } from '../../helpers/updateStateWithQueryString';
+import { baseUrl } from '../../axios/baseUrl';
+import { createQueryString } from '../../helpers/createQueryString';
+import { mapJobsResults } from '../../helpers/mapJobsResults';
 
 const Serp = () => {
-  const q = useSelector(state => state.queries.q);
-  const count = useSelector(state => state.results.total);
+  const navigate = useNavigate();
+  const searchParams = useSearchParams()[0];
+  const searchedQ = searchParams.get('q');
 
+  const querySearched = useSelector(state => state.results.querySearched)
+  const q = useSelector(state => state.queries.q)
+  const count = useSelector(state => state.results.total);
+  const queries = useSelector(state => state.queries);
+  const jobs = useSelector(state => state.results.jobs);
+  const content = jobs.map(job => <Job key={job.link} {...job} />)
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const isInternal = localStorage.getItem('isInternal');
+    dispatch(updateQuerySearched(q));
+    if (isInternal) {
+      baseUrl.get(`search/?${createQueryString(queries)}`)
+        .then((response) => {
+          const jobsMapped = mapJobsResults(response.data.response.docs);
+          dispatch(updateTotal(response.data.response.numFound));
+          dispatch(getNewJobs(jobsMapped));
+        })
+    } else {
+      updateStateWithQueryString();
+    }
+
+  }, [searchedQ]);
+
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem('isInternal')
+    }
+  });
 
   return (
     <section className='serp'>
       <header>
         <Logo />
-        <Search />
+        <Search onClickPress={() => handleClick(queries, navigate)} />
       </header>
-      <section className='serp__content'>
+      <main className='serp__content'>
         <aside className='serp__content__aside'>
           this is some menu
         </aside>
         <section className='serp__content__results'>
-          <Results count={count} search={q} />
+          <Results count={count} search={querySearched} />
+          {content}
+          {/* <Job isNew={true} />
           <Job isNew={true} />
-          <Job isNew={true} />
-          <Job />
+          <Job /> */}
         </section>
-      </section>
+      </main>
     </section>
   )
 };

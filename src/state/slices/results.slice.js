@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 export const resultsSlice = createSlice({
   name: 'results',
   initialState: {
+    querySearched: '',
     total: 0,
     jobs: [], // array of objects, step 10
   },
@@ -10,11 +11,17 @@ export const resultsSlice = createSlice({
     updateTotal: (state, action) => {
       state.total = action.payload;
     },
+    getNewJobs: (state, action) => {
+      state.jobs = [...action.payload];
+    },
     updateJobs: (state, action) => {
-      state.jobs = [...state.jobs, ...action.payload];
+      state.jobs = [...action.payload];
+    },
+    updateQuerySearched: (state, action) => {
+      state.querySearched = action.payload;
     },
   }
 });
 
-export const { updateTotal, updateJobs } = resultsSlice.actions;
+export const { updateTotal, getNewJobs, updateJobs, updateQuerySearched } = resultsSlice.actions;
 export default resultsSlice.reducer;
