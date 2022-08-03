@@ -34,8 +34,6 @@ const Serp = () => {
         dispatch(updateTotal(response.data.response.numFound));
         dispatch(getNewJobs(jobsMapped));
       })
-
-
   }, [searchedQ]);
 
   return (
