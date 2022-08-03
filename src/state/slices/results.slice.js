@@ -12,10 +12,12 @@ export const resultsSlice = createSlice({
       state.total = action.payload;
     },
     getNewJobs: (state, action) => {
+      console.log(4)
       state.jobs = [...action.payload];
     },
-    updateJobs: (state, action) => {
-      state.jobs = [...action.payload];
+    addMoreJobs: (state, action) => {
+      console.log(3)
+      state.jobs = [...state.jobs, ...action.payload];
     },
     updateQuerySearched: (state, action) => {
       state.querySearched = action.payload;
@@ -23,5 +25,5 @@ export const resultsSlice = createSlice({
   }
 });
 
-export const { updateTotal, getNewJobs, updateJobs, updateQuerySearched } = resultsSlice.actions;
+export const { updateTotal, getNewJobs, addMoreJobs, updateQuerySearched } = resultsSlice.actions;
 export default resultsSlice.reducer;
