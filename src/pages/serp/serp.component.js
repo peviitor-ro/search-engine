@@ -49,9 +49,6 @@ const Serp = () => {
         <section className='serp__content__results'>
           <Results count={count} search={querySearched} />
           {content}
-          {/* <Job isNew={true} />
-          <Job isNew={true} />
-          <Job /> */}
         </section>
       </main>
     </section>
