@@ -16,7 +16,7 @@ export const queriesSlice = createSlice({
     updateCompany: (state, action) => {
       state.company = action.payload;
     },
-    updateCpuntry: (state, action) => {
+    updateCountry: (state, action) => {
       state.country = action.payload;
     },
     updatePage: (state, action) => {
@@ -28,5 +28,5 @@ export const queriesSlice = createSlice({
   }
 });
 
-export const { updateCity, updateCompany, updateCpuntry, updateQ, updatePage } = queriesSlice.actions;
+export const { updateCity, updateCompany, updateCountry, updateQ, updatePage } = queriesSlice.actions;
 export default queriesSlice.reducer;

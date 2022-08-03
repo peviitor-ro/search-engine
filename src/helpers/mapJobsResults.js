@@ -3,10 +3,10 @@ export const mapJobsResults = (jobs) => {
 
   if (jobs.length) {
     jobs.forEach(job => jobsMapped.push({
-      company: job.company[0],
-      city: job.city[0],
-      title: job.job_title[0],
-      link: job.job_link[0],
+      company: job.company ? job.company[0] : 'nespecificat',
+      city: job.city ? job.city[0] : 'nespecificat',
+      title: job.job_title ? job.job_title[0] : 'nespecificat',
+      link: job.job_link ? job.job_link[0] : 'nespecificat',
       isNew: false
     }))
   }

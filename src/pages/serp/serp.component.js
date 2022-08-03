@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getNewJobs, updateQuerySearched, updateTotal } from '../../state/slices/results.slice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { handleClick } from '../../helpers/handleClick';
-import { updateStateWithQueryString } from '../../helpers/updateStateWithQueryString';
 import { baseUrl } from '../../axios/baseUrl';
 import { createQueryString } from '../../helpers/createQueryString';
 import { mapJobsResults } from '../../helpers/mapJobsResults';
@@ -30,18 +29,14 @@ const Serp = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const isInternal = localStorage.getItem('isInternal');
     dispatch(updateQuerySearched(q));
-    if (isInternal) {
-      baseUrl.get(`search/?${createQueryString(queries)}`)
-        .then((response) => {
-          const jobsMapped = mapJobsResults(response.data.response.docs);
-          dispatch(updateTotal(response.data.response.numFound));
-          dispatch(getNewJobs(jobsMapped));
-        })
-    } else {
-      updateStateWithQueryString();
-    }
+    baseUrl.get(`search/?${createQueryString(queries)}`)
+      .then((response) => {
+        const jobsMapped = mapJobsResults(response.data.response.docs);
+        dispatch(updateTotal(response.data.response.numFound));
+        dispatch(getNewJobs(jobsMapped));
+      })
+
 
   }, [searchedQ]);
 
