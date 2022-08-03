@@ -18,14 +18,13 @@ const Serp = () => {
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
   const searchedQ = searchParams.get('q');
+  const dispatch = useDispatch();
 
   const querySearched = useSelector(state => state.results.querySearched)
   const count = useSelector(state => state.results.total);
   const queries = useSelector(state => state.queries);
   const jobs = useSelector(state => state.results.jobs);
   const content = jobs.map(job => <Job key={job.link} {...job} />)
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(updateQuerySearched(queries.q));
