@@ -43,7 +43,7 @@ const Serp = () => {
         dispatch(updateTotal(response.data.response.numFound));
         dispatch(getNewJobs(jobsMapped));
       })
-  }, [city, company, country, page, q]);
+  }, [city, company, country, q]);
 
   const onEnterPress = (e) => {
     if (e.key === 'Enter') {
