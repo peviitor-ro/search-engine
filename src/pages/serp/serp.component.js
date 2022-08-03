@@ -38,12 +38,6 @@ const Serp = () => {
 
   }, [searchedQ]);
 
-  useEffect(() => {
-    return () => {
-      localStorage.removeItem('isInternal')
-    }
-  });
-
   return (
     <section className='serp'>
       <header>
