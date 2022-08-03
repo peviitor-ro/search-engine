@@ -20,7 +20,6 @@ const Serp = () => {
   const searchedQ = searchParams.get('q');
 
   const querySearched = useSelector(state => state.results.querySearched)
-  const q = useSelector(state => state.queries.q)
   const count = useSelector(state => state.results.total);
   const queries = useSelector(state => state.queries);
   const jobs = useSelector(state => state.results.jobs);
@@ -29,7 +28,7 @@ const Serp = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(updateQuerySearched(q));
+    dispatch(updateQuerySearched(queries.q));
     baseUrl.get(`search/?${createQueryString(queries)}`)
       .then((response) => {
         const jobsMapped = mapJobsResults(response.data.response.docs);
