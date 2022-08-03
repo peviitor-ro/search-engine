@@ -13,11 +13,11 @@ import { handleClick } from '../../helpers/handleClick';
 import { baseUrl } from '../../axios/baseUrl';
 import { createQueryString } from '../../helpers/createQueryString';
 import { mapJobsResults } from '../../helpers/mapJobsResults';
+import { updateQ } from '../../state/slices/queries.slice';
 
 const Serp = () => {
   const navigate = useNavigate();
   const searchParams = useSearchParams()[0];
-  const searchedQ = searchParams.get('q');
   const dispatch = useDispatch();
 
   const querySearched = useSelector(state => state.results.querySearched)
@@ -26,19 +26,34 @@ const Serp = () => {
   const jobs = useSelector(state => state.results.jobs);
   const content = jobs.map((job, idx) => <Job key={idx} {...job} />)
 
+  const city = searchParams.get('city');
+  const company = searchParams.get('company');
+  const country = searchParams.get('country');
+  const page = searchParams.get('page');
+  const q = searchParams.get('q');
+
+  const paramsQuery = { city, company, country, page, q }
+
   useEffect(() => {
-    dispatch(updateQuerySearched(queries.q));
-    baseUrl.get(`search/?${createQueryString(queries)}`)
+    dispatch(updateQuerySearched(q));
+    dispatch(updateQ(q))
+    baseUrl.get(`search/?${createQueryString(paramsQuery)}`)
       .then((response) => {
         const jobsMapped = mapJobsResults(response.data.response.docs);
         dispatch(updateTotal(response.data.response.numFound));
         dispatch(getNewJobs(jobsMapped));
       })
-  }, [searchedQ]);
+  }, [city, company, country, page, q]);
+
+  const onEnterPress = (e) => {
+    if (e.key === 'Enter') {
+      handleClick(queries, navigate);
+    }
+  }
 
   return (
     <section className='serp'>
-      <header>
+      <header onKeyDown={onEnterPress} >
         <Logo />
         <Search onClickPress={() => handleClick(queries, navigate)} />
       </header>

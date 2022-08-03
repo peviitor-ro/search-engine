@@ -1,11 +1,11 @@
 {
   "main.css": "/static/css/main.df6a777f.chunk.css",
-  "main.js": "/static/js/main.6406277b.chunk.js",
-  "main.js.map": "/static/js/main.6406277b.chunk.js.map",
+  "main.js": "/static/js/main.8060d22c.chunk.js",
+  "main.js.map": "/static/js/main.8060d22c.chunk.js.map",
   "static/js/1.b3be8a9b.chunk.js": "/static/js/1.b3be8a9b.chunk.js",
   "static/js/1.b3be8a9b.chunk.js.map": "/static/js/1.b3be8a9b.chunk.js.map",
-  "static/js/2.c10f7ef4.chunk.js": "/static/js/2.c10f7ef4.chunk.js",
-  "static/js/2.c10f7ef4.chunk.js.map": "/static/js/2.c10f7ef4.chunk.js.map",
+  "static/js/2.45aec285.chunk.js": "/static/js/2.45aec285.chunk.js",
+  "static/js/2.45aec285.chunk.js.map": "/static/js/2.45aec285.chunk.js.map",
   "runtime~main.js": "/static/js/runtime~main.335750b4.js",
   "runtime~main.js.map": "/static/js/runtime~main.335750b4.js.map",
   "static/media/magnify-glass.svg": "/static/media/magnify-glass.57b4ba36.svg",
@@ -14,6 +14,6 @@
   "static/media/landing.style.scss": "/static/media/landing-page-background.19600518.png",
   "static/css/main.df6a777f.chunk.css.map": "/static/css/main.df6a777f.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.c10c3de4c7c468ab7b776a5ba6a53d4d.js": "/precache-manifest.c10c3de4c7c468ab7b776a5ba6a53d4d.js",
+  "precache-manifest.fb6da86239c950f0bac1c3fb3be097e4.js": "/precache-manifest.fb6da86239c950f0bac1c3fb3be097e4.js",
   "service-worker.js": "/service-worker.js"
 }
