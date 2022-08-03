@@ -24,7 +24,7 @@ const Serp = () => {
   const count = useSelector(state => state.results.total);
   const queries = useSelector(state => state.queries);
   const jobs = useSelector(state => state.results.jobs);
-  const content = jobs.map(job => <Job key={job.link} {...job} />)
+  const content = jobs.map((job, idx) => <Job key={idx} {...job} />)
 
   useEffect(() => {
     dispatch(updateQuerySearched(queries.q));
