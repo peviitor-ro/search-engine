@@ -1,0 +1,10 @@
+@use '../../styles/colors';
+
+.get-more-btn {
+  all: unset;
+  text-align: center;
+  font-family: PoppinsRegular, 'Courier New', Courier, monospace;
+  color: colors.$text-purple;
+  font-weight: 600;
+  cursor: pointer;
+}

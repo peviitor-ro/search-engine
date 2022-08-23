@@ -20,6 +20,7 @@ export const queriesSlice = createSlice({
       state.country = action.payload;
     },
     updatePage: (state, action) => {
+      console.log(action)
       state.page = action.payload;
     },
     updateQ: (state, action) => {
@@ -28,5 +29,11 @@ export const queriesSlice = createSlice({
   }
 });
 
-export const { updateCity, updateCompany, updateCountry, updateQ, updatePage } = queriesSlice.actions;
+export const {
+  // updateCity,
+  // updateCompany,
+  // updateCountry,
+  updateQ,
+  // updatePage
+} = queriesSlice.actions;
 export default queriesSlice.reducer;
