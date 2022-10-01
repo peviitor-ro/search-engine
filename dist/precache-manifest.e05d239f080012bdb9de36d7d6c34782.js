@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "40b91b0eb32113f87f87",
+    "revision": "b2e77477bec941aaf612",
     "url": "/static/css/main.7ec9feaa.chunk.css"
   },
   {
-    "revision": "40b91b0eb32113f87f87",
-    "url": "/static/js/main.40b91b0e.chunk.js"
+    "revision": "b2e77477bec941aaf612",
+    "url": "/static/js/main.b2e77477.chunk.js"
   },
   {
     "revision": "6336b426631f80f6c7a2",
@@ -36,12 +36,12 @@ self.__precacheManifest = [
     "url": "/static/media/linkedin-icon.02f7bdc8.svg"
   },
   {
-    "revision": "5a147d5f3bc744b33ebecb8f5ee7ee3b",
-    "url": "/static/media/Just-Mandrawn.5a147d5f.ttf"
-  },
-  {
     "revision": "fcc40ae9a542d001971e53eaed948410",
     "url": "/static/media/Poppins-Light.fcc40ae9.ttf"
+  },
+  {
+    "revision": "5a147d5f3bc744b33ebecb8f5ee7ee3b",
+    "url": "/static/media/Just-Mandrawn.5a147d5f.ttf"
   },
   {
     "revision": "093ee89be9ede30383f39a899c485a82",
@@ -52,7 +52,7 @@ self.__precacheManifest = [
     "url": "/static/media/landing-page-background.19600518.png"
   },
   {
-    "revision": "203d7575181542628a48af667429d9a8",
+    "revision": "1f67a38e0cfa3d274cc92137f46f4577",
     "url": "/index.html"
   }
 ];

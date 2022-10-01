@@ -107,7 +107,7 @@ const Serp = () => {
           {isLoading ? <Loading /> : null}
         </section>
       </main>
-      <Footer />
+      {!isLoading && isMoreJobs ? <Footer /> : ''}
     </section>
   )
 };
