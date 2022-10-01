@@ -16,6 +16,7 @@ import { createQueryString } from '../../helpers/createQueryString';
 import { mapJobsResults } from '../../helpers/mapJobsResults';
 import { updateQ } from '../../state/slices/queries.slice';
 import Loading from '../../components/loading/loading.component';
+import Footer from '../../components/footer/footer.component';
 
 const Serp = () => {
   const navigate = useNavigate();
@@ -106,6 +107,7 @@ const Serp = () => {
           {isLoading ? <Loading /> : null}
         </section>
       </main>
+      <Footer />
     </section>
   )
 };

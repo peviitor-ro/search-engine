@@ -1,0 +1,39 @@
+@use '../../styles/colors';
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+
+  .copyright {
+    font-size: 12px;
+    color: colors.$text-lighter-gray;
+  }
+
+  .social-media {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    button {
+      all: unset;
+      cursor: pointer;
+    }
+  }
+
+  nav {
+    ul {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+
+      a {
+        text-decoration: none;
+        color: colors.$text-lighter-gray;
+      }
+    }
+
+  }
+}
