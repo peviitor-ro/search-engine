@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1026ea9e.css",
+    "main.js": "/static/js/main.ee031d2c.js",
+    "static/js/787.94bccfca.chunk.js": "/static/js/787.94bccfca.chunk.js",
+    "static/media/Poppins-Light.ttf": "/static/media/Poppins-Light.7641a0f76ca9ef6c252c.ttf",
+    "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
+    "static/media/Just-Mandrawn.ttf": "/static/media/Just-Mandrawn.8de2f80f021c4e29e398.ttf",
+    "static/media/peviitor_logo.svg": "/static/media/peviitor_logo.df4cd2d4b04f25a93757bb59b397e656.svg",
+    "index.html": "/index.html",
+    "static/media/briefcase.svg": "/static/media/briefcase.68484f6979f3b055e23e1b27f37f6be5.svg",
+    "static/media/location_icon.svg": "/static/media/location_icon.2c8c1163e080c5da56c4f6f9d08f1814.svg",
+    "static/media/magniy_glass_icon.svg": "/static/media/magniy_glass_icon.4b365a3ccceefd81ff4c0325e84213af.svg",
+    "main.1026ea9e.css.map": "/static/css/main.1026ea9e.css.map",
+    "main.ee031d2c.js.map": "/static/js/main.ee031d2c.js.map",
+    "787.94bccfca.chunk.js.map": "/static/js/787.94bccfca.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1026ea9e.css",
+    "static/js/main.ee031d2c.js"
+  ]
+}
