@@ -1,0 +1,22 @@
+@use '../../styles/colors';
+
+.search {
+    display: flex;
+    flex-direction: column;
+    margin-top: 16px;
+
+    .inputs-wrapper {
+        border: 1px solid colors.$border_light_grey;
+        border-radius: 8px;
+
+        .input-container {
+            &:first-of-type {
+                border-bottom: 1px solid colors.$border_light_grey;
+            }
+        }
+    }
+
+    .btn {
+        margin-top: 30px;
+    }
+}

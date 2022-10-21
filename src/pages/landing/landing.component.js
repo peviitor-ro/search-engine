@@ -1,14 +1,18 @@
 import React from 'react';
 import { Header } from '../../components/header/header.component';
-import { Title } from '../../components/title/title.component';
+import { Search } from '../../components/search/search.component';
+import { Title } from './components/title/title.component';
 import './landing.style.scss';
 
 export const LandingPage = () => {
 
     return (
-        <section className='serp'>
+        <section className='landing-page'>
             <Header />
-            <Title />
+            <main className='main'>
+                <Title />
+                <Search />
+            </main>
         </section>
     )
-}
+};

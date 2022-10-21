@@ -1,6 +1,6 @@
 import React from 'react';
 import './header.style.scss';
-import logo from '../../assets/svgs/peviitor-logo.svg';
+import logo from '../../assets/svgs/peviitor_logo.svg';
 import briefcase from '../../assets/svgs/briefcase.svg';
 import { Link } from "react-router-dom";
 

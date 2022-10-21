@@ -1,0 +1,60 @@
+@use './colors';
+
+@keyframes btn_bg_color_change {
+  from {background-color: colors.$background_orange;}
+  to {background-color: colors.$background_orange_dark;}
+}
+
+.text--orange {
+  color: colors.$text_orange;
+}
+
+.bold {
+  font-family: PoppinsRegular;
+  font-weight: 700;
+}
+
+.btn-yellow {
+  all: unset;
+  padding: 12px;
+  background-color: colors.$background_orange;
+  border-radius: 8px;
+  color: colors.$text_white;
+  text-align: center;
+  font-family: PoppinsLight;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 24px;
+  transition: all 100ms; 
+
+  cursor: pointer;
+
+  &:hover {
+    animation: btn_bg_color_change 100ms ease-in-out;
+    background-color: colors.$background_orange_dark;
+  }
+}
+
+.input-container {
+  position: relative;
+  font-family: PoppinsLight;
+
+  img {
+    position: absolute;
+    top: 11px;
+    left: 12px;
+  }
+
+  input {
+    all: unset;
+    font-size: 16px;
+    padding: 14px 16px 14px 48px;
+    line-height: 18px;
+    color: colors.$text_innk_black;
+
+  }
+
+  ::placeholder {
+    color: colors.$text_grey;
+  }
+}
