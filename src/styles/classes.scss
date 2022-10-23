@@ -24,7 +24,7 @@
   padding: 12px;
   background-color: colors.$background_orange;
   border-radius: 8px;
-  color: colors.$text_white;
+  color: colors.$white;
   text-align: center;
   font-family: PoppinsLight;
   font-weight: 100;
@@ -68,9 +68,10 @@
   all: unset;
   font-family: PoppinsLight;
   font-size: 16px;
-  padding: 16px 0 16px 16px;
+  padding: 16px;
   line-height: 18px;
   color: colors.$text_innk_black;
+  width: 100%;
 
   ::placeholder {
     color: colors.$text_grey;

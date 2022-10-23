@@ -3,6 +3,7 @@ import './serp.style.scss';
 
 import { TopBar } from '../../components/header/topbar.component';
 import { SearchSerp } from './components/search/search-serp.component';
+import { TotalResults } from './components/total-results/total-results.component';
 
 export const SerpPage = () => {
 
@@ -12,6 +13,7 @@ export const SerpPage = () => {
                 <TopBar />
                 <SearchSerp />
             </section>
+            <TotalResults />
         </section>
     )
 }
