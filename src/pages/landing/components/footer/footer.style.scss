@@ -1,0 +1,25 @@
+@use '../../../../styles/colors';
+
+footer {
+  .rocket-image {
+    display: block;
+    margin: 0 auto;
+    border-bottom: 1px solid colors.$background_grey;
+  }
+
+  .text {
+    font-size: 22px;
+    background-color: colors.$background_grey;
+    padding: 40px 20px 30px 20px;
+
+    .action {
+      cursor: pointer;
+      white-space: nowrap;
+
+      .accent {
+        text-decoration: underline;
+        margin-right: 8px;
+      }
+    }
+  }
+}
