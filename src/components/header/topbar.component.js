@@ -8,7 +8,7 @@ export const TopBar = ({ isBorder }) => {
 
   return (
     <section className={`topbar ${isBorder ? 'topbar--border-bottom' : ''}`}>
-      <img src={logo} alt='pe viitor logo' />
+      <Link to={'/'}><img src={logo} alt='pe viitor logo' /></Link>
       <Link to={'/alaturate'} ><img src={briefcase} alt='briefcase logo' className='icon-briefcase' /> Alătură-te</Link>
     </section>
   );
