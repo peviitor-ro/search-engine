@@ -1,7 +1,7 @@
 import React from 'react';
 import './search.style.scss';
-import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
-import location from '../../assets/svgs/location_icon.svg';
+import magnifyGlass from '../../../../assets/svgs/magniy_glass_icon.svg';
+import location from '../../../../assets/svgs/location_icon.svg';
 import { useNavigate } from "react-router-dom";
 
 export const Search = () => {

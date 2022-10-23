@@ -1,11 +1,14 @@
 @use '../../styles/colors';
 
-.header {
+.topbar {
   padding: 16px 30px 16px 20px;
   display: flex;
   justify-content: space-between;
   align-self: center;
-  border-bottom: 1px solid colors.$border_light_grey;
+
+  &--border-bottom {
+    border-bottom: 1px solid colors.$border_light_grey;
+  }
 
   a {
     text-decoration: none;

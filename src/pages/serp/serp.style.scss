@@ -1,0 +1,8 @@
+@use '../../styles/colors';
+
+.serp {
+  .top {
+    border-bottom: 1px solid colors.$border_light_grey;
+    padding-bottom: 20px;
+  }
+}

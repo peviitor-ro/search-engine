@@ -1,8 +1,13 @@
 @use './colors';
 
 @keyframes btn_bg_color_change {
-  from {background-color: colors.$background_orange;}
-  to {background-color: colors.$background_orange_dark;}
+  from {
+    background-color: colors.$background_orange;
+  }
+
+  to {
+    background-color: colors.$background_orange_dark;
+  }
 }
 
 .text--orange {
@@ -25,7 +30,7 @@
   font-weight: 100;
   font-size: 16px;
   line-height: 24px;
-  transition: all 100ms; 
+  transition: all 100ms;
 
   cursor: pointer;
 
@@ -53,6 +58,19 @@
     color: colors.$text_innk_black;
 
   }
+
+  ::placeholder {
+    color: colors.$text_grey;
+  }
+}
+
+.input-serp {
+  all: unset;
+  font-family: PoppinsLight;
+  font-size: 16px;
+  padding: 16px 0 16px 16px;
+  line-height: 18px;
+  color: colors.$text_innk_black;
 
   ::placeholder {
     color: colors.$text_grey;

@@ -1,0 +1,15 @@
+@use '../../../../styles/colors';
+
+.search-serp {
+  border: 1px solid colors.$border_light_grey;
+  border-radius: 8px;
+  margin: 10px 20px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .magnify {
+    margin-right: 3px;
+    cursor: pointer;
+  }
+}
