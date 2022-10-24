@@ -5,4 +5,17 @@
     border-bottom: 1px solid colors.$border_light_grey;
     padding-bottom: 20px;
   }
+
+  .jobs {
+    background-color: colors.$background_grey;
+  }
+
+  .load-more {
+    background-color: colors.$background_grey;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid colors.$border_light_grey;
+  }
 }
