@@ -1,0 +1,21 @@
+@use '../../../../styles/colors';
+
+.banner {
+  background-color: colors.$background_dark_blue;
+  color: colors.$white;
+  padding: 60px 20px;
+  text-align: center;
+  font-family: PoppinsRegular;
+
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    font-size: 20px;
+  }
+
+  .description {
+    margin: 16px 0;
+    font-size: 16px;
+  }
+}

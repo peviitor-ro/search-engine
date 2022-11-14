@@ -1,6 +1,8 @@
 import React from 'react';
+import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
-import { Footer } from './components/footer/footer.component';
+import { Banner } from './components/banner/banner.component';
+import { Rocket } from './components/rocket/rocket.component';
 import { Search } from './components/search/search.component';
 import { Title } from './components/title/title.component';
 import './landing.style.scss';
@@ -16,7 +18,11 @@ export const LandingPage = () => {
                     <Search />
                 </main>
             </div>
-            <Footer />
+            <section>
+                <Rocket />
+                <Banner />
+                <Footer />
+            </section>
         </section>
     )
 };

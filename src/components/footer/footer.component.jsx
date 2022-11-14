@@ -3,10 +3,10 @@ import './footer.style.scss';
 
 import { Link } from "react-router-dom";
 
-import logoBlack from '../../../../assets/svgs/peviitor_logo_black.svg';
-import facebook from '../../../../assets/svgs/facebook_icon.svg';
-import instagram from '../../../../assets/svgs/instagram_icon.svg';
-import linkedin from '../../../../assets/svgs/linkedin_icon.svg';
+import logoBlack from '../../assets/svgs/peviitor_logo_black.svg';
+import facebook from '../../assets/svgs/facebook_icon.svg';
+import instagram from '../../assets/svgs/instagram_icon.svg';
+import linkedin from '../../assets/svgs/linkedin_icon.svg';
 
 export const Footer = () => {
 
@@ -15,9 +15,9 @@ export const Footer = () => {
             <section>
                 <img src={logoBlack} alt="peviitor logo" />
                 <section className='social-media'>
-                    <Link to={'#'}><img src={facebook} alt='facebook icon' className='icon'/></Link>
-                    <Link to={'#'}><img src={instagram} alt='instagram icon' className='icon'/></Link>
-                    <Link to={'#'}><img src={linkedin} alt='linkedin icon' className='icon'/></Link>
+                    <Link to={'#'}><img src={facebook} alt='facebook icon' className='icon' /></Link>
+                    <Link to={'#'}><img src={instagram} alt='instagram icon' className='icon' /></Link>
+                    <Link to={'#'}><img src={linkedin} alt='linkedin icon' className='icon' /></Link>
                 </section>
                 <section className='company'>
                     <h3 className='title'>Companie</h3>
