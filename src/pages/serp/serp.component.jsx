@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './serp.style.scss';
 
 import { TopBar } from '../../components/header/topbar.component';
@@ -6,9 +6,16 @@ import { SearchSerp } from './components/search/search-serp.component';
 import { TotalResults } from './components/total-results/total-results.component';
 import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
+import { useSelector } from 'react-redux';
+import { getParams } from '../../utils.js/get-params';
 
 export const SerpPage = () => {
-    const jobs = [1, 2, 3, 4, 5];
+    const jobs = useSelector((state) => state.jobs.jobs);
+
+    useEffect(() => {
+
+    }, [])
+
 
     return (
         <section className='serp'>
@@ -18,7 +25,7 @@ export const SerpPage = () => {
             </section>
             <TotalResults />
             <section className='jobs'>
-                {jobs.map(job => <Job key={job} />)}
+                {jobs.map(({ jobTitle, company, location, link }, idx) => <Job key={idx} jobTitle={jobTitle} company={company} location={location} link={link} />)}
             </section>
             <section className='load-more'>
                 <button className='btn-yellow btn'>Încarcă mai multe</button>
