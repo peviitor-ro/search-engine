@@ -17,7 +17,6 @@ export const SerpPage = () => {
 
     const updateQueryParam = (e) => {
         dispatch(updateQ(e.target.value));
-        console.log(e.target.value)
     }
 
     useEffect(() => {
