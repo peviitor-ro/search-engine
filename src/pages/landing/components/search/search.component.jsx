@@ -4,7 +4,7 @@ import magnifyGlass from '../../../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../../../assets/svgs/location_icon.svg';
 import { useNavigate } from "react-router-dom";
 
-export const Search = () => {
+export const Search = ({ update, value }) => {
     let navigate = useNavigate();
 
     return (
@@ -12,7 +12,7 @@ export const Search = () => {
             <div className='inputs-wrapper'>
                 <div className='input-container'>
                     <img src={magnifyGlass} alt="magnify glass icon" />
-                    <input placeholder='test' />
+                    <input placeholder='test' onChange={update} value={value} />
                 </div>
                 <div className='input-container'>
                     <img src={location} alt="location icon" />
