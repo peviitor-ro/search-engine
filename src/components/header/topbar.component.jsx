@@ -9,7 +9,7 @@ export const TopBar = ({ isBorder }) => {
   return (
     <section className={`topbar ${isBorder ? 'topbar--border-bottom' : ''}`}>
       <Link to={'/'}><img src={logo} alt='pe viitor logo' /></Link>
-      <Link to={'/alaturate'} ><img src={briefcase} alt='briefcase logo' className='icon-briefcase' /> Alătură-te</Link>
+      <a href="https://www.oportunitatisicariere.ro/voluntari" target="_blank" rel='noreferrer'><img src={briefcase} alt='briefcase logo' className='icon-briefcase' /> Alătură-te</a>
     </section>
   );
 };

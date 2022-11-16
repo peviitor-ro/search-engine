@@ -24,7 +24,7 @@ export const Footer = () => {
                     <nav>
                         <ul>
                             <li><Link to={'#'}>Despre noi</Link></li>
-                            <li><Link to={'#'}>Alătură-te cauzei noastre</Link></li>
+                            <li><a href="https://www.oportunitatisicariere.ro/voluntari" target="_blank" rel='noreferrer'>Alătură-te cauzei noastre</a></li>
                         </ul>
                     </nav>
                 </section>
