@@ -9,20 +9,30 @@ import { Footer } from '../../components/footer/footer.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { getParams } from '../../utils.js/get-params';
 import { updateQ } from '../../state/query.slice';
+import { queries } from '../../constants/queries';
 
 export const SerpPage = () => {
     const dispatch = useDispatch();
     const jobs = useSelector((state) => state.jobs.jobs);
     const q = useSelector((state) => state.query.q)
 
+    const params = new URLSearchParams(window.location.href);
+    params.set('q', 'test2')
+
+
     const updateQueryParam = (e) => {
         dispatch(updateQ(e.target.value));
     }
 
     useEffect(() => {
-        // fetch('https://api.peviitor.ro/v1/search') // cors
-        //     .then((response) => response.json())
-        //     .then((data) => console.log(data));
+
+        const params = new URLSearchParams(window.location.href);
+        params.set('q', 'test1')
+        // params.searchParams.set('q', 'test2')
+
+        fetch(`https://api.peviitor.ro/v1/search/?q=${params.get(queries.q)}`)
+            .then((response) => response.json())
+            .then((data) => console.log({ data }));
     }, [])
 
 
