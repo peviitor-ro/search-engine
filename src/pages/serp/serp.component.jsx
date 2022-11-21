@@ -6,33 +6,36 @@ import { SearchSerp } from './components/search/search-serp.component';
 import { TotalResults } from './components/total-results/total-results.component';
 import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { getParams } from '../../utils.js/get-params';
-import { updateQ } from '../../state/query.slice';
-import { queries } from '../../constants/queries';
+import { updateQ, updatCities, updateCompanies, updateCountries } from '../../state/query.slice';
+import { getQueryParams } from '../../utils/get-params';
+import { createQueryString } from '../../utils/create-query-string';
 
 export const SerpPage = () => {
     const dispatch = useDispatch();
     const jobs = useSelector((state) => state.jobs.jobs);
     const q = useSelector((state) => state.query.q)
 
-    const params = new URLSearchParams(window.location.href);
-    params.set('q', 'test2')
-
-
     const updateQueryParam = (e) => {
         dispatch(updateQ(e.target.value));
     }
 
     useEffect(() => {
+        // update state from query string
+        const queries = getQueryParams();
+        dispatch(updateQ(queries.q));
+        dispatch(updatCities(queries.cities));
+        dispatch(updateCompanies(queries.companies));
+        dispatch(updateCountries(queries.countries));
 
-        const params = new URLSearchParams(window.location.href);
-        params.set('q', 'test1')
-        // params.searchParams.set('q', 'test2')
-
-        fetch(`https://api.peviitor.ro/v1/search/?q=${params.get(queries.q)}`)
+        // fetch data
+        createQueryString(queries);
+        fetch(`https://api.peviitor.ro/v1/search/?${createQueryString(queries)}`) // cors
             .then((response) => response.json())
-            .then((data) => console.log({ data }));
+            .then((data) => console.log(data));
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

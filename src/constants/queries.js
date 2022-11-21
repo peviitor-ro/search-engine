@@ -1,6 +1,6 @@
-export const queries = {
+export const queriesConst = {
   q: 'q',
-  cities: 'cities',
-  companies: 'companies',
-  countries: 'countries',
+  city: 'city',
+  country: 'companies',
+  company: 'company',
 }

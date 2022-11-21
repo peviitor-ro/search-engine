@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { queries } from '../constants/queries';
+import { queriesConst } from '../constants/queries';
 
 const initialState = {
-  [queries.q]: '',
-  [queries.cities]: '',
-  [queries.companies]: '',
-  [queries.countries]: '',
+  [queriesConst.q]: '',
+  [queriesConst.cities]: '',
+  [queriesConst.companies]: '',
+  [queriesConst.countries]: '',
 }
 
 export const querySlice = createSlice({
