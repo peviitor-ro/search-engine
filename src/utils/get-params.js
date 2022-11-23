@@ -7,6 +7,7 @@ export const getQueryParams = () => {
   const city = params.get(queriesConst.city) ? params.get(queriesConst.city) : '';
   const company = params.get(queriesConst.company) ? params.get(queriesConst.company) : '';
   const country = params.get(queriesConst.country) ? params.get(queriesConst.country) : '';
+  const page = params.get(queriesConst.page) ? params.get(queriesConst.page) : '';
 
-  return { q, city, company, country }
+  return { q, city, company, country, page }
 }

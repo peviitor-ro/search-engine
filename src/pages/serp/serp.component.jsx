@@ -8,22 +8,28 @@ import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateQ, updatCity, updateCompany, updateCountry } from '../../state/query.slice';
+import { updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { queriesConst } from '../../constants/queries';
 
 export const SerpPage = () => {
     const dispatch = useDispatch();
     let [, setSearchParams] = useSearchParams();
     const jobs = useSelector((state) => state.jobs.jobs);
+    const q = useSelector((state) => state.query.q);
     const queries = useSelector((state) => state.query);
     const { state } = useLocation();
     const isFromLandingPage = state?.isFromLandingPage;
 
-    const updateQueryParam = (e) => {
+    const updateQParam = (e) => {
         dispatch(updateQ(e.target.value));
+    }
+
+    const getData = () => {
+        fetch(`https://api.peviitor.ro/v1/search/?${createQueryString(queries)}`)
+            .then((response) => response.json())
+            .then((data) => console.log(data));
     }
 
     useEffect(() => {
@@ -31,17 +37,15 @@ export const SerpPage = () => {
         if (isFromLandingPage) {
             setSearchParams(createQueryString(queries));
         } else {
-            const queries = getQueryParams();
-            dispatch(updateQ(queries.q));
-            dispatch(updatCity(queries.city));
-            dispatch(updateCompany(queries.company));
-            dispatch(updateCountry(queries.country));
+            const queryParams = getQueryParams();
+            dispatch(updateQ(queryParams.q));
+            dispatch(updatCity(queryParams.city));
+            dispatch(updateCompany(queryParams.company));
+            dispatch(updateCountry(queryParams.country));
+            dispatch(updatePage(queryParams.page));
 
             // fetch data
-            createQueryString(queries);
-            fetch(`https://api.peviitor.ro/v1/search/?${createQueryString(queries)}`) // cors
-                .then((response) => response.json())
-                .then((data) => console.log(data));
+            getData();
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -52,7 +56,7 @@ export const SerpPage = () => {
         <section className='serp'>
             <section className='top'>
                 <TopBar />
-                <SearchSerp update={updateQueryParam} value={queries[queriesConst.q]} />
+                <SearchSerp update={updateQParam} value={q} />
             </section>
             <TotalResults />
             <section className='jobs'>

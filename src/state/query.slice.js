@@ -25,16 +25,19 @@ export const querySlice = createSlice({
     updateCountry: (state, action) => {
       state[queriesConst.country] = action.payload ? action.payload : '';
     },
+    updatePage: (state, action) => {
+      state[queriesConst.page] = Number(action.payload);
+    },
     incrementPage: (state) => {
       state[queriesConst.page] = state[queriesConst.page] + 1;
     },
     setPageToOne: (state) => {
       state[queriesConst.page] = 1;
-    }
+    },
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { updateQ, updatCity, updateCompany, updateCountry, incrementPage, setPageToOne } = querySlice.actions;
+export const { updateQ, updatCity, updateCompany, updateCountry, incrementPage, setPageToOne, updatePage } = querySlice.actions;
 
 export default querySlice.reducer;
