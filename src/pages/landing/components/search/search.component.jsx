@@ -19,7 +19,7 @@ export const Search = ({ update, value }) => {
                     <input />
                 </div>
             </div>
-            <button onClick={() => { navigate('rezultate') }} className='btn-yellow btn'>Caută</button>
+            <button onClick={() => { navigate('rezultate', { state: { isFromLandingPage: true } }) }} className='btn-yellow btn'>Caută</button>
         </section>
     )
 }

@@ -11,7 +11,7 @@ import './landing.style.scss';
 
 export const LandingPage = () => {
     const dispatch = useDispatch();
-    const q = useSelector((state) => state.query.q)
+    const q = useSelector((state) => state.query.q);
 
     const updateQuerySearch = (e) => {
         dispatch(updateQ(e.target.value));

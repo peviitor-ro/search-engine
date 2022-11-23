@@ -1,6 +1,7 @@
 export const queriesConst = {
   q: 'q',
   city: 'city',
-  country: 'companies',
+  country: 'country',
   company: 'company',
+  page: 'page'
 }

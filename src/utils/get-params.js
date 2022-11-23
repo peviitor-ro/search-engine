@@ -10,8 +10,3 @@ export const getQueryParams = () => {
 
   return { q, city, company, country }
 }
-
-export const getQ = () => params.get(queriesConst.q);
-export const getcity = () => params.get(queriesConst.city);
-export const getcompany = () => params.get(queriesConst.company);
-export const getcountry = () => params.get(queriesConst.companies);

@@ -3,9 +3,10 @@ import { queriesConst } from '../constants/queries';
 
 const initialState = {
   [queriesConst.q]: '',
-  [queriesConst.cities]: '',
-  [queriesConst.companies]: '',
-  [queriesConst.countries]: '',
+  [queriesConst.city]: '',
+  [queriesConst.company]: '',
+  [queriesConst.country]: '',
+  [queriesConst.page]: 1
 }
 
 export const querySlice = createSlice({
@@ -13,21 +14,27 @@ export const querySlice = createSlice({
   initialState,
   reducers: {
     updateQ: (state, action) => {
-      state.q = action.payload;
+      state[queriesConst.q] = action.payload ? action.payload : '';
     },
-    updatCities: (state, action) => {
-      state.cities = action.payload;
+    updatCity: (state, action) => {
+      state[queriesConst.city] = action.payload ? action.payload : '';
     },
-    updateCompanies: (state, action) => {
-      state.companies = action.payload;
+    updateCompany: (state, action) => {
+      state[queriesConst.company] = action.payload ? action.payload : '';
     },
-    updateCountries: (state, action) => {
-      state.countries = action.payload;
+    updateCountry: (state, action) => {
+      state[queriesConst.country] = action.payload ? action.payload : '';
     },
+    incrementPage: (state) => {
+      state[queriesConst.page] = state[queriesConst.page] + 1;
+    },
+    setPageToOne: (state) => {
+      state[queriesConst.page] = 1;
+    }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { updateQ, updatCities, updateCompanies, updateCountries } = querySlice.actions;
+export const { updateQ, updatCity, updateCompany, updateCountry, incrementPage, setPageToOne } = querySlice.actions;
 
 export default querySlice.reducer;
