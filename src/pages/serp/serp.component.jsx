@@ -8,7 +8,7 @@ import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementPage, updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
+import { incrementPage, setPageToOne, updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -28,16 +28,21 @@ export const SerpPage = () => {
         dispatch(updateQ(e.target.value));
     }
 
-    const getJobs = (queries) => {getData(queries).then(newJobs => dispatch(updateNewSearch(newJobs)));}
+    const resetPage = () => {
+        dispatch(setPageToOne());
+    }
+
+    const getJobs = (queries) => getData(queries).then(newJobs => dispatch(updateNewSearch(newJobs))); 
 
     const handleSearchClick = () => {
+        dispatch(setPageToOne());
         setSearchParams(createQueryString(queries));
         getJobs(queries);
     }
 
     const loadMore = () => {
         dispatch(incrementPage());
-        console.log(queries)
+        setSearchParams(createQueryString(queries));
         getData(queries).then(newJobs => dispatch(addMoreJobs(newJobs)));
     }
 
@@ -47,13 +52,14 @@ export const SerpPage = () => {
             console.log(queries)
             setSearchParams(createQueryString(queries));
             getJobs(queries);
+
         } else {
             const queryParams = getQueryParams();
             dispatch(updateQ(queryParams.q));
             dispatch(updatCity(queryParams.city));
             dispatch(updateCompany(queryParams.company));
             dispatch(updateCountry(queryParams.country));
-            dispatch(updatePage(queryParams.page ? queryParams.page : 1));
+            dispatch(updatePage(queryParams.page));
 
             // fetch data
             getJobs(queryParams);
@@ -66,7 +72,7 @@ export const SerpPage = () => {
     return (
         <section className='serp'>
             <section className='top'>
-                <TopBar />
+                <TopBar resetPage={resetPage}/>
                 <SearchSerp update={updateQParam} value={q} handleClick={handleSearchClick}/>
             </section>
             <TotalResults />
