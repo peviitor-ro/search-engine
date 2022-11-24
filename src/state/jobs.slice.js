@@ -18,7 +18,7 @@ export const jobsSlice = createSlice({
   name: 'jobs',
   initialState,
   reducers: {
-    updateJobs: (state, action) => {
+    addMoreJobs: (state, action) => {
       state.jobs = [...state.jobs, ...action.payload];
     },
     updateNewSearch: (state, action) => {
@@ -37,6 +37,6 @@ export const jobsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateJobs, clearJobs, updateNewSearch, updateLoadMore, updateLoading } = jobsSlice.actions;
+export const { addMoreJobs, clearJobs, updateNewSearch, updateLoadMore, updateLoading } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

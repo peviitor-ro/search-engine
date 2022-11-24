@@ -8,11 +8,11 @@ import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
+import { incrementPage, updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { updateNewSearch } from '../../state/jobs.slice';
+import { addMoreJobs, updateNewSearch } from '../../state/jobs.slice';
 import { getData } from '../../utils/get-data';
 
 export const SerpPage = () => {
@@ -35,6 +35,12 @@ export const SerpPage = () => {
         getJobs(queries);
     }
 
+    const loadMore = () => {
+        dispatch(incrementPage());
+        console.log(queries)
+        getData(queries).then(newJobs => dispatch(addMoreJobs(newJobs)));
+    }
+
     useEffect(() => {
         // update state from query string
         if (isFromLandingPage) {
@@ -47,7 +53,7 @@ export const SerpPage = () => {
             dispatch(updatCity(queryParams.city));
             dispatch(updateCompany(queryParams.company));
             dispatch(updateCountry(queryParams.country));
-            dispatch(updatePage(queryParams.page));
+            dispatch(updatePage(queryParams.page ? queryParams.page : 1));
 
             // fetch data
             getJobs(queryParams);
@@ -68,7 +74,7 @@ export const SerpPage = () => {
                 {jobs.map(({ jobTitle, company, location, link }, idx) => <Job key={idx} jobTitle={jobTitle} company={company} location={location} link={link} />)}
             </section>
             <section className='load-more'>
-                <button className='btn-yellow btn'>Încarcă mai multe</button>
+                <button className='btn-yellow btn' onClick={loadMore}>Încarcă mai multe</button>
             </section>
             <Footer />
         </section>
