@@ -12,6 +12,8 @@ import { updatCity, updateCompany, updateCountry, updatePage, updateQ } from '..
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import { updateNewSearch } from '../../state/jobs.slice';
+import { getData } from '../../utils/get-data';
 
 export const SerpPage = () => {
     const dispatch = useDispatch();
@@ -26,16 +28,19 @@ export const SerpPage = () => {
         dispatch(updateQ(e.target.value));
     }
 
-    const getData = () => {
-        fetch(`https://api.peviitor.ro/v1/search/?${createQueryString(queries)}`)
-            .then((response) => response.json())
-            .then((data) => console.log(data));
+    const getJobs = (queries) => {getData(queries).then(newJobs => dispatch(updateNewSearch(newJobs)));}
+
+    const handleSearchClick = () => {
+        setSearchParams(createQueryString(queries));
+        getJobs(queries);
     }
 
     useEffect(() => {
         // update state from query string
         if (isFromLandingPage) {
+            console.log(queries)
             setSearchParams(createQueryString(queries));
+            getJobs(queries);
         } else {
             const queryParams = getQueryParams();
             dispatch(updateQ(queryParams.q));
@@ -45,7 +50,7 @@ export const SerpPage = () => {
             dispatch(updatePage(queryParams.page));
 
             // fetch data
-            getData();
+            getJobs(queryParams);
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,7 +61,7 @@ export const SerpPage = () => {
         <section className='serp'>
             <section className='top'>
                 <TopBar />
-                <SearchSerp update={updateQParam} value={q} />
+                <SearchSerp update={updateQParam} value={q} handleClick={handleSearchClick}/>
             </section>
             <TotalResults />
             <section className='jobs'>

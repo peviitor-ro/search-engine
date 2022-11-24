@@ -2,17 +2,8 @@ import React from 'react';
 import './search-serp.style.scss';
 
 import magnifyIcon from '../../../../assets/svgs/magnify_class_icon_bg_orange.svg';
-import { useSearchParams } from 'react-router-dom';
-import { createQueryString } from '../../../../utils/create-query-string';
-import { useSelector } from 'react-redux';
 
-export const SearchSerp = ({ value, update }) => {
-  let [, setSearchParams] = useSearchParams();
-  const queries = useSelector((state) => state.query)
-
-  const handleClick = () => {
-    setSearchParams(createQueryString(queries));
-  }
+export const SearchSerp = ({ value, update, handleClick }) => {
 
   return (
     <section className='search-serp'>
