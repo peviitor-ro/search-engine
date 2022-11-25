@@ -10,7 +10,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   jobs: [],
-  loadMore: true,
+  total: 0,
+  isLoadMore: true,
   loading: false
 }
 
@@ -27,8 +28,14 @@ export const jobsSlice = createSlice({
     clearJobs: (state) => {
       state.jobs = [];
     },
-    updateLoadMore: (state, action) => {
-      state.loadMore = action.payload
+    updateTotal: (state, action) => {
+      state.total = action.payload;
+    },
+    clearTotal: (state) => {
+      state.total = 0;
+    },
+    updateIsLoadMore: (state, action) => {
+      state.isLoadMore = action.payload
     },
     updateLoading: (state, action) => {
       state.loadMore = action.payload
@@ -37,6 +44,6 @@ export const jobsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addMoreJobs, clearJobs, updateNewSearch, updateLoadMore, updateLoading } = jobsSlice.actions;
+export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateIsLoadMore, updateLoading } = jobsSlice.actions;
 
 export default jobsSlice.reducer;
