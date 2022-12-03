@@ -17,13 +17,13 @@ export const Footer = () => {
                 <section className='social-media'>
                     <Link to={'#'}><img src={facebook} alt='facebook icon' className='icon' /></Link>
                     <Link to={'#'}><img src={instagram} alt='instagram icon' className='icon' /></Link>
-                    <Link to={'#'}><img src={linkedin} alt='linkedin icon' className='icon' /></Link>
+                    <a href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' className='icon' /></a>
                 </section>
                 <section className='company'>
-                    <h3 className='title'>Companie</h3>
+                    <h3 className='title'>Organizație</h3>
                     <nav>
                         <ul>
-                            <li><Link to={'#'}>Despre noi</Link></li>
+                            <li><a href="https://www.oportunitatisicariere.ro/" target="_blank" rel='noreferrer'>Despre noi</a></li>
                             <li><a href="https://www.oportunitatisicariere.ro/voluntari" target="_blank" rel='noreferrer'>Alătură-te cauzei noastre</a></li>
                         </ul>
                     </nav>
@@ -32,8 +32,8 @@ export const Footer = () => {
                     <h3 className='title'>Informații suplimentare</h3>
                     <nav>
                         <ul>
-                            <li><Link to={'#'}>Condiții de utilizare</Link></li>
-                            <li><Link to={'#'}>Politica de confidențialitate</Link></li>
+                            <li><a href="https://legal.peviitor.ro/" target="_blank" rel='noreferrer'>Condiții de utilizare</a></li>
+                            <li><a href="https://legal.peviitor.ro/confidentialitate" target="_blank" rel='noreferrer'>Politica de confidențialitate</a></li>
                         </ul>
                     </nav>
                 </section>

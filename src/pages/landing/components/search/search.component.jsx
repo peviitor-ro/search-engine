@@ -12,7 +12,7 @@ export const Search = ({ update, value }) => {
             <div className='inputs-wrapper'>
                 <div className='input-container'>
                     <img src={magnifyGlass} alt="magnify glass icon" />
-                    <input placeholder='test' onChange={update} value={value} />
+                    <input placeholder='Ce doriți să lucrați?' onChange={update} value={value} />
                 </div>
                 <div className='input-container'>
                     <img src={location} alt="location icon" />
