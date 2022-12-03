@@ -28,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: testing 
+          ref: testing 
       - name: Fast FTP
         uses: anvil-solutions/Fast-FTP-Action@2.1.3
         with:
