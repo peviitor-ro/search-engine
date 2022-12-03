@@ -33,8 +33,8 @@ jobs:
         uses: anvil-solutions/Fast-FTP-Action@2.1.3
         with:
           server: ${{secrets.FTP_HOST}}
-          username: sebi@peviitor.ro
-          password: ramona2@1
+          username: ${{secrets.FTP_USER}}
+          password: ${{secrets.FTP_PASSWD}}
           method: ftp
           local_dir: dist
           remote_dir: /beta.peviitor.ro
