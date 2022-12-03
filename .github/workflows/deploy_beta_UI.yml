@@ -32,7 +32,7 @@ jobs:
       - name: Fast FTP
         uses: anvil-solutions/Fast-FTP-Action@2.1.3
         with:
-          server: ftp.peviitor.ro
+          server: ${{secrets.FTP_HOST}}
           username: sebi@peviitor.ro
           password: ramona2@1
           method: ftp
