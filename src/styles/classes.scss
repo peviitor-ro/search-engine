@@ -40,30 +40,6 @@
   }
 }
 
-.input-container {
-  position: relative;
-  font-family: PoppinsLight;
-
-  img {
-    position: absolute;
-    top: 11px;
-    left: 12px;
-  }
-
-  input {
-    all: unset;
-    font-size: 16px;
-    padding: 14px 16px 14px 48px;
-    line-height: 18px;
-    color: colors.$text_ink_black;
-
-  }
-
-  ::placeholder {
-    color: colors.$text_grey;
-  }
-}
-
 .input-serp {
   all: unset;
   font-family: PoppinsLight;

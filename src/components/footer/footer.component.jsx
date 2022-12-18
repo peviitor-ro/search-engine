@@ -15,8 +15,8 @@ export const Footer = () => {
             <section>
                 <img src={logoBlack} alt="peviitor logo" />
                 <section className='social-media'>
-                    <Link to={'#'}><img src={facebook} alt='facebook icon' className='icon' /></Link>
-                    <Link to={'#'}><img src={instagram} alt='instagram icon' className='icon' /></Link>
+                    <a href="https://www.facebook.com/people/Asociatia-oportunitati-si-cariere/100088634384252/" target="_blank" rel='noreferrer'><img src={facebook} alt='linkedin icon' className='icon' /></a>
+                    <a href="https://www.instagram.com/peviitor/" target="_blank" rel='noreferrer'><img src={instagram} alt='linkedin icon' className='icon' /></a>
                     <a href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' className='icon' /></a>
                 </section>
                 <section className='company'>

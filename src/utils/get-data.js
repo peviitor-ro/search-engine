@@ -11,3 +11,11 @@ export const getData = (queryParams) => {
             };
         });
 }
+
+export const getTotalRomania = () => {
+    return fetch(`https://api.peviitor.ro/v1/search/?country=România`)
+        .then((response) => response.json())
+        .then((data) => {
+            return data.response.numFound;
+        });
+}

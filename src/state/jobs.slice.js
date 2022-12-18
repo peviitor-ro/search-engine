@@ -11,6 +11,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   jobs: [],
   total: 0,
+  totalRomania: 0,
   isLoadMore: true,
   loading: false
 }
@@ -31,6 +32,9 @@ export const jobsSlice = createSlice({
     updateTotal: (state, action) => {
       state.total = action.payload;
     },
+    updateTotalRomania: (state, action) => {
+      state.totalRomania = action.payload;
+    },
     clearTotal: (state) => {
       state.total = 0;
     },
@@ -44,6 +48,6 @@ export const jobsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateIsLoadMore, updateLoading } = jobsSlice.actions;
+export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateTotalRomania, updateIsLoadMore, updateLoading } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

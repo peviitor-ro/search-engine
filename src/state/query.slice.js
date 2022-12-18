@@ -5,7 +5,7 @@ const initialState = {
   [queriesConst.q]: '',
   [queriesConst.city]: '',
   [queriesConst.company]: '',
-  [queriesConst.country]: '',
+  [queriesConst.country]: 'România',
   [queriesConst.page]: 1
 }
 

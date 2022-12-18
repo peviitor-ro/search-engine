@@ -10,8 +10,52 @@
         border-radius: 8px;
 
         .input-container {
-            &:first-of-type {
-                border-bottom: 1px solid colors.$border_light_grey;
+            position: relative;
+            font-family: PoppinsLight;
+            border-bottom: 1px solid colors.$border_light_grey;
+
+
+            img {
+                position: absolute;
+                top: 11px;
+                left: 12px;
+            }
+
+            input {
+                all: unset;
+                font-size: 16px;
+                padding: 14px 16px 14px 48px;
+                line-height: 18px;
+                color: colors.$text_ink_black;
+
+            }
+
+            ::placeholder {
+                color: colors.$text_grey;
+            }
+        }
+
+
+        .option-container {
+            position: relative;
+            font-family: PoppinsLight;
+
+            img {
+                position: absolute;
+                top: 11px;
+                left: 12px;
+            }
+
+            select {
+                all: unset;
+                box-sizing: border-box;
+                width: 100%;
+                padding: 14px 16px 14px 48px;
+                background-color: white;
+
+                &:checked {
+                    background-color: red;
+                }
             }
         }
     }
