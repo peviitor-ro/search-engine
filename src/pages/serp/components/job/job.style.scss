@@ -1,45 +1,72 @@
 @use '../../../../styles/colors';
+@use '../../../../styles/breakpoints';
 
 .job {
     background-color: colors.$white;
     margin-bottom: 10px;
     padding: 20px 30px;
 
-    .position {
-        font-size: 26px;
-        line-height: 31px;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: colors.$text_ink_black;
-    }
+    .details {
 
-    .company {
-        font-size: 16px;
-        line-height: 19px;
-        margin-bottom: 15px;
-    }
+        .position {
+            font-size: 26px;
+            line-height: 31px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: colors.$text_ink_black;
+        }
 
-    .location {
-        display: flex;
-        align-items: center;
-        font-size: 16px;
-        color: colors.$text_grey;
-        margin-bottom: 20px;
-        .icon {
-            margin-right: 10px;
+        .company {
+            font-size: 16px;
+            line-height: 19px;
+            margin-bottom: 15px;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: colors.$text_grey;
+            margin-bottom: 20px;
+
+            .icon {
+                margin-right: 10px;
+            }
         }
     }
+
 
     .button-position {
         display: flex;
         flex-direction: row-reverse;
-        
+
         .btn {
             display: flex;
             align-items: center;
-    
+
             .icon {
                 margin-left: 6px;
+            }
+        }
+    }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+    .job {
+        display: flex;
+        justify-content: space-between;
+
+        .details {
+            flex: 1;
+        }
+
+        .button-position {
+            display: block;
+            align-self: end;
+            width: 174px;
+
+            .btn {
+                justify-content: center;
             }
         }
     }

@@ -7,7 +7,7 @@ export const SearchSerp = ({ value, update, handleClick }) => {
 
   return (
     <section className='search-serp'>
-      <input className='input-serp' placeholder='what now?' value={value} onChange={update} />
+      <input className='input-serp' placeholder='Ce doriți să lucrați?' value={value} onChange={update} />
       <img src={magnifyIcon} alt='magnify icon' className='magnify' onClick={handleClick} />
     </section>
   )

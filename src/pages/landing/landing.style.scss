@@ -1,13 +1,36 @@
+@use '../../styles/colors';
+@use '../../styles/breakpoints';
+
 .landing-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     .main {
         margin-top: 70px;
         margin-bottom: 70px;
         padding: 0 20px;
-        font-weight: 700;
+    }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+    .landing-page {
+        flex-direction: column;
+
+        .main-wrapper {
+            display: flex;
+            flex-direction: row;
+            padding-left: 100px;
+            padding-right: 90px;
+            margin-top: 80px;
+            border-bottom: 80px solid colors.$background_grey;
+            ;
+
+            .main {
+                flex: 1;
+                padding: unset;
+                margin-right: 55px;
+            }
+        }
     }
 }

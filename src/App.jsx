@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { SerpPage } from './pages/serp/serp.component';
 import { LandingPage } from './pages/landing/landing.component';
-import { JoinPage } from './pages/join/join.component';
 import { Error404 } from './pages/error404/error404.component';
 import { FiltersPage } from './pages/filters-page/filter-page.component';
 
@@ -25,13 +24,9 @@ const router = createBrowserRouter([
     element: <FiltersPage />,
   },
   {
-    path: "alaturate/",
-    element: <JoinPage />,
-  },
-  {
     path: "*",
     element: <Error404 />,
-  },
+  }
 ]);
 
 function App() {

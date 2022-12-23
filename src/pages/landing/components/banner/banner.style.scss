@@ -1,4 +1,5 @@
 @use '../../../../styles/colors';
+@use '../../../../styles/breakpoints';
 
 .banner {
   background-color: colors.$background_dark_blue;
@@ -17,5 +18,26 @@
   .description {
     margin: 16px 0;
     font-size: 16px;
+  }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+  .banner {
+    padding-top: 120px;
+    padding-bottom: 120px;
+
+    .title {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      font-size: 18px;
+    }
+
+    .btn {
+      width: 276px;
+      margin: 0 auto
+    }
   }
 }

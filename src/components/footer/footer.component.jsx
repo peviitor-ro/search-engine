@@ -1,8 +1,6 @@
 import React from 'react';
 import './footer.style.scss';
 
-import { Link } from "react-router-dom";
-
 import logoBlack from '../../assets/svgs/peviitor_logo_black.svg';
 import facebook from '../../assets/svgs/facebook_icon.svg';
 import instagram from '../../assets/svgs/instagram_icon.svg';
@@ -12,9 +10,10 @@ export const Footer = () => {
 
     return (
         <footer className='footer'>
-            <section>
-                <img src={logoBlack} alt="peviitor logo" />
+            <section className='links'>
+                <img src={logoBlack} className="logo" alt="peviitor logo" />
                 <section className='social-media'>
+                    <h3 className='title hide-title'>Social Media</h3>
                     <a href="https://www.facebook.com/people/Asociatia-oportunitati-si-cariere/100088634384252/" target="_blank" rel='noreferrer'><img src={facebook} alt='linkedin icon' className='icon' /></a>
                     <a href="https://www.instagram.com/peviitor/" target="_blank" rel='noreferrer'><img src={instagram} alt='linkedin icon' className='icon' /></a>
                     <a href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' className='icon' /></a>

@@ -1,27 +1,24 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
+import { Search } from '../../components/search/search.component';
 import { updateTotalRomania } from '../../state/jobs.slice';
-import { updateCountry, updateQ } from '../../state/query.slice';
 import { getTotalRomania } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
-import { Search } from './components/search/search.component';
 import { Title } from './components/title/title.component';
 import './landing.style.scss';
 
 export const LandingPage = () => {
+    let navigate = useNavigate();
     const dispatch = useDispatch();
-    const q = useSelector((state) => state.query.q);
+
     const totalRomania = useSelector((state) => state.jobs.totalRomania);
 
-    const updateQuerySearch = (e) => {
-        dispatch(updateQ(e.target.value));
-    }
-
-    const updateCrountrySearch = (e) => {
-        dispatch(updateCountry(e.target.value))
+    const handleSearchClick = () => {
+        navigate('rezultate', { state: { isFromLandingPage: true } })
     }
 
     getTotalRomania().then((totalRomania) => {
@@ -30,18 +27,16 @@ export const LandingPage = () => {
 
     return (
         <section className='landing-page'>
-            <div>
-                <TopBar isBorder={true} />
+            <TopBar isBorder={true} />
+            <section className='main-wrapper'>
                 <main className='main'>
                     <Title totalRomania={totalRomania} />
-                    <Search updateQuery={updateQuerySearch} updateCountry={updateCrountrySearch} value={q} />
+                    <Search handleClick={handleSearchClick} />
                 </main>
-            </div>
-            <section>
                 <Rocket />
-                <Banner />
-                <Footer />
             </section>
+            <Banner />
+            <Footer />
         </section>
     )
 };

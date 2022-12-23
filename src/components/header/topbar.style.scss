@@ -1,10 +1,13 @@
 @use '../../styles/colors';
+@use '../../styles/breakpoints';
 
 .topbar {
   padding: 16px 30px 16px 20px;
   display: flex;
   justify-content: space-between;
   align-self: center;
+  width: 100%;
+  box-sizing: border-box;
 
   &--border-bottom {
     border-bottom: 1px solid colors.$border_light_grey;
@@ -20,5 +23,11 @@
     .icon-briefcase {
       margin-right: 10px;
     }
+  }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+  .topbar {
+    padding: 30px 40px;
   }
 }

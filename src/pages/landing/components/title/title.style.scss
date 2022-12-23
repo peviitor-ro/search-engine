@@ -1,13 +1,28 @@
+@use '../../../../styles/breakpoints';
+
 .title {
     h1 {
         font-family: PoppinsRegular;
         font-size: 26px;
         line-height: 32px;
+        font-weight: 700;
     }
-    
+
     .description {
         font-family: PoppinsLight;
         margin-top: 16px;
         line-height: 19px;
+    }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+    .title {
+        h1 {
+            font-size: 42px;
+        }
+
+        .description {
+            font-size: 18px;
+        }
     }
 }
