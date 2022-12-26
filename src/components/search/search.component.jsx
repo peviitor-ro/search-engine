@@ -28,9 +28,9 @@ export const Search = ({ handleClick }) => {
                 </div>
                 <div className='option-container country'>
                     <img src={location} alt="location icon" />
-                    <select id="country" name="country" onChange={updateCrountrySearch}>
-                        <option value="România" selected={country === "România"}>România</option>
-                        <option value="" selected={country === ""}>Toate</option>
+                    <select id="country" name="country" onChange={updateCrountrySearch} value={country}>
+                        <option value="România">România</option>
+                        <option value="">Toate</option>
                     </select>
                 </div>
             </div>

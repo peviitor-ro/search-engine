@@ -102,7 +102,7 @@ export const SerpPage = () => {
                     {jobs.map(({ jobTitle, company, location, link }, idx) => <Job key={idx} jobTitle={jobTitle} company={company} location={location} link={link} />)}
                 </section>
                 <section className='load-more'>
-                    <button className='btn-yellow btn' onClick={loadMore} disabled={!isLoadMore}>Încarcă mai multe</button>
+                    {isLoadMore ? <button className={`btn-yellow btn ${!isLoadMore ? 'btn-disabled' : ''}`} onClick={loadMore} disabled={!isLoadMore}>Încarcă mai multe</button> : ''}
                 </section>
             </div>
             <Footer />

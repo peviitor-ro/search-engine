@@ -22,6 +22,12 @@
     padding-top: 20px;
     padding-bottom: 50px;
     border-bottom: 1px solid colors.$border_light_grey;
+
+    .btn-disabled {
+      background-color: colors.$border_light_grey;
+      color: colors.$text_grey;
+      pointer-events: none;
+    }
   }
 }
 
