@@ -9,7 +9,7 @@ export const Job = ({ jobTitle, company, location, link }) => {
   return (
     <section className='job'>
       <div className="details">
-        <h2 className='position'>{jobTitle}</h2>
+        <h2 className='position'>{`${jobTitle}`}</h2>
         <p className='company'>{company}</p>
         <p className='location'><img src={mapPin} alt='map pin' className='icon' />{location}</p>
       </div>
