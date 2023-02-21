@@ -19,8 +19,13 @@ export const Search = ({ handleClick }) => {
         dispatch(updateCountry(e.target.value))
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleClick();
+    }
+
     return (
-        <section className='search'>
+        <form onSubmit={handleSubmit} className='search'>
             <div className='inputs-wrapper'>
                 <div className='input-container query'>
                     <img src={magnifyGlass} alt="magnify glass icon" />
@@ -34,7 +39,7 @@ export const Search = ({ handleClick }) => {
                     </select>
                 </div>
             </div>
-            <button onClick={handleClick} className='btn-yellow btn'>Caută</button>
-        </section>
+            <button type='submit' className='btn-yellow btn'>Caută</button>
+        </form>
     )
 }

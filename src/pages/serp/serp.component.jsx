@@ -56,7 +56,6 @@ export const SerpPage = () => {
         if (isFromLandingPage) {
             setSearchParams(createQueryString(queries));
             getJobs(queries);
-
         } else {
             const queryParams = getQueryParams();
             dispatch(updateQ(queryParams.q));
