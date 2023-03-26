@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
 import { Search } from '../../components/search/search.component';
-import { updateTotalRomania } from '../../state/jobs.slice';
+import { clearJobs, updateTotalRomania } from '../../state/jobs.slice';
+import { setPageToOne } from '../../state/query.slice';
+import { createQueryString } from '../../utils/create-query-string';
 import { getTotalRomania } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
@@ -14,23 +16,30 @@ import './landing.style.scss';
 export const LandingPage = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
+    const queries = useSelector((state) => state.query);
 
-    const totalRomania = useSelector((state) => state.jobs.totalRomania);
+    const allJobs = useSelector((state) => state.jobs.allJobs);
+
+    useEffect(() => {
+        dispatch(setPageToOne());
+        dispatch(clearJobs());
+        getTotalRomania().then((totalRomania) => {
+            dispatch(updateTotalRomania(totalRomania))
+        });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handleSearchClick = () => {
-        navigate('rezultate', { state: { isFromLandingPage: true } })
+        navigate(`${queries.q ? `rezultate?${createQueryString(queries)}` : 'rezultate'}`)
     }
-
-    getTotalRomania().then((totalRomania) => {
-        dispatch(updateTotalRomania(totalRomania))
-    });
 
     return (
         <section className='landing-page'>
             <TopBar isBorder={true} />
             <section className='main-wrapper'>
                 <main className='main'>
-                    <Title totalRomania={totalRomania} />
+                    <Title allJobs={allJobs} />
                     <Search handleClick={handleSearchClick} />
                 </main>
                 <Rocket />

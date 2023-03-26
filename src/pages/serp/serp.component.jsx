@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { incrementPage, setPageToOne, updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
-import { useLocation, useSearchParams } from 'react-router-dom';
-import { addMoreJobs, updateIsLoadMore, updateNewSearch, updateTotal } from '../../state/jobs.slice';
+import { useSearchParams } from 'react-router-dom';
+import { addMoreJobs, clearJobs, updateIsLoadMore, updateTotal } from '../../state/jobs.slice';
 import { getData } from '../../utils/get-data';
 import { Search } from '../../components/search/search.component';
 
@@ -27,18 +27,21 @@ export const SerpPage = () => {
     const page = useSelector((state) => state.query.page);
     const queries = useSelector((state) => state.query);
 
-    const { state } = useLocation();
-    const isFromLandingPage = state?.isFromLandingPage;
-
     const resetPage = () => {
         dispatch(setPageToOne());
     }
 
-    const getJobs = (queries) => getData(queries).then(({ jobs, total }) => {
-        dispatch(updateNewSearch(jobs));
-        dispatch(updateTotal(total));
-        dispatch(updateIsLoadMore(jobs.length >= 10));
-    });
+    const getJobs = (queries) => {
+        dispatch(clearJobs());
+
+        for (let i = 1; i <= queries.page; i++) {
+            getData({ ...queries, page: i }).then(({ jobs, total }) => {
+                dispatch(addMoreJobs(jobs));
+                dispatch(updateTotal(total));
+                dispatch(updateIsLoadMore(jobs.length >= 10));
+            })
+        }
+    };
 
     const handleSearchClick = () => {
         dispatch(setPageToOne());
@@ -53,21 +56,16 @@ export const SerpPage = () => {
 
     useEffect(() => {
         // update state from query string
-        if (isFromLandingPage) {
-            setSearchParams(createQueryString(queries));
-            getJobs(queries);
-        } else {
-            const queryParams = getQueryParams();
-            dispatch(updateQ(queryParams.q));
-            dispatch(updatCity(queryParams.city));
-            dispatch(updateCompany(queryParams.company));
-            dispatch(updateCountry(queryParams.country));
-            dispatch(updatePage(queryParams.page));
-            setSearchParams(createQueryString(queries));
+        const queryParams = getQueryParams();
 
-            // fetch data
-            getJobs(queryParams);
-        }
+        dispatch(updateQ(queryParams.q));
+        dispatch(updatCity(queryParams.city));
+        dispatch(updateCompany(queryParams.company));
+        dispatch(updateCountry(queryParams.country));
+        dispatch(updatePage(queryParams.page));
+
+        // fetch data
+        getJobs(queryParams);
         setCount(1);
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

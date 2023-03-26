@@ -4,6 +4,7 @@ const initialState = {
   jobs: [],
   total: 0,
   totalRomania: 0,
+  allJobs: 0,
   isLoadMore: true,
   loading: false
 }
@@ -25,7 +26,10 @@ export const jobsSlice = createSlice({
       state.total = action.payload;
     },
     updateTotalRomania: (state, action) => {
-      state.totalRomania = action.payload;
+      state.allJobs = action.payload;
+    },
+    updateAllJobs: (state, action) => {
+      state.allJobs = action.payload;
     },
     clearTotal: (state) => {
       state.total = 0;
@@ -37,6 +41,6 @@ export const jobsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateTotalRomania, updateIsLoadMore } = jobsSlice.actions;
+export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateTotalRomania, updateAllJobs, updateIsLoadMore } = jobsSlice.actions;
 
 export default jobsSlice.reducer;

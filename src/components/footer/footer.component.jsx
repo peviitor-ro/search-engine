@@ -13,8 +13,8 @@ export const Footer = () => {
                 <img src={logoBlack} className="logo" alt="peviitor logo" />
                 <section className='social-media'>
                     <h3 className='title hide-title'>Social Media</h3>
-                    <a href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' className='icon' /></a>
-                    <a href="https://discord.gg/t2aEdmR52a" target="_blank" rel='noreferrer'><img src={discord} alt='linkedin icon' className='icon' /></a>
+                    <a className='icon' href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' /></a>
+                    <a className='icon' href="https://discord.gg/t2aEdmR52a" target="_blank" rel='noreferrer'><img src={discord} alt='linkedin icon' /></a>
                 </section>
                 <section className='company'>
                     <h3 className='title'>Organizație</h3>
@@ -35,7 +35,7 @@ export const Footer = () => {
                     </nav>
                 </section>
             </section>
-            <section className='all-rights-reserved'>© 2022 - Toate drepturile rezervate PE VIITOR.</section>
+            <section className='all-rights-reserved'>© 2023 - Toate drepturile rezervate PE VIITOR.</section>
         </footer>
     )
 }

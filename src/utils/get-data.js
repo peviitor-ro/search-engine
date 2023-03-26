@@ -21,3 +21,11 @@ export const getTotalRomania = () => {
             return data.response.numFound;
         });
 }
+
+export const getAllJobs = () => {
+    return fetch(`https://api.peviitor.ro/${API_VERSION}/search/`)
+        .then((response) => response.json())
+        .then((data) => {
+            return data.response.numFound;
+        });
+}

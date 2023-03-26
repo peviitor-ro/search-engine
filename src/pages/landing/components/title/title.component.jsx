@@ -1,12 +1,16 @@
 import React from 'react';
 import './title.style.scss';
 
-export const Title = ({ totalRomania }) => {
+import { useSelector } from 'react-redux';
+
+export const Title = ({ allJobs }) => {
+  const isRomania = useSelector((state) => state.query.country);
+
 
   return (
     <section className='title'>
       <h1>Găsește-ți <span className='text--orange'>jobul dorit</span> acum</h1>
-      {totalRomania ? <p className='description'>Avem <span className='bold'>{totalRomania} </span>de oportunități în acest moment în România</p> : ''}
+      {allJobs ? <p className='description'>Avem <span className='bold'>{allJobs} </span>de oportunități în acest moment {isRomania ? 'în România' : ''}</p> : ''}
     </section>
   );
 };
