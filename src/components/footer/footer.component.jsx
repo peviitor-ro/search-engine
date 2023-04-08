@@ -29,6 +29,7 @@ export const Footer = () => {
                     <h3 className='title'>Informații suplimentare</h3>
                     <nav>
                         <ul>
+                            <li><a href="https://firme.peviitor.ro/">Firme</a></li>
                             <li><a href="https://legal.peviitor.ro/" target="_blank" rel='noreferrer'>Condiții de utilizare</a></li>
                             <li><a href="https://legal.peviitor.ro/confidentialitate" target="_blank" rel='noreferrer'>Politica de confidențialitate</a></li>
                         </ul>
