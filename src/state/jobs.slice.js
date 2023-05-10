@@ -6,7 +6,8 @@ const initialState = {
   totalRomania: 0,
   allJobs: 0,
   isLoadMore: true,
-  loading: false
+  loading: false,
+  totalCompanies: 0
 }
 
 export const jobsSlice = createSlice({
@@ -37,10 +38,23 @@ export const jobsSlice = createSlice({
     updateIsLoadMore: (state, action) => {
       state.isLoadMore = action.payload
     },
+    updateTotalCompanies: (state, action) => {
+      state.totalCompanies = action.payload
+    }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { addMoreJobs, clearJobs, updateNewSearch, updateTotal, clearTotal, updateTotalRomania, updateAllJobs, updateIsLoadMore } = jobsSlice.actions;
+export const {
+  addMoreJobs,
+  clearJobs,
+  updateNewSearch,
+  updateTotal,
+  clearTotal,
+  updateTotalRomania,
+  updateAllJobs,
+  updateIsLoadMore,
+  updateTotalCompanies
+} = jobsSlice.actions;
 
 export default jobsSlice.reducer;

@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
 import { Search } from '../../components/search/search.component';
-import { clearJobs, updateTotalRomania } from '../../state/jobs.slice';
+import { clearJobs, updateTotalCompanies, updateTotalRomania } from '../../state/jobs.slice';
 import { setPageToOne } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
-import { getTotalRomania } from '../../utils/get-data';
+import { getTotalCompanies, getTotalRomania } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
@@ -25,6 +25,9 @@ export const LandingPage = () => {
         dispatch(clearJobs());
         getTotalRomania().then((totalRomania) => {
             dispatch(updateTotalRomania(totalRomania))
+        });
+        getTotalCompanies().then((totalCompanies) => {
+            dispatch(updateTotalCompanies(totalCompanies));
         });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

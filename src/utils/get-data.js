@@ -29,3 +29,11 @@ export const getAllJobs = () => {
             return data.response.numFound;
         });
 }
+
+export const getTotalCompanies = () => {
+    return fetch(`https://api.peviitor.ro/${API_VERSION}/logo/`)
+        .then((response) => response.json())
+        .then((data) => {
+            return data.companies.length;
+        })
+}

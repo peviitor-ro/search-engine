@@ -27,7 +27,6 @@ export const Search = ({ handleClick }) => {
                 dispatch(updateAllJobs(totalRomania))
             });
         }
-        console.log('country', e.target.value)
         dispatch(updateCountry(e.target.value))
     }
 
