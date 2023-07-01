@@ -14,6 +14,7 @@ import { useSearchParams } from 'react-router-dom';
 import { addMoreJobs, clearJobs, updateIsLoadMore, updateTotal } from '../../state/jobs.slice';
 import { getData } from '../../utils/get-data';
 import { Search } from '../../components/search/search.component';
+import { ScrollTop } from './components/scroll-top/scroll-top.component';
 
 export const SerpPage = () => {
     const dispatch = useDispatch();
@@ -102,6 +103,7 @@ export const SerpPage = () => {
                     {isLoadMore ? <button className={`btn-yellow btn ${!isLoadMore ? 'btn-disabled' : ''}`} onClick={loadMore} disabled={!isLoadMore}>Încarcă mai multe</button> : ''}
                 </section>
             </div>
+            <ScrollTop />
             <Footer />
         </section>
     )

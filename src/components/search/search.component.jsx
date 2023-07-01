@@ -35,12 +35,24 @@ export const Search = ({ handleClick }) => {
         handleClick();
     }
 
+    const handleClearX = (e) => {
+        e.preventDefault();
+        dispatch(updateQ(''));
+    }
+
     return (
         <form onSubmit={handleSubmit} className='search'>
             <div className='inputs-wrapper'>
                 <div className='input-container query'>
                     <img src={magnifyGlass} alt="magnify glass icon" />
                     <input placeholder='Ce doriți să lucrați?' onChange={updateQuerySearch} value={q} />
+                    {q &&
+                        <button className="clear" onClick={handleClearX}>
+                            <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                            </svg>
+                        </button>
+                    }
                 </div>
                 <div className='option-container country'>
                     <img src={location} alt="location icon" />
