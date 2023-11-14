@@ -6,7 +6,6 @@ const initialState = {
   [queriesConst.city]: '',
   [queriesConst.county]: '',
   [queriesConst.company]: '',
-  [queriesConst.remote]: '',
   [queriesConst.country]: 'România',
   [queriesConst.page]: 1
 }
@@ -23,9 +22,6 @@ export const querySlice = createSlice({
     },
     updateCounty: (state, action) => {
       state[queriesConst.county] = action.payload ? action.payload : '';
-    },
-    updateRemote: (state, action) => {
-      state[queriesConst.remote] = action.payload ? action.payload : '';
     },
     updateCompany: (state, action) => {
       state[queriesConst.company] = action.payload ? action.payload : '';
@@ -46,6 +42,6 @@ export const querySlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateQ, updatCity, updateCounty, updateCompany, updateCountry, incrementPage, setPageToOne, updatePage, updateRemote } = querySlice.actions;
+export const { updateQ, updatCity, updateCounty, updateCompany, updateCountry, incrementPage, setPageToOne, updatePage } = querySlice.actions;
 
 export default querySlice.reducer;

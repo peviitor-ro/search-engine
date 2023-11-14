@@ -35,11 +35,13 @@ const handleClick = props.handleClick;
       });
     }
     dispatch(updateCountry(e.target.value));
+    dispatch(updatCity(""));
+    dispatch(updateCounty(""));
   };
 
   const updateCountySearch = (e) => {
     dispatch(updateCounty(e.target.value));
-
+   
   };
 
   const updateCitySearch = (e) => {
