@@ -8,13 +8,17 @@ import { getAllJobs, getTotalRomania } from "../../utils/get-data";
 import { updateAllJobs, updateTotalRomania } from "../../state/jobs.slice";
 import { counties } from "./cityandcounty";
 
-export const Search = ({ handleClick }) => {
+export const Search = (props) => {
+
+
+const queries = props.queries;
+const handleClick = props.handleClick;
+
   const dispatch = useDispatch();
 
   const q = useSelector((state) => state.query.q);
   const country = useSelector((state) => state.query.country);
   const county = useSelector((state) => state.query.county);
-  const city = useSelector((state) => state.query.city);
 
   const updateQuerySearch = (e) => {
     dispatch(updateQ(e.target.value));
@@ -35,6 +39,7 @@ export const Search = ({ handleClick }) => {
 
   const updateCountySearch = (e) => {
     dispatch(updateCounty(e.target.value));
+
   };
 
   const updateCitySearch = (e) => {
@@ -56,10 +61,12 @@ export const Search = ({ handleClick }) => {
 
   React.useEffect(() => {
     counties.map((county) => {
+
       setCountiesList((countiesList) => [
         ...countiesList,
         Object.keys(county)[0],
       ]);
+    
     });
   }, []);
 
@@ -118,7 +125,9 @@ export const Search = ({ handleClick }) => {
           </select>
           {/* if country select is romania  show county field */}
           {country === "România" ? (
-            <select id="county" name="county" onChange={updateCountySearch}>
+            <select id="county" name="county" onChange={updateCountySearch} value={
+                queries.county ? queries.county : ""
+            }>
               <option value="">Judetul</option>
               {countiesList.map((county, index) => {
                 return (
@@ -131,7 +140,9 @@ export const Search = ({ handleClick }) => {
           ) : null}
           {/* show city when county is select */}
           {country === "România" && county ? (
-            <select id="city" name="city" onChange={updateCitySearch}>
+            <select id="city" name="city" onChange={updateCitySearch} value={
+                queries.city ? queries.city : ""
+            }>
               <option value="">Orașul</option>
               {citiesList.map((city, index) => {
                 return <option key={index} value={city}>{city}</option>;
