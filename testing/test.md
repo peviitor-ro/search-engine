@@ -1,1 +1,1 @@
-just to test the trigger
+just to test the trigger of the GitHUB ACTIONS on push

@@ -1,0 +1,64 @@
+@use '../../styles/colors';
+@use '../../styles/breakpoints';
+
+.serp {
+  .top {
+    border-bottom: 1px solid colors.$border_light_grey;
+    padding-bottom: 20px;
+
+    .search-wrapper {
+      margin: 0 20px;
+    }
+  }
+
+  .jobs {
+    background-color: colors.$background_grey;
+  }
+
+  .load-more {
+    background-color: colors.$background_grey;
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid colors.$border_light_grey;
+
+    .btn-disabled {
+      background-color: colors.$border_light_grey;
+      color: colors.$text_grey;
+      pointer-events: none;
+    }
+  }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+  .serp {
+    .top {
+      position: relative;
+      padding-bottom: 0;
+
+      .search-wrapper {
+        position: absolute;
+        top: 0;
+        left: 168px;
+        width: calc(100vw - 166px - 310px);
+      }
+    }
+
+    .main-wrapper {
+      background-color: colors.$background_grey;
+      padding: 0 100px;
+
+      .load-more {
+        padding-top: 45px;
+        padding-bottom: 109px;
+
+        .btn {
+          width: 297px;
+          box-sizing: border-box;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}

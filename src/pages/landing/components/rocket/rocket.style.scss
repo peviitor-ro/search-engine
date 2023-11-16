@@ -1,0 +1,37 @@
+@use '../../../../styles/colors';
+@use '../../../../styles/breakpoints';
+
+.rocket {
+  .rocket-image {
+    display: block;
+    margin: 0 auto -1px auto;
+  }
+
+  .text {
+    font-size: 22px;
+    background-color: colors.$background_grey;
+    padding: 40px 20px 30px 20px;
+
+    .action {
+      cursor: pointer;
+      white-space: nowrap;
+
+      .accent {
+        text-decoration: underline;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: breakpoints.$hd) {
+  .rocket {
+    .rocket-image {
+      width: 374px;
+    }
+
+    .text {
+      display: none;
+    }
+  }
+}
