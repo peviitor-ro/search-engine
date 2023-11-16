@@ -1,6 +1,15 @@
 # Getting Started with Create React App and Redux
 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+=======
+# Current designs
+https://www.figma.com/file/ZnxmiUT0MBUvGFv2D3vaZz/Website-designs?node-id=0%3A1
+        
+! The logo is not supposed to have a different background than the landing page photo/ header background, but the used Font (Just Mandrown) was not available when putting together the new designs, so a picture was used instead as an easy fix. 
+
+Documentations - 2021 12 06
+
 
 ## Available Scripts
 
@@ -44,3 +53,14 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+=======
+    a) press search button
+    b) update query string
+    c) refresh page with new url
+    d) got to step 2.1
+    
+    
+    
+BETA.PEVIITOR.RO
+version: v03
+
