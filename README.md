@@ -64,3 +64,4 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 BETA.PEVIITOR.RO
 version: v03
 
+https://www.figma.com/file/gY6yYTFjC0fuZ4bTRlUaH6/Pe-viitor?type=design&node-id=804-141&mode=design
