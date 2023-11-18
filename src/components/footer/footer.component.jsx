@@ -15,6 +15,8 @@ export const Footer = () => {
                     <h3 className='title hide-title'>Social Media</h3>
                     <a className='icon' href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' /></a>
                     <a className='icon' href="https://discord.gg/t2aEdmR52a" target="_blank" rel='noreferrer'><img src={discord} alt='linkedin icon' /></a>
+                    <a className='icon' href="https://github.com/peviitor-ro/ui-js/issues" target="_blank" rel='noreferrer'><img src={discord} alt='linkedin icon' /></a>
+
                 </section>
                 <section className='company'>
                     <h3 className='title'>Organizație</h3>
