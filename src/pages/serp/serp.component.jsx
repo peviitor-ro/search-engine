@@ -7,7 +7,7 @@ import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { incrementPage, setPageToOne, updatCity, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
+import { incrementPage, setPageToOne, updatCity, updateCounty, updateCompany, updateCountry, updatePage, updateQ } from '../../state/query.slice';
 import { getQueryParams } from '../../utils/get-params';
 import { createQueryString } from '../../utils/create-query-string';
 import { useSearchParams } from 'react-router-dom';
@@ -17,6 +17,7 @@ import { Search } from '../../components/search/search.component';
 import { ScrollTop } from './components/scroll-top/scroll-top.component';
 
 export const SerpPage = () => {
+    
     const dispatch = useDispatch();
 
     const [, setSearchParams] = useSearchParams();
@@ -61,6 +62,7 @@ export const SerpPage = () => {
 
         dispatch(updateQ(queryParams.q));
         dispatch(updatCity(queryParams.city));
+        dispatch(updateCounty(queryParams.county));
         dispatch(updateCompany(queryParams.company));
         dispatch(updateCountry(queryParams.country));
         dispatch(updatePage(queryParams.page));
@@ -90,7 +92,7 @@ export const SerpPage = () => {
             <section className='top'>
                 <TopBar resetPage={resetPage} />
                 <div className='search-wrapper'>
-                    <Search handleClick={handleSearchClick} />
+                    <Search handleClick={handleSearchClick} queries={queries} />
                 </div>
 
             </section>

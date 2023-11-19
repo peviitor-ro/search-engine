@@ -12,19 +12,21 @@
 
         .input-container {
             position: relative;
+            display: flex;
+            align-items: center;
             font-family: PoppinsLight;
             border-bottom: 1px solid colors.$border_light_grey;
 
             img {
-                position: absolute;
                 top: 11px;
                 left: 12px;
+                margin: 14px;
             }
 
             input {
                 all: unset;
                 font-size: 16px;
-                padding: 14px 30px 14px 48px;
+                padding: 14px 30px 14px 0px;
                 line-height: 18px;
                 color: colors.$text_ink_black;
                 width: 100%;
@@ -58,20 +60,24 @@
 
         .option-container {
             position: relative;
+            display: flex;
             font-family: PoppinsLight;
 
             img {
-                position: absolute;
                 top: 11px;
                 left: 12px;
+                margin: 14px;
             }
 
             select {
                 all: unset;
                 box-sizing: border-box;
-                width: 100%;
-                padding: 14px 16px 14px 48px;
+                padding: 16px 16px 16px 0px;
                 background-color: white;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100px;
             }
         }
     }
@@ -96,7 +102,6 @@
             justify-content: space-between;
             border: unset;
             border-radius: unset;
-            margin-right: 40px;
 
             .input-container {
                 border-bottom: unset;
@@ -110,14 +115,13 @@
                 input {
                     padding-top: 20px;
                     padding-bottom: 20px;
-                    padding-left: 54px;
                 }
             }
 
             .option-container {
                 position: relative;
                 font-family: PoppinsLight;
-                position: relative;
+                
 
                 &::before {
                     content: " ";
@@ -134,9 +138,13 @@
                 }
 
                 select {
-                    padding-top: 20px;
+                    padding-top: 24px;
                     padding-bottom: 20px;
-                    padding-left: 54px;
+                    padding-right: 20px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    width: 100px;
                 }
             }
         }

@@ -5,7 +5,7 @@ import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
 import { Search } from '../../components/search/search.component';
 import { clearJobs, updateTotalCompanies, updateTotalRomania } from '../../state/jobs.slice';
-import { setPageToOne } from '../../state/query.slice';
+import { setPageToOne, updatCity, updateCounty, } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
 import { getTotalCompanies, getTotalRomania } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
@@ -22,6 +22,8 @@ export const LandingPage = () => {
 
     useEffect(() => {
         dispatch(setPageToOne());
+        dispatch(updatCity(''));
+        dispatch(updateCounty(''));
         dispatch(clearJobs());
         getTotalRomania().then((totalRomania) => {
             dispatch(updateTotalRomania(totalRomania))
@@ -34,7 +36,7 @@ export const LandingPage = () => {
     }, [])
 
     const handleSearchClick = () => {
-        navigate(`${queries.q ? `rezultate?${createQueryString(queries)}` : 'rezultate'}`)
+        navigate(`${queries ? `rezultate?${createQueryString(queries)}` : 'rezultate'}`)
     }
 
     return (
@@ -43,7 +45,7 @@ export const LandingPage = () => {
             <section className='main-wrapper'>
                 <main className='main'>
                     <Title allJobs={allJobs} />
-                    <Search handleClick={handleSearchClick} />
+                    <Search handleClick={handleSearchClick} queries={queries} />
                 </main>
                 <Rocket />
             </section>
