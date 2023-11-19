@@ -15,11 +15,7 @@ export const Footer = () => {
                     <h3 className='title hide-title'>Social Media</h3>
                     <a className='icon' href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/" target="_blank" rel='noreferrer'><img src={linkedin} alt='linkedin icon' /></a>
                     <a className='icon' href="https://discord.gg/t2aEdmR52a" target="_blank" rel='noreferrer'><img src={discord} alt='linkedin icon' /></a>
-<<<<<<< HEAD
-                    <a className='icon' href="https://github.com/peviitor-ro/ui-js/issues" target="_blank" rel='noreferrer'><img src="https://github.com/peviitor-ro/search-engine/issues/341#issuecomment-1814329970" alt='linkedin icon' /></a>
-
-=======
->>>>>>> parent of ccc97cd (Adding link for the issues section from github)
+                    <a className='icon' href="https://github.com/peviitor-ro/search-engine/issues" target="_blank" rel='noreferrer'><img src="https://github.com/peviitor-ro/search-engine/issues/341#issuecomment-1814329970" alt='linkedin icon' /></a>
                 </section>
                 <section className='company'>
                     <h3 className='title'>Organizație</h3>
