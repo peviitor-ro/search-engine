@@ -85,7 +85,7 @@ export const Search = (props) => {
     /* updates the list of counties displayed based on user input.
     / It filters the counties to show only those that match the search criteria provided by the user.
     */
-   
+
     setCountiesList(
       counties_list.filter((c) => {
         return c.toLowerCase().includes(e.target.value.toLowerCase());
@@ -125,9 +125,17 @@ export const Search = (props) => {
 
   // Handle click input
   const handleClickInput = (e) => {
+    /*
+    / get the list of options for the input that was clicked
+    */
+
+    // Select the list of ul options
     const dataList = e.target.nextElementSibling;
 
+    // Add event listener to the list of options
     dataList.addEventListener("click", (d) => {
+
+      // Update the value of the input with the selected option
       e.target.value = d.target.getAttribute("data");
       switch (e.target.id) {
         case "country":
