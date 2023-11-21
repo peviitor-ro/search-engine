@@ -81,6 +81,11 @@ export const Search = (props) => {
   // Update county search
   const updateCountySearch = (e) => {
     dispatch(updateCounty(e.target.value));
+
+    /* updates the list of counties displayed based on user input.
+    / It filters the counties to show only those that match the search criteria provided by the user.
+    */
+   
     setCountiesList(
       counties_list.filter((c) => {
         return c.toLowerCase().includes(e.target.value.toLowerCase());
@@ -92,10 +97,13 @@ export const Search = (props) => {
   const updateCitySearch = (e) => {
     dispatch(updatCity(e.target.value));
 
-    counties.map((c) => {
-      if (Object.keys(c)[0] === county) {
+    /* updates the list of cities displayed based on user input for a specific county. 
+    / It filters the cities to show only those that match the search criteria provided by the user.
+    */
+    counties.map((elem) => {
+      if (Object.keys(elem)[0] === county) {
         setCitiesList(
-          c[county].filter((city) => {
+          elem[county].filter((city) => {
             return city.toLowerCase().includes(e.target.value.toLowerCase());
           })
         );
