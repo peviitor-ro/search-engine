@@ -37,9 +37,13 @@ export const Search = (props) => {
     if (country === "România") {
       setCountiesList(counties_list);
     } else {
-      setCountiesList([]);
+      setCountiesList([
+        "Toate",
+      ]);
     }
-  }, []);
+  }, [
+    country,
+  ]);
 
   React.useEffect(() => {
     if (county) {
