@@ -37,9 +37,13 @@ export const Search = (props) => {
     if (country === "România") {
       setCountiesList(counties_list);
     } else {
-      setCountiesList([]);
+      setCountiesList([
+        "Toate",
+      ]);
     }
-  }, []);
+  }, [
+    country,
+  ]);
 
   React.useEffect(() => {
     if (county) {
@@ -77,6 +81,11 @@ export const Search = (props) => {
   // Update county search
   const updateCountySearch = (e) => {
     dispatch(updateCounty(e.target.value));
+
+    /* updates the list of counties displayed based on user input.
+    / It filters the counties to show only those that match the search criteria provided by the user.
+    */
+
     setCountiesList(
       counties_list.filter((c) => {
         return c.toLowerCase().includes(e.target.value.toLowerCase());
@@ -88,10 +97,13 @@ export const Search = (props) => {
   const updateCitySearch = (e) => {
     dispatch(updatCity(e.target.value));
 
-    counties.map((c) => {
-      if (Object.keys(c)[0] === county) {
+    /* updates the list of cities displayed based on user input for a specific county. 
+    / It filters the cities to show only those that match the search criteria provided by the user.
+    */
+    counties.map((elem) => {
+      if (Object.keys(elem)[0] === county) {
         setCitiesList(
-          c[county].filter((city) => {
+          elem[county].filter((city) => {
             return city.toLowerCase().includes(e.target.value.toLowerCase());
           })
         );
@@ -113,9 +125,17 @@ export const Search = (props) => {
 
   // Handle click input
   const handleClickInput = (e) => {
+    /*
+    / get the list of options for the input that was clicked
+    */
+
+    // Select the list of ul options
     const dataList = e.target.nextElementSibling;
 
+    // Add event listener to the list of options
     dataList.addEventListener("click", (d) => {
+
+      // Update the value of the input with the selected option
       e.target.value = d.target.getAttribute("data");
       switch (e.target.id) {
         case "country":
