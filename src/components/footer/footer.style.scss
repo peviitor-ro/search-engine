@@ -11,6 +11,11 @@
     .icon {
       padding: 12px;
       margin-right: 15px;
+      &:hover {
+        background-color: #f0f3f6;
+        border-radius: 5px;
+        transform: scale(1.01);
+      }
     }
   }
 
