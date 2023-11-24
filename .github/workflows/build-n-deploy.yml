@@ -24,8 +24,6 @@ concurrency:
   group: 'pages'
   cancel-in-progress: true
 
-env:
-
 jobs:
   # Build job
   branch-check:
