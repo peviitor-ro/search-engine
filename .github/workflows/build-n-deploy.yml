@@ -49,7 +49,7 @@ jobs:
       #   run: npm run lint
       # - name: Run unit test with coverage
       #   run: npm run test
-      - name: Build with Next.js
+      - name: Build frontend to ./build
         run: npm run build
       # - name: install lighthouse
       #   run: npm install @lhci/cli@0.12.x
@@ -76,6 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
