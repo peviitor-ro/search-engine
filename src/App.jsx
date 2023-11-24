@@ -1,39 +1,26 @@
 import React from 'react';
 import './App.scss';
 import {
-  createBrowserRouter,
-  RouterProvider,
+  BrowserRouter,
+  Routes,
+  Route,
 } from "react-router-dom";
 import { SerpPage } from './pages/serp/serp.component';
 import { LandingPage } from './pages/landing/landing.component';
 import { Error404 } from './pages/error404/error404.component';
 import { FiltersPage } from './pages/filters-page/filter-page.component';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-
-  },
-  {
-    path: "rezultate/",
-    element: <SerpPage />,
-  },
-  {
-    path: "rezultate/filtre",
-    element: <FiltersPage />,
-  },
-  {
-    path: "*",
-    element: <Error404 />,
-  }
-]);
-
 function App() {
   return (
-    <section className="App">
-      <RouterProvider router={router} />
-    </section>
+
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="rezultate/*" element={<SerpPage />} />
+        <Route path="rezultate/filtre" element={<FiltersPage />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
