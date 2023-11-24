@@ -9,13 +9,18 @@
   width: 100%;
   box-sizing: border-box;
 
+  .flex-center-items {
+    display: flex;
+    align-items: center;
+  }
+
   &--border-bottom {
     border-bottom: 1px solid colors.$border_light_grey;
   }
 
   a {
     text-decoration: none;
-    color: #090A0A;
+    color: #090a0a;
     font-size: 16px;
     display: flex;
     align-self: center;
