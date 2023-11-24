@@ -68,6 +68,7 @@ jobs:
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
       pages: write # to deploy to Pages
+      contents: write
       id-token: write # to verify the deployment originates from an appropriate source
 
     # Deploy to the github-pages environment
