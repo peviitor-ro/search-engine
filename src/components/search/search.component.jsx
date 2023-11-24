@@ -1,17 +1,17 @@
-import React from "react";
-import "./search.style.scss";
-import magnifyGlass from "../../assets/svgs/magniy_glass_icon.svg";
-import location from "../../assets/svgs/location_icon.svg";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import './search.style.scss';
+import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
+import location from '../../assets/svgs/location_icon.svg';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   updateCountry,
   updateQ,
   updateCounty,
-  updatCity,
-} from "../../state/query.slice";
-import { getAllJobs, getTotalRomania } from "../../utils/get-data";
-import { updateAllJobs, updateTotalRomania } from "../../state/jobs.slice";
-import { counties } from "./cityandcounty";
+  updatCity
+} from '../../state/query.slice';
+import { getAllJobs, getTotalRomania } from '../../utils/get-data';
+import { updateAllJobs, updateTotalRomania } from '../../state/jobs.slice';
+import { counties } from './cityandcounty';
 
 export const Search = (props) => {
   // Props
@@ -34,21 +34,17 @@ export const Search = (props) => {
   const [citiesList, setCitiesList] = React.useState([]);
 
   React.useEffect(() => {
-    if (country === "România") {
+    if (country === 'România') {
       setCountiesList(counties_list);
     } else {
-      setCountiesList([
-        "Toate",
-      ]);
+      setCountiesList(['Toate']);
     }
-  }, [
-    country,
-  ]);
+  }, [counties_list, country]);
 
   React.useEffect(() => {
     if (county) {
       setCitiesList([]);
-      counties.map((c) => {
+      counties.forEach((c) => {
         if (Object.keys(c)[0] === county) {
           setCitiesList(c[county]);
         }
@@ -74,8 +70,8 @@ export const Search = (props) => {
       });
     }
     dispatch(updateCountry(e.target.value));
-    dispatch(updatCity(""));
-    dispatch(updateCounty(""));
+    dispatch(updatCity(''));
+    dispatch(updateCounty(''));
   };
 
   // Update county search
@@ -97,10 +93,10 @@ export const Search = (props) => {
   const updateCitySearch = (e) => {
     dispatch(updatCity(e.target.value));
 
-    /* updates the list of cities displayed based on user input for a specific county. 
+    /* updates the list of cities displayed based on user input for a specific county.
     / It filters the cities to show only those that match the search criteria provided by the user.
     */
-    counties.map((elem) => {
+    counties.forEach((elem) => {
       if (Object.keys(elem)[0] === county) {
         setCitiesList(
           elem[county].filter((city) => {
@@ -120,7 +116,7 @@ export const Search = (props) => {
   // Handle clear X
   const handleClearX = (e) => {
     e.preventDefault();
-    dispatch(updateQ(""));
+    dispatch(updateQ(''));
   };
 
   // Handle click input
@@ -133,27 +129,26 @@ export const Search = (props) => {
     const dataList = e.target.nextElementSibling;
 
     // Add event listener to the list of options
-    dataList.addEventListener("click", (d) => {
-
+    dataList.addEventListener('click', (d) => {
       // Update the value of the input with the selected option
-      e.target.value = d.target.getAttribute("data");
+      e.target.value = d.target.getAttribute('data');
       switch (e.target.id) {
-        case "country":
+        case 'country':
           dispatch(updateCountry(e.target.value));
-          dispatch(updateCounty(""));
-          dispatch(updatCity(""));
-          if (e.target.value === "România") {
+          dispatch(updateCounty(''));
+          dispatch(updatCity(''));
+          if (e.target.value === 'România') {
             setInputs(2);
           }
           break;
-        case "county":
+        case 'county':
           dispatch(updateCounty(e.target.value));
-          dispatch(updatCity(""));
+          dispatch(updatCity(''));
           if (e.target.value) {
             setInputs(3);
           }
           break;
-        case "city":
+        case 'city':
           dispatch(updatCity(e.target.value));
           break;
         default:
@@ -169,7 +164,7 @@ export const Search = (props) => {
 
   const [show, setShow] = React.useState(false);
 
-  document.addEventListener("click", (e) => {
+  document.addEventListener('click', (e) => {
     try {
       if (
         e.target.childNodes[2] === ref.current ||
@@ -221,7 +216,7 @@ export const Search = (props) => {
               <ul
                 name="country"
                 value={country}
-                className={show ? "" : "hide"}
+                className={show ? '' : 'hide'}
                 ref={ref}
               >
                 <li data="România">România</li>
@@ -231,9 +226,9 @@ export const Search = (props) => {
                 <span
                   className="clear"
                   onClick={() => {
-                    dispatch(updateCountry(""));
-                    dispatch(updateCounty(""));
-                    dispatch(updatCity(""));
+                    dispatch(updateCountry(''));
+                    dispatch(updateCounty(''));
+                    dispatch(updatCity(''));
                     setInputs(1);
                   }}
                 >
@@ -248,7 +243,7 @@ export const Search = (props) => {
               ) : null}
             </div>
           ) : null}
-          {country === "România" && inputs === 2 ? (
+          {country === 'România' && inputs === 2 ? (
             <div className="county query">
               <img src={location} alt="location icon" />
               <input
@@ -262,8 +257,8 @@ export const Search = (props) => {
               <ul
                 name="county"
                 ref={ref}
-                className={show ? "" : "hide"}
-                value={queries.county ? queries.county : ""}
+                className={show ? '' : 'hide'}
+                value={queries.county ? queries.county : ''}
               >
                 <li data="">Toate Judetele</li>
                 {countiesList.map((county, index) => {
@@ -278,9 +273,9 @@ export const Search = (props) => {
               <span
                 className="clear"
                 onClick={() => {
-                  dispatch(updateCountry(""));
-                  dispatch(updateCounty(""));
-                  dispatch(updatCity(""));
+                  dispatch(updateCountry(''));
+                  dispatch(updateCounty(''));
+                  dispatch(updatCity(''));
                   setInputs(1);
                 }}
               >
@@ -294,7 +289,7 @@ export const Search = (props) => {
               </span>
             </div>
           ) : null}
-          {country === "România" && county && inputs === 3 ? (
+          {country === 'România' && county && inputs === 3 ? (
             <div className="city query">
               <img src={location} alt="location icon" />
               <input
@@ -308,8 +303,8 @@ export const Search = (props) => {
               <ul
                 name="city"
                 ref={ref}
-                className={show ? "" : "hide"}
-                value={queries.city ? queries.city : ""}
+                className={show ? '' : 'hide'}
+                value={queries.city ? queries.city : ''}
               >
                 <li data="">Toate Orasele din Judetul {county}</li>
                 {citiesList.map((city, index) => {
@@ -323,9 +318,9 @@ export const Search = (props) => {
               <span
                 className="clear"
                 onClick={() => {
-                  dispatch(updateCountry(""));
-                  dispatch(updateCounty(""));
-                  dispatch(updatCity(""));
+                  dispatch(updateCountry(''));
+                  dispatch(updateCounty(''));
+                  dispatch(updatCity(''));
                   setInputs(1);
                 }}
               >
