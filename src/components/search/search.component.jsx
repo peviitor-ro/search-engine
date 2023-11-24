@@ -13,6 +13,11 @@ import { getAllJobs, getTotalRomania } from '../../utils/get-data';
 import { updateAllJobs, updateTotalRomania } from '../../state/jobs.slice';
 import { counties } from './cityandcounty';
 
+// Transform counties object to array
+const counties_list = counties.map((county) => {
+  return Object.keys(county)[0];
+});
+
 export const Search = (props) => {
   // Props
   const queries = props.queries;
@@ -24,11 +29,6 @@ export const Search = (props) => {
   const country = useSelector((state) => state.query.country);
   const county = useSelector((state) => state.query.county);
 
-  // Transform counties object to array
-  const counties_list = counties.map((county) => {
-    return Object.keys(county)[0];
-  });
-
   // States
   const [countiesList, setCountiesList] = React.useState([counties_list]);
   const [citiesList, setCitiesList] = React.useState([]);
@@ -39,7 +39,7 @@ export const Search = (props) => {
     } else {
       setCountiesList(['Toate']);
     }
-  }, [counties_list, country]);
+  }, [country]);
 
   React.useEffect(() => {
     if (county) {
