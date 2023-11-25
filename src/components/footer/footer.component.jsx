@@ -3,10 +3,10 @@ import './footer.style.scss';
 
 import logoBlack from '../../assets/svgs/peviitor_logo_black.svg';
 import linkedin from '../../assets/svgs/linkedin_icon.svg';
+import discord from '../../assets/svgs/discord_icon.svg';
 import github from '../../assets/svgs/github_icon.svg';
 
 export const Footer = () => {
-  const year = new Date().getFullYear(); 
   return (
     <footer className="footer">
       <section className="links">
@@ -20,6 +20,14 @@ export const Footer = () => {
             rel="noreferrer"
           >
             <img src={linkedin} alt="linkedin icon" />
+          </a>
+          <a
+            className="icon"
+            href="https://discord.gg/t2aEdmR52a"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img src={discord} alt="linkedin icon" />
           </a>
           <a
             className="icon"
@@ -88,7 +96,7 @@ export const Footer = () => {
         </section>
       </section>
       <section className="all-rights-reserved">
-        © {year} - Toate drepturile rezervate PE VIITOR.
+        © 2023 - Toate drepturile rezervate PE VIITOR.
       </section>
     </footer>
   );
