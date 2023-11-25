@@ -7,6 +7,7 @@ import discord from '../../assets/svgs/discord_icon.svg';
 import github from '../../assets/svgs/github_icon.svg';
 
 export const Footer = () => {
+  const year = new Date().getFullYear();
   return (
     <footer className="footer">
       <section className="links">
@@ -96,7 +97,7 @@ export const Footer = () => {
         </section>
       </section>
       <section className="all-rights-reserved">
-        © 2023 - Toate drepturile rezervate PE VIITOR.
+        © {year} - Toate drepturile rezervate PE VIITOR.
       </section>
     </footer>
   );
