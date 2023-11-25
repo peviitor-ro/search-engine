@@ -24,6 +24,9 @@
       padding-right: 90px;
       margin-top: 80px;
       border-bottom: 80px solid colors.$background_grey;
+      &.flex-column {
+        flex-direction: column;
+      }
       .main {
         flex: 1;
         padding: unset;
