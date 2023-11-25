@@ -12,11 +12,11 @@ const router = createBrowserRouter(
       element: <LandingPage />
     },
     {
-      path: 'rezultate/',
+      path: '/rezultate',
       element: <SerpPage />
     },
     {
-      path: 'rezultate/filtre',
+      path: '/rezultate/filtre',
       element: <FiltersPage />
     },
     {
