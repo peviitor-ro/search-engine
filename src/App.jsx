@@ -12,7 +12,7 @@ const router = createBrowserRouter(
       element: <LandingPage />
     },
     {
-      path: '/rezultate',
+      path: '/rezultate/*',
       element: <SerpPage />
     },
     {

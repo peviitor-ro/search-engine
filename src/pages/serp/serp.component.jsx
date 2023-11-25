@@ -107,7 +107,7 @@ export const SerpPage = () => {
           <Search handleClick={handleSearchClick} queries={queries} />
         </div>
       </section>
-      <div className="main-wrapper flex-column">
+      <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
         <section className="jobs">
           {jobs.map(({ jobTitle, company, location, link }, idx) => (
