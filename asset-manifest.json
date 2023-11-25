@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/search-engine/static/css/main.57b678cf.css",
-    "main.js": "/search-engine/static/js/main.85d3dd6c.js",
+    "main.css": "/search-engine/static/css/main.c62fb16a.css",
+    "main.js": "/search-engine/static/js/main.fc649d7b.js",
     "static/js/787.6267a18a.chunk.js": "/search-engine/static/js/787.6267a18a.chunk.js",
     "static/media/Poppins-Light.ttf": "/search-engine/static/media/Poppins-Light.7641a0f76ca9ef6c252c.ttf",
     "static/media/Poppins-Regular.ttf": "/search-engine/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
@@ -20,12 +20,12 @@
     "static/media/location_icon.svg": "/search-engine/static/media/location_icon.2c8c1163e080c5da56c4f6f9d08f1814.svg",
     "static/media/magniy_glass_icon.svg": "/search-engine/static/media/magniy_glass_icon.4b365a3ccceefd81ff4c0325e84213af.svg",
     "static/media/arrow_right.svg": "/search-engine/static/media/arrow_right.aec5bbe47c48adc44b652de6860205c1.svg",
-    "main.57b678cf.css.map": "/search-engine/static/css/main.57b678cf.css.map",
-    "main.85d3dd6c.js.map": "/search-engine/static/js/main.85d3dd6c.js.map",
+    "main.c62fb16a.css.map": "/search-engine/static/css/main.c62fb16a.css.map",
+    "main.fc649d7b.js.map": "/search-engine/static/js/main.fc649d7b.js.map",
     "787.6267a18a.chunk.js.map": "/search-engine/static/js/787.6267a18a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.57b678cf.css",
-    "static/js/main.85d3dd6c.js"
+    "static/css/main.c62fb16a.css",
+    "static/js/main.fc649d7b.js"
   ]
 }
