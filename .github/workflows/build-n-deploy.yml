@@ -60,6 +60,7 @@ jobs:
       #   env:
       #     NODE_OPTIONS: '--max_old_space_size=4096'
       #   run: npx lhci autorun
+        run: echo "peviitor.ro" > ./build/CNAME
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
