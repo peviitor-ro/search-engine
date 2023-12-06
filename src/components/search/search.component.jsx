@@ -206,7 +206,7 @@ export const Search = (props) => {
               <input
                 type="text"
                 id="country"
-                placeholder="Alege Tara"
+                placeholder="Țara"
                 autoComplete="off"
                 value={country}
                 onChange={updateCrountrySearch}
@@ -249,7 +249,7 @@ export const Search = (props) => {
               <input
                 id="county"
                 type="text"
-                placeholder="Alege Judetul"
+                placeholder="Județul"
                 autoComplete="off"
                 onChange={updateCountySearch}
                 onClick={handleClickInput}
@@ -260,7 +260,7 @@ export const Search = (props) => {
                 className={show ? '' : 'hide'}
                 value={queries.county ? queries.county : ''}
               >
-                <li data="">Toate Judetele</li>
+                <li data="">Toate Județele</li>
                 {countiesList.map((county, index) => {
                   return (
                     <li key={index} data={county}>
@@ -295,7 +295,7 @@ export const Search = (props) => {
               <input
                 id="city"
                 type="text"
-                placeholder="Alege Orașul"
+                placeholder="Localitatea"
                 autoComplete="off"
                 onChange={updateCitySearch}
                 onClick={handleClickInput}
@@ -306,7 +306,7 @@ export const Search = (props) => {
                 className={show ? '' : 'hide'}
                 value={queries.city ? queries.city : ''}
               >
-                <li data="">Toate Orasele din Judetul {county}</li>
+                <li data="">Toate Localitatile din {county}</li>
                 {citiesList.map((city, index) => {
                   return (
                     <li key={index} data={city}>
