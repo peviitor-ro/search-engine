@@ -16,6 +16,12 @@
     .icon {
       padding: 12px;
       margin-right: 15px;
+      border-radius: 5px;
+
+      &:hover {
+        background-color: #f0f3f6;
+        transform: scale(1.01);
+      }
     }
   }
 
@@ -40,6 +46,10 @@
       a {
         text-decoration: none;
         color: colors.$text_ink_black;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
     }
   }

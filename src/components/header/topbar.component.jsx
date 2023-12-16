@@ -14,7 +14,7 @@ export const TopBar = ({ isBorder, resetPage }) => {
         href="https://www.oportunitatisicariere.ro/voluntari"
         target="_blank"
         rel="noreferrer"
-        className="flex-center-items"
+        className="flex-center-items join-us"
       >
         <img src={briefcase} alt="briefcase logo" className="icon-briefcase" />{' '}
         Alătură-te

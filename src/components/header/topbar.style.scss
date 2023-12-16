@@ -29,6 +29,16 @@
       margin-right: 10px;
     }
   }
+
+  .join-us {
+    padding: 8px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #f9e8d3;
+      transform: scale(1.01);
+    }
+  }
 }
 
 @media only screen and (min-width: breakpoints.$hd) {
