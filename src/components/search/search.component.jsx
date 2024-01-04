@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './search.style.scss';
 import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../assets/svgs/location_icon.svg';
@@ -182,7 +182,8 @@ export const Search = (props) => {
       <div className="inputs-wrapper">
         <div className="input-container">
           <img src={magnifyGlass} alt="magnify glass icon" />
-          <input autoFocus
+          <input
+            autoFocus
             placeholder="Ce doriți să lucrați?"
             onChange={updateQuerySearch}
             value={q}
