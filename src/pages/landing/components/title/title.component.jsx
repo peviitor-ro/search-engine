@@ -15,10 +15,8 @@ export const Title = ({ allJobs, totalJobs }) => {
       {allJobs && totalCompanies ? (
         <p className="description">
           Avem <span className="bold">{isRomania ? allJobs : totalJobs} </span>
-          de oportunități de la <span className="bold">
-            {totalCompanies}
-          </span>{' '}
-          firme {isRomania ? 'în România' : 'în toate țările'}
+          de oportunități {isRomania ? 'în România' : 'în toate țările'} de la{' '}
+          <span className="bold">{totalCompanies}</span> firme
         </p>
       ) : (
         ''
