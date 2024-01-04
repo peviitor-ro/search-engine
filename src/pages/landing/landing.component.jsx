@@ -7,11 +7,16 @@ import { Search } from '../../components/search/search.component';
 import {
   clearJobs,
   updateTotalCompanies,
-  updateTotalRomania
+  updateTotalRomania,
+  updateTotal
 } from '../../state/jobs.slice';
 import { setPageToOne, updatCity, updateCounty } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
-import { getTotalCompanies, getTotalRomania } from '../../utils/get-data';
+import {
+  getTotalCompanies,
+  getTotalRomania,
+  getAllJobs
+} from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
@@ -23,12 +28,16 @@ export const LandingPage = () => {
   const queries = useSelector((state) => state.query);
 
   const allJobs = useSelector((state) => state.jobs.allJobs);
+  const totalJobs = useSelector((state) => state.jobs.total);
 
   useEffect(() => {
     dispatch(setPageToOne());
     dispatch(updatCity(''));
     dispatch(updateCounty(''));
     dispatch(clearJobs());
+    getAllJobs().then((totalJobs) => {
+      dispatch(updateTotal(totalJobs));
+    });
     getTotalRomania().then((totalRomania) => {
       dispatch(updateTotalRomania(totalRomania));
     });
@@ -51,7 +60,7 @@ export const LandingPage = () => {
       <main>
         <section className="main-wrapper">
           <div className="main">
-            <Title allJobs={allJobs} />
+            <Title allJobs={allJobs} totalJobs={totalJobs} />
             <Search handleClick={handleSearchClick} queries={queries} />
           </div>
           <Rocket />
