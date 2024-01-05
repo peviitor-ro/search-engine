@@ -118,7 +118,7 @@ export const Footer = () => {
         </section>
       </section>
       <section className="all-rights-reserved">
-        © {year} - Toate drepturile rezervate PE VIITOR.
+        © {year} - Toate drepturile rezervate ASOCIATIA OPORTUNITATI SI CARIERE.
       </section>
     </footer>
   );
