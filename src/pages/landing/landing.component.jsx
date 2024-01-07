@@ -12,11 +12,7 @@ import {
 } from '../../state/jobs.slice';
 import { setPageToOne, updatCity, updateCounty } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
-import {
-  getTotalCompanies,
-  getTotalRomania,
-  getAllJobs
-} from '../../utils/get-data';
+import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
 import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
@@ -35,14 +31,10 @@ export const LandingPage = () => {
     dispatch(updatCity(''));
     dispatch(updateCounty(''));
     dispatch(clearJobs());
-    getAllJobs().then((totalJobs) => {
-      dispatch(updateTotal(totalJobs));
-    });
-    getTotalRomania().then((totalRomania) => {
-      dispatch(updateTotalRomania(totalRomania));
-    });
-    getTotalCompanies().then((totalCompanies) => {
-      dispatch(updateTotalCompanies(totalCompanies));
+    getNumberOfJobsAndCompanies().then((data) => {
+      dispatch(updateTotal(data.jobs.all));
+      dispatch(updateTotalRomania(data.jobs.ro));
+      dispatch(updateTotalCompanies(data.companies));
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
