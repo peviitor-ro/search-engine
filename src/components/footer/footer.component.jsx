@@ -118,7 +118,12 @@ export const Footer = () => {
         </section>
       </section>
       <section className="all-rights-reserved">
-        © {year} - Toate drepturile rezervate ASOCIATIA OPORTUNITATI SI CARIERE.
+        © {year} - Toate drepturile rezervate <a href="https://www.oportunitatisicariere.ro"
+                                                 target="_blank"
+                                                 rel="noreferrer"
+                                              >
+                                              ASOCIATIA OPORTUNITATI SI CARIERE
+                                              </a>
       </section>
     </footer>
   );
