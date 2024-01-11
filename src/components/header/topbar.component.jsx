@@ -10,15 +10,6 @@ export const TopBar = ({ isBorder, resetPage }) => {
       <Link to={'/'}>
         <img src={logo} alt="pe viitor logo" onClick={resetPage} />
       </Link>
-      <a
-        href="https://www.oportunitatisicariere.ro/voluntari"
-        target="_blank"
-        rel="noreferrer"
-        className="flex-center-items join-us"
-      >
-        <img src={briefcase} alt="briefcase logo" className="icon-briefcase" />{' '}
-        Alătură-te
-      </a>
     </header>
   );
 };
