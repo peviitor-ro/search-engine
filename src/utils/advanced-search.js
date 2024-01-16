@@ -83,7 +83,7 @@ function searchLocation(
         location.nume,
         judetName
       );
-      if (municipiuResult != null) {
+      if (municipiuResult !== null) {
         matchingLocations.push(
           ...municipiuResult.filter((result) => result !== null)
         );
@@ -96,7 +96,7 @@ function searchLocation(
           location.nume,
           judetName
         );
-        if (localitateResult != null) {
+        if (localitateResult !== null) {
           matchingLocations.push(
             ...localitateResult.filter((result) => result !== null)
           );
@@ -108,12 +108,12 @@ function searchLocation(
             municipiuLocation.nume,
             judetName
           );
-          if (nestedLocalitateResults != null) {
+          if (nestedLocalitateResults !== null) {
             matchingLocations.push(
               ...nestedLocalitateResults.filter((result) => result !== null)
             );
           }
-          if (nestedLocalitate.localitate != undefined) {
+          if (nestedLocalitate.localitate !== undefined) {
             for (const nestedLocalitate2 of nestedLocalitate.localitate) {
               const nestedLocalitateResults2 = searchLocation(
                 query,
@@ -121,7 +121,7 @@ function searchLocation(
                 municipiuLocation.nume,
                 judetName
               );
-              if (nestedLocalitateResults2 != null) {
+              if (nestedLocalitateResults2 !== null) {
                 matchingLocations.push(
                   ...nestedLocalitateResults2.filter(
                     (result) => result !== null
@@ -142,7 +142,7 @@ function searchLocation(
         judetName
       );
 
-      if (orasResult != null) {
+      if (orasResult !== null) {
         matchingLocations.push(
           ...orasResult.filter((result) => result !== null)
         );
@@ -156,7 +156,7 @@ function searchLocation(
           judetName
         );
 
-        if (localitateResult != null) {
+        if (localitateResult !== null) {
           matchingLocations.push(
             ...localitateResult.filter((result) => result !== null)
           );
@@ -174,7 +174,7 @@ function searchLocation(
               ...nestedLocalitateResults.filter((result) => result !== null)
             );
           }
-          if (nestedLocalitate.localitate != undefined) {
+          if (nestedLocalitate.localitate !== undefined) {
             for (const nestedLocalitate2 of nestedLocalitate.localitate) {
               const nestedLocalitateResults2 = searchLocation(
                 query,
@@ -182,7 +182,7 @@ function searchLocation(
                 orasLocation.nume,
                 judetName
               );
-              if (nestedLocalitateResults2 != null) {
+              if (nestedLocalitateResults2 !== null) {
                 matchingLocations.push(
                   ...nestedLocalitateResults2.filter(
                     (result) => result !== null
@@ -201,7 +201,7 @@ function searchLocation(
         location.nume,
         judetName
       );
-      if (comunaResult != null) {
+      if (comunaResult !== null) {
         matchingLocations.push(
           ...comunaResult.filter((result) => result !== null)
         );
@@ -215,7 +215,7 @@ function searchLocation(
           judetName
         );
 
-        if (localitateResult != null) {
+        if (localitateResult !== null) {
           matchingLocations.push(
             ...localitateResult.filter((result) => result !== null)
           );
@@ -228,12 +228,12 @@ function searchLocation(
             comunaLocation.nume,
             judetName
           );
-          if (nestedLocalitateResults != null) {
+          if (nestedLocalitateResults !== null) {
             matchingLocations.push(
               ...nestedLocalitateResults.filter((result) => result !== null)
             );
           }
-          if (nestedLocalitate.localitate != undefined) {
+          if (nestedLocalitate.localitate !== undefined) {
             for (const nestedLocalitate2 of nestedLocalitate.localitate) {
               const nestedLocalitateResults2 = searchLocation(
                 query,
@@ -241,7 +241,7 @@ function searchLocation(
                 comunaLocation.nume,
                 judetName
               );
-              if (nestedLocalitateResults2 != null) {
+              if (nestedLocalitateResults2 !== null) {
                 matchingLocations.push(
                   ...nestedLocalitateResults2.filter(
                     (result) => result !== null
@@ -262,7 +262,7 @@ function removeDuplicates(results) {
   const uniqueResults = [];
   const seenResults = new Set();
 
-  if (results != null) {
+  if (results !== null) {
     for (const result of results) {
       const key = `${result.judet}-${result.judet}-${result.parent}`;
 

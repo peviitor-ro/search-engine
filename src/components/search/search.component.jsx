@@ -42,7 +42,7 @@ export const Search = (props) => {
       setInputs(2);
       setSelectedLocation(`${queries.city}, ${queries.county}`);
     }
-  }, []);
+  }, [queries.county, queries.city]);
 
   // Functions
   // Update query search
