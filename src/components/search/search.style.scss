@@ -1,5 +1,5 @@
-@use "../../styles/colors";
-@use "../../styles/breakpoints";
+@use '../../styles/colors';
+@use '../../styles/breakpoints';
 
 .show {
   display: block !important;
@@ -94,8 +94,9 @@
         font-size: 16px;
         line-height: 18px;
         color: colors.$text_ink_black;
-        max-width: 150px;
         box-sizing: border-box;
+        width: 100%;
+        max-width: none;
       }
 
       .country:focus-within,
@@ -181,7 +182,7 @@
         margin-right: 10px;
 
         &::before {
-          content: " ";
+          content: ' ';
           position: absolute;
           border-left: 1px solid colors.$border_light_grey;
           height: 32px;
