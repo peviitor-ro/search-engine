@@ -96,6 +96,8 @@
         color: colors.$text_ink_black;
         max-width: 260px;
         box-sizing: border-box;
+        text-transform: lowercase;
+        text-transform: capitalize;
       }
 
       .country:focus-within,
@@ -130,6 +132,7 @@
           color: colors.$text_ink_black;
           width: 100%;
           cursor: pointer;
+          text-transform: capitalize;
 
           &:hover {
             background-color: colors.$border_light_grey;

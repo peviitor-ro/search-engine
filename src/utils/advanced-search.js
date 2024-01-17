@@ -264,7 +264,7 @@ function removeDuplicates(results) {
 
   if (results !== null) {
     for (const result of results) {
-      const key = `${result.judet}-${result.judet}-${result.parent}`;
+      const key = `${result.query}-${result.judet}-${result.parent}`;
 
       if (
         (result.judet !== result.parent && result.judet !== result.query) ||

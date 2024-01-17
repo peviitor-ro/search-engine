@@ -40,7 +40,9 @@ export const Search = (props) => {
   React.useEffect(() => {
     if (queries.county) {
       setInputs(2);
-      setSelectedLocation(`${queries.city}, ${queries.county}`);
+      setSelectedLocation(
+        `${queries.city.toLowerCase()}, ${queries.county.toLowerCase()}`
+      );
     }
   }, [queries.county, queries.city]);
 
@@ -134,49 +136,55 @@ export const Search = (props) => {
     const selectedLocation = uniqueResults.find(
       (result) => result.id === selectedLocationId
     );
-    if (selectedLocation.judet === null) {
-      // If it's the capital of the county
+    console.log('Selected Location:', selectedLocation);
+    if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
+      // If it's the capital of the county and not part of Bucharest
       dispatch(updateCounty(removeAccents(selectedLocation?.query)));
       dispatch(updatCity(removeAccents(selectedLocation?.query)));
       setSelectedLocation(
-        `${selectedLocation.query}, ${selectedLocation.query}`
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
       );
+      setUniqueResults([]);
+      setShow(false);
     } else if (selectedLocation.bucuresti) {
-      if (selectedLocation.hasOwnProperty('parent')) {
-        // If it's one of the 6 sectors of Bucharest
-        dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-        dispatch(updatCity(removeAccents(selectedLocation?.query)));
-        setSelectedLocation(
-          `${selectedLocation.query}, ${selectedLocation.parent}`
-        );
-      } else {
-        // If the selected location is Bucharest and it doesn't have a parent
-        dispatch(updateCounty(removeAccents(selectedLocation?.query)));
-        dispatch(updatCity(removeAccents(selectedLocation?.query)));
-        setSelectedLocation(
-          `${selectedLocation.query}, ${selectedLocation.query}`
-        );
-      }
+      // If it's one of the 6 sectors of Bucharest
+      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+      dispatch(updatCity(removeAccents(selectedLocation?.query)));
+      setSelectedLocation(
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
+      );
+      setUniqueResults([]);
+      setShow(false);
     } else {
       dispatch(updateCounty(removeAccents(selectedLocation?.judet)));
       dispatch(updatCity(removeAccents(selectedLocation?.parent)));
       setSelectedLocation(
-        `${selectedLocation.query}, ${selectedLocation.judet} (${selectedLocation.parent})`
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
       );
+      setUniqueResults([]);
+      setShow(false);
     }
   };
 
   const onChangeInput = (e) => {
+    console.log('onChange called');
     setSelectedLocation(e.target.value);
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
-      const searchResult = searchLocation(e.target.value, data.judet);
+      console.log('Target identified as having at least 3 letters');
+      const searchResult = searchLocation(
+        e.target.value.toLowerCase(),
+        data.judet
+      );
+      console.log('e.target.value', e.target.value);
+      console.log('Search result:', searchResult);
       const searchResultBucuresti = searchMunicipiu(
-        e.target.value,
+        e.target.value.toLowerCase(),
         data.municipiu
       );
       // Check if there are any matching results
       if (searchResult || searchResultBucuresti) {
+        console.log("There's at least one matching result");
         const uniqueResults = removeDuplicates(searchResult);
         if (searchResultBucuresti) {
           // Assign unique identifier for Bucharest
@@ -191,6 +199,7 @@ export const Search = (props) => {
         uniqueResults.forEach((result) => {
           result.id = uuidv4();
         });
+        console.log('uniqueResults ', uniqueResults);
         setUniqueResults(uniqueResults);
       }
     } else {
@@ -198,6 +207,7 @@ export const Search = (props) => {
     }
     // Clear results when the search input is empty
     if (e.target.value.length < 1) {
+      console.log('Target identified as having less than 1 letter');
       setSelectedLocation('');
       setUniqueResults([]);
     }
@@ -257,8 +267,10 @@ export const Search = (props) => {
                 autoComplete="off"
                 value={
                   queries.county || queries.city
-                    ? queries.city + ', ' + queries.county
-                    : country
+                    ? queries.city.toLowerCase() +
+                      ', ' +
+                      queries.county.toLowerCase()
+                    : country.toLowerCase()
                 }
                 onChange={updateCountrySearch}
                 onClick={handleClickInput}
@@ -299,7 +311,7 @@ export const Search = (props) => {
               <img src={location} alt="location icon" />
               <input
                 id="county"
-                value={'' || selectedLocation}
+                value={selectedLocation}
                 className="searchInp"
                 type="text"
                 placeholder="Tastează locația"
@@ -311,18 +323,25 @@ export const Search = (props) => {
                 name="county"
                 ref={ref}
                 className={show ? 'searchResults' : 'hide searchResults'}
-                value={queries.county ? queries.county : ''}
+                value={
+                  queries.county.toLowerCase()
+                    ? queries.county.toLowerCase()
+                    : ''
+                }
               >
                 <li data="">Alege locatia</li>
                 {uniqueResults?.map((result, index) => {
                   return (
                     <li key={index} id={result.id} onClick={handleLiClick}>
-                      {result?.query},{' '}
+                      {result?.query.toLowerCase()},{' '}
                       {result.judet
-                        ? result.judet + ' (' + result.parent + ')'
+                        ? result.judet.toLowerCase() +
+                          ' (' +
+                          result.parent.toLowerCase() +
+                          ')'
                         : result.bucuresti
-                        ? result.parent
-                        : result.query}
+                        ? result.parent.toLowerCase()
+                        : result.query.toLowerCase()}
                     </li>
                   );
                 })}
@@ -335,6 +354,7 @@ export const Search = (props) => {
                   dispatch(updateCounty(''));
                   dispatch(updatCity(''));
                   setSelectedLocation('');
+                  setUniqueResults([]);
                   setInputs(1);
                 }}
               >
