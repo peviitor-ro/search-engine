@@ -76,6 +76,15 @@ export const Footer = () => {
                   Alătură-te cauzei noastre
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://www.oportunitatisicariere.ro/viziune"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Viziune
+                </a>
+              </li>
             </ul>
           </nav>
         </section>
@@ -102,15 +111,6 @@ export const Footer = () => {
                   rel="noreferrer"
                 >
                   Politica de confidențialitate
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.oportunitatisicariere.ro/viziune"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Viziune
                 </a>
               </li>
             </ul>
