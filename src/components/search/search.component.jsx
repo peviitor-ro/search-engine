@@ -156,8 +156,8 @@ export const Search = (props) => {
       setUniqueResults([]);
       setShow(false);
     } else {
-      dispatch(updateCounty(removeAccents(selectedLocation?.judet)));
-      dispatch(updatCity(removeAccents(selectedLocation?.parent)));
+      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+      dispatch(updatCity(removeAccents(selectedLocation?.query)));
       setSelectedLocation(
         `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
       );
