@@ -258,10 +258,8 @@ export const Search = (props) => {
                 placeholder="Țara"
                 autoComplete="off"
                 value={
-                  queries.county || queries.city
-                    ? queries.city.toLowerCase() +
-                      ', ' +
-                      queries.county.toLowerCase()
+                  county || city
+                    ? city.toLowerCase() + ', ' + county.toLowerCase()
                     : country.toLowerCase()
                 }
                 onChange={updateCountrySearch}
@@ -315,11 +313,7 @@ export const Search = (props) => {
                 name="county"
                 ref={ref}
                 className={show ? 'searchResults' : 'hide searchResults'}
-                value={
-                  queries.county.toLowerCase()
-                    ? queries.county.toLowerCase()
-                    : ''
-                }
+                value={county.toLowerCase() ? county.toLowerCase() : ''}
               >
                 <li data="">Alege locatia</li>
                 {uniqueResults?.map((result, index) => {
