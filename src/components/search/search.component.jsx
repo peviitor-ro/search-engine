@@ -20,7 +20,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const Search = (props) => {
   // Props
-  const queries = props.queries;
   const handleClick = props.handleClick;
 
   // Redux
