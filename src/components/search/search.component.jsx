@@ -11,39 +11,46 @@ import {
 } from '../../state/query.slice';
 import { getAllJobs, getTotalRomania } from '../../utils/get-data';
 import { updateAllJobs, updateTotalRomania } from '../../state/jobs.slice';
-import {
-  searchLocation,
-  searchMunicipiu,
-  removeDuplicates
-} from '../../utils/advanced-search';
-import { v4 as uuidv4 } from 'uuid';
+import { counties } from './cityandcounty';
+
+// Transform counties object to array
+const counties_list = counties.map((county) => {
+  return Object.keys(county)[0];
+});
 
 export const Search = (props) => {
   // Props
+  const queries = props.queries;
   const handleClick = props.handleClick;
 
   // Redux
   const dispatch = useDispatch();
   const q = useSelector((state) => state.query.q);
   const country = useSelector((state) => state.query.country);
-  const city = useSelector((state) => state.query.city);
   const county = useSelector((state) => state.query.county);
 
   // States
-  const [data, setData] = React.useState([]);
-  const [uniqueResults, setUniqueResults] = React.useState([]);
-  const [selectedLocation, setSelectedLocation] = React.useState('');
+  const [countiesList, setCountiesList] = React.useState([counties_list]);
+  const [citiesList, setCitiesList] = React.useState([]);
 
   React.useEffect(() => {
-    getData();
-  }, []);
-
-  React.useEffect(() => {
-    if (county && !props.landing) {
-      setInputs(2);
-      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
+    if (country === 'România') {
+      setCountiesList(counties_list);
+    } else {
+      setCountiesList(['Toate']);
     }
-  }, [county, city, props.landing]);
+  }, [country]);
+
+  React.useEffect(() => {
+    if (county) {
+      setCitiesList([]);
+      counties.forEach((c) => {
+        if (Object.keys(c)[0] === county) {
+          setCitiesList(c[county]);
+        }
+      });
+    }
+  }, [county]);
 
   // Functions
   // Update query search
@@ -52,7 +59,7 @@ export const Search = (props) => {
   };
 
   // Update country search
-  const updateCountrySearch = (e) => {
+  const updateCrountrySearch = (e) => {
     if (e.target.value) {
       getTotalRomania().then((totalRomania) => {
         dispatch(updateTotalRomania(totalRomania));
@@ -65,6 +72,39 @@ export const Search = (props) => {
     dispatch(updateCountry(e.target.value));
     dispatch(updatCity(''));
     dispatch(updateCounty(''));
+  };
+
+  // Update county search
+  const updateCountySearch = (e) => {
+    dispatch(updateCounty(e.target.value));
+
+    /* updates the list of counties displayed based on user input.
+    / It filters the counties to show only those that match the search criteria provided by the user.
+    */
+
+    setCountiesList(
+      counties_list.filter((c) => {
+        return c.toLowerCase().includes(e.target.value.toLowerCase());
+      })
+    );
+  };
+
+  // Update city search
+  const updateCitySearch = (e) => {
+    dispatch(updatCity(e.target.value));
+
+    /* updates the list of cities displayed based on user input for a specific county.
+    / It filters the cities to show only those that match the search criteria provided by the user.
+    */
+    counties.forEach((elem) => {
+      if (Object.keys(elem)[0] === county) {
+        setCitiesList(
+          elem[county].filter((city) => {
+            return city.toLowerCase().includes(e.target.value.toLowerCase());
+          })
+        );
+      }
+    });
   };
 
   // Handle submit
@@ -108,100 +148,13 @@ export const Search = (props) => {
             setInputs(3);
           }
           break;
+        case 'city':
+          dispatch(updatCity(e.target.value));
+          break;
         default:
           break;
       }
     });
-  };
-
-  //ADVANCED SEARCH FUNCTIONS
-  //************************ */
-  async function getData() {
-    try {
-      const response = await fetch(`https://orase.peviitor.ro/`);
-      const data = await response.json();
-      setData(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
-
-  const removeAccents = (str) => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  };
-
-  const handleLiClick = (e) => {
-    const selectedLocationId = e.target.id;
-    const selectedLocation = uniqueResults.find(
-      (result) => result.id === selectedLocationId
-    );
-    if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
-      // If it's the capital of the county and not part of Bucharest
-      dispatch(updateCounty(removeAccents(selectedLocation?.query)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
-      );
-      setUniqueResults([]);
-      setShow(false);
-    } else if (selectedLocation.bucuresti) {
-      // If it's one of the 6 sectors of Bucharest
-      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
-      );
-      setUniqueResults([]);
-      setShow(false);
-    } else {
-      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
-      );
-      setUniqueResults([]);
-      setShow(false);
-    }
-  };
-
-  const onChangeInput = (e) => {
-    setSelectedLocation(e.target.value);
-    // Start the search after at least 3 letters
-    if (e.target.value.length >= 3) {
-      const searchResult = searchLocation(
-        e.target.value.toLowerCase(),
-        data.judet
-      );
-      const searchResultBucuresti = searchMunicipiu(
-        e.target.value.toLowerCase(),
-        data.municipiu
-      );
-      // Check if there are any matching results
-      if (searchResult || searchResultBucuresti) {
-        const uniqueResults = removeDuplicates(searchResult);
-        if (searchResultBucuresti) {
-          // Assign unique identifier for Bucharest
-          searchResultBucuresti.forEach((result) => {
-            result.bucuresti = true;
-            if (!result.hasOwnProperty('parent')) {
-              result.parent = 'BUCUREȘTI';
-            }
-          });
-          uniqueResults.push(...searchResultBucuresti);
-        }
-        uniqueResults.forEach((result) => {
-          result.id = uuidv4();
-        });
-        setUniqueResults(uniqueResults);
-      }
-    } else {
-      // Display a message when less than 3 letters are entered
-    }
-    // Clear results when the search input is empty
-    if (e.target.value.length < 1) {
-      setSelectedLocation('');
-      setUniqueResults([]);
-    }
   };
 
   // Handle click input
@@ -256,12 +209,8 @@ export const Search = (props) => {
                 id="country"
                 placeholder="Țara"
                 autoComplete="off"
-                value={
-                  county || city
-                    ? city.toLowerCase() + ', ' + county.toLowerCase()
-                    : country.toLowerCase()
-                }
-                onChange={updateCountrySearch}
+                value={country}
+                onChange={updateCrountrySearch}
                 onClick={handleClickInput}
               />
 
@@ -300,33 +249,23 @@ export const Search = (props) => {
               <img src={location} alt="location icon" />
               <input
                 id="county"
-                value={selectedLocation}
-                className="searchInp"
                 type="text"
-                placeholder="Tastează locația"
+                placeholder="Județul"
                 autoComplete="off"
-                onChange={onChangeInput}
+                onChange={updateCountySearch}
                 onClick={handleClickInput}
               />
               <ul
                 name="county"
                 ref={ref}
-                className={show ? 'searchResults' : 'hide searchResults'}
-                value={county.toLowerCase() ? county.toLowerCase() : ''}
+                className={show ? '' : 'hide'}
+                value={queries.county ? queries.county : ''}
               >
-                <li data="">Alege locatia</li>
-                {uniqueResults?.map((result, index) => {
+                <li data="">Toate Județele</li>
+                {countiesList.map((county, index) => {
                   return (
-                    <li key={index} id={result.id} onClick={handleLiClick}>
-                      {result?.query.toLowerCase()},{' '}
-                      {result.judet
-                        ? result.judet.toLowerCase() +
-                          ' (' +
-                          result.parent.toLowerCase() +
-                          ')'
-                        : result.bucuresti
-                        ? result.parent.toLowerCase()
-                        : result.query.toLowerCase()}
+                    <li key={index} data={county}>
+                      {county}
                     </li>
                   );
                 })}
@@ -338,8 +277,51 @@ export const Search = (props) => {
                   dispatch(updateCountry(''));
                   dispatch(updateCounty(''));
                   dispatch(updatCity(''));
-                  setSelectedLocation('');
-                  setUniqueResults([]);
+                  setInputs(1);
+                }}
+              >
+                <svg
+                  focusable="false"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                </svg>
+              </span>
+            </div>
+          ) : null}
+          {country === 'România' && county && inputs === 3 ? (
+            <div className="city query">
+              <img src={location} alt="location icon" />
+              <input
+                id="city"
+                type="text"
+                placeholder="Localitatea"
+                autoComplete="off"
+                onChange={updateCitySearch}
+                onClick={handleClickInput}
+              />
+              <ul
+                name="city"
+                ref={ref}
+                className={show ? '' : 'hide'}
+                value={queries.city ? queries.city : ''}
+              >
+                <li data="">Toate Localitatile din {county}</li>
+                {citiesList.map((city, index) => {
+                  return (
+                    <li key={index} data={city}>
+                      {city}
+                    </li>
+                  );
+                })}
+              </ul>
+              <span
+                className="clear"
+                onClick={() => {
+                  dispatch(updateCountry(''));
+                  dispatch(updateCounty(''));
+                  dispatch(updatCity(''));
                   setInputs(1);
                 }}
               >
