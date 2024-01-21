@@ -27,6 +27,8 @@ export const Search = (props) => {
   const dispatch = useDispatch();
   const q = useSelector((state) => state.query.q);
   const country = useSelector((state) => state.query.country);
+  const city = useSelector((state) => state.query.city);
+  const county = useSelector((state) => state.query.county);
 
   // States
   const [data, setData] = React.useState([]);
@@ -38,13 +40,13 @@ export const Search = (props) => {
   }, []);
 
   React.useEffect(() => {
-    if (queries.county) {
-      setInputs(2);
-      setSelectedLocation(
-        `${queries.city.toLowerCase()}, ${queries.county.toLowerCase()}`
-      );
+    if (county) {
+      if (!props.landing) {
+        setInputs(2);
+        setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
+      }
     }
-  }, [queries.county, queries.city]);
+  }, [county, city, props.landing]);
 
   // Functions
   // Update query search
@@ -136,7 +138,6 @@ export const Search = (props) => {
     const selectedLocation = uniqueResults.find(
       (result) => result.id === selectedLocationId
     );
-    console.log('Selected Location:', selectedLocation);
     if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
       // If it's the capital of the county and not part of Bucharest
       dispatch(updateCounty(removeAccents(selectedLocation?.query)));
@@ -167,24 +168,19 @@ export const Search = (props) => {
   };
 
   const onChangeInput = (e) => {
-    console.log('onChange called');
     setSelectedLocation(e.target.value);
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
-      console.log('Target identified as having at least 3 letters');
       const searchResult = searchLocation(
         e.target.value.toLowerCase(),
         data.judet
       );
-      console.log('e.target.value', e.target.value);
-      console.log('Search result:', searchResult);
       const searchResultBucuresti = searchMunicipiu(
         e.target.value.toLowerCase(),
         data.municipiu
       );
       // Check if there are any matching results
       if (searchResult || searchResultBucuresti) {
-        console.log("There's at least one matching result");
         const uniqueResults = removeDuplicates(searchResult);
         if (searchResultBucuresti) {
           // Assign unique identifier for Bucharest
@@ -199,7 +195,6 @@ export const Search = (props) => {
         uniqueResults.forEach((result) => {
           result.id = uuidv4();
         });
-        console.log('uniqueResults ', uniqueResults);
         setUniqueResults(uniqueResults);
       }
     } else {
@@ -207,7 +202,6 @@ export const Search = (props) => {
     }
     // Clear results when the search input is empty
     if (e.target.value.length < 1) {
-      console.log('Target identified as having less than 1 letter');
       setSelectedLocation('');
       setUniqueResults([]);
     }
