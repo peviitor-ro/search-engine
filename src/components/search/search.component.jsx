@@ -40,11 +40,9 @@ export const Search = (props) => {
   }, []);
 
   React.useEffect(() => {
-    if (county) {
-      if (!props.landing) {
-        setInputs(2);
-        setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
-      }
+    if (county && !props.landing) {
+      setInputs(2);
+      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
     }
   }, [county, city, props.landing]);
 
