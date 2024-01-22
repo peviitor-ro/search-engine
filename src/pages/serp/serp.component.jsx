@@ -104,11 +104,7 @@ export const SerpPage = () => {
       <section className="top">
         <TopBar resetPage={resetPage} />
         <div className="search-wrapper">
-          <Search
-            handleClick={handleSearchClick}
-            queries={queries}
-            landing={false}
-          />
+          <Search handleClick={handleSearchClick} queries={queries} />
         </div>
       </section>
       <div className="main-wrapper flex-column margin-top-0">
