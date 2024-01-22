@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const Search = (props) => {
   // Props
   const handleClick = props.handleClick;
+  const queries = props.queries;
 
   // Redux
   const dispatch = useDispatch();
@@ -39,11 +40,13 @@ export const Search = (props) => {
   }, []);
 
   React.useEffect(() => {
-    if (county && !props.landing) {
+    if (queries.county && !props.landing) {
       setInputs(2);
-      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
+      setSelectedLocation(
+        `${queries.city.toLowerCase()}, ${queries.county.toLowerCase()}`
+      );
     }
-  }, [county, city, props.landing]);
+  }, [queries.county, queries.city, props.landing]);
 
   // Functions
   // Update query search
@@ -257,9 +260,11 @@ export const Search = (props) => {
                 placeholder="Țara"
                 autoComplete="off"
                 value={
-                  county || city
-                    ? city.toLowerCase() + ', ' + county.toLowerCase()
-                    : country.toLowerCase()
+                  queries.county || queries.city
+                    ? queries.city.toLowerCase() +
+                      ', ' +
+                      queries.county.toLowerCase()
+                    : queries.country.toLowerCase()
                 }
                 onChange={updateCountrySearch}
                 onClick={handleClickInput}
@@ -312,7 +317,11 @@ export const Search = (props) => {
                 name="county"
                 ref={ref}
                 className={show ? 'searchResults' : 'hide searchResults'}
-                value={county.toLowerCase() ? county.toLowerCase() : ''}
+                value={
+                  queries.county.toLowerCase()
+                    ? queries.county.toLowerCase()
+                    : ''
+                }
               >
                 <li data="">Alege locatia</li>
                 {uniqueResults?.map((result, index) => {

@@ -93,7 +93,7 @@ function searchLocation(
         const localitateResult = searchLocation(
           query,
           municipiuLocation.localitate,
-          location.nume,
+          municipiuLocation.nume,
           judetName
         );
         if (localitateResult !== null) {
@@ -152,7 +152,7 @@ function searchLocation(
         const localitateResult = searchLocation(
           query,
           orasLocation.localitate,
-          location.nume,
+          orasLocation.nume,
           judetName
         );
 
@@ -211,7 +211,7 @@ function searchLocation(
         const localitateResult = searchLocation(
           query,
           comunaLocation.localitate,
-          location.nume,
+          comunaLocation.nume,
           judetName
         );
 
@@ -267,7 +267,7 @@ function removeDuplicates(results) {
       const key = `${result.query}-${result.judet}-${result.parent}`;
 
       if (
-        (result.judet !== result.parent && result.judet !== result.query) ||
+        (result.judet !== result.query && result.query !== result.parent) ||
         (result.judet === null && result.parent === null)
       ) {
         if (!seenResults.has(key)) {
