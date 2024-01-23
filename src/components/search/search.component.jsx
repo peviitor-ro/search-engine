@@ -41,7 +41,6 @@ export const Search = (props) => {
 
   React.useEffect(() => {
     if (queries.county && !props.landing) {
-      setInputs(2);
       setSelectedLocation(
         `${queries.city.toLowerCase()}, ${queries.county.toLowerCase()}`
       );
@@ -96,20 +95,9 @@ export const Search = (props) => {
       // Update the value of the input with the selected option
       e.target.value = d.target.getAttribute('data');
       switch (e.target.id) {
-        case 'country':
-          dispatch(updateCountry(e.target.value));
-          dispatch(updateCounty(''));
-          dispatch(updatCity(''));
-          if (e.target.value === 'România') {
-            setInputs(2);
-          }
-          break;
         case 'county':
           dispatch(updateCounty(e.target.value));
           dispatch(updatCity(''));
-          if (e.target.value) {
-            setInputs(3);
-          }
           break;
         default:
           break;
@@ -207,9 +195,6 @@ export const Search = (props) => {
     }
   };
 
-  // Handle click input
-  const [inputs, setInputs] = React.useState(1);
-
   const ref = React.useRef(false);
 
   const [show, setShow] = React.useState(false);
@@ -251,56 +236,7 @@ export const Search = (props) => {
           )}
         </div>
         <div className="option-container ">
-          {inputs === 1 ? (
-            <div className="country query">
-              <img src={location} alt="location icon" />
-              <input
-                type="text"
-                id="country"
-                placeholder="Țara"
-                autoComplete="off"
-                value={
-                  queries.county || queries.city
-                    ? queries.city.toLowerCase() +
-                      ', ' +
-                      queries.county.toLowerCase()
-                    : queries.country.toLowerCase()
-                }
-                onChange={updateCountrySearch}
-                onClick={handleClickInput}
-              />
-
-              <ul
-                name="country"
-                value={country}
-                className={show ? '' : 'hide'}
-                ref={ref}
-              >
-                <li data="România">România</li>
-                <li data="">Toate</li>
-              </ul>
-              {country ? (
-                <span
-                  className="clear"
-                  onClick={() => {
-                    dispatch(updateCountry(''));
-                    dispatch(updateCounty(''));
-                    dispatch(updatCity(''));
-                    setInputs(1);
-                  }}
-                >
-                  <svg
-                    focusable="false"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                  </svg>
-                </span>
-              ) : null}
-            </div>
-          ) : null}
-          {country === 'România' && inputs === 2 ? (
+          {country === 'România' ? (
             <div className="county query">
               <img src={location} alt="location icon" />
               <input
@@ -344,12 +280,10 @@ export const Search = (props) => {
               <span
                 className="clear"
                 onClick={() => {
-                  dispatch(updateCountry(''));
                   dispatch(updateCounty(''));
                   dispatch(updatCity(''));
                   setSelectedLocation('');
                   setUniqueResults([]);
-                  setInputs(1);
                 }}
               >
                 <svg
