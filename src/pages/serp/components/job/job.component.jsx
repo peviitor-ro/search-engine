@@ -18,7 +18,18 @@ export const Job = ({ jobTitle, company, city, county, link }) => {
         <p className="company">{company}</p>
         <p className="location">
           <img src={mapPin} alt="map pin" className="icon" />
-          {`${jobCity}, ${jobCounty}`}
+          {jobCity !== 'nespecificat'
+            ? jobCity.length > 1
+              ? jobCity.map((job, index) => {
+                  if (index === jobCity.length - 1) {
+                    return job;
+                  } else return job + ', ';
+                })
+              : jobCity[0]
+            : ''}
+          {jobCounty !== 'nespecificat' && jobCity.length === 1
+            ? `, ${jobCounty}`
+            : ''}
         </p>
       </div>
       <div className="button-position">

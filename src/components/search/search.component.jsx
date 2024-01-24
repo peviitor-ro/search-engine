@@ -28,6 +28,7 @@ export const Search = (props) => {
   const [userLiMessage, setUserLiMessage] = React.useState(
     'Tastați minim 3 litere'
   );
+  const [inputCountryPlaceholder] = React.useState('România');
 
   React.useEffect(() => {
     getData();
@@ -199,7 +200,11 @@ export const Search = (props) => {
               value={selectedLocation}
               className="searchInp"
               type="text"
-              placeholder="Tastați locația"
+              placeholder={
+                !props.landing && !city
+                  ? inputCountryPlaceholder
+                  : 'Tastați locația'
+              }
               autoComplete="off"
               onChange={onChangeInput}
             />
