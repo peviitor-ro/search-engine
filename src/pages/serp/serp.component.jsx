@@ -62,6 +62,7 @@ export const SerpPage = () => {
     dispatch(setPageToOne());
     setSearchParams(createQueryString(queries));
     getJobs(queries);
+    console.log('Jobs', jobs, 'County:', queries.county);
   };
 
   const loadMore = () => {
@@ -114,12 +115,13 @@ export const SerpPage = () => {
       <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
         <section className="jobs">
-          {jobs.map(({ jobTitle, company, location, link }, idx) => (
+          {jobs.map(({ jobTitle, company, link }, idx) => (
             <Job
               key={idx}
               jobTitle={jobTitle}
               company={company}
-              location={location}
+              city={queries.city}
+              county={queries.county}
               link={link}
             />
           ))}

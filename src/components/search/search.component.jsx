@@ -136,7 +136,6 @@ export const Search = (props) => {
         uniqueResults.forEach((result) => {
           result.id = uuidv4();
         });
-        console.log('Unique results', uniqueResults);
         setUniqueResults(uniqueResults);
       }
     } else {
