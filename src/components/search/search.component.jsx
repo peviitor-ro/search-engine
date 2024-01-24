@@ -4,8 +4,6 @@ import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../assets/svgs/location_icon.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateQ, updateCounty, updatCity } from '../../state/query.slice';
-import { getAllJobs, getTotalRomania } from '../../utils/get-data';
-import { updateAllJobs, updateTotalRomania } from '../../state/jobs.slice';
 import {
   searchLocation,
   searchMunicipiu,
@@ -20,7 +18,6 @@ export const Search = (props) => {
   // Redux
   const dispatch = useDispatch();
   const q = useSelector((state) => state.query.q);
-  const country = useSelector((state) => state.query.country);
   const city = useSelector((state) => state.query.city);
   const county = useSelector((state) => state.query.county);
 
@@ -196,62 +193,60 @@ export const Search = (props) => {
           )}
         </div>
         <div className="option-container ">
-          {country === 'România' ? (
-            <div className="county query">
-              <img src={location} alt="location icon" />
-              <input
-                id="county"
-                value={selectedLocation}
-                className="searchInp"
-                type="text"
-                placeholder="Tastați locația"
-                autoComplete="off"
-                onChange={onChangeInput}
-              />
-              <ul
-                name="county"
-                ref={ref}
-                className={show ? 'searchResults' : 'hide searchResults'}
-                value={county.toLowerCase() ? county.toLowerCase() : ''}
-              >
-                <li data="">{userLiMessage}</li>
-                {uniqueResults?.map((result, index) => {
-                  return (
-                    <li key={index} id={result.id} onClick={handleLiClick}>
-                      {result?.query.toLowerCase()},{' '}
-                      {result.judet
-                        ? result.judet.toLowerCase() +
-                          ' (' +
-                          result.parent.toLowerCase() +
-                          ')'
-                        : result.bucuresti
-                        ? result.parent.toLowerCase()
-                        : result.query.toLowerCase()}
-                    </li>
-                  );
-                })}
-              </ul>
+          <div className="county query">
+            <img src={location} alt="location icon" />
+            <input
+              id="county"
+              value={selectedLocation}
+              className="searchInp"
+              type="text"
+              placeholder="Tastați locația"
+              autoComplete="off"
+              onChange={onChangeInput}
+            />
+            <ul
+              name="county"
+              ref={ref}
+              className={show ? 'searchResults' : 'hide searchResults'}
+              value={county.toLowerCase() ? county.toLowerCase() : ''}
+            >
+              <li data="">{userLiMessage}</li>
+              {uniqueResults?.map((result, index) => {
+                return (
+                  <li key={index} id={result.id} onClick={handleLiClick}>
+                    {result?.query.toLowerCase()},{' '}
+                    {result.judet
+                      ? result.judet.toLowerCase() +
+                        ' (' +
+                        result.parent.toLowerCase() +
+                        ')'
+                      : result.bucuresti
+                      ? result.parent.toLowerCase()
+                      : result.query.toLowerCase()}
+                  </li>
+                );
+              })}
+            </ul>
 
-              <span
-                className="clear"
-                onClick={() => {
-                  dispatch(updateCounty(''));
-                  dispatch(updatCity(''));
-                  setSelectedLocation('');
-                  setUniqueResults([]);
-                  setUserLiMessage('Tastați minim 3 litere');
-                }}
+            <span
+              className="clear"
+              onClick={() => {
+                dispatch(updateCounty(''));
+                dispatch(updatCity(''));
+                setSelectedLocation('');
+                setUniqueResults([]);
+                setUserLiMessage('Tastați minim 3 litere');
+              }}
+            >
+              <svg
+                focusable="false"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  focusable="false"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                </svg>
-              </span>
-            </div>
-          ) : null}
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+              </svg>
+            </span>
+          </div>
         </div>
       </div>
       <button type="submit" className="btn-yellow btn">
