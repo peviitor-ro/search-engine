@@ -3,12 +3,7 @@ import './search.style.scss';
 import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../assets/svgs/location_icon.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  updateCountry,
-  updateQ,
-  updateCounty,
-  updatCity
-} from '../../state/query.slice';
+import { updateQ, updateCounty, updatCity } from '../../state/query.slice';
 import { getAllJobs, getTotalRomania } from '../../utils/get-data';
 import { updateAllJobs, updateTotalRomania } from '../../state/jobs.slice';
 import {
@@ -21,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 export const Search = (props) => {
   // Props
   const handleClick = props.handleClick;
-  const queries = props.queries;
 
   // Redux
   const dispatch = useDispatch();
@@ -34,39 +28,24 @@ export const Search = (props) => {
   const [data, setData] = React.useState([]);
   const [uniqueResults, setUniqueResults] = React.useState([]);
   const [selectedLocation, setSelectedLocation] = React.useState('');
+  const [userLiMessage, setUserLiMessage] = React.useState(
+    'Tastați minim 3 litere'
+  );
 
   React.useEffect(() => {
     getData();
   }, []);
 
   React.useEffect(() => {
-    if (queries.county && !props.landing) {
-      setSelectedLocation(
-        `${queries.city.toLowerCase()}, ${queries.county.toLowerCase()}`
-      );
+    if (county && !props.landing) {
+      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
     }
-  }, [queries.county, queries.city, props.landing]);
+  }, [county, city, props.landing]);
 
   // Functions
   // Update query search
   const updateQuerySearch = (e) => {
     dispatch(updateQ(e.target.value));
-  };
-
-  // Update country search
-  const updateCountrySearch = (e) => {
-    if (e.target.value) {
-      getTotalRomania().then((totalRomania) => {
-        dispatch(updateTotalRomania(totalRomania));
-      });
-    } else {
-      getAllJobs().then((totalRomania) => {
-        dispatch(updateAllJobs(totalRomania));
-      });
-    }
-    dispatch(updateCountry(e.target.value));
-    dispatch(updatCity(''));
-    dispatch(updateCounty(''));
   };
 
   // Handle submit
@@ -79,30 +58,6 @@ export const Search = (props) => {
   const handleClearX = (e) => {
     e.preventDefault();
     dispatch(updateQ(''));
-  };
-
-  // Handle click input
-  const handleClickInput = (e) => {
-    /*
-    / get the list of options for the input that was clicked
-    */
-
-    // Select the list of ul options
-    const dataList = e.target.nextElementSibling;
-
-    // Add event listener to the list of options
-    dataList.addEventListener('click', (d) => {
-      // Update the value of the input with the selected option
-      e.target.value = d.target.getAttribute('data');
-      switch (e.target.id) {
-        case 'county':
-          dispatch(updateCounty(e.target.value));
-          dispatch(updatCity(''));
-          break;
-        default:
-          break;
-      }
-    });
   };
 
   //ADVANCED SEARCH FUNCTIONS
@@ -159,6 +114,7 @@ export const Search = (props) => {
     setSelectedLocation(e.target.value);
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
+      setUserLiMessage('Selectați locația');
       const searchResult = searchLocation(
         e.target.value.toLowerCase(),
         data.judet
@@ -183,15 +139,19 @@ export const Search = (props) => {
         uniqueResults.forEach((result) => {
           result.id = uuidv4();
         });
+        console.log('Unique results', uniqueResults);
         setUniqueResults(uniqueResults);
       }
     } else {
-      // Display a message when less than 3 letters are entered
+      if (e.target.value.length === 1)
+        setUserLiMessage('Mai tastați încă două litere');
+      else setUserLiMessage('Mai tastați încă o literă');
     }
     // Clear results when the search input is empty
     if (e.target.value.length < 1) {
       setSelectedLocation('');
       setUniqueResults([]);
+      setUserLiMessage('Tastați minim 3 litere');
     }
   };
 
@@ -244,22 +204,17 @@ export const Search = (props) => {
                 value={selectedLocation}
                 className="searchInp"
                 type="text"
-                placeholder="Tastează locația"
+                placeholder="Tastați locația"
                 autoComplete="off"
                 onChange={onChangeInput}
-                onClick={handleClickInput}
               />
               <ul
                 name="county"
                 ref={ref}
                 className={show ? 'searchResults' : 'hide searchResults'}
-                value={
-                  queries.county.toLowerCase()
-                    ? queries.county.toLowerCase()
-                    : ''
-                }
+                value={county.toLowerCase() ? county.toLowerCase() : ''}
               >
-                <li data="">Alege locatia</li>
+                <li data="">{userLiMessage}</li>
                 {uniqueResults?.map((result, index) => {
                   return (
                     <li key={index} id={result.id} onClick={handleLiClick}>
@@ -284,6 +239,7 @@ export const Search = (props) => {
                   dispatch(updatCity(''));
                   setSelectedLocation('');
                   setUniqueResults([]);
+                  setUserLiMessage('Tastați minim 3 litere');
                 }}
               >
                 <svg
