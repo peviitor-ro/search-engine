@@ -48,7 +48,6 @@ export const SerpPage = () => {
 
   const getJobs = (queries) => {
     dispatch(clearJobs());
-
     for (let i = 1; i <= queries.page; i++) {
       getData({ ...queries, page: i }).then(({ jobs, total }) => {
         dispatch(addMoreJobs(jobs));
@@ -110,12 +109,13 @@ export const SerpPage = () => {
       <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
         <section className="jobs">
-          {jobs.map(({ jobTitle, company, location, link }, idx) => (
+          {jobs.map(({ jobTitle, company, link, city, county }, idx) => (
             <Job
               key={idx}
               jobTitle={jobTitle}
               company={company}
-              location={location}
+              city={city}
+              county={county}
               link={link}
             />
           ))}

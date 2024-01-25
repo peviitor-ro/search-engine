@@ -8,7 +8,7 @@ const initialState = {
   [queriesConst.company]: '',
   [queriesConst.country]: 'România',
   [queriesConst.page]: 1
-}
+};
 
 export const querySlice = createSlice({
   name: 'query',
@@ -37,11 +37,20 @@ export const querySlice = createSlice({
     },
     setPageToOne: (state) => {
       state[queriesConst.page] = 1;
-    },
+    }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { updateQ, updatCity, updateCounty, updateCompany, updateCountry, incrementPage, setPageToOne, updatePage } = querySlice.actions;
+export const {
+  updateQ,
+  updatCity,
+  updateCounty,
+  updateCompany,
+  updateCountry,
+  incrementPage,
+  setPageToOne,
+  updatePage
+} = querySlice.actions;
 
 export default querySlice.reducer;
