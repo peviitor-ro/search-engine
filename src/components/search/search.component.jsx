@@ -13,7 +13,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const Search = (props) => {
   // Props
-  const queries = props.queries;
   const handleClick = props.handleClick;
 
   // Redux
@@ -30,6 +29,10 @@ export const Search = (props) => {
     'Tastați minim 3 litere'
   );
   const [inputCountryPlaceholder] = React.useState('România');
+
+  React.useEffect(() => {
+    getData();
+  }, []);
 
   React.useEffect(() => {
     if (county && !props.landing) {
