@@ -32,18 +32,10 @@ export const Search = (props) => {
   const [inputCountryPlaceholder] = React.useState('România');
 
   React.useEffect(() => {
-    if (country === 'România') {
-      setCountiesList(counties_list);
-    } else {
-      setCountiesList(['Toate']);
-    }
-  }, [country]);
-
-  React.useEffect(() => {
     if (county && !props.landing) {
       setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
     }
-  }, [county]);
+  }, [county, city, props.landing]);
 
   // Functions
   // Update query search
