@@ -151,7 +151,6 @@ export const Search = (props) => {
           setSelectedLocation(uniqueResults[0]);
           handleSelection(uniqueResults[0]);
           setUniqueEstablished(true);
-          console.log('UniqueEstablished', uniqueEstablished);
         } else setUniqueEstablished(false);
       }
     } else {
