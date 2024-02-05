@@ -29,6 +29,7 @@ export const Search = (props) => {
     'Tastați minim 3 litere'
   );
   const [inputCountryPlaceholder] = React.useState('România');
+  const [uniqueEstablished, setUniqueEstablished] = React.useState(false);
 
   React.useEffect(() => {
     getData();
@@ -37,6 +38,7 @@ export const Search = (props) => {
   React.useEffect(() => {
     if (county && !props.landing) {
       setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
+      setUniqueEstablished(true);
     }
   }, [county, city, props.landing]);
 
@@ -74,11 +76,7 @@ export const Search = (props) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
-  const handleLiClick = (e) => {
-    const selectedLocationId = e.target.id;
-    const selectedLocation = uniqueResults.find(
-      (result) => result.id === selectedLocationId
-    );
+  const handleSelection = (selectedLocation) => {
     if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
       // If it's the capital of the county and not part of Bucharest
       dispatch(updateCounty(removeAccents(selectedLocation?.query)));
@@ -108,10 +106,20 @@ export const Search = (props) => {
     }
   };
 
+  const handleLiClick = (e) => {
+    const selectedLocationId = e.target.id;
+    const selectedLocation = uniqueResults.find(
+      (result) => result.id === selectedLocationId
+    );
+    setUniqueEstablished(true);
+    handleSelection(selectedLocation);
+  };
+
   const onChangeInput = (e) => {
     setSelectedLocation(e.target.value);
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
+      setShow(true);
       setUserLiMessage('Selectați locația');
       const searchResult = searchLocation(
         e.target.value.toLowerCase(),
@@ -138,6 +146,13 @@ export const Search = (props) => {
           result.id = uuidv4();
         });
         setUniqueResults(uniqueResults);
+        //if there is only one result after the user input filtering, it will set it as the selected
+        if (uniqueResults.length === 1 && !uniqueEstablished) {
+          setSelectedLocation(uniqueResults[0]);
+          handleSelection(uniqueResults[0]);
+          setUniqueEstablished(true);
+          console.log('UniqueEstablished', uniqueEstablished);
+        } else setUniqueEstablished(false);
       }
     } else {
       if (e.target.value.length === 1)
@@ -148,6 +163,7 @@ export const Search = (props) => {
     if (e.target.value.length < 1) {
       setSelectedLocation('');
       setUniqueResults([]);
+      setUniqueEstablished(false);
       setUserLiMessage('Tastați minim 3 litere');
     }
   };
@@ -198,7 +214,7 @@ export const Search = (props) => {
             <input
               id="county"
               value={selectedLocation}
-              className="searchInp"
+              className={uniqueEstablished ? 'locked-input' : ''}
               type="text"
               placeholder={
                 !props.landing && !city
@@ -207,6 +223,7 @@ export const Search = (props) => {
               }
               autoComplete="off"
               onChange={onChangeInput}
+              readOnly={uniqueEstablished}
             />
             <ul
               name="county"
@@ -233,13 +250,14 @@ export const Search = (props) => {
             </ul>
 
             <span
-              className="clear"
+              className={uniqueEstablished ? 'clear' : 'none'}
               onClick={() => {
                 dispatch(updateCounty(''));
                 dispatch(updatCity(''));
                 setSelectedLocation('');
                 setUniqueResults([]);
                 setUserLiMessage('Tastați minim 3 litere');
+                setUniqueEstablished(false);
               }}
             >
               <svg
