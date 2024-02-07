@@ -1,15 +1,17 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import './search.style.scss';
 import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../assets/svgs/location_icon.svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { getCountiesAndCities } from '../../utils/get-data';
+import { locationSlice } from '../../state/location.slice';
 import { updateQ, updateCounty, updatCity } from '../../state/query.slice';
 import {
   searchLocation,
   searchMunicipiu,
   removeDuplicates
 } from '../../utils/advanced-search';
-import { v4 as uuidv4 } from 'uuid';
 
 export const Search = (props) => {
   // Props
@@ -20,34 +22,39 @@ export const Search = (props) => {
   const q = useSelector((state) => state.query.q);
   const city = useSelector((state) => state.query.city);
   const county = useSelector((state) => state.query.county);
+  const country = useSelector((state) => state.query.country);
+  const locations = useSelector((state) => state.location);
+  const selectedLocation = useSelector(
+    (state) => state.location.selectedLocation
+  );
+  const oraseLoaded = useSelector((state) => state.location.loaded);
+  const oraseError = useSelector((state) => state.location.error);
 
   // States
-  const [data, setData] = React.useState([]);
   const [uniqueResults, setUniqueResults] = React.useState([]);
-  const [selectedLocation, setSelectedLocation] = React.useState('');
   const [userLiMessage, setUserLiMessage] = React.useState(
     'Tastați minim 3 litere'
   );
-  const [inputCountryPlaceholder] = React.useState('România');
+
   const [uniqueEstablished, setUniqueEstablished] = React.useState(false);
 
   React.useEffect(() => {
-    getData();
+    getCountiesAndCities().then((data) => {
+      dispatch(locationSlice.actions.updateLocation(data));
+      dispatch(locationSlice.actions.updateLoaded(true));
+    }).catch(() => {
+      dispatch(locationSlice.actions.updateError(true));
+    });
   }, []);
 
   React.useEffect(() => {
-    if (county && !props.landing) {
-      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
-      setUniqueEstablished(true);
+    if (!selectedLocation) {
+      return;
     }
-  }, [county, city, props.landing]);
+    setUniqueEstablished(true);
+  }, [city, county]);
 
   // Functions
-  // Update query search
-  const updateQuerySearch = (e) => {
-    dispatch(updateQ(e.target.value));
-  };
-
   // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,72 +69,63 @@ export const Search = (props) => {
 
   //ADVANCED SEARCH FUNCTIONS
   //************************ */
-  async function getData() {
-    try {
-      const response = await fetch(`https://orase.peviitor.ro/`);
-      const data = await response.json();
-      setData(data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
 
   const removeAccents = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
   const handleSelection = (selectedLocation) => {
-    if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
-      // If it's the capital of the county and not part of Bucharest
-      dispatch(updateCounty(removeAccents(selectedLocation?.query)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
-      );
-      setUniqueResults([]);
-      setShow(false);
-    } else if (selectedLocation.bucuresti) {
-      // If it's one of the 6 sectors of Bucharest
-      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
-      );
-      setUniqueResults([]);
-      setShow(false);
-    } else {
-      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-      dispatch(updatCity(removeAccents(selectedLocation?.query)));
-      setSelectedLocation(
-        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
-      );
-      setUniqueResults([]);
-      setShow(false);
+    switch (true) {
+      case !selectedLocation.judet && !selectedLocation.bucuresti:
+        dispatch(updateCounty(removeAccents(selectedLocation?.query)));
+        dispatch(updatCity(removeAccents(selectedLocation?.query)));
+        dispatch(
+          locationSlice.actions.updateSelectedLocation(
+            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
+          )
+        );
+        break;
+      case selectedLocation.bucuresti:
+        dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+        dispatch(updatCity(removeAccents(selectedLocation?.query)));
+        dispatch(
+          locationSlice.actions.updateSelectedLocation(
+            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
+          )
+        );
+        break;
+      default:
+        dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+        dispatch(updatCity(removeAccents(selectedLocation?.query)));
+        dispatch(
+          locationSlice.actions.updateSelectedLocation(
+            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
+          )
+        );
     }
+
+    setUniqueResults([]);
+    setShow(false);
   };
 
   const handleLiClick = (e) => {
-    const selectedLocationId = e.target.id;
-    const selectedLocation = uniqueResults.find(
-      (result) => result.id === selectedLocationId
-    );
+    const { id } = e.target;
+    const selectedLocation = uniqueResults.find((result) => result.id === id);
     setUniqueEstablished(true);
     handleSelection(selectedLocation);
   };
 
   const onChangeInput = (e) => {
-    setSelectedLocation(e.target.value);
+    dispatch(locationSlice.actions.updateSelectedLocation(e.target.value));
+    const { judet, municipiu } = locations.location
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
       setShow(true);
       setUserLiMessage('Selectați locația');
-      const searchResult = searchLocation(
-        e.target.value.toLowerCase(),
-        data.judet
-      );
+      const searchResult = searchLocation(e.target.value.toLowerCase(), judet);
       const searchResultBucuresti = searchMunicipiu(
         e.target.value.toLowerCase(),
-        data.municipiu
+        municipiu
       );
       // Check if there are any matching results
       if (searchResult || searchResultBucuresti) {
@@ -148,7 +146,10 @@ export const Search = (props) => {
         setUniqueResults(uniqueResults);
         //if there is only one result after the user input filtering, it will set it as the selected
         if (uniqueResults.length === 1 && !uniqueEstablished) {
-          setSelectedLocation(uniqueResults[0]);
+          dispatch(
+            locationSlice.actions.updateSelectedLocation(uniqueResults[0])
+          );
+
           handleSelection(uniqueResults[0]);
           setUniqueEstablished(true);
         } else setUniqueEstablished(false);
@@ -160,7 +161,7 @@ export const Search = (props) => {
     }
     // Clear results when the search input is empty
     if (e.target.value.length < 1) {
-      setSelectedLocation('');
+      dispatch(locationSlice.actions.updateSelectedLocation(''));
       setUniqueResults([]);
       setUniqueEstablished(false);
       setUserLiMessage('Tastați minim 3 litere');
@@ -192,11 +193,12 @@ export const Search = (props) => {
           <input
             autoFocus
             placeholder="Ce doriți să lucrați?"
-            onChange={updateQuerySearch}
+            // Update query search
+            onChange={(e) => dispatch(updateQ(e.target.value))}
             value={q}
           />
-          {q && (
-            <span className="clear" onClick={handleClearX}>
+          {q ? (
+            <button className="clear" onClick={handleClearX}>
               <svg
                 focusable="false"
                 xmlns="http://www.w3.org/2000/svg"
@@ -204,8 +206,8 @@ export const Search = (props) => {
               >
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
               </svg>
-            </span>
-          )}
+            </button>
+          ) : null}
         </div>
         <div className="option-container ">
           <div className="county query">
@@ -215,13 +217,9 @@ export const Search = (props) => {
               value={selectedLocation}
               className={uniqueEstablished ? 'locked-input' : ''}
               type="text"
-              placeholder={
-                !props.landing && !city
-                  ? inputCountryPlaceholder
-                  : 'Tastați locația'
-              }
+              placeholder={oraseError ? 'Eroare la încărcare' : 'Tastați locația'}
               autoComplete="off"
-              onChange={onChangeInput}
+              onChange={oraseLoaded ? onChangeInput : () => {}}
               readOnly={uniqueEstablished}
             />
             <ul
@@ -248,12 +246,13 @@ export const Search = (props) => {
               })}
             </ul>
 
-            <span
-              className={uniqueEstablished ? 'clear' : 'none'}
+            <button
+              className={uniqueEstablished ? 'clear' : 'hide clear'}
+              type="button"
               onClick={() => {
                 dispatch(updateCounty(''));
                 dispatch(updatCity(''));
-                setSelectedLocation('');
+                dispatch(locationSlice.actions.updateSelectedLocation(''));
                 setUniqueResults([]);
                 setUserLiMessage('Tastați minim 3 litere');
                 setUniqueEstablished(false);
@@ -266,7 +265,7 @@ export const Search = (props) => {
               >
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
               </svg>
-            </span>
+            </button>
           </div>
         </div>
       </div>
