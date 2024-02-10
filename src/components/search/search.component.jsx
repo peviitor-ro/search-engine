@@ -22,7 +22,6 @@ export const Search = (props) => {
   const q = useSelector((state) => state.query.q);
   const city = useSelector((state) => state.query.city);
   const county = useSelector((state) => state.query.county);
-  const country = useSelector((state) => state.query.country);
   const locations = useSelector((state) => state.location);
   const selectedLocation = useSelector(
     (state) => state.location.selectedLocation
@@ -39,13 +38,15 @@ export const Search = (props) => {
   const [uniqueEstablished, setUniqueEstablished] = React.useState(false);
 
   React.useEffect(() => {
-    getCountiesAndCities().then((data) => {
-      dispatch(locationSlice.actions.updateLocation(data));
-      dispatch(locationSlice.actions.updateLoaded(true));
-    }).catch(() => {
-      dispatch(locationSlice.actions.updateError(true));
-    });
-  }, []);
+    getCountiesAndCities()
+      .then((data) => {
+        dispatch(locationSlice.actions.updateLocation(data));
+        dispatch(locationSlice.actions.updateLoaded(true));
+      })
+      .catch(() => {
+        dispatch(locationSlice.actions.updateError(true));
+      });
+  }, [dispatch]);
 
   React.useEffect(() => {
     if (!selectedLocation) {
@@ -117,7 +118,7 @@ export const Search = (props) => {
 
   const onChangeInput = (e) => {
     dispatch(locationSlice.actions.updateSelectedLocation(e.target.value));
-    const { judet, municipiu } = locations.location
+    const { judet, municipiu } = locations.location;
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
       setShow(true);
@@ -217,7 +218,9 @@ export const Search = (props) => {
               value={selectedLocation}
               className={uniqueEstablished ? 'locked-input' : ''}
               type="text"
-              placeholder={oraseError ? 'Eroare la încărcare' : 'Tastați locația'}
+              placeholder={
+                oraseError ? 'Eroare la încărcare' : 'Tastați locația'
+              }
               autoComplete="off"
               onChange={oraseLoaded ? onChangeInput : () => {}}
               readOnly={uniqueEstablished}
