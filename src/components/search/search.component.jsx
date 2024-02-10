@@ -48,12 +48,14 @@ export const Search = (props) => {
       });
   }, [dispatch]);
 
+  /* we check if we havea query established, in which case we know we are in the results page
+  and we only have to lock in the location because it's allready selected*/
+  /* we verify using city and not selectedLocation, because we would have to
+    add selectedLocation as a dependancy element, and when it changes it would
+    lock in the first letter the user would type */
   React.useEffect(() => {
-    if (!selectedLocation) {
-      return;
-    }
-    //setUniqueEstablished(true);
-  }, [city, county]);
+    if (city) setUniqueEstablished(true);
+  }, [city]);
 
   // Functions
   // Handle submit
@@ -169,6 +171,15 @@ export const Search = (props) => {
     }
   };
 
+  /*verifies that the user hasn't just typed random letters and clicked "Search",
+  thus avoiding true location lock in via unique Result or click,so that in the results 
+  page, the value in the input doesn't get to be the gibberish typing but a search for 
+  the whole country in the case of a failed search */
+  const verifyTrueLocationSelection = () => {
+    if (!uniqueEstablished)
+      dispatch(locationSlice.actions.updateSelectedLocation(''));
+  };
+
   const ref = React.useRef(false);
 
   const [show, setShow] = React.useState(false);
@@ -219,7 +230,11 @@ export const Search = (props) => {
               className={uniqueEstablished ? 'locked-input' : ''}
               type="text"
               placeholder={
-                oraseError ? 'Eroare la încărcare' : 'Tastați locația'
+                oraseError
+                  ? 'Eroare la încărcare'
+                  : !selectedLocation
+                  ? 'Tastați locația'
+                  : ''
               }
               autoComplete="off"
               onChange={oraseLoaded ? onChangeInput : () => {}}
@@ -272,7 +287,11 @@ export const Search = (props) => {
           </div>
         </div>
       </div>
-      <button type="submit" className="btn-yellow btn">
+      <button
+        type="submit"
+        className="btn-yellow btn"
+        onClick={verifyTrueLocationSelection}
+      >
         Caută
       </button>
     </form>
