@@ -52,7 +52,7 @@ export const Search = (props) => {
     if (!selectedLocation) {
       return;
     }
-    setUniqueEstablished(true);
+    //setUniqueEstablished(true);
   }, [city, county]);
 
   // Functions
