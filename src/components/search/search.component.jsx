@@ -192,6 +192,49 @@ export const Search = (props) => {
       dispatch(locationSlice.actions.updateSelectedLocation(''));
   };
 
+  /* this function helps us to verify the selected location different sizes
+  so that we match the div or trim the text properly in the UI */
+  const verifyLocationStringLength = (separator) => {
+    const indexOfSeparator = selectedLocation.indexOf(separator);
+    const textBeforeSeparator = selectedLocation
+      .substring(0, indexOfSeparator)
+      .trim();
+    const lengthOfTextBeforeSeparator = textBeforeSeparator.length;
+    return lengthOfTextBeforeSeparator;
+  };
+
+  /* if the name of the location is too big, we trim it so it fits and looks decent
+  inside the location input container, after the user locks it in */
+  const trimSelectedLocationTextSize = () => {
+    if (selectedLocation.length <= 33) return selectedLocation;
+    else if (selectedLocation.includes('(')) {
+      if (verifyLocationStringLength('(') < 34)
+        return selectedLocation.split('(')[0].trim();
+      else return selectedLocation.split(',')[0].trim();
+    }
+  };
+
+  /* enlarge the div of the location input if the selected location name
+  is too big */
+  const enlargeDivToMatchText = () => {
+    let length = selectedLocation.length;
+    let flex;
+    switch (true) {
+      case length <= 19:
+        flex = '0.5';
+        break;
+      case length > 19 && length <= 24:
+        flex = '0.7';
+        break;
+      case length > 24:
+        flex = '1';
+        break;
+      default:
+        flex = '0.5';
+    }
+    return flex;
+  };
+
   document.addEventListener('click', (e) => {
     try {
       if (
@@ -229,12 +272,15 @@ export const Search = (props) => {
             </button>
           ) : null}
         </div>
-        <div className="option-container ">
+        <div
+          className="option-container "
+          style={{ flex: enlargeDivToMatchText() }}
+        >
           <div className="county query">
             <img src={location} alt="location icon" />
             <input
               id="county"
-              value={selectedLocation}
+              value={trimSelectedLocationTextSize()}
               className={uniqueEstablished ? 'locked-input' : ''}
               type="text"
               placeholder={
