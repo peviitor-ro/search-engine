@@ -29,15 +29,22 @@ export const Search = (props) => {
   const oraseLoaded = useSelector((state) => state.location.loaded);
   const oraseError = useSelector((state) => state.location.error);
 
+  const ref = React.useRef(false);
+
   // States
+  //the list of results provided by the advanced location filtering
   const [uniqueResults, setUniqueResults] = React.useState([]);
   const [userLiMessage, setUserLiMessage] = React.useState(
     'Tastați minim 3 litere'
   );
-
+  //shows or hides the list of results for the location input filtering
+  const [show, setShow] = React.useState(false);
+  /* we use the uniqueEstablished state for locking in the location the user selects or reaches
+  via filtering, for UI and functional purposes */
   const [uniqueEstablished, setUniqueEstablished] = React.useState(false);
 
   React.useEffect(() => {
+    //we get the counties and cities from https://orase.peviitor.ro/
     getCountiesAndCities()
       .then((data) => {
         dispatch(locationSlice.actions.updateLocation(data));
@@ -48,7 +55,7 @@ export const Search = (props) => {
       });
   }, [dispatch]);
 
-  /* we check if we havea query established, in which case we know we are in the results page
+  /* we check if we have a city query established, in which case we know we are in the results page
   and we only have to lock in the location because it's allready selected*/
   /* we verify using city and not selectedLocation, because we would have to
     add selectedLocation as a dependancy element, and when it changes it would
@@ -70,13 +77,13 @@ export const Search = (props) => {
     dispatch(updateQ(''));
   };
 
-  //ADVANCED SEARCH FUNCTIONS
-  //************************ */
+  /***ADVANCED SEARCH FUNCTIONS***/
 
   const removeAccents = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
+  //based on the characteristics of the location, we update the location attributes accordingly
   const handleSelection = (selectedLocation) => {
     switch (true) {
       case !selectedLocation.judet && !selectedLocation.bucuresti:
@@ -110,7 +117,10 @@ export const Search = (props) => {
     setUniqueResults([]);
     setShow(false);
   };
+  /************************ */
 
+  /* handles the event when the user selects a location from the list of recommended
+  locations based on filtering */
   const handleLiClick = (e) => {
     const { id } = e.target;
     const selectedLocation = uniqueResults.find((result) => result.id === id);
@@ -118,6 +128,8 @@ export const Search = (props) => {
     handleSelection(selectedLocation);
   };
 
+  /* as the user types in the location input, this function handles the activation
+  of the advanced filtering search and subsequent results array */
   const onChangeInput = (e) => {
     dispatch(locationSlice.actions.updateSelectedLocation(e.target.value));
     const { judet, municipiu } = locations.location;
@@ -179,10 +191,6 @@ export const Search = (props) => {
     if (!uniqueEstablished)
       dispatch(locationSlice.actions.updateSelectedLocation(''));
   };
-
-  const ref = React.useRef(false);
-
-  const [show, setShow] = React.useState(false);
 
   document.addEventListener('click', (e) => {
     try {
