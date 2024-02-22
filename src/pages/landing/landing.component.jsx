@@ -7,7 +7,6 @@ import { Search } from '../../components/search/search.component';
 import { resetQuery } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
 import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
-import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
 import {
@@ -25,7 +24,7 @@ export const LandingPage = () => {
 
   const allJobs = useSelector((state) => state.jobs.allJobs);
   const totalJobs = useSelector((state) => state.jobs.total);
-  
+
   useEffect(() => {
     dispatch(resetQuery());
     dispatch(clearJobs());
@@ -57,7 +56,7 @@ export const LandingPage = () => {
           </div>
           <Rocket />
         </section>
-        <Banner />
+
       </main>
       <Footer />
     </>
