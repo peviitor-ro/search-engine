@@ -34,7 +34,7 @@ export const LandingPage = () => {
       dispatch(updateTotalCompanies(data.companies));
     });
 
-  }, []);
+  }, [dispatch]);
 
   const handleSearchClick = () => {
     navigate(
