@@ -4,18 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { Footer } from '../../components/footer/footer.component';
 import { TopBar } from '../../components/header/topbar.component';
 import { Search } from '../../components/search/search.component';
+import { resetQuery } from '../../state/query.slice';
+import { createQueryString } from '../../utils/create-query-string';
+import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
+import { Rocket } from './components/rocket/rocket.component';
+import { Title } from './components/title/title.component';
 import {
   clearJobs,
   updateTotalCompanies,
   updateTotalRomania,
   updateTotal
 } from '../../state/jobs.slice';
-import { setPageToOne, updatCity, updateCounty } from '../../state/query.slice';
-import { createQueryString } from '../../utils/create-query-string';
-import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
-import { Banner } from './components/banner/banner.component';
-import { Rocket } from './components/rocket/rocket.component';
-import { Title } from './components/title/title.component';
 import './landing.style.scss';
 
 export const LandingPage = () => {
@@ -27,9 +26,7 @@ export const LandingPage = () => {
   const totalJobs = useSelector((state) => state.jobs.total);
 
   useEffect(() => {
-    dispatch(setPageToOne());
-    dispatch(updatCity(''));
-    dispatch(updateCounty(''));
+    dispatch(resetQuery());
     dispatch(clearJobs());
     getNumberOfJobsAndCompanies().then((data) => {
       dispatch(updateTotal(data.jobs.all));
@@ -37,7 +34,6 @@ export const LandingPage = () => {
       dispatch(updateTotalCompanies(data.companies));
     });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSearchClick = () => {
@@ -56,12 +52,11 @@ export const LandingPage = () => {
             <Search
               handleClick={handleSearchClick}
               queries={queries}
-              landing={true}
             />
           </div>
           <Rocket />
         </section>
-        <Banner />
+
       </main>
       <Footer />
     </>

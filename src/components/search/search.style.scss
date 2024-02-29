@@ -52,6 +52,7 @@
     }
     .clear {
       all: unset;
+      background-color: lightgray;
       position: absolute;
       right: 2px;
       padding: 5px;
@@ -65,13 +66,13 @@
 
       &:hover {
         transition: all ease 200ms;
-        background-color: lightgray;
+        background-color: darkgray;
       }
     }
 
     .option-container {
-      position: relative;
       display: flex;
+      flex: 0.5;
       font-family: PoppinsLight;
       img {
         top: 11px;
@@ -94,10 +95,16 @@
         font-size: 16px;
         line-height: 18px;
         color: colors.$text_ink_black;
-        max-width: 232px;
+        width: 100%;
         box-sizing: border-box;
-        text-transform: lowercase;
         text-transform: capitalize;
+      }
+
+      .locked-input {
+        background-color: rgb(224, 141, 33, 0.1);
+        padding: 5px;
+        margin: 9px;
+        border-radius: 9px;
       }
 
       .country:focus-within,

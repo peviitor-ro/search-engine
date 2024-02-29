@@ -9,6 +9,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "css-select": "^5.1.0",
+    "follow-redirects": "^1.15.5",
     "node-sass": "npm:sass@^1.53.0",
     "nth-check": "^2.1.1",
     "postcss": "^8.4.33",
