@@ -1,17 +1,15 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
 import './search.style.scss';
 import magnifyGlass from '../../assets/svgs/magniy_glass_icon.svg';
 import location from '../../assets/svgs/location_icon.svg';
-import { getCountiesAndCities } from '../../utils/get-data';
-import { locationSlice } from '../../state/location.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateQ, updateCounty, updatCity } from '../../state/query.slice';
 import {
   searchLocation,
   searchMunicipiu,
   removeDuplicates
 } from '../../utils/advanced-search';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Search = (props) => {
   // Props
@@ -22,49 +20,32 @@ export const Search = (props) => {
   const q = useSelector((state) => state.query.q);
   const city = useSelector((state) => state.query.city);
   const county = useSelector((state) => state.query.county);
-  const locations = useSelector((state) => state.location);
-  const selectedLocation = useSelector(
-    (state) => state.location.selectedLocation
-  );
-  const oraseLoaded = useSelector((state) => state.location.loaded);
-  const oraseError = useSelector((state) => state.location.error);
-
-  const ref = React.useRef(false);
 
   // States
-  //the list of results provided by the advanced location filtering
+  const [data, setData] = React.useState([]);
   const [uniqueResults, setUniqueResults] = React.useState([]);
+  const [selectedLocation, setSelectedLocation] = React.useState('');
   const [userLiMessage, setUserLiMessage] = React.useState(
     'Tastați minim 3 litere'
   );
-  //shows or hides the list of results for the location input filtering
-  const [show, setShow] = React.useState(false);
-  /* we use the uniqueEstablished state for locking in the location the user selects or reaches
-  via filtering, for UI and functional purposes */
-  const [uniqueEstablished, setUniqueEstablished] = React.useState(false);
+  const [inputCountryPlaceholder] = React.useState('România');
 
   React.useEffect(() => {
-    //we get the counties and cities from https://orase.peviitor.ro/
-    getCountiesAndCities()
-      .then((data) => {
-        dispatch(locationSlice.actions.updateLocation(data));
-        dispatch(locationSlice.actions.updateLoaded(true));
-      })
-      .catch(() => {
-        dispatch(locationSlice.actions.updateError(true));
-      });
-  }, [dispatch]);
+    getData();
+  }, []);
 
-  /* we check if we have a city query established, in which case we know we are in the results page
-  and we only have to lock in the location because it's allready selected*/
-  /* we verify using city and not selectedLocation, because we would have to
-    add selectedLocation as a dependancy element, and when it changes it would
-    lock in the first letter the user would type */
   React.useEffect(() => {
-    if (city) setUniqueEstablished(true);
-  }, [city]);
+    if (county && !props.landing) {
+      setSelectedLocation(`${city.toLowerCase()}, ${county.toLowerCase()}`);
+    }
+  }, [county, city, props.landing]);
 
   // Functions
+  // Update query search
+  const updateQuerySearch = (e) => {
+    dispatch(updateQ(e.target.value));
+  };
+
   // Handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,70 +58,68 @@ export const Search = (props) => {
     dispatch(updateQ(''));
   };
 
-  /***ADVANCED SEARCH FUNCTIONS***/
+  //ADVANCED SEARCH FUNCTIONS
+  //************************ */
+  async function getData() {
+    try {
+      const response = await fetch(`https://orase.peviitor.ro/`);
+      const data = await response.json();
+      setData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   const removeAccents = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   };
 
-  //based on the characteristics of the location, we update the location attributes accordingly
-  const handleSelection = (selectedLocation) => {
-    switch (true) {
-      case !selectedLocation.judet && !selectedLocation.bucuresti:
-        dispatch(updateCounty(removeAccents(selectedLocation?.query)));
-        dispatch(updatCity(removeAccents(selectedLocation?.query)));
-        dispatch(
-          locationSlice.actions.updateSelectedLocation(
-            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
-          )
-        );
-        break;
-      case selectedLocation.bucuresti:
-        dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-        dispatch(updatCity(removeAccents(selectedLocation?.query)));
-        dispatch(
-          locationSlice.actions.updateSelectedLocation(
-            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
-          )
-        );
-        break;
-      default:
-        dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
-        dispatch(updatCity(removeAccents(selectedLocation?.query)));
-        dispatch(
-          locationSlice.actions.updateSelectedLocation(
-            `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
-          )
-        );
-    }
-
-    setUniqueResults([]);
-    setShow(false);
-  };
-  /************************ */
-
-  /* handles the event when the user selects a location from the list of recommended
-  locations based on filtering */
   const handleLiClick = (e) => {
-    const { id } = e.target;
-    const selectedLocation = uniqueResults.find((result) => result.id === id);
-    setUniqueEstablished(true);
-    handleSelection(selectedLocation);
+    const selectedLocationId = e.target.id;
+    const selectedLocation = uniqueResults.find(
+      (result) => result.id === selectedLocationId
+    );
+    if (selectedLocation.judet === null && !selectedLocation.bucuresti) {
+      // If it's the capital of the county and not part of Bucharest
+      dispatch(updateCounty(removeAccents(selectedLocation?.query)));
+      dispatch(updatCity(removeAccents(selectedLocation?.query)));
+      setSelectedLocation(
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.query.toLowerCase()}`
+      );
+      setUniqueResults([]);
+      setShow(false);
+    } else if (selectedLocation.bucuresti) {
+      // If it's one of the 6 sectors of Bucharest
+      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+      dispatch(updatCity(removeAccents(selectedLocation?.query)));
+      setSelectedLocation(
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.parent.toLowerCase()}`
+      );
+      setUniqueResults([]);
+      setShow(false);
+    } else {
+      dispatch(updateCounty(removeAccents(selectedLocation?.parent)));
+      dispatch(updatCity(removeAccents(selectedLocation?.query)));
+      setSelectedLocation(
+        `${selectedLocation.query.toLowerCase()}, ${selectedLocation.judet.toLowerCase()} (${selectedLocation.parent.toLowerCase()})`
+      );
+      setUniqueResults([]);
+      setShow(false);
+    }
   };
 
-  /* as the user types in the location input, this function handles the activation
-  of the advanced filtering search and subsequent results array */
   const onChangeInput = (e) => {
-    dispatch(locationSlice.actions.updateSelectedLocation(e.target.value));
-    const { judet, municipiu } = locations.location;
+    setSelectedLocation(e.target.value);
     // Start the search after at least 3 letters
     if (e.target.value.length >= 3) {
-      setShow(true);
       setUserLiMessage('Selectați locația');
-      const searchResult = searchLocation(e.target.value.toLowerCase(), judet);
+      const searchResult = searchLocation(
+        e.target.value.toLowerCase(),
+        data.judet
+      );
       const searchResultBucuresti = searchMunicipiu(
         e.target.value.toLowerCase(),
-        municipiu
+        data.municipiu
       );
       // Check if there are any matching results
       if (searchResult || searchResultBucuresti) {
@@ -159,15 +138,6 @@ export const Search = (props) => {
           result.id = uuidv4();
         });
         setUniqueResults(uniqueResults);
-        //if there is only one result after the user input filtering, it will set it as the selected
-        if (uniqueResults.length === 1 && !uniqueEstablished) {
-          dispatch(
-            locationSlice.actions.updateSelectedLocation(uniqueResults[0])
-          );
-
-          handleSelection(uniqueResults[0]);
-          setUniqueEstablished(true);
-        } else setUniqueEstablished(false);
       }
     } else {
       if (e.target.value.length === 1)
@@ -176,64 +146,15 @@ export const Search = (props) => {
     }
     // Clear results when the search input is empty
     if (e.target.value.length < 1) {
-      dispatch(locationSlice.actions.updateSelectedLocation(''));
+      setSelectedLocation('');
       setUniqueResults([]);
-      setUniqueEstablished(false);
       setUserLiMessage('Tastați minim 3 litere');
     }
   };
 
-  /*verifies that the user hasn't just typed random letters and clicked "Search",
-  thus avoiding true location lock in via unique Result or click,so that in the results 
-  page, the value in the input doesn't get to be the gibberish typing but a search for 
-  the whole country in the case of a failed search */
-  const verifyTrueLocationSelection = () => {
-    if (!uniqueEstablished)
-      dispatch(locationSlice.actions.updateSelectedLocation(''));
-  };
+  const ref = React.useRef(false);
 
-  /* this function helps us to verify the selected location different sizes
-  so that we match the div or trim the text properly in the UI */
-  const verifyLocationStringLength = (separator) => {
-    const indexOfSeparator = selectedLocation.indexOf(separator);
-    const textBeforeSeparator = selectedLocation
-      .substring(0, indexOfSeparator)
-      .trim();
-    const lengthOfTextBeforeSeparator = textBeforeSeparator.length;
-    return lengthOfTextBeforeSeparator;
-  };
-
-  /* if the name of the location is too big, we trim it so it fits and looks decent
-  inside the location input container, after the user locks it in */
-  const trimSelectedLocationTextSize = () => {
-    if (selectedLocation.length <= 33) return selectedLocation;
-    else if (selectedLocation.includes('(')) {
-      if (verifyLocationStringLength('(') < 34)
-        return selectedLocation.split('(')[0].trim();
-      else return selectedLocation.split(',')[0].trim();
-    }
-  };
-
-  /* enlarge the div of the location input if the selected location name
-  is too big */
-  const enlargeDivToMatchText = () => {
-    let length = selectedLocation.length;
-    let flex;
-    switch (true) {
-      case length <= 19:
-        flex = '0.5';
-        break;
-      case length > 19 && length <= 24:
-        flex = '0.7';
-        break;
-      case length > 24:
-        flex = '1';
-        break;
-      default:
-        flex = '0.5';
-    }
-    return flex;
-  };
+  const [show, setShow] = React.useState(false);
 
   document.addEventListener('click', (e) => {
     try {
@@ -256,12 +177,11 @@ export const Search = (props) => {
           <input
             autoFocus
             placeholder="Ce doriți să lucrați?"
-            // Update query search
-            onChange={(e) => dispatch(updateQ(e.target.value))}
+            onChange={updateQuerySearch}
             value={q}
           />
-          {q ? (
-            <button className="clear" onClick={handleClearX}>
+          {q && (
+            <span className="clear" onClick={handleClearX}>
               <svg
                 focusable="false"
                 xmlns="http://www.w3.org/2000/svg"
@@ -269,30 +189,24 @@ export const Search = (props) => {
               >
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
               </svg>
-            </button>
-          ) : null}
+            </span>
+          )}
         </div>
-        <div
-          className="option-container "
-          style={{ flex: enlargeDivToMatchText() }}
-        >
+        <div className="option-container ">
           <div className="county query">
             <img src={location} alt="location icon" />
             <input
               id="county"
-              value={trimSelectedLocationTextSize()}
-              className={uniqueEstablished ? 'locked-input' : ''}
+              value={selectedLocation}
+              className="searchInp"
               type="text"
               placeholder={
-                oraseError
-                  ? 'Eroare la încărcare'
-                  : !selectedLocation
-                  ? 'Tastați locația'
-                  : ''
+                !props.landing && !city
+                  ? inputCountryPlaceholder
+                  : 'Tastați locația'
               }
               autoComplete="off"
-              onChange={oraseLoaded ? onChangeInput : () => {}}
-              readOnly={uniqueEstablished}
+              onChange={onChangeInput}
             />
             <ul
               name="county"
@@ -318,16 +232,14 @@ export const Search = (props) => {
               })}
             </ul>
 
-            <button
-              className={uniqueEstablished ? 'clear' : 'hide clear'}
-              type="button"
+            <span
+              className="clear"
               onClick={() => {
                 dispatch(updateCounty(''));
                 dispatch(updatCity(''));
-                dispatch(locationSlice.actions.updateSelectedLocation(''));
+                setSelectedLocation('');
                 setUniqueResults([]);
                 setUserLiMessage('Tastați minim 3 litere');
-                setUniqueEstablished(false);
               }}
             >
               <svg
@@ -337,15 +249,11 @@ export const Search = (props) => {
               >
                 <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
               </svg>
-            </button>
+            </span>
           </div>
         </div>
       </div>
-      <button
-        type="submit"
-        className="btn-yellow btn"
-        onClick={verifyTrueLocationSelection}
-      >
+      <button type="submit" className="btn-yellow btn">
         Caută
       </button>
     </form>

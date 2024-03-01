@@ -41,17 +41,8 @@ export const getTotalCompanies = () => {
       return data.companies.length;
     });
 };
-
 export const getNumberOfJobsAndCompanies = () => {
   return fetch(`https://api.peviitor.ro/${API_VERSION}/totals/`)
-    .then((response) => response.json())
-    .then((data) => {
-      return data;
-    });
-};
-
-export const getCountiesAndCities = async () => {
-  return fetch(`https://orase.peviitor.ro/`)
     .then((response) => response.json())
     .then((data) => {
       return data;
