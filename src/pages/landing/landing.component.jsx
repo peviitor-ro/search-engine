@@ -13,7 +13,6 @@ import {
 import { setPageToOne, updatCity, updateCounty } from '../../state/query.slice';
 import { createQueryString } from '../../utils/create-query-string';
 import { getNumberOfJobsAndCompanies } from '../../utils/get-data';
-import { Banner } from './components/banner/banner.component';
 import { Rocket } from './components/rocket/rocket.component';
 import { Title } from './components/title/title.component';
 import './landing.style.scss';
@@ -36,7 +35,6 @@ export const LandingPage = () => {
       dispatch(updateTotalRomania(data.jobs.ro));
       dispatch(updateTotalCompanies(data.companies));
     });
-
   }, [dispatch]);
 
   const handleSearchClick = () => {
@@ -60,7 +58,6 @@ export const LandingPage = () => {
           </div>
           <Rocket />
         </section>
-        <Banner />
       </main>
       <Footer />
     </>
