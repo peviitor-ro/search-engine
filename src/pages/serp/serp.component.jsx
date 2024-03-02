@@ -46,6 +46,7 @@ export const SerpPage = () => {
     dispatch(clearJobs());
     for (let i = 1; i <= queries.page; i++) {
       getData({ ...queries, page: i }).then(({ jobs, total }) => {
+        console.log(jobs);
         dispatch(addMoreJobs(jobs));
         dispatch(updateTotal(total));
         dispatch(updateIsLoadMore(jobs.length >= 10));
