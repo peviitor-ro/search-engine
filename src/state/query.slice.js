@@ -26,6 +26,9 @@ export const querySlice = createSlice({
     updateCompany: (state, action) => {
       state[queriesConst.company] = action.payload ? action.payload : '';
     },
+    updateCountry: (state, action) => {
+      state[queriesConst.country] = action.payload ? action.payload : '';
+    },
     updatePage: (state, action) => {
       state[queriesConst.page] = Number(action.payload);
     },
@@ -33,13 +36,6 @@ export const querySlice = createSlice({
       state[queriesConst.page] = state[queriesConst.page] + 1;
     },
     setPageToOne: (state) => {
-      state[queriesConst.page] = 1;
-    },
-    resetQuery: (state) => {
-      state[queriesConst.q] = '';
-      state[queriesConst.city] = '';
-      state[queriesConst.county] = '';
-      state[queriesConst.company] = '';
       state[queriesConst.page] = 1;
     }
   }
@@ -51,10 +47,10 @@ export const {
   updatCity,
   updateCounty,
   updateCompany,
+  updateCountry,
   incrementPage,
   setPageToOne,
-  updatePage,
-  resetQuery
+  updatePage
 } = querySlice.actions;
 
 export default querySlice.reducer;
