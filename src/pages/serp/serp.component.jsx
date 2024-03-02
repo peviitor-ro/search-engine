@@ -5,30 +5,30 @@ import { TopBar } from '../../components/header/topbar.component';
 import { TotalResults } from './components/total-results/total-results.component';
 import { Job } from './components/job/job.component';
 import { Footer } from '../../components/footer/footer.component';
-import { useDispatch, useSelector } from 'react-redux';
-import { getQueryParams } from '../../utils/get-params';
-import { createQueryString } from '../../utils/create-query-string';
-import { useSearchParams } from 'react-router-dom';
-import { getData } from '../../utils/get-data';
-import { Search } from '../../components/search/search.component';
-import { ScrollTop } from './components/scroll-top/scroll-top.component';
 
+import { useDispatch, useSelector } from 'react-redux';
 import {
   incrementPage,
   setPageToOne,
   updatCity,
   updateCounty,
   updateCompany,
+  updateCountry,
   updatePage,
   updateQ
 } from '../../state/query.slice';
-
+import { getQueryParams } from '../../utils/get-params';
+import { createQueryString } from '../../utils/create-query-string';
+import { useSearchParams } from 'react-router-dom';
 import {
   addMoreJobs,
   clearJobs,
   updateIsLoadMore,
   updateTotal
 } from '../../state/jobs.slice';
+import { getData } from '../../utils/get-data';
+import { Search } from '../../components/search/search.component';
+import { ScrollTop } from './components/scroll-top/scroll-top.component';
 
 export const SerpPage = () => {
   const dispatch = useDispatch();
@@ -41,6 +41,10 @@ export const SerpPage = () => {
   const isLoadMore = useSelector((state) => state.jobs.isLoadMore);
   const page = useSelector((state) => state.query.page);
   const queries = useSelector((state) => state.query);
+
+  const resetPage = () => {
+    dispatch(setPageToOne());
+  };
 
   const getJobs = (queries) => {
     dispatch(clearJobs());
@@ -72,6 +76,7 @@ export const SerpPage = () => {
     dispatch(updatCity(queryParams.city));
     dispatch(updateCounty(queryParams.county));
     dispatch(updateCompany(queryParams.company));
+    dispatch(updateCountry(queryParams.country));
     dispatch(updatePage(queryParams.page));
 
     // fetch data
@@ -96,7 +101,7 @@ export const SerpPage = () => {
   return (
     <section className="serp">
       <section className="top">
-        <TopBar />
+        <TopBar resetPage={resetPage} />
         <div className="search-wrapper">
           <Search handleClick={handleSearchClick} queries={queries} />
         </div>
