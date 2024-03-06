@@ -18,9 +18,12 @@ export const getQueryParams = () => {
   const country = params.get(queriesConst.country)
     ? decodeURIComponent(params.get(queriesConst.country))
     : '';
+  const remote = params.get(queriesConst.remote)
+    ? decodeURIComponent(params.get(queriesConst.remote))
+    : '';
   const page = params.get(queriesConst.page)
     ? decodeURIComponent(params.get(queriesConst.page))
     : 1;
 
-  return { q, city, county, company, country, page };
+  return { q, city, county, company, country, remote, page };
 };

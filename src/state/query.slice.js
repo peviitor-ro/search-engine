@@ -6,6 +6,7 @@ const initialState = {
   [queriesConst.city]: '',
   [queriesConst.county]: '',
   [queriesConst.company]: '',
+  [queriesConst.remote]: '',
   [queriesConst.country]: 'România',
   [queriesConst.page]: 1
 };
@@ -25,6 +26,9 @@ export const querySlice = createSlice({
     },
     updateCompany: (state, action) => {
       state[queriesConst.company] = action.payload ? action.payload : '';
+    },
+    updateRemote: (state, action) => {
+      state[queriesConst.remote] = action.payload ? action.payload : '';
     },
     updateCountry: (state, action) => {
       state[queriesConst.country] = action.payload ? action.payload : '';
@@ -47,6 +51,7 @@ export const {
   updatCity,
   updateCounty,
   updateCompany,
+  updateRemote,
   updateCountry,
   incrementPage,
   setPageToOne,
