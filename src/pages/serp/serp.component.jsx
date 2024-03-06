@@ -13,6 +13,7 @@ import {
   updatCity,
   updateCounty,
   updateCompany,
+  updateRemote,
   updateCountry,
   updatePage,
   updateQ
@@ -76,6 +77,7 @@ export const SerpPage = () => {
     dispatch(updatCity(queryParams.city));
     dispatch(updateCounty(queryParams.county));
     dispatch(updateCompany(queryParams.company));
+    dispatch(updateRemote(queryParams.remote));
     dispatch(updateCountry(queryParams.country));
     dispatch(updatePage(queryParams.page));
 
@@ -109,16 +111,19 @@ export const SerpPage = () => {
       <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
         <section className="jobs">
-          {jobs.map(({ jobTitle, company, link, city, county }, idx) => (
-            <Job
-              key={idx}
-              jobTitle={jobTitle}
-              company={company}
-              city={city}
-              county={county}
-              link={link}
-            />
-          ))}
+          {jobs.map(
+            ({ jobTitle, company, link, city, county, remote }, idx) => (
+              <Job
+                key={idx}
+                jobTitle={jobTitle}
+                company={company}
+                city={city}
+                county={county}
+                link={link}
+                remote={remote}
+              />
+            )
+          )}
         </section>
         <section className="load-more">
           {isLoadMore ? (
