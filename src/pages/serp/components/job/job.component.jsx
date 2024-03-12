@@ -11,7 +11,6 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
 
   return (
     <section className="job">
-      {console.log({ jobTitle, company, city, county, link, remote })}
       <div className="details">
         <h2
           className="position"
