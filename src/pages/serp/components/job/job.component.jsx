@@ -9,6 +9,65 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
   const [jobCounty] = React.useState(county);
   const [jobRemote] = React.useState(remote);
 
+  // Function to check and format remote location
+  function checkRemote(remote) {
+    // Check if remote is an array
+    if (Array.isArray(remote)) {
+      // If remote array contains only one element, return it
+      if (remote.length === 1) {
+        return remote[0];
+      }
+      // If remote array contains more than one element, join them with comma
+      else if (remote.length > 1) {
+        return remote.join(', ');
+      }
+    }
+    // If remote is a string, return it
+    else if (typeof remote === 'string') {
+      // Capitalize the first letter of the string
+      const capitalizedRemote =
+        remote.charAt(0).toUpperCase() + remote.slice(1);
+      return capitalizedRemote;
+    }
+    // If remote is not an array or string, return empty string
+    return '';
+  }
+
+  function checkLocation(city, county) {
+    // Check if city is 'All', return 'Toate orasele'
+    if (city[0] === 'All' || city === 'All') {
+      return 'Toate orasele';
+    }
+
+    let location = '';
+
+    // Check if city is an array
+    if (Array.isArray(city)) {
+      if (city.length === 1) {
+        location += city[0];
+      } else if (city.length > 1) {
+        location += city.join(', ');
+      }
+    } else if (typeof city === 'string') {
+      location += city;
+    }
+
+    // If county is provided, add it after the city
+    if (county) {
+      if (Array.isArray(county)) {
+        if (county.length === 1) {
+          location += `, ${county[0]}`;
+        } else if (county.length > 1) {
+          location += `, ${county.join(', ')}`;
+        }
+      } else if (typeof county === 'string') {
+        location += `, ${county}`;
+      }
+    }
+
+    return location;
+  }
+
   return (
     <section className="job">
       <div className="details">
@@ -17,79 +76,20 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
           dangerouslySetInnerHTML={{ __html: jobTitle }}
         ></h2>
         <p className="company">{company}</p>
-        <p className="location">
-          {jobRemote !== 'nespecificat' ? (
-            <>
-              <img src={mapPin} alt="map pin" className="icon" />
-              {jobRemote === 'Hybrid' ? (
-                'Hybrid'
-              ) : (
-                <>
-                  {jobRemote === 'on-site' ? (
-                    <>
-                      {jobCity !== 'nespecificat'
-                        ? jobCity.length > 1
-                          ? jobCity.map((job, index) => {
-                              if (index === jobCity.length - 1) {
-                                return job;
-                              } else return job + ', ';
-                            })
-                          : jobCity[0]
-                        : ''}
-                      {jobCounty !== 'nespecificat' && jobCity.length === 1
-                        ? `, ${jobCounty}`
-                        : ''}
-                    </>
-                  ) : (
-                    <>
-                      {jobRemote ? (
-                        'Remote'
-                      ) : (
-                        <>
-                          <img src={mapPin} alt="map pin" className="icon" />
-                          {jobCity !== 'nespecificat'
-                            ? jobCity.length > 1
-                              ? jobCity.map((job, index) => {
-                                  if (index === jobCity.length - 1) {
-                                    return job;
-                                  } else return job + ', ';
-                                })
-                              : jobCity[0]
-                            : ''}
-                          {jobCounty !== 'nespecificat' && jobCity.length === 1
-                            ? `, ${jobCounty}`
-                            : ''}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <img src={mapPin} alt="map pin" className="icon" />
-              {jobCity[0] === 'All' ? (
-                'Toate orasele'
-              ) : (
-                <>
-                  {jobCity !== 'nespecificat'
-                    ? jobCity.length > 1
-                      ? jobCity.map((job, index) => {
-                          if (index === jobCity.length - 1) {
-                            return job;
-                          } else return job + ', ';
-                        })
-                      : jobCity[0]
-                    : ''}
-                  {jobCounty !== 'nespecificat' && jobCity.length === 1
-                    ? `, ${jobCounty}`
-                    : ''}
-                </>
-              )}
-            </>
-          )}
-        </p>
+        {jobRemote &&
+        jobRemote.toLowerCase() !== 'nespecificat' &&
+        jobRemote.toLowerCase() !== 'on-site' &&
+        jobRemote.toLowerCase() !== 'on site' ? (
+          <p className="location">
+            <img src={mapPin} alt="map pin" className="icon" />
+            {checkRemote(jobRemote)}
+          </p>
+        ) : (
+          <p className="location">
+            <img src={mapPin} alt="map pin" className="icon" />
+            {checkLocation(jobCity)}
+          </p>
+        )}
       </div>
       <div className="button-position">
         <a
