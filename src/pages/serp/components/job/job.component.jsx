@@ -32,7 +32,6 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
     // If remote is not an array or string, return empty string
     return '';
   }
-
   function checkLocation(city, county) {
     // Check if city is 'All', return 'Toate orasele'
     if (city[0] === 'All' || city === 'All') {
@@ -52,17 +51,11 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
       location += city;
     }
 
-    // If county is provided, add it after the city
-    if (county) {
-      if (Array.isArray(county)) {
-        if (county.length === 1) {
-          location += `, ${county[0]}`;
-        } else if (county.length > 1) {
-          location += `, ${county.join(', ')}`;
-        }
-      } else if (typeof county === 'string') {
-        location += `, ${county}`;
-      }
+    // If county is provided and not 'nespecificat', add it after the city
+    if (county && county !== 'nespecificat') {
+      // Ensure county is treated as string
+      county = Array.isArray(county) ? county.join(', ') : String(county);
+      location += `, ${county}`;
     }
 
     return location;
@@ -87,7 +80,7 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
         ) : (
           <p className="location">
             <img src={mapPin} alt="map pin" className="icon" />
-            {checkLocation(jobCity)}
+            {checkLocation(jobCity, jobCounty)}
           </p>
         )}
       </div>
