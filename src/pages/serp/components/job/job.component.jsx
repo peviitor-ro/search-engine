@@ -25,11 +25,8 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
                 'Hybrid'
               ) : (
                 <>
-                  {jobRemote ? (
-                    'Remote'
-                  ) : (
+                  {jobRemote === 'on-site' ? (
                     <>
-                      <img src={mapPin} alt="map pin" className="icon" />
                       {jobCity !== 'nespecificat'
                         ? jobCity.length > 1
                           ? jobCity.map((job, index) => {
@@ -42,6 +39,28 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
                       {jobCounty !== 'nespecificat' && jobCity.length === 1
                         ? `, ${jobCounty}`
                         : ''}
+                    </>
+                  ) : (
+                    <>
+                      {jobRemote ? (
+                        'Remote'
+                      ) : (
+                        <>
+                          <img src={mapPin} alt="map pin" className="icon" />
+                          {jobCity !== 'nespecificat'
+                            ? jobCity.length > 1
+                              ? jobCity.map((job, index) => {
+                                  if (index === jobCity.length - 1) {
+                                    return job;
+                                  } else return job + ', ';
+                                })
+                              : jobCity[0]
+                            : ''}
+                          {jobCounty !== 'nespecificat' && jobCity.length === 1
+                            ? `, ${jobCounty}`
+                            : ''}
+                        </>
+                      )}
                     </>
                   )}
                 </>
