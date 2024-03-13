@@ -20,6 +20,7 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
         <p className="location">
           {jobRemote !== 'nespecificat' ? (
             <>
+              <img src={mapPin} alt="map pin" className="icon" />
               {jobRemote === 'Hybrid' ? (
                 'Hybrid'
               ) : (
@@ -49,18 +50,24 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
           ) : (
             <>
               <img src={mapPin} alt="map pin" className="icon" />
-              {jobCity !== 'nespecificat'
-                ? jobCity.length > 1
-                  ? jobCity.map((job, index) => {
-                      if (index === jobCity.length - 1) {
-                        return job;
-                      } else return job + ', ';
-                    })
-                  : jobCity[0]
-                : ''}
-              {jobCounty !== 'nespecificat' && jobCity.length === 1
-                ? `, ${jobCounty}`
-                : ''}
+              {jobCity[0] === 'All' ? (
+                'Toate orasele'
+              ) : (
+                <>
+                  {jobCity !== 'nespecificat'
+                    ? jobCity.length > 1
+                      ? jobCity.map((job, index) => {
+                          if (index === jobCity.length - 1) {
+                            return job;
+                          } else return job + ', ';
+                        })
+                      : jobCity[0]
+                    : ''}
+                  {jobCounty !== 'nespecificat' && jobCity.length === 1
+                    ? `, ${jobCounty}`
+                    : ''}
+                </>
+              )}
             </>
           )}
         </p>
