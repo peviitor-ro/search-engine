@@ -80,7 +80,7 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
         ) : (
           <p className="location">
             <img src={mapPin} alt="map pin" className="icon" />
-            {checkLocation(jobCity, jobCounty)}
+            {checkLocation(jobCity)}
           </p>
         )}
       </div>
