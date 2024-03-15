@@ -6,7 +6,7 @@ import arrowRight from '../../../../assets/svgs/arrow_right.svg';
 
 export const Job = ({ jobTitle, company, city, county, link, remote }) => {
   const [jobCity] = React.useState(city);
-  const [jobCounty] = React.useState(county);
+  // const [jobCounty] = React.useState(county);
   const [jobRemote] = React.useState(remote);
 
   // Function to check and format remote location
@@ -32,7 +32,7 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
     // If remote is not an array or string, return empty string
     return '';
   }
-  function checkLocation(city, county) {
+  function checkLocation(city) {
     // Check if city is 'All', return 'Toate orasele'
     if (city[0] === 'All' || city === 'All') {
       return 'Toate orasele';
@@ -49,13 +49,6 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
       }
     } else if (typeof city === 'string') {
       location += city;
-    }
-
-    // If county is provided and not 'nespecificat', add it after the city
-    if (county && county !== 'nespecificat') {
-      // Ensure county is treated as string
-      county = Array.isArray(county) ? county.join(', ') : String(county);
-      location += `, ${county}`;
     }
 
     return location;
