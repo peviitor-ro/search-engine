@@ -36,26 +36,25 @@ export const SerpPage = () => {
 
   const [, setSearchParams] = useSearchParams();
   const [count, setCount] = useState(0);
+  const [loadOnClick, setLoadOnClick] = useState(false);
 
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
   const isLoadMore = useSelector((state) => state.jobs.isLoadMore);
-  const page = useSelector((state) => state.query.page);
+  // const page = useSelector((state) => state.query.page);
   const queries = useSelector((state) => state.query);
 
   const resetPage = () => {
     dispatch(setPageToOne());
   };
 
-  const getJobs = (queries) => {
+  const getJobs = async (queries) => {
     dispatch(clearJobs());
-    for (let i = 1; i <= queries.page; i++) {
-      getData({ ...queries, page: i }).then(({ jobs, total }) => {
-        dispatch(addMoreJobs(jobs));
-        dispatch(updateTotal(total));
-        dispatch(updateIsLoadMore(jobs.length >= 10));
-      });
-    }
+    const { jobs, total } = await getData({ ...queries, page: 1 });
+
+    dispatch(addMoreJobs(jobs));
+    dispatch(updateTotal(total));
+    dispatch(updateIsLoadMore(jobs.length >= 10));
   };
 
   const handleSearchClick = () => {
@@ -67,6 +66,7 @@ export const SerpPage = () => {
   const loadMore = () => {
     dispatch(incrementPage());
     setSearchParams(createQueryString(queries));
+    setLoadOnClick(!loadOnClick);
   };
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export const SerpPage = () => {
     dispatch(updateCompany(queryParams.company));
     dispatch(updateRemote(queryParams.remote));
     dispatch(updateCountry(queryParams.country));
-    dispatch(updatePage(queryParams.page));
+    dispatch(updatePage(1));
 
     // fetch data
     getJobs(queryParams);
@@ -98,7 +98,7 @@ export const SerpPage = () => {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [loadOnClick]);
 
   return (
     <section className="serp">
