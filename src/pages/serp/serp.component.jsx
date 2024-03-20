@@ -59,7 +59,12 @@ export const SerpPage = () => {
 
   const handleSearchClick = () => {
     dispatch(setPageToOne());
-    setSearchParams(createQueryString(queries));
+    const newQueries = {
+      ...queries,
+      page: 1
+    };
+    setSearchParams(createQueryString(newQueries));
+
     getJobs(queries);
   };
 
