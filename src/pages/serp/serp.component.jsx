@@ -44,6 +44,29 @@ export const SerpPage = () => {
   // const page = useSelector((state) => state.query.page);
   const queries = useSelector((state) => state.query);
 
+  
+  useEffect(() => {
+    const handleBackButton = () => {
+      const queryParams = getQueryParams();
+
+      dispatch(updateQ(queryParams.q));
+      dispatch(updatCity(queryParams.city));
+      dispatch(updateCounty(queryParams.county));
+      dispatch(updateCompany(queryParams.company));
+      dispatch(updateRemote(queryParams.remote));
+      dispatch(updateCountry(queryParams.country));
+      // fetch data
+      getJobs(queryParams);
+      setCount(1);
+    };
+
+    window.addEventListener('popstate', handleBackButton);
+
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
+
   const resetPage = () => {
     dispatch(setPageToOne());
   };
