@@ -46,6 +46,8 @@ export const SerpPage = () => {
 
   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     const handleBackButton = () => {
       const queryParams = getQueryParams();
 
@@ -65,8 +67,6 @@ export const SerpPage = () => {
     return () => {
       window.removeEventListener('popstate', handleBackButton);
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
   }, []);
 
