@@ -44,31 +44,30 @@ export const SerpPage = () => {
   // const page = useSelector((state) => state.query.page);
   const queries = useSelector((state) => state.query);
 
-  
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
 
-    const handleBackButton = () => {
-      const queryParams = getQueryParams();
+  //   const handleBackButton = () => {
+  //     const queryParams = getQueryParams();
 
-      dispatch(updateQ(queryParams.q));
-      dispatch(updatCity(queryParams.city));
-      dispatch(updateCounty(queryParams.county));
-      dispatch(updateCompany(queryParams.company));
-      dispatch(updateRemote(queryParams.remote));
-      dispatch(updateCountry(queryParams.country));
-      // fetch data
-      getJobs(queryParams);
-      setCount(1);
-    };
+  //     dispatch(updateQ(queryParams.q));
+  //     dispatch(updatCity(queryParams.city));
+  //     dispatch(updateCounty(queryParams.county));
+  //     dispatch(updateCompany(queryParams.company));
+  //     dispatch(updateRemote(queryParams.remote));
+  //     dispatch(updateCountry(queryParams.country));
+  //     // fetch data
+  //     getJobs(queryParams);
+  //     setCount(1);
+  //   };
 
-    window.addEventListener('popstate', handleBackButton);
+  //   window.addEventListener('popstate', handleBackButton);
 
-    return () => {
-      window.removeEventListener('popstate', handleBackButton);
-    };
+  //   return () => {
+  //     window.removeEventListener('popstate', handleBackButton);
+  //   };
 
-  }, []);
+  // }, []);
 
   const resetPage = () => {
     dispatch(setPageToOne());
