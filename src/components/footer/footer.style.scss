@@ -7,10 +7,11 @@
   .social-media {
     margin-top: 10px;
     margin-bottom: 20px;
-
+    display: flex;
+    flex-direction: row;
+    
     .social-links {
-      display: flex;
-      align-items: center;
+     margin-left: 0.5rem;
     }
 
     .icon {
