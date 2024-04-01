@@ -30,6 +30,7 @@ import {
 import { getData } from '../../utils/get-data';
 import { Search } from '../../components/search/search.component';
 import { ScrollTop } from './components/scroll-top/scroll-top.component';
+import NotFound from './components/not-found/notFound';
 
 export const SerpPage = () => {
   const dispatch = useDispatch();
@@ -141,18 +142,23 @@ export const SerpPage = () => {
       <div className="main-wrapper flex-column margin-top-0">
         <TotalResults total={total} />
         <section className="jobs">
-          {jobs.map(
-            ({ jobTitle, company, link, city, county, remote }, idx) => (
-              <Job
-                key={idx}
-                jobTitle={jobTitle}
-                company={company}
-                city={city}
-                county={county}
-                link={link}
-                remote={remote}
-              />
+          {/* aici randam acel not found component cu strutul daca nu avem jobs: */}
+          {jobs.length > 0 ? (
+            jobs.map(
+              ({ jobTitle, company, link, city, county, remote }, idx) => (
+                <Job
+                  key={idx}
+                  jobTitle={jobTitle}
+                  company={company}
+                  city={city}
+                  county={county}
+                  link={link}
+                  remote={remote}
+                />
+              )
             )
+          ) : (
+            <NotFound />
           )}
         </section>
         <section className="load-more">

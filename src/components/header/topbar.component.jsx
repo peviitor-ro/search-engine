@@ -1,6 +1,6 @@
 import React from 'react';
 import './topbar.style.scss';
-import logo from '../../assets/svgs/peviitor_logo.svg';
+import logo from '../../assets/svgs/logo.svg';
 import { Link } from 'react-router-dom';
 
 export const TopBar = ({ isBorder, resetPage }) => {
