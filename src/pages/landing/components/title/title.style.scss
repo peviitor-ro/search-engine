@@ -1,6 +1,10 @@
 @use '../../../../styles/breakpoints';
 
 .title {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
     h1 {
         font-family: PoppinsRegular;
         font-size: 26px;
@@ -12,6 +16,10 @@
         font-family: PoppinsLight;
         margin-top: 16px;
         line-height: 19px;
+    }
+
+    .main-heading {
+       line-height: 1.2;
     }
 }
 
@@ -26,3 +34,7 @@
         }
     }
 }
+
+// @media only screen and (max-width: breakpoints.$hd){
+
+// }

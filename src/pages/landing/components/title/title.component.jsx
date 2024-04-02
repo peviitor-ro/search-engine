@@ -9,14 +9,14 @@ export const Title = ({ allJobs, totalJobs }) => {
 
   return (
     <section className="title">
-      <h1>
-        Găsește-ți <span className="text--orange">jobul dorit</span> acum
+      <h1 className="text--orange main-heading">
+        Locul de munca <br /> visat, la un clic <br /> distanta
       </h1>
       {allJobs && totalCompanies ? (
         <p className="description">
-          Avem <span className="bold">{isRomania ? allJobs : totalJobs} </span>
-          de oportunități {isRomania ? 'în România' : 'în toate țările'} de la{' '}
-          <span className="bold">{totalCompanies}</span> firme
+          Peste <span className="bold">{isRomania ? allJobs : totalJobs} </span>
+          locuri de munca {isRomania ? 'în România' : 'în toate țările'} <br />
+          actualizate zilnic
         </p>
       ) : (
         ''

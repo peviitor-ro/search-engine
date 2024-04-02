@@ -6,10 +6,27 @@
   display: flex;
   flex-direction: column;
 
-  .main {
-    margin-top: 70px;
-    margin-bottom: 70px;
-    padding: 0 20px;
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .main-wrapper {
+      width: 100%;
+      max-width: 900px;
+
+      .main {
+        margin-top: 70px;
+        margin-bottom: 50px;
+        padding: 0 20px;
+        position: relative;
+
+        .search-box {
+          width: 100%;
+          max-width: 767px;
+        }
+      }
+    }
   }
 }
 
@@ -19,7 +36,6 @@
 
     .main-wrapper {
       display: flex;
-      flex-direction: row;
       padding-left: 100px;
       padding-right: 90px;
       margin-top: 80px;
@@ -34,8 +50,23 @@
       .main {
         flex: 1;
         padding: unset;
-        margin-right: 55px;
+
+        .rocket {
+          position: absolute;
+          top: -13px;
+          left: 182px;
+        }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: breakpoints.$hd) {
+  .main-wrapper {
+    .rocket {
+      position: absolute;
+      top: 197px;
+      left: 15%;
     }
   }
 }

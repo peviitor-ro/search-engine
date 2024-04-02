@@ -13,6 +13,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 16px;
+  // width: 100%;
+  // min-width: 767px;
+  // height: 54px;
 
   .inputs-wrapper {
     border: 1px solid colors.$border_light_grey;

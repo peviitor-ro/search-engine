@@ -50,13 +50,17 @@ export const LandingPage = () => {
         <section className="main-wrapper">
           <div className="main">
             <Title allJobs={allJobs} totalJobs={totalJobs} />
-            <Search
-              handleClick={handleSearchClick}
-              queries={queries}
-              landing={true}
-            />
+            <div className="search-box">
+              <Search
+                handleClick={handleSearchClick}
+                queries={queries}
+                landing={true}
+              />
+            </div>
+            <div className="rocket">
+              <Rocket />
+            </div>
           </div>
-          <Rocket />
         </section>
       </main>
       <Footer />
