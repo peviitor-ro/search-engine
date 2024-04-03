@@ -106,7 +106,7 @@
       .country:focus-within,
       .county:focus-within,
       .city:focus-within {
-        border: 1px solid colors.$background_orange;
+        // border: 1px solid colors.$background_orange;
         border-radius: 0 0 8px 8px;
       }
 
@@ -147,6 +147,8 @@
 
   .btn {
     margin-top: 30px;
+    background-color: #048a81;
+    border-radius: 2rem;
   }
 }
 
@@ -165,9 +167,13 @@
       justify-content: space-between;
       border: unset;
       border-radius: unset;
+      border: 1px solid colors.$text_ink_black;
+      border-radius: 1.5rem;
 
       .input-container {
         border-bottom: unset;
+        // border-bottom: 1px solid colors.$text_ink_black;
+        border-right: 1px solid colors.$text_ink_black;
         flex: 1;
 
         img {
@@ -175,7 +181,7 @@
           left: 16px;
         }
         &:focus-within {
-          border: 1px solid colors.$background_orange;
+          // border: 1px solid colors.$background_orange;
           border-radius: 8px 0 0 8px;
         }
       }
@@ -212,6 +218,23 @@
       padding: 0;
       width: 136px;
       height: 48px;
+      background-color: #048a81;
+      border-radius: 2rem;
+    }
+  }
+}
+
+// $text_ink_black
+@media only screen and (max-width: breakpoints.$hd) {
+  .inputs-wrapper {
+    border: 1px solid colors.$text_ink_black;
+
+    .input-container {
+      border-bottom: 1px solid colors.$text_ink_black;
+    }
+
+    .btn {
+      background-color: #048a81;
     }
   }
 }

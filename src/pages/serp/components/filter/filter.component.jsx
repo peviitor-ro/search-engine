@@ -56,35 +56,58 @@ export const Filter = (props) => {
             className="dropdown-container"
           >
             <div className="search-input">
-              <input
-                onChange={(e) => onInputChange(e)}
-                type="text"
-                placeholder="search"
-                value={inputPayload}
-              />
-              <img
-                className="mangify"
-                src={inputPayload.length > 0 ? closeIcon : magnifyIcon}
-                onClick={onResetInputPayload}
-                alt="magnify"
-              />
+              <div className="inputs-wrapper">
+                <div className="input-container">
+                  <img
+                    className="magnify"
+                    src={magnifyIcon}
+                    alt="magnify glass icon"
+                  />
+                  <input
+                    autoFocus
+                    placeholder="Cauta"
+                    onChange={(e) => onInputChange(e)}
+                    value={inputPayload}
+                  />
+                  {inputPayload.length > 0 && (
+                    <img
+                      className="mangify"
+                      src={closeIcon}
+                      onClick={onResetInputPayload}
+                      alt="magnify"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
+            <ul>
+              <li className="option">
+                <input className="checkbox" type="checkbox" />
+                <span>Bucuresti</span>
+              </li>
+            </ul>
           </div>
         ) : (
           <div
             onClick={(e) => onDropdownClick(e)}
             className="dropdown-container"
           >
-            {/* <select name="" id="">
-              <option value="">Remote</option>
-              <option value="">Hybrid</option>
-              <option value="">On place</option>
-            </select> */}
-
             <ul>
-              <li>Remote</li>
+              {/* <li>Remote</li>
               <li>Hybrid</li>
-              <li>On place</li>
+              <li>On place</li> */}
+              <li className="option">
+                <input className="checkbox" type="checkbox" />
+                <span>Remote</span>
+              </li>
+              <li className="option">
+                <input className="checkbox" type="checkbox" />
+                <span>Hybrid</span>
+              </li>
+              <li className="option">
+                <input className="checkbox" type="checkbox" />
+                <span>On place</span>
+              </li>
             </ul>
           </div>
         ))}

@@ -17,7 +17,7 @@
 
       .main {
         margin-top: 70px;
-        margin-bottom: 50px;
+        margin-bottom: 110px;
         padding: 0 20px;
         position: relative;
 
@@ -39,7 +39,6 @@
       padding-left: 100px;
       padding-right: 90px;
       margin-top: 80px;
-      border-bottom: 80px solid colors.$background_grey;
 
       &.flex-column {
         flex-direction: column;
@@ -50,6 +49,7 @@
       .main {
         flex: 1;
         padding: unset;
+        margin-bottom: -30px;
 
         .rocket {
           position: absolute;
@@ -61,9 +61,15 @@
   }
 }
 
-@media only screen and (max-width: breakpoints.$hd) {
+@media only screen and (max-width: 750px) {
   .main-wrapper {
-    margin-bottom: 350px;
+    margin-bottom: -30px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .main-wrapper {
+    margin-bottom: 160px;
 
     .rocket {
       position: absolute;

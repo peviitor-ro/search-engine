@@ -9,7 +9,6 @@
 
   .text {
     font-size: 22px;
-    background-color: colors.$background_grey;
     padding: 40px 20px 30px 20px;
 
     .action {
@@ -33,5 +32,11 @@
     .text {
       display: none;
     }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .rocket-image {
+    width: 215px;
   }
 }

@@ -86,3 +86,30 @@
     }
   }
 }
+
+@media only screen and (max-width: breakpoints.$hd) {
+  .footer {
+    .links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .links > section {
+      margin-right: 1rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .footer {
+    .links {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .links > section {
+      margin-right: 1rem;
+    }
+  }
+}
