@@ -1,7 +1,7 @@
 import React from 'react';
 import './rocket.style.scss';
 
-import rocket from '../../../../assets/svgs/rocket_logo_peviitor.svg';
+import rocket from '../../../../assets/svgs/racheta.svg';
 
 export const Rocket = () => {
   return (

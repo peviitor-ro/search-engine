@@ -7,10 +7,11 @@
   .social-media {
     margin-top: 10px;
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
 
     .social-links {
-      display: flex;
-      align-items: center;
+      margin-left: 0.5rem;
     }
 
     .icon {
@@ -82,6 +83,33 @@
           display: block;
         }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: breakpoints.$hd) {
+  .footer {
+    .links {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .links > section {
+      margin-right: 1rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .footer {
+    .links {
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .links > section {
+      margin-right: 1rem;
     }
   }
 }

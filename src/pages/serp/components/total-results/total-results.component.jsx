@@ -8,13 +8,19 @@ export const TotalResults = ({ total }) => {
   let navigate = useNavigate();
 
   return (
-    <section className='total-results'>
-      <h3 className='title'>Locuri de muncă</h3>
-      <p><span className='bold'>{total}</span> de posturi libere</p>
-      <button className='btn-menu' onClick={() => { navigate('filtre') }}>
-        <img src={menuIcon} alt='menu-icon' className='icon' />
+    <section className="total-results">
+      <p>
+        <span className="bold">{total}</span> (de) rezultate
+      </p>
+      <button
+        className="btn-menu"
+        onClick={() => {
+          navigate('filtre');
+        }}
+      >
+        <img src={menuIcon} alt="menu-icon" className="icon" />
         Filter
       </button>
     </section>
-  )
-}
+  );
+};

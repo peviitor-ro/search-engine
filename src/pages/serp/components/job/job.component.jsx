@@ -2,7 +2,6 @@ import React from 'react';
 import './job.style.scss';
 
 import mapPin from '../../../../assets/svgs/map_pin.svg';
-import arrowRight from '../../../../assets/svgs/arrow_right.svg';
 
 export const Job = ({ jobTitle, company, city, county, link, remote }) => {
   const [jobCity] = React.useState(city);
@@ -84,8 +83,7 @@ export const Job = ({ jobTitle, company, city, county, link, remote }) => {
           rel="noreferrer"
           className="btn-yellow btn"
         >
-          Vezi postul{' '}
-          <img src={arrowRight} alt="arrow right" className="icon" />
+          Catre site{' '}
         </a>
       </div>
     </section>

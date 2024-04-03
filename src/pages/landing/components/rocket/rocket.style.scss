@@ -9,7 +9,6 @@
 
   .text {
     font-size: 22px;
-    background-color: colors.$background_grey;
     padding: 40px 20px 30px 20px;
 
     .action {
@@ -27,11 +26,17 @@
 @media only screen and (min-width: breakpoints.$hd) {
   .rocket {
     .rocket-image {
-      width: 374px;
+      width: 415px;
     }
 
     .text {
       display: none;
     }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .rocket-image {
+    width: 215px;
   }
 }

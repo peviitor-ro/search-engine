@@ -6,10 +6,27 @@
   display: flex;
   flex-direction: column;
 
-  .main {
-    margin-top: 70px;
-    margin-bottom: 70px;
-    padding: 0 20px;
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .main-wrapper {
+      width: 100%;
+      max-width: 900px;
+
+      .main {
+        margin-top: 70px;
+        margin-bottom: 110px;
+        padding: 0 20px;
+        position: relative;
+
+        .search-box {
+          width: 100%;
+          max-width: 767px;
+        }
+      }
+    }
   }
 }
 
@@ -19,11 +36,9 @@
 
     .main-wrapper {
       display: flex;
-      flex-direction: row;
       padding-left: 100px;
       padding-right: 90px;
       margin-top: 80px;
-      border-bottom: 80px solid colors.$background_grey;
 
       &.flex-column {
         flex-direction: column;
@@ -34,8 +49,32 @@
       .main {
         flex: 1;
         padding: unset;
-        margin-right: 55px;
+        margin-bottom: -30px;
+
+        .rocket {
+          position: absolute;
+          top: -13px;
+          left: 182px;
+        }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .main-wrapper {
+    margin-bottom: -30px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .main-wrapper {
+    margin-bottom: 160px;
+
+    .rocket {
+      position: absolute;
+      top: 197px;
+      left: 15%;
     }
   }
 }
