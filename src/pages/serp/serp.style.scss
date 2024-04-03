@@ -8,7 +8,21 @@
 
     .search-wrapper {
       margin: 0 20px;
-      margin-left: 2rem;
+      margin-left: 4rem;
+    }
+  }
+
+  .main-wrapper {
+    .job-filters-container {
+      display: flex;
+      justify-content: center;
+
+      .job-filters {
+        display: flex;
+        justify-content: space-around;
+        width: 890px;
+        position: absolute;
+      }
     }
   }
 

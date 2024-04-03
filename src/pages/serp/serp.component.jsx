@@ -31,6 +31,7 @@ import { getData } from '../../utils/get-data';
 import { Search } from '../../components/search/search.component';
 import { ScrollTop } from './components/scroll-top/scroll-top.component';
 import NotFound from './components/not-found/notFound';
+import { Filter } from './components/filter/filter.component';
 
 export const SerpPage = () => {
   const dispatch = useDispatch();
@@ -140,6 +141,13 @@ export const SerpPage = () => {
         </div>
       </section>
       <div className="main-wrapper flex-column margin-top-0">
+        <section className="job-filters-container">
+          <div className="job-filters">
+            <Filter name="Oras" filterType="input" />
+            <Filter name="Mod de lucru" filterType="dropdown" />
+            <Filter name="Companie" filterType="input" />
+          </div>
+        </section>
         <TotalResults total={total} />
         <section className="jobs">
           {/* aici randam acel not found component cu strutul daca nu avem jobs: */}

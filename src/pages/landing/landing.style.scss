@@ -63,6 +63,8 @@
 
 @media only screen and (max-width: breakpoints.$hd) {
   .main-wrapper {
+    margin-bottom: 350px;
+
     .rocket {
       position: absolute;
       top: 197px;
