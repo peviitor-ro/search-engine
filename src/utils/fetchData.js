@@ -1,4 +1,4 @@
-const API_URL = "https://api.peviitor.ro/v3/search/";
+const API_URL = 'https://api.peviitor.ro/v3/search/';
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
@@ -7,10 +7,10 @@ export const getData = async (createQueryString) => {
     const data = await response.json();
     return {
       jobs: data.response.docs,
-      total: data.response.numFound,
+      total: data.response.numFound
     };
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
     throw error; // Re-throw the error to propagate it to the caller
   }
 };
@@ -33,7 +33,7 @@ export const getNumberOfCompany = async () => {
     return data.companies.length;
   } catch (error) {
     // Handle any errors that occurred during the fetch
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
     throw error; // Re-throw the error to be handled by the caller if needed
   }
 };
@@ -46,10 +46,9 @@ export const getNameOfCompanies = async () => {
     );
     const data = await response.json();
     const names = data.companies.map((company) => company.name);
-    console.log(names);
     return names;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error);
     throw error;
   }
 };

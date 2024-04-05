@@ -1,4 +1,4 @@
-@use "./colors";
+@use './colors';
 body {
   background: #f7f7f7;
 }
@@ -49,12 +49,16 @@ body {
     border: none;
   }
   .taguri-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
     margin: 50px 0px;
     .tags {
       color: #2e2e2e;
       display: flex;
+      justify-content: space-around;
+      align-items: center;
       background: #048a811a;
-      width: 86px;
       padding: 8px;
       border-radius: 28px;
       button {
