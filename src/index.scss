@@ -1,6 +1,6 @@
-@import './styles/reset.css';
-@import './styles/classes.scss';
-@import './styles/custom-fonts.css';
+@import './scss/custom-fonts.css';
+@import './scss/reset.css';
+@import './scss/classes.scss';
 
 body {
   margin: 0;
@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: none;
 }
 
 code {
