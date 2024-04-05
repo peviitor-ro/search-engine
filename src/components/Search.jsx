@@ -18,7 +18,7 @@ import {
   setTotal,
   setNumberOfJobs,
   setNumberOfCompany,
-  setLoading,
+  setLoading
 } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
@@ -26,7 +26,7 @@ import { createSearchString } from "../utils/createSearchString";
 import {
   getData,
   getNumberOfJobs,
-  getNumberOfCompany,
+  getNumberOfCompany
 } from "../utils/fetchData";
 
 const Fetch = () => {
@@ -34,7 +34,7 @@ const Fetch = () => {
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true); // State to manage button disabled status
+
   // State to track if the form has been submitted
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -61,10 +61,6 @@ const Fetch = () => {
     };
     numbersInfo();
   }, [dispatch]);
-  // Enable or disable button based on the input text
-  useEffect(() => {
-    setIsButtonDisabled(String(text).trim() === "");
-  }, [text]);
 
   // useEffect to navigate when form is submitted or when handleUpdateQ is executed
   useEffect(() => {
@@ -156,9 +152,7 @@ const Fetch = () => {
           ) : (
             ""
           )}
-          <button type="submit" disabled={isButtonDisabled}>
-            Caută
-          </button>
+          <button type="submit">Caută</button>
         </form>
       </div>
       {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
