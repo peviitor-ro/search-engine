@@ -10,7 +10,7 @@ export const TagsProvider = ({ children }) => {
         orase: [],
         remote: [],
         company: [],
-        experienta: [],
+        experienta: []
       }
     );
   });
@@ -49,7 +49,7 @@ export const TagsProvider = ({ children }) => {
     // Update state with updated array
     setFields((prevFields) => ({
       ...prevFields,
-      [type]: updatedArray,
+      [type]: updatedArray
     }));
     // Update the state for string creation.
     if (type === "orase") {
@@ -76,7 +76,7 @@ export const TagsProvider = ({ children }) => {
     // Update state with the updated array
     setFields((prevFields) => ({
       ...prevFields,
-      [type]: updatedArray,
+      [type]: updatedArray
     }));
     // Update the city array specifically to remove the corresponding text
     if (type === "orase") {
@@ -101,9 +101,39 @@ export const TagsProvider = ({ children }) => {
       orase: city,
       remote: remote,
       company: company,
-      experienta: [],
+      experienta: []
     });
   }, [city, remote, company]);
+  // state that have bolean true if fileds.array are empty.
+  const [deletAll, setDeletAll] = useState(false);
+  // set the fileds back to empty
+  const handleRemoveAllFilters = () => {
+    setFields({
+      orase: [],
+      remote: [],
+      company: [],
+      experienta: []
+    });
+    setCity([]);
+    setCompany([]);
+    setRemote([]);
+  };
+  useEffect(() => {
+    // Function to check if all arrays in fields object are empty
+    const checkFieldsEmpty = () => {
+      const { orase, remote, company, experienta } = fields;
+      const allFieldsEmpty =
+        orase.length === 0 &&
+        remote.length === 0 &&
+        company.length === 0 &&
+        experienta.length === 0;
+      setDeletAll(allFieldsEmpty); // Set isEmpty to true if all fields are empty
+    };
+
+    checkFieldsEmpty(); // Call the function initially
+
+    // Add fields dependency to re-run the effect whenever fields change
+  }, [fields]);
   return (
     <TagsContext.Provider
       value={{
@@ -113,10 +143,12 @@ export const TagsProvider = ({ children }) => {
         remote,
         country,
         company,
+        deletAll,
         fields,
+        handleRemoveAllFilters,
         handleCheckBoxChange,
         removeTag,
-        contextSetQ,
+        contextSetQ
       }}
     >
       {children}
