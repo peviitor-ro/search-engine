@@ -1,0 +1,82 @@
+.drop-down-parent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 8px;
+  color: black;
+  position: relative;
+  .drop-down-container {
+    font-size: 18px;
+    background: #ffffff;
+    width: 200px;
+    height: 220px;
+    padding: 5px 0px 5px 0px;
+    gap: 1px;
+    border: solid 1px #89969c;
+    border-radius: 14px;
+    box-shadow: 0px 4px 14px 0px #0000001a;
+    display: none;
+    position: absolute;
+    .search-input {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-bottom: 1px solid #ccc;
+      .lupa {
+        position: relative;
+        left: 0px;
+        width: 20px;
+      }
+      .clear {
+        position: absolute;
+        right: 10px;
+      }
+      input {
+        border: none;
+        padding: 6px 0px;
+        font-size: 14px;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+      }
+    }
+    .check-box {
+      margin-top: 10px;
+      margin-left: 30px;
+    }
+    .mdl {
+      margin-top: 30px;
+    }
+  }
+
+  .drop-down {
+    background: none;
+    border: none;
+    margin-bottom: 10px;
+
+    .up {
+      transform: rotate(180deg);
+    }
+  }
+  .open {
+    display: block;
+  }
+}
+@media (max-width: 450px) {
+  .drop-down-parent {
+    display: grid;
+    grid-template-columns: 120px 120px;
+    grid-gap: 6px;
+    .drop-down-container {
+      left: 60px;
+    }
+  }
+  .search-input {
+    .lupa {
+      height: 18px;
+    }
+  }
+}

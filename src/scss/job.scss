@@ -1,0 +1,56 @@
+@use "./colors";
+
+.card {
+  width: 354px;
+  height: 357px;
+  border-radius: 16px;
+  background-color: #fbfbfb;
+  text-align: center;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  box-shadow: 0px 1px 3px 1px #00000026;
+
+  &:hover {
+    box-shadow: 0px 1px 2px 0px #0000004d;
+  }
+
+  .company-name {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-align: center;
+  }
+  .location {
+    font-size: 20px;
+    img {
+      height: 16px;
+      padding: 0px 4px;
+    }
+  }
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 27px;
+    text-align: center;
+  }
+  .btn {
+    background: colors.$background_green;
+    margin-inline: auto;
+    width: 100px;
+    padding: 14px 40px 14px 40px;
+    border-radius: 30px;
+  }
+  .company-logo {
+    width: 100px;
+    margin-inline: auto;
+  }
+}
+@media (max-width: 800px) {
+  .card {
+    margin-inline: auto;
+    width: 300px;
+  }
+}
