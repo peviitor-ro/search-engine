@@ -20,8 +20,18 @@ const Rezults = () => {
   // redux
   const dispatch = useDispatch();
   // context
-  const { q, city, remote, county, country, company, fields, removeTag } =
-    useContext(TagsContext);
+  const {
+    q,
+    city,
+    remote,
+    county,
+    country,
+    company,
+    fields,
+    removeTag,
+    deletAll,
+    handleRemoveAllFilters
+  } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
@@ -37,6 +47,10 @@ const Rezults = () => {
     dispatch(setJobs(jobs));
     setPage(nextPage);
   }
+  // remove all filters
+  const removeFilters = () => {
+    handleRemoveAllFilters();
+  };
   // scrollUp Button
   const [isVisible, setIsVisible] = useState(false);
 
@@ -71,7 +85,13 @@ const Rezults = () => {
             ))
           );
         })}
+        {!deletAll && (
+          <button className="remove-all" onClick={removeFilters}>
+            Sterge filtre
+          </button>
+        )}
       </div>
+
       {jobs.length > 0 ? (
         <div className="cards-containter">
           {jobs.map(

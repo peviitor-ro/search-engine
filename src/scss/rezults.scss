@@ -1,4 +1,4 @@
-@use './colors';
+@use "./colors";
 body {
   background: #f7f7f7;
 }
@@ -53,6 +53,12 @@ body {
     flex-wrap: wrap;
     gap: 5px;
     margin: 50px 0px;
+    .remove-all {
+      background: none;
+      border: none;
+      border-left: 1px solid #2e2e2e;
+      font-size: 16px;
+    }
     .tags {
       color: #2e2e2e;
       display: flex;
