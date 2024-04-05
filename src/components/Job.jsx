@@ -12,7 +12,7 @@ const Job = ({
   county,
   job_link,
   job_title,
-  remote,
+  remote
 }) => {
   const [jobRemote] = React.useState(remote);
   const [jobCity] = React.useState(city);
@@ -82,7 +82,7 @@ const Job = ({
           {checkLocation(jobCity)}
         </p>
       )}
-      <a className="btn" href={job_link}>
+      <a className="btn" target="_blank" href={job_link}>
         Către site
       </a>
     </div>
