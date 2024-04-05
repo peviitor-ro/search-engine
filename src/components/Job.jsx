@@ -82,7 +82,12 @@ const Job = ({
           {checkLocation(jobCity)}
         </p>
       )}
-      <a className="btn" target="_blank" href={job_link}>
+      <a
+        className="btn"
+        rel="noopener noreferrer"
+        target="_blank"
+        href={job_link}
+      >
         Către site
       </a>
     </div>
