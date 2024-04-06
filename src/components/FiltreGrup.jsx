@@ -121,7 +121,7 @@ const FiltreGrup = () => {
           <button className="drop-down" onClick={() => handleDropDown(index)}>
             {/* Dynamically set button label based on index */}
             {index === 0
-              ? "Oras"
+              ? "Oraș"
               : index === 1
               ? "Companie"
               : "Mod de lucru"}{" "}
