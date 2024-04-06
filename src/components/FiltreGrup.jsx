@@ -1,23 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 
-import TagsContext from '../context/TagsContext';
-import sageata from '../assets/svg/arrow_bottom.svg';
-import magnifyGlass from '../assets/svg/magniy_glass_icon.svg';
+import TagsContext from "../context/TagsContext";
+import sageata from "../assets/svg/arrow_bottom.svg";
+import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 // scss
-import '../scss/filtre.scss';
-import { getNameOfCompanies } from '../utils/fetchData';
-import { orase } from '../utils/getCityName';
+import "../scss/filtre.scss";
+import { getNameOfCompanies } from "../utils/fetchData";
+import { orase } from "../utils/getCityName";
 
 // Regular expressions for replacing special characters
-const aREG = new RegExp('ș', 'g');
-const bREG = new RegExp('ț', 'g');
-const cREG = new RegExp('â', 'g');
-const dREG = new RegExp('ă', 'g');
-const eREG = new RegExp('î', 'g');
+const aREG = new RegExp("ș", "g");
+const bREG = new RegExp("ț", "g");
+const cREG = new RegExp("â", "g");
+const dREG = new RegExp("ă", "g");
+const eREG = new RegExp("î", "g");
 
 // CheckboxFilter component for filtering items
 const CheckboxFilter = ({ items, filterKey, searchFor }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
@@ -27,11 +27,11 @@ const CheckboxFilter = ({ items, filterKey, searchFor }) => {
       (searchQuery.length >= 1 &&
         item
           .toLowerCase()
-          .replace(aREG, 's')
-          .replace(bREG, 't')
-          .replace(cREG, 'a')
-          .replace(dREG, 'a')
-          .replace(eREG, 'i')
+          .replace(aREG, "s")
+          .replace(bREG, "t")
+          .replace(cREG, "a")
+          .replace(dREG, "a")
+          .replace(eREG, "i")
           .includes(searchQuery.toLowerCase())) ||
       item.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -58,7 +58,7 @@ const CheckboxFilter = ({ items, filterKey, searchFor }) => {
 
       <div className="checkbox-container">
         {error ? (
-          <div>No results found for "{searchQuery}"</div>
+          <div>Nu există rezultate "{searchQuery}"</div>
         ) : (
           displayItems.map((item, index) => (
             <div key={index} className="checkbox-parent">
@@ -104,7 +104,7 @@ const FiltreGrup = () => {
         const response = await getNameOfCompanies();
         setData(response);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -121,19 +121,19 @@ const FiltreGrup = () => {
           <button className="drop-down" onClick={() => handleDropDown(index)}>
             {/* Dynamically set button label based on index */}
             {index === 0
-              ? 'Oras'
+              ? "Oras"
               : index === 1
-              ? 'Companie'
-              : 'Mod de lucru'}{' '}
+              ? "Companie"
+              : "Mod de lucru"}{" "}
             {/* Arrow icon for indicating dropdown state */}
             <img
               src={sageata}
-              className={`arrow-bottom ${isOpen ? 'up' : ''}`}
+              className={`arrow-bottom ${isOpen ? "up" : ""}`}
               alt="drop-down"
             />
           </button>
           {/* Dropdown container */}
-          <div className={`drop-down-container ${isOpen ? 'open' : ''}`}>
+          <div className={`drop-down-container ${isOpen ? "open" : ""}`}>
             {/* Dynamically rendering checkbox based on index */}
 
             {/* Cities Drop-down */}
@@ -168,8 +168,8 @@ const FiltreGrup = () => {
                       name="on-site"
                       value="on-site"
                       className="mdl"
-                      checked={fields.remote.includes('on-site')}
-                      onChange={(e) => handleCheckBoxChange(e, 'remote')}
+                      checked={fields.remote.includes("on-site")}
+                      onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
                     <label htmlFor="on-site">La fata locului</label>
                   </div>
@@ -180,8 +180,8 @@ const FiltreGrup = () => {
                       name="hibrid"
                       value="hibrid"
                       className="mdl"
-                      checked={fields.remote.includes('hibrid')}
-                      onChange={(e) => handleCheckBoxChange(e, 'remote')}
+                      checked={fields.remote.includes("hibrid")}
+                      onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
                     <label htmlFor="hibrid">Hibrid</label>
                   </div>
@@ -192,8 +192,8 @@ const FiltreGrup = () => {
                       name="remote"
                       value="Remote"
                       className="mdl"
-                      checked={fields.remote.includes('Remote')}
-                      onChange={(e) => handleCheckBoxChange(e, 'remote')}
+                      checked={fields.remote.includes("Remote")}
+                      onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
                     <label htmlFor="Remote">Remote</label>
                   </div>
