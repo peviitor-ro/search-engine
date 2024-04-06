@@ -5,23 +5,16 @@ import mapPin from "../assets/svg/map_pin.svg";
 import "../scss/job.scss";
 // react
 import React from "react";
-const Job = ({
-  city,
-  company,
-  country,
-  county,
-  job_link,
-  job_title,
-  remote
-}) => {
+const Job = ({ city, company, job_link, job_title, remote }) => {
   return (
     <div className="card">
       <img className="company-logo" src={noLogo} alt="Logo" />
       <p className="company-name">{company}</p>
+      {/* to be replaced dangerouslySetInnerHTML vv */}
       <h2
         className="job-title"
         dangerouslySetInnerHTML={{ __html: job_title }}
-      ></h2>
+      />
       {city === undefined ? (
         <p className="location">
           <img src={mapPin} alt="map pin" className="icon" />
