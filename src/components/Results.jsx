@@ -1,6 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 // scss
 import "../scss/rezults.scss";
+// svg
+import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
@@ -21,7 +23,9 @@ function tagMapper([key, currentArray]) {
     <div key={item} className="tags">
       <h3>{item}</h3>
       {/* Call removeTag with the specific type and value */}
-      <button onClick={() => this.removeTag(key, item)}>X</button>
+      <button onClick={() => this.removeTag(key, item)}>
+        <img src={removeIcon} alt="x" />
+      </button>
     </div>
   ));
 }
