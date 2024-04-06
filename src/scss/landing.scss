@@ -1,13 +1,13 @@
 @use "./colors";
 
-body {
+.background-img {
   background: url("../assets/images/landing-cover.png") no-repeat center center
     fixed;
   background-size: cover;
-  overflow-x: none;
+  height: 100vh;
 }
-
 .landing {
+  overflow-x: none;
   padding: 0 10rem;
 }
 a {
@@ -91,6 +91,9 @@ main {
 }
 
 @media (max-width: 800px) {
+  .background-img {
+    height: 100%;
+  }
   main {
     margin: 50px 0px;
     margin-bottom: 230px;
@@ -101,7 +104,6 @@ main {
         margin-left: 0px;
         position: absolute;
         top: 480px;
-        z-index: -10;
       }
     }
     .content {

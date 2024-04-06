@@ -14,30 +14,32 @@ const Landing = () => {
   // redux state
   const { totalJobs } = useSelector((state) => state.jobs);
   return (
-    <div className="landing">
-      <nav className="navbar">
-        <a href="/" className="logo">
-          <img src={logo} alt="peviitor" />
-        </a>
-      </nav>
-      <main>
-        <div className="content">
-          <div className="text">
-            <h1>
-              Locul de muncă visat,
-              <img className="dungi" src={dungi} alt="dungi" /> la un clic
-              distanță
-            </h1>
-            <h4>
-              Peste <span>{totalJobs}</span> de locuri de muncă din România
-              actualizate zilnic
-            </h4>
+    <div className="background-img">
+      <div className="landing">
+        <nav className="navbar">
+          <a href="/" className="logo">
+            <img src={logo} alt="peviitor" />
+          </a>
+        </nav>
+        <main>
+          <div className="content">
+            <div className="text">
+              <h1>
+                Locul de muncă visat,
+                <img className="dungi" src={dungi} alt="dungi" /> la un clic
+                distanță
+              </h1>
+              <h4>
+                Peste <span>{totalJobs}</span> de locuri de muncă din România
+                actualizate zilnic
+              </h4>
+            </div>
+            <img src={racheta} alt="Racheta" />
           </div>
-          <img src={racheta} alt="Racheta" />
-        </div>
-        <Search />
-      </main>
-      <Footer />
+          <Search />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 };
