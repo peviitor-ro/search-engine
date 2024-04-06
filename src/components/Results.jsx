@@ -16,7 +16,17 @@ import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
 
-const Rezults = () => {
+function tagMapper([key, currentArray]) {
+  return currentArray.map((item) => (
+    <div key={item} className="tags">
+      <h3>{item}</h3>
+      {/* Call removeTag with the specific type and value */}
+      <button onClick={() => this.removeTag(key, item)}>X</button>
+    </div>
+  ));
+}
+
+const Results = () => {
   // redux
   const dispatch = useDispatch();
   // context
@@ -38,27 +48,24 @@ const Rezults = () => {
   const loading = useSelector((state) => state.jobs.loading);
   //state
   const [page, setPage] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
+
   // fetch more data changing the page value
   async function fetchMoreData() {
     const nextPage = page + 1;
     const { jobs } = await getData(
       createSearchString(q, city, county, country, company, remote, nextPage)
-    );
+    ).catch(() => ({ jobs: [] }));
     dispatch(setJobs(jobs));
     setPage(nextPage);
   }
-  // remove all filters
-  const removeFilters = () => {
-    handleRemoveAllFilters();
-  };
-  // scrollUp Button
-  const [isVisible, setIsVisible] = useState(false);
 
-  const checkScrollHeight = () => {
-    setIsVisible(window.pageYOffset > 500);
-  };
+  // scrollUp Button
 
   useEffect(() => {
+    const checkScrollHeight = () => {
+      setIsVisible(window.scrollY > 500);
+    };
     window.addEventListener("scroll", checkScrollHeight);
 
     return () => window.removeEventListener("scroll", checkScrollHeight);
@@ -72,21 +79,9 @@ const Rezults = () => {
         </h3>
       )}
       <div className="taguri-container">
-        {Object.keys(fields).map((key) => {
-          const currentArray = fields[key];
-          return (
-            currentArray.length > 0 &&
-            currentArray.map((item) => (
-              <div key={item} className="tags">
-                <h3>{item}</h3>
-                {/* Call removeTag with the specific type and value */}
-                <button onClick={() => removeTag(key, item)}>X</button>
-              </div>
-            ))
-          );
-        })}
+        {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
         {!deletAll && (
-          <button className="remove-all" onClick={removeFilters}>
+          <button className="remove-all" onClick={handleRemoveAllFilters}>
             Sterge filtre
           </button>
         )}
@@ -131,4 +126,4 @@ const Rezults = () => {
     </div>
   );
 };
-export default Rezults;
+export default Results;
