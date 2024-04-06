@@ -14,6 +14,18 @@ const Job = ({
   job_title,
   remote
 }) => {
+  function renderCity() {
+    return (
+      <p className="location">
+        <img src={mapPin} alt="map pin" className="icon" />
+        {city.length > 0 && city[0].toLowerCase() === "all"
+          ? "Toate orasele"
+          : city.length > 5
+          ? `${city.slice(0, 5).join(", ")} +${city.length - 5}`
+          : city.join(", ")}
+      </p>
+    );
+  }
   return (
     <div className="card">
       <img className="company-logo" src={noLogo} alt="Logo" />
@@ -25,15 +37,14 @@ const Job = ({
       {city === undefined ? (
         <p className="location">
           <img src={mapPin} alt="map pin" className="icon" />
-          {remote.length > 1 ? `${remote.join(", ")},` : `${remote}`}
+          {remote && remote.length > 1
+            ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
+            : remote
+            ? remote.join(", ")
+            : null}
         </p>
       ) : (
-        <p className="location">
-          <img src={mapPin} alt="map pin" className="icon" />
-          {city.length > 0 && (city.includes("All") || city.includes("all"))
-            ? "Toate orasele"
-            : city.join(",")}
-        </p>
+        renderCity()
       )}
       <a
         className="btn"

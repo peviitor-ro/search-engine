@@ -195,7 +195,7 @@ const FiltreGrup = () => {
                       checked={fields.remote.includes("Remote")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="Remote">Remote</label>
+                    <label htmlFor="Remote">La distanță</label>
                   </div>
                 </div>
               </React.Fragment>
