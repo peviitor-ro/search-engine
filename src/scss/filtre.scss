@@ -9,6 +9,7 @@
   color: black;
   position: relative;
   .drop-down-container {
+    font-family: PoppinsRegular;
     font-size: 18px;
     background: #ffffff;
     padding: 5px 0px 5px 0px;
@@ -62,7 +63,6 @@
         right: 10px;
       }
       .checkbox-parent {
-        font-family: PoppinsRegular;
         font-weight: 400;
         display: flex;
         gap: 3px;
@@ -98,6 +98,7 @@
     background: none;
     border: none;
     margin-bottom: 10px;
+    font-size: 16px;
     cursor: pointer;
     img {
       height: 6px;
