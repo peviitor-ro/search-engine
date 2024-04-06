@@ -1,4 +1,4 @@
-@use './colors';
+@use "./colors";
 
 .drop-down-parent {
   display: flex;
@@ -14,11 +14,13 @@
     padding: 5px 0px 5px 0px;
     gap: 1px;
     border: solid 1px #89969c;
-    border-radius: 14px;
+    border-radius: 30px;
     box-shadow: 0px 4px 14px 0px #0000001a;
     display: none;
     position: absolute;
-
+    input {
+      accent-color: colors.$background_green;
+    }
     .search-input {
       .checkbox-container {
         display: flex;
@@ -53,14 +55,18 @@
         position: relative;
         left: 0px;
         width: 20px;
+        margin-left: 4px;
       }
       .clear {
         position: absolute;
         right: 10px;
       }
       .checkbox-parent {
+        font-family: PoppinsRegular;
+        font-weight: 400;
         display: flex;
-        gap: 7px;
+        gap: 3px;
+
         input {
           border: none;
           padding: 6px 0px;
@@ -73,8 +79,14 @@
       }
     }
     .checkbox-remote {
-      width: 200px;
+      width: 190px;
       height: 190px;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: -20px;
+      margin-left: 4px;
     }
 
     .mdl {
@@ -86,7 +98,13 @@
     background: none;
     border: none;
     margin-bottom: 10px;
-
+    cursor: pointer;
+    img {
+      height: 6px;
+    }
+    &:hover {
+      color: colors.$background_green;
+    }
     .up {
       transform: rotate(180deg);
     }
@@ -107,6 +125,7 @@
   .search-input {
     .lupa {
       height: 18px;
+      margin-left: 2px;
     }
   }
 }

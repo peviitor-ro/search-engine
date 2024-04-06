@@ -1,7 +1,5 @@
 @use "./colors";
-body {
-  background: #f7f7f7;
-}
+
 .rezults-container {
   margin: 80px 0px;
   .total-rezultate {
@@ -34,7 +32,7 @@ body {
   .scrol-up {
     bottom: 50px;
     position: fixed;
-    right: 50px;
+    right: 10px;
     transition: all 0.3s ease;
     pointer-events: none;
     opacity: 0;
@@ -73,6 +71,10 @@ body {
         color: black;
         font-size: 14px;
         cursor: pointer;
+        margin-top: 4px;
+        img {
+          height: 12px;
+        }
       }
     }
   }
@@ -101,7 +103,7 @@ body {
       justify-content: center;
     }
     .scrol-up {
-      right: 0px;
+      right: -40px;
     }
   }
   .rezult-page {
