@@ -35,9 +35,6 @@ const Fetch = () => {
   // fields
   const [text, setText] = useState("");
 
-  // State to track if the form has been submitted
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
@@ -62,30 +59,9 @@ const Fetch = () => {
     numbersInfo();
   }, [dispatch]);
 
-  // useEffect to navigate when form is submitted or when handleUpdateQ is executed
-  useEffect(() => {
-    // Check if the form has been submitted or handleUpdateQ has been executed
-    if (formSubmitted) {
-      // Check if the search text is not empty before navigating
-      if (text.trim() !== "") {
-        navigate("/rezultate"); // Navigate to "/rezultate" if the search text is not empty
-      }
-      // Reset the formSubmitted state after navigation
-      setFormSubmitted(false);
-    }
-  }, [formSubmitted, text, navigate]);
-
-  // Function to handle form submission
-  const handleSubmitForm = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    // Call handleUpdateQ to update the search query
-    await handleUpdateQ();
-    // Set formSubmitted state to true to trigger navigation in useEffect
-    setFormSubmitted(true);
-  };
-
   // Send text from input into state q.
-  const handleUpdateQ = async () => {
+  const handleUpdateQ = async (e) => {
+    e.preventDefault();
     await contextSetQ([text]);
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
@@ -130,7 +106,7 @@ const Fetch = () => {
           </a>
         )}
         <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
-        <form onSubmit={handleSubmitForm}>
+        <form onSubmit={handleUpdateQ}>
           <input
             type="text"
             value={text}

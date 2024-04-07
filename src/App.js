@@ -5,7 +5,6 @@ import Landing from "./pages/Landing";
 import Rezultate from "./pages/Rezultate";
 // context
 import { TagsProvider } from "./context/TagsContext";
-
 const router = createHashRouter([
   {
     path: "",
