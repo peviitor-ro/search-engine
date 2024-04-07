@@ -45,10 +45,7 @@ const Job = ({
     <div className="card">
       <img className="company-logo" src={noLogo} alt="Logo" />
       <p className="company-name">{company}</p>
-      <h2
-        className="job-title"
-        dangerouslySetInnerHTML={{ __html: job_title }}
-      ></h2>
+      <h2 className="job-title">{job_title}</h2>
       {city === undefined ? renderRemote() : renderCity()}
       <a
         className="btn"
