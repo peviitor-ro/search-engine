@@ -32,11 +32,7 @@ const Job = ({
     return (
       <p className="location">
         <img src={mapPin} alt="map pin" className="icon" />
-        {remote && remote.length > 1
-          ? `${remote.slice(0, 5).join(", ")} `
-          : remote
-          ? remote.join(", ")
-          : null}
+        {remote ? remote.join(", ") : null}
       </p>
     );
   }
