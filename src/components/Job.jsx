@@ -14,38 +14,22 @@ const Job = ({
   job_title,
   remote
 }) => {
-  function renderCity() {
-    return (
-      <p className="location">
-        <img src={mapPin} alt="map pin" className="icon" />
-        {city.length > 0 && city[0].toLowerCase() === "all"
-          ? "Toate orasele"
-          : city.length > 5
-          ? `${city.slice(0, 5).join(", ")} +${city.length - 5}`
-          : city.join(", ")}
-      </p>
-    );
-  }
   return (
     <div className="card">
       <img className="company-logo" src={noLogo} alt="Logo" />
       <p className="company-name">{company}</p>
-      <h2
-        className="job-title"
-        dangerouslySetInnerHTML={{ __html: job_title }}
-      ></h2>
-      {city === undefined ? (
-        <p className="location">
-          <img src={mapPin} alt="map pin" className="icon" />
-          {remote && remote.length > 1
-            ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
-            : remote
-            ? remote.join(", ")
-            : null}
-        </p>
-      ) : (
-        renderCity()
-      )}
+      <h2 className="job-title">{job_title}</h2>
+      <p className="location">
+        <img src={mapPin} alt="map pin" className="icon" />
+        {city
+          ? city[0].toLowerCase() === "all"
+            ? "Toate orasele"
+            : city.length > 5
+            ? `${city.slice(0, 5).join(", ")} + ${city.length - 5}`
+            : city.slice(0, 5).join(", ")
+          : remote.join(", ")}
+      </p>
+
       <a
         className="btn"
         rel="noopener noreferrer"
