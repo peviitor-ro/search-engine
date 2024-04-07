@@ -14,6 +14,7 @@ const Job = ({
   job_title,
   remote
 }) => {
+  // make the checks for City in a function and return the result.
   function renderCity() {
     return (
       <p className="location">
@@ -26,6 +27,20 @@ const Job = ({
       </p>
     );
   }
+  // make the checks for Remote in a function and return the result.
+  function renderRemote() {
+    return (
+      <p className="location">
+        <img src={mapPin} alt="map pin" className="icon" />
+        {remote && remote.length > 1
+          ? `${remote.slice(0, 5).join(", ")} `
+          : remote
+          ? remote.join(", ")
+          : null}
+      </p>
+    );
+  }
+
   return (
     <div className="card">
       <img className="company-logo" src={noLogo} alt="Logo" />
@@ -34,18 +49,7 @@ const Job = ({
         className="job-title"
         dangerouslySetInnerHTML={{ __html: job_title }}
       ></h2>
-      {city === undefined ? (
-        <p className="location">
-          <img src={mapPin} alt="map pin" className="icon" />
-          {remote && remote.length > 1
-            ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
-            : remote
-            ? remote.join(", ")
-            : null}
-        </p>
-      ) : (
-        renderCity()
-      )}
+      {city === undefined ? renderRemote() : renderCity()}
       <a
         className="btn"
         rel="noopener noreferrer"

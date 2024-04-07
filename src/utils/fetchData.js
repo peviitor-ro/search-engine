@@ -1,9 +1,9 @@
-const API_URL = "https://api.peviitor.ro/v3/search/";
+const API_URL = "https://api.peviitor.ro/v3/";
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
   try {
-    const response = await fetch(`${API_URL}?${createQueryString}`);
+    const response = await fetch(`${API_URL}search/?${createQueryString}`);
     const data = await response.json();
     return {
       jobs: data.response.docs,
@@ -17,7 +17,7 @@ export const getData = async (createQueryString) => {
 // get the number of jobs in Romania.
 export const getNumberOfJobs = async () => {
   try {
-    const response = await fetch(`${API_URL}?country=România`);
+    const response = await fetch(`${API_URL}search/?country=România`);
     const data = await response.json();
     return data.response.numFound;
   } catch (error) {
@@ -28,7 +28,7 @@ export const getNumberOfJobs = async () => {
 // get the number of Company we have in our DB
 export const getNumberOfCompany = async () => {
   try {
-    const response = await fetch(`https://api.peviitor.ro/v3/logo/`);
+    const response = await fetch(`${API_URL}logo/`);
     const data = await response.json();
     return data.companies.length;
   } catch (error) {
@@ -38,7 +38,7 @@ export const getNumberOfCompany = async () => {
   }
 };
 
-// fetch pentru a lua numele de la firme pentru checkbox.
+// fetch to get the names of companies
 export const getNameOfCompanies = async () => {
   try {
     const response = await fetch(
