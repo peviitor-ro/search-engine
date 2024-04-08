@@ -29,17 +29,15 @@ const Job = ({
     fetchLogoData();
   }, []);
 
-  function renderCity() {
-    return (
-      <p className="location">
-        <img src={mapPin} alt="map pin" className="icon" />
-        {city.length > 0 && city[0].toLowerCase() === "all"
-          ? "Toate orasele"
-          : city.length > 5
-          ? `${city.slice(0, 5).join(", ")} +${city.length - 5}`
-          : city.join(", ")}
-      </p>
-    );
+
+  function displayLocation(cities) {
+    return cities
+      ? cities[0].toLowerCase() === "all"
+        ? "Toate orasele"
+        : cities.length > 5
+        ? `${cities.slice(0, 5).join(", ")} + ${cities.length - 5}`
+        : cities.join(", ")
+      : remote.join(", ");
   }
 
   const renderCompanyLogo = (companyName) => {
@@ -66,22 +64,11 @@ const Job = ({
 
       <div className="card-info">
         <p className="company-name">{company}</p>
-        <h2
-          className="job-title"
-          dangerouslySetInnerHTML={{ __html: job_title }}
-        ></h2>
-        {city === undefined ? (
-          <p className="location">
-            <img src={mapPin} alt="map pin" className="icon" />
-            {remote && remote.length > 1
-              ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
-              : remote
-              ? remote.join(", ")
-              : null}
-          </p>
-        ) : (
-          renderCity()
-        )}
+         <h2 className="job-title">{job_title}</h2>
+      <p className="location">
+        <img src={mapPin} alt="map pin" className="icon" />
+        {displayLocation(city)}
+      </p>
         <a
           className="btn"
           rel="noopener noreferrer"
@@ -91,6 +78,7 @@ const Job = ({
           Către site
         </a>
       </div>
+
     </div>
   );
 };
