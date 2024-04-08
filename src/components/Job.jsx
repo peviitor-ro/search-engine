@@ -5,6 +5,9 @@ import mapPin from "../assets/svg/map_pin.svg";
 import "../scss/job.scss";
 // react
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getLogoOfCompanies } from "../utils/fetchData";
 const Job = ({
   city,
   company,
@@ -14,6 +17,18 @@ const Job = ({
   job_title,
   remote
 }) => {
+  const [logoData, setLogoData] = useState([]);
+
+  // fetch data for logo
+  useEffect(() => {
+    const fetchLogoData = async () => {
+      const logoData = await getLogoOfCompanies();
+      setLogoData(logoData);
+    };
+
+    fetchLogoData();
+  }, []);
+
   function renderCity() {
     return (
       <p className="location">
@@ -26,34 +41,59 @@ const Job = ({
       </p>
     );
   }
+
+  const renderCompanyLogo = (companyName) => {
+    // check if copmany name is the same as logo name
+    const company = logoData.find((item) => item.name === companyName);
+    if (company) {
+      return (
+        <img
+          className="company-logo"
+          src={company.logo}
+          alt={companyName}
+          // on error src will be noLogo
+          onError={(e) => (e.target.src = noLogo)}
+        />
+      );
+    } else {
+      // If company logo doesn't exist return "noLogo" placeholder
+      return <img className="company-logo" src={noLogo} alt="Logo" />;
+    }
+  };
+
   return (
     <div className="card">
-      <img className="company-logo" src={noLogo} alt="Logo" />
-      <p className="company-name">{company}</p>
-      <h2
-        className="job-title"
-        dangerouslySetInnerHTML={{ __html: job_title }}
-      ></h2>
-      {city === undefined ? (
-        <p className="location">
-          <img src={mapPin} alt="map pin" className="icon" />
-          {remote && remote.length > 1
-            ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
-            : remote
-            ? remote.join(", ")
-            : null}
-        </p>
-      ) : (
-        renderCity()
-      )}
-      <a
-        className="btn"
-        rel="noopener noreferrer"
-        target="_blank"
-        href={job_link}
-      >
-        Către site
-      </a>
+      <div className="container-logo">
+        {renderCompanyLogo(company !== undefined && company[0])}
+      </div>
+
+      <div className="card-info">
+        <p className="company-name">{company}</p>
+        <h2
+          className="job-title"
+          dangerouslySetInnerHTML={{ __html: job_title }}
+        ></h2>
+        {city === undefined ? (
+          <p className="location">
+            <img src={mapPin} alt="map pin" className="icon" />
+            {remote && remote.length > 1
+              ? `${remote.slice(0, 5).join(", ")} +${remote.length - 5}`
+              : remote
+              ? remote.join(", ")
+              : null}
+          </p>
+        ) : (
+          renderCity()
+        )}
+        <a
+          className="btn"
+          rel="noopener noreferrer"
+          target="_blank"
+          href={job_link}
+        >
+          Către site
+        </a>
+      </div>
     </div>
   );
 };
