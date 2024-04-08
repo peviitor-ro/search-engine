@@ -46,25 +46,22 @@ const Job = ({
     // check if copmany name is the same as logo name
     const company = logoData.find((item) => item.name === companyName);
     if (company) {
-      return (
-        <img
-          className="company-logo"
-          src={company.logo}
-          alt={companyName}
-          // on error src will be noLogo
-          onError={(e) => (e.target.src = noLogo)}
-        />
-      );
+      return company.logo;
     } else {
       // If company logo doesn't exist return "noLogo" placeholder
-      return <img className="company-logo" src={noLogo} alt="Logo" />;
+      return noLogo;
     }
   };
 
   return (
     <div className="card">
       <div className="container-logo">
-        {renderCompanyLogo(company !== undefined && company[0])}
+        <img
+          className="company-logo"
+          src={renderCompanyLogo(company !== undefined && company[0])}
+          alt={company}
+          onError={(e) => (e.target.src = noLogo)}
+        />
       </div>
 
       <div className="card-info">
