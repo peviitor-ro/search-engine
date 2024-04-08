@@ -82,14 +82,16 @@ const Results = () => {
           {total} {total !== 0 ? "de" : ""} rezultate
         </h3>
       )}
-      <div className="taguri-container">
-        {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
-        {!deletAll && (
-          <button className="remove-all" onClick={handleRemoveAllFilters}>
-            Sterge filtre
-          </button>
-        )}
-      </div>
+      {!deletAll && (
+        <div className="taguri-container">
+          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
+          {!deletAll && (
+            <button className="remove-all" onClick={handleRemoveAllFilters}>
+              Sterge filtre
+            </button>
+          )}
+        </div>
+      )}
 
       {jobs.length > 0 ? (
         <div className="cards-containter">
