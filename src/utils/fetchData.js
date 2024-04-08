@@ -52,3 +52,16 @@ export const getNameOfCompanies = async () => {
     throw error;
   }
 };
+
+// fetch pentru a lua logo-urile pentru firme
+export const getLogoOfCompanies = async () => {
+  try {
+    const response = await fetch(`https://api.peviitor.ro/v1/logo/`);
+    const data = await response.json();
+
+    return data.companies;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
