@@ -60,6 +60,9 @@
       width: 100px;
       padding: 14px 40px 14px 40px;
       border-radius: 30px;
+      &:hover {
+        box-shadow: 0px 5px 5px 0px #00000040 inset;
+      }
     }
   }
 }

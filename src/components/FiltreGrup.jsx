@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import TagsContext from "../context/TagsContext";
 import sageata from "../assets/svg/arrow_bottom.svg";
@@ -16,10 +16,17 @@ const dREG = new RegExp("ă", "g");
 const eREG = new RegExp("î", "g");
 
 // CheckboxFilter component for filtering items
-const CheckboxFilter = ({ items, filterKey, searchFor }) => {
+const CheckboxFilter = ({ items, filterKey, searchFor, dropDown }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
+
+  // Empty the search value when dropdown its closed
+  useEffect(() => {
+    if (dropDown[0] || dropDown[1]) {
+      setSearchQuery("");
+    }
+  }, [dropDown]);
 
   // Filtering items based on search query
   const filteredItems = items.filter(
@@ -42,8 +49,16 @@ const CheckboxFilter = ({ items, filterKey, searchFor }) => {
   }, [filteredItems, searchQuery]);
 
   // Displaying filtered items
-  const displayItems =
-    searchQuery.length >= 1 ? filteredItems : items.slice(0, 20);
+  let displayItems = filteredItems;
+
+  // Show the checked items on top
+  const checkedItems = displayItems.filter((item) =>
+    fields[filterKey].includes(item)
+  );
+  const uncheckedItems = displayItems.filter(
+    (item) => !fields[filterKey].includes(item)
+  );
+  displayItems = [...checkedItems, ...uncheckedItems.slice(0, 10)];
 
   return (
     <div className="search-input">
@@ -51,6 +66,7 @@ const CheckboxFilter = ({ items, filterKey, searchFor }) => {
         <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
         <input
           type="search"
+          value={searchQuery}
           placeholder={`Cauta ${searchFor}`}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -82,6 +98,9 @@ const CheckboxFilter = ({ items, filterKey, searchFor }) => {
 const FiltreGrup = () => {
   const [data, setData] = useState([]);
 
+  // use it for closing dropdown on click
+  const refDropdown = useRef();
+
   // Destructuring fields and handleCheckBoxChange from the context
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
@@ -111,20 +130,69 @@ const FiltreGrup = () => {
     fetchData();
   }, []);
 
+  // Function to get button style based on index and fields
+  const getButtonStyle = (index) => {
+    if (index === 0 && fields.orase.length >= 1) {
+      return { color: "#048a81" };
+    } else if (index === 1 && fields.company.length >= 1) {
+      return { color: "#048a81" };
+    } else if (index === 2 && fields.remote.length >= 1) {
+      return { color: "#048a81" };
+    } else {
+      return {};
+    }
+  };
+
+  // Function to get button label based on index and fields
+  const getButtonLabel = (index) => {
+    if (index === 0) {
+      return `Oraș ${
+        fields.orase.length >= 1 ? `(${fields.orase.length})` : ""
+      }`;
+    } else if (index === 1) {
+      return `Companie ${
+        fields.company.length >= 1 ? `(${fields.company.length})` : ""
+      }`;
+    } else {
+      return `Mod de lucru ${
+        fields.remote.length >= 1 ? `(${fields.remote.length})` : ""
+      }`;
+    }
+  };
+
+  // For closing dropDown on click
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      // when its clicked outside the dropdown, then will close the dropdown
+      if (
+        dropDown &&
+        refDropdown.current &&
+        !refDropdown.current.contains(e.target)
+      ) {
+        setDropDown([false, false, false]);
+      }
+    };
+    document.addEventListener("mousedown", checkIfClickedOutside);
+    return () => {
+      // Cleanup the event listener
+      document.removeEventListener("mousedown", checkIfClickedOutside);
+    };
+  }, [dropDown]);
+
   // Rendering the component
   return (
-    <div className="drop-down-parent">
+    <div className="drop-down-parent" ref={refDropdown}>
       {/* Mapping through each dropdown */}
       {dropDown.map((isOpen, index) => (
         <div key={index}>
           {/* Button for toggling the dropdown */}
-          <button className="drop-down" onClick={() => handleDropDown(index)}>
+          <button
+            className="drop-down"
+            onClick={() => handleDropDown(index)}
+            style={getButtonStyle(index)}
+          >
             {/* Dynamically set button label based on index */}
-            {index === 0
-              ? "Oraș"
-              : index === 1
-              ? "Companie"
-              : "Mod de lucru"}{" "}
+            {getButtonLabel(index)}
             {/* Arrow icon for indicating dropdown state */}
             <img
               src={sageata}
@@ -143,6 +211,7 @@ const FiltreGrup = () => {
                   items={orase}
                   filterKey="orase"
                   searchFor="oras"
+                  dropDown={dropDown}
                 />
               </React.Fragment>
             )}
@@ -154,6 +223,7 @@ const FiltreGrup = () => {
                   items={data}
                   filterKey="company"
                   searchFor="companie"
+                  dropDown={dropDown}
                 />
               </React.Fragment>
             )}
