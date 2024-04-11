@@ -6,10 +6,16 @@
   justify-content: center;
   padding-top: 20px;
 
-  .lupa {
+  form {
     position: relative;
-    left: 40px;
   }
+
+  .lupa {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+  }
+
   input {
     padding-left: 50px;
     border: 1px solid #89969c;
@@ -17,11 +23,13 @@
     width: 620px;
     height: 54px;
   }
+
   .clear {
-    position: relative;
-    left: -40px;
-    top: 2px;
+    position: absolute;
+    right: 148px;
+    top: 21px;
   }
+
   button {
     margin-left: 6px;
     color: white;
@@ -48,15 +56,6 @@
     align-items: center;
     justify-content: center;
 
-    .lupa {
-      left: -196px;
-      top: 42px;
-    }
-    .clear {
-      position: relative;
-      left: 200px;
-      top: -46px;
-    }
     input {
       width: 400px;
       height: 54px;
@@ -64,26 +63,19 @@
     }
   }
 }
-@media (max-width: 1199px) {
-  .input-container {
-    .lupa {
-      left: -260px;
-    }
-  }
-}
 
 @media (max-width: 800px) {
   .input-container {
-    button {
-      display: none;
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
     }
-    .lupa {
-      left: -116px;
-      top: 40px;
-    }
+
     .clear {
-      left: 100px;
-      top: -46px;
+      position: absolute;
+      right: 18px;
     }
     input {
       width: 240px;

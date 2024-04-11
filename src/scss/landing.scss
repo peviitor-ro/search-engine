@@ -1,8 +1,7 @@
 @use "./colors";
 
 .background-img {
-  background: url("../assets/images/landing-cover.png") no-repeat center center
-    fixed;
+  background: url("../assets/images/landing-cover.png") no-repeat center center fixed;
   background-size: cover;
   height: 100vh;
 }
@@ -96,14 +95,14 @@ main {
   }
   main {
     margin: 50px 0px;
-    margin-bottom: 230px;
+    margin-bottom: 350px;
     .content {
       width: 350px;
       img {
         width: 300px;
         margin-left: 0px;
         position: absolute;
-        top: 480px;
+        top: 600px;
       }
     }
     .content {

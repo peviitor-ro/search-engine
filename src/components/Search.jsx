@@ -105,8 +105,8 @@ const Fetch = () => {
             <img src={logo} alt="peviitor" />
           </a>
         )}
-        <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
         <form onSubmit={handleUpdateQ}>
+          <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
           <input
             type="text"
             value={text}
