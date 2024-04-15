@@ -16,18 +16,13 @@ import {
   setJobs,
   clearJobs,
   setTotal,
-  setNumberOfJobs,
   setNumberOfCompany,
   setLoading
 } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
-import {
-  getData,
-  getNumberOfJobs,
-  getNumberOfCompany
-} from "../utils/fetchData";
+import { getData, getNumberOfCompany } from "../utils/fetchData";
 
 const Fetch = () => {
   const { q, city, remote, county, country, company, removeTag, contextSetQ } =
@@ -51,9 +46,7 @@ const Fetch = () => {
   // useEffect to load the number of company and jobs
   useEffect(() => {
     const numbersInfo = async () => {
-      const jobsNumber = await getNumberOfJobs();
       const companyNumber = await getNumberOfCompany();
-      dispatch(setNumberOfJobs(jobsNumber));
       dispatch(setNumberOfCompany(companyNumber));
     };
     numbersInfo();
