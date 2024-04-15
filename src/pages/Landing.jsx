@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { getNumberOfJobs } from "../utils/fetchData";
 // images
 import logo from "../assets/svg/logo.svg";
 import dungi from "../assets/svg/dungi.svg";
@@ -8,11 +10,18 @@ import racheta from "../assets/svg/racheta.svg";
 // components
 import Search from "../components/Search";
 import Footer from "../components/Footer";
-// redux
-import { useSelector } from "react-redux";
+
 const Landing = () => {
-  // redux state
-  const { totalJobs } = useSelector((state) => state.jobs);
+  const [totalJobs, setTotalJobs] = useState(0);
+
+  useEffect(() => {
+    async function fetchTotalJobs() {
+      const jobsNumber = await getNumberOfJobs();
+      setTotalJobs(jobsNumber);
+    }
+    fetchTotalJobs();
+  }, []);
+
   return (
     <div className="background-img">
       <div className="landing">
