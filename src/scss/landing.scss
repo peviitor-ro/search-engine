@@ -60,6 +60,9 @@ main {
   }
 }
 @media (max-width: 1200px) {
+  .background-img {
+    height: 100%;
+  }
   .landing {
     padding: 0 6rem;
   }
