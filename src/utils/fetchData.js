@@ -41,12 +41,9 @@ export const getNumberOfCompany = async () => {
 // fetch pentru a lua numele de la firme pentru checkbox.
 export const getNameOfCompanies = async () => {
   try {
-    const response = await fetch(
-      `https://api.peviitor.ro/v1/companies/?count=true`
-    );
+    const response = await fetch(`https://api.peviitor.ro/v3/companies/`);
     const data = await response.json();
-    const names = data.companies.map((company) => company.name);
-    return names;
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
