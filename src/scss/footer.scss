@@ -3,9 +3,11 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    margin: 0 auto;
   }
   .social-media {
     display: flex;
+    margin: 0 auto;
     margin-top: 8px;
   }
   h3 {
@@ -13,11 +15,13 @@
     font-size: 16px;
     font-weight: 700;
     line-height: 25px;
-    text-align: left;
+    margin: 0 auto;
+    text-align: center;
   }
   .all-rights-reserved {
     margin-top: 40px;
-    margin-bottom: 6px;
+    padding-bottom: 20px;
+    text-align: center;
   }
 
   ul {
