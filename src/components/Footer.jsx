@@ -34,7 +34,7 @@ const Footer = () => {
             </a>
             <a
               className="icon"
-              href="https://github.com/peviitor-ro/ui-js/issues"
+              href="https://github.com/peviitor-ro/oportunitatisicariere/issues"
               target="_blank"
               rel="noreferrer"
               title="GitHub"
