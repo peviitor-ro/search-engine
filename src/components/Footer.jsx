@@ -61,67 +61,6 @@ const Footer = () => {
             </a>
           </div>
         </section>
-        <section className="company">
-          <h3 className="title">Implica-te!</h3>
-          <ul>
-            <li>
-              <a
-                href="https://www.oportunitatisicariere.ro/voluntari"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Alătură-te cauzei noastre
-              </a>
-            </li>
-          </ul>
-        </section>
-        <section className="company">
-          <h3 className="title">Organizație</h3>
-          <ul>
-            <li>
-              <a
-                href="https://www.oportunitatisicariere.ro/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Despre noi
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.oportunitatisicariere.ro/viziune"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Viziune
-              </a>
-            </li>
-          </ul>
-        </section>
-        <section className="info">
-          <h3 className="title">Informații suplimentare</h3>
-
-          <ul>
-            <li>
-              <a
-                href="https://legal.peviitor.ro/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Condiții de utilizare
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://legal.peviitor.ro/confidentialitate"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Politica de confidențialitate
-              </a>
-            </li>
-          </ul>
-        </section>
       </section>
       <section className="all-rights-reserved">
         © {year} - Toate drepturile rezervate
