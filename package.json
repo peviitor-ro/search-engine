@@ -20,7 +20,7 @@
     "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
   },
   "scripts": {
-    "start": "react-scripts --watch start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
