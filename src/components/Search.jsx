@@ -28,7 +28,7 @@ const Fetch = () => {
   const { q, city, remote, county, country, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
-  const [text, setText] = useState(q);
+  const [text, setText] = useState("");
 
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
