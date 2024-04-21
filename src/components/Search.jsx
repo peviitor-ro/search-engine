@@ -24,7 +24,7 @@ import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 
-const Fetch = () => {
+const Fetch = ({ landing }) => {
   const { q, city, remote, county, country, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
@@ -34,6 +34,12 @@ const Fetch = () => {
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (location.pathname === "/rezultate") {
+      setText(q + "");
+    }
+  }, [location.pathname, q]);
 
   // useEffect for localStorage
   useEffect(() => {
