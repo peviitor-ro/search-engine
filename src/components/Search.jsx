@@ -35,6 +35,13 @@ const Fetch = () => {
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
 
+  // useEffect to set the search input field as the user search querry
+  useEffect(() => {
+    if (location.pathname === "/rezultate") {
+      setText(q + "");
+    }
+  }, [location.pathname, q]);
+
   // useEffect for localStorage
   useEffect(() => {
     localStorage.setItem("q", JSON.stringify(q));
