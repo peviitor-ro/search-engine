@@ -13,7 +13,7 @@ const Footer = () => {
       <section className="links">
         <section className="social-media">
           {/* <h3 className="title hide-title">Social Media</h3> */}
-          <div className="social-links">
+          <nav className="social-links">
             <a
               className="icon"
               href="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/"
@@ -21,34 +21,7 @@ const Footer = () => {
               rel="noreferrer"
               title="LinkedIn"
             >
-              <img src={linkedin} alt="linkedin icon" />
-            </a>
-            <a
-              className="icon"
-              href="https://discord.gg/t2aEdmR52a"
-              target="_blank"
-              rel="noreferrer"
-              title="Discord"
-            >
-              <img src={discord} alt="linkedin icon" />
-            </a>
-            <a
-              className="icon"
-              href="https://github.com/peviitor-ro/search-engine/issues"
-              target="_blank"
-              rel="noreferrer"
-              title="GitHub"
-            >
-              <img src={github} alt="github icon" />
-            </a>
-            <a
-              className="icon"
-              href="https://meet.jit.si/PEVIITOR.RO"
-              target="_blank"
-              rel="noreferrer"
-              title="Jitsi"
-            >
-              <img src={jitsi} alt="jitsi icon" />
+              <img src={linkedin} alt="LinkedIn icon" />
             </a>
             <a
               className="icon"
@@ -59,7 +32,34 @@ const Footer = () => {
             >
               <img src={instagram} alt="Instagram icon" />
             </a>
-          </div>
+            <a
+              className="icon"
+              href="https://discord.gg/t2aEdmR52a"
+              target="_blank"
+              rel="noreferrer"
+              title="Discord"
+            >
+              <img src={discord} alt="Discord icon" />
+            </a>
+            <a
+              className="icon"
+              href="https://github.com/peviitor-ro/search-engine/issues"
+              target="_blank"
+              rel="noreferrer"
+              title="GitHub"
+            >
+              <img src={github} alt="GitHub icon" />
+            </a>
+            <a
+              className="icon"
+              href="https://meet.jit.si/PEVIITOR.RO"
+              target="_blank"
+              rel="noreferrer"
+              title="Jitsi"
+            >
+              <img src={jitsi} alt="Jitsi icon" />
+            </a>
+          </nav>
         </section>
       </section>
       <section className="all-rights-reserved">
