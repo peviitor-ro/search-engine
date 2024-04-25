@@ -29,7 +29,6 @@ const Job = ({
     fetchLogoData();
   }, []);
 
-
   function displayLocation(cities) {
     return cities
       ? cities[0].toLowerCase() === "all"
@@ -64,11 +63,11 @@ const Job = ({
 
       <div className="card-info">
         <p className="company-name">{company}</p>
-         <h2 className="job-title">{job_title}</h2>
-      <p className="location">
-        <img src={mapPin} alt="map pin" className="icon" />
-        {displayLocation(city)}
-      </p>
+        <h2 className="job-title">{job_title}</h2>
+        <p className="location">
+          <img src={mapPin} alt="map pin" className="icon" />
+          {city || remote ? displayLocation(city) : ""}
+        </p>
         <a
           className="btn"
           rel="noopener noreferrer"
@@ -78,7 +77,6 @@ const Job = ({
           Către site
         </a>
       </div>
-
     </div>
   );
 };
