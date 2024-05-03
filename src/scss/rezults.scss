@@ -4,40 +4,45 @@
     center fixed;
   background-size: cover;
   height: 100%;
+  padding: 20px 160px 0 160px;
 }
+
 .rezults-container {
   margin: 80px 0px;
   .total-rezultate {
     margin: 30px 0px;
     color: #979c9e;
   }
+
   .cards-containter {
     display: grid;
     justify-content: center;
     align-items: center;
     grid-template-columns: repeat(3, 1fr);
-    gap: 100px;
-    margin-bottom: 30px;
+    gap: 13rem;
+    margin-bottom: 3rem;
   }
+
   .load-more {
-    padding: 14px 40px 14px 40px;
+    padding: 12px 40px 12px 40px;
     border-radius: 30px;
-    background: colors.$background_green;
-    border: none;
+    border: 1px solid colors.$background_green;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-size: 16px;
+    color: colors.$background_green;
+    font-size: 1.6rem;
     font-weight: 500;
     line-height: 24px;
     margin-inline: auto;
     margin-bottom: 50px;
     cursor: pointer;
+
     &:hover {
       box-shadow: 0px 5px 5px 0px #00000040 inset;
     }
   }
+
   .scrol-up {
     bottom: 50px;
     position: fixed;
@@ -48,6 +53,7 @@
     background: none;
     border: none;
   }
+
   .scrol-up.is-visible {
     opacity: 1;
     pointer-events: all;
@@ -55,6 +61,7 @@
     background: none;
     border: none;
   }
+
   .taguri-container {
     display: flex;
     flex-wrap: wrap;
@@ -67,6 +74,7 @@
       border-left: 1px solid #2e2e2e;
       font-size: 16px;
     }
+
     .tags {
       color: #2e2e2e;
       display: flex;
@@ -89,33 +97,36 @@
     }
   }
 }
-.rezult-page {
-  padding: 0rem 10rem;
-}
+
 @media (max-width: 1400px) {
   .rezults-container {
     .cards-containter {
       grid-template-columns: repeat(2, 1fr);
-      gap: 40px;
+      gap: 4rem;
     }
   }
+
   .rezult-page {
     padding: 0rem 6rem;
   }
 }
+
 @media (max-width: 800px) {
   .rezults-container {
     margin-top: 0px;
+
     .cards-containter {
       grid-template-columns: 1fr;
       align-content: center;
       align-items: center;
       justify-content: center;
     }
+
     .scrol-up {
-      right: -40px;
+      right: -4rem;
     }
   }
+
   .rezult-page {
     padding: 0 2rem;
   }

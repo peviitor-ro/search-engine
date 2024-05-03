@@ -4,9 +4,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px auto 0px auto;
+  margin: 6px auto 0px auto;
   width: fit-content;
-  gap: 8px;
+  gap: 17px;
   color: black;
   position: relative;
   .drop-down-container {
@@ -98,7 +98,7 @@
   .drop-down {
     background: none;
     border: none;
-    margin-bottom: 10px;
+    padding: 8px 16px;
     font-size: 16px;
     cursor: pointer;
     img {
