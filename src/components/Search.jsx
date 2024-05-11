@@ -98,7 +98,7 @@ const Fetch = () => {
     setText("");
   }
   return (
-    <div>
+    <>
       <div className="input-container">
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo">
@@ -136,7 +136,7 @@ const Fetch = () => {
           <FiltreGrup />
         </>
       )}
-    </div>
+    </>
   );
 };
 export default Fetch;

@@ -63,7 +63,7 @@ const Footer = () => {
         </section>
       </section>
       <section className="all-rights-reserved">
-        © {year} - Toate drepturile rezervate
+        <p> © {year} - Toate drepturile rezervate</p>
         <a
           href="https://www.oportunitatisicariere.ro"
           target="_blank"
