@@ -15,6 +15,13 @@
   height: 100vh;
 
   margin: 0 auto;
+
+  footer {
+    margin: 0 auto;
+    width: 70%;
+    display: flex;
+    align-items: center;
+  }
 }
 a {
   text-decoration: none;
@@ -60,7 +67,6 @@ main {
   }
   .content {
     order: 1;
-    width: fit-content;
     .text {
       position: relative;
       width: 486px;
