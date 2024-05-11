@@ -19,8 +19,6 @@
   footer {
     margin: 0 auto;
     width: 70%;
-    display: flex;
-    align-items: center;
   }
 }
 a {
@@ -28,7 +26,7 @@ a {
   color: black;
 }
 .navbar {
-  width: 80%;
+  width: 70%;
   border-bottom: 1px solid #ccdde2;
   img {
     padding: 10px;
@@ -84,6 +82,14 @@ main {
   }
   .input-container {
     order: 2;
+    form {
+      display: flex;
+    }
+  }
+}
+@media (min-width: 1500px) {
+  .input-container {
+    flex: 0 0 50%;
   }
 }
 
@@ -107,12 +113,14 @@ main {
         transform: scale(1);
       }
     }
+    .input-container {
+      order: 2;
+    }
   }
 }
 
 @media (max-width: 800px) {
   main {
-    flex-direction: column;
     align-items: center;
     & h1 {
       font-size: 40px;
@@ -121,7 +129,32 @@ main {
       order: 1;
       .text {
         width: 310px;
+        .dungi {
+          top: 128px;
+          transform: scale(0.6);
+          left: -50px;
+        }
+      }
+    }
+    .racheta {
+      order: 2;
+    }
+    .input-container {
+      order: 3;
+    }
+  }
+}
 
+@media (max-width: 640px) {
+  main {
+    align-items: center;
+    & h1 {
+      font-size: 40px;
+    }
+    .content {
+      order: 1;
+      .text {
+        width: 310px;
         .dungi {
           top: 128px;
           transform: scale(0.6);
@@ -131,6 +164,10 @@ main {
     }
     .racheta {
       order: 3;
+      width: 320px;
+      img {
+        width: 100%;
+      }
     }
     .input-container {
       order: 2;

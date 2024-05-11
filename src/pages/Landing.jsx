@@ -45,7 +45,9 @@ const Landing = () => {
             </div>
           </div>
 
-          <img src={racheta} alt="Racheta" className="racheta" />
+          <div className="racheta">
+            <img src={racheta} alt="Racheta" className="racheta2" />
+          </div>
 
           <Search />
         </main>
