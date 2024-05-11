@@ -43,8 +43,10 @@ const Landing = () => {
                 actualizate zilnic
               </h4>
             </div>
-            <img src={racheta} alt="Racheta" className="racheta" />
           </div>
+
+          <img src={racheta} alt="Racheta" className="racheta" />
+
           <Search />
         </main>
         <Footer />
