@@ -111,7 +111,7 @@ const Fetch = () => {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Ce doriți să lucrați?"
+            placeholder="Caută un loc de muncă"
           />
           {text.length !== 0 ? (
             <span className="clear" onClick={handleClearX}>
