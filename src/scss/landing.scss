@@ -12,8 +12,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  // height: 100vh;
-
+  min-height: 100vh;
   margin: 0 auto;
 
   footer {
@@ -41,7 +40,6 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 10em;
-  padding-top: 150px;
 
   h1 {
     color: colors.$text_orange;
@@ -126,6 +124,7 @@ main {
 
 @media (max-width: 800px) {
   main {
+    width: 70%;
     align-items: center;
     & h1 {
       font-size: 40px;
@@ -142,10 +141,10 @@ main {
       }
     }
     .racheta {
-      order: 2;
+      order: 3;
     }
     .input-container {
-      order: 3;
+      order: 2;
     }
   }
 }
@@ -158,14 +157,6 @@ main {
     }
     .content {
       order: 1;
-      .text {
-        width: 310px;
-        .dungi {
-          top: 128px;
-          transform: scale(0.6);
-          left: -50px;
-        }
-      }
     }
     .racheta {
       order: 3;
