@@ -12,13 +12,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
-
+  min-height: 100vh;
   margin: 0 auto;
 
   footer {
     margin: 0 auto;
     width: 70%;
+    border-top: 1px solid #ccdde2;
+    padding-top: 21px;
   }
 }
 a {
@@ -33,6 +34,7 @@ a {
   }
 }
 main {
+  // width: 70%;
   font-family: PoppinsRegular;
   display: flex;
   flex-wrap: wrap;
@@ -95,7 +97,8 @@ main {
 
 @media (max-width: 1100px) {
   main {
-    margin-bottom: 0;
+    margin-bottom: 60px;
+    padding-top: 60px;
     h1 {
       font-size: 44px;
     }
@@ -121,6 +124,7 @@ main {
 
 @media (max-width: 800px) {
   main {
+    width: 70%;
     align-items: center;
     & h1 {
       font-size: 40px;
@@ -137,10 +141,10 @@ main {
       }
     }
     .racheta {
-      order: 2;
+      order: 3;
     }
     .input-container {
-      order: 3;
+      order: 2;
     }
   }
 }
@@ -153,14 +157,6 @@ main {
     }
     .content {
       order: 1;
-      .text {
-        width: 310px;
-        .dungi {
-          top: 128px;
-          transform: scale(0.6);
-          left: -50px;
-        }
-      }
     }
     .racheta {
       order: 3;
