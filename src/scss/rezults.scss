@@ -4,7 +4,10 @@
     center fixed;
   background-size: cover;
   // height: 100%;
-  // width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin: 0 auto;
 
   .input-container {
@@ -24,6 +27,7 @@
 .rezults-container {
   width: 70%;
   margin: 0 auto;
+  margin-bottom: auto;
 
   .total-rezultate {
     margin: 30px 0px;
