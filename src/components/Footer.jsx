@@ -4,6 +4,7 @@ import discord from "../assets/svg/discord_icon.svg";
 import github from "../assets/svg/github_icon.svg";
 import jitsi from "../assets/svg/jitsi_icon.svg";
 import instagram from "../assets/svg/instagram_icon.svg";
+import dev from "../assets/svg/dev_icon.svg";
 //scss
 import "../scss/footer.scss";
 const Footer = () => {
@@ -58,6 +59,15 @@ const Footer = () => {
               title="Jitsi"
             >
               <img src={jitsi} alt="Jitsi icon" />
+            </a>
+            <a
+              className="icon"
+              href="https://dev.to/t/peviitor"
+              target="_blank"
+              rel="noreferrer"
+              title="Dev"
+            >
+              <img src={dev} alt="Dev icon" />
             </a>
           </nav>
         </section>
