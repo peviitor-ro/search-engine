@@ -5,8 +5,10 @@ import github from "../assets/svg/github_icon.svg";
 import jitsi from "../assets/svg/jitsi_icon.svg";
 import instagram from "../assets/svg/instagram_icon.svg";
 import dev from "../assets/svg/dev_icon.svg";
+import api from "../assets/svg/api-svgrepo-com.svg";
 //scss
 import "../scss/footer.scss";
+
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
@@ -68,6 +70,15 @@ const Footer = () => {
               title="Dev"
             >
               <img src={dev} alt="Dev icon" />
+            </a>
+            <a
+              className="icon"
+              href="https://api.peviitor.ro/"
+              target="_blank"
+              rel="noreferrer"
+              title="API"
+            >
+              <img src={api} alt="API icon" />
             </a>
           </nav>
         </section>
