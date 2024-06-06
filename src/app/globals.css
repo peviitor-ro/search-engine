@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "JustMandrone";
+  src: url("../app/assets/fonts/Just-Mandrawn.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PoppinsLight";
+  src: url("../app/assets/fonts/Poppins-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "PoppinsRegular";
+  src: url("../app/assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+.landing-page {
+  background: url("../app/assets/images/landing-cover.png") no-repeat center
+    center fixed;
+  background-size: cover;
+}
+
+.rezultate-pagina {
+  background: url("../app/assets/images/rezultate-cover.png") no-repeat center
+    center fixed;
+  background-size: cover;
+}
+
+.scrollbar-class::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-class::-webkit-scrollbar-thumb {
+  background-color: #048a81;
+  border-radius: 26px;
+  cursor: pointer;
+}
