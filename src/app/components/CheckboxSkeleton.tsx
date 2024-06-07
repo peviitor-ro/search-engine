@@ -24,7 +24,7 @@ const CheckboxFilter = ({
   filterKey,
   searchFor,
   checked,
-  dropDown,
+  dropDown
 }: checkboxProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
@@ -77,7 +77,7 @@ const CheckboxFilter = ({
           // Items that contain the searc2h query but do not match exactly or start with it
           ...(filteredItems?.filter(
             (item) => !item.toLowerCase().startsWith(searchQuery.toLowerCase())
-          ) || []),
+          ) || [])
         ]
       : items?.slice(0, 25);
 
@@ -92,6 +92,8 @@ const CheckboxFilter = ({
       if (currentValues.includes(value)) {
         // Remove the value if it exists
         params.delete(name);
+        // Set the page parameter to 1 when applying filters
+        params.set("pagina", "1");
         currentValues
           .filter((val) => val !== value)
           .forEach((val) => {

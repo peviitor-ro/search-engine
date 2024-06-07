@@ -34,15 +34,17 @@ export default async function sitemap({
 
       if (doc && Array.isArray(doc)) {
         for (const { job_title } of doc) {
-          for (const title of job_title) {
-            if (!seenJobTitles.has(title)) {
-              seenJobTitles.add(title);
-              jobEntries.push({
-                url: `${urlSite}rezultate?job=${encodeURIComponent(
-                  title.replace(/&/g, "&amp;")
-                )}`,
-                changeFrequency: "weekly"
-              });
+          if (job_title) {
+            for (const title of job_title) {
+              if (!seenJobTitles.has(title)) {
+                seenJobTitles.add(title);
+                jobEntries.push({
+                  url: `${urlSite}rezultate?job=${encodeURIComponent(
+                    title.replace(/&/g, "&amp;")
+                  )}`,
+                  changeFrequency: "weekly"
+                });
+              }
             }
           }
         }
@@ -52,7 +54,7 @@ export default async function sitemap({
 
       //! change 600 with data.numFound when backend is fixed
       //! on 4700 error page 390
-      totalPages = Math.ceil(4700 / 12);
+      totalPages = Math.ceil(7000 / 12);
       currentPage++;
     } while (currentPage <= totalPages);
   } catch (error) {

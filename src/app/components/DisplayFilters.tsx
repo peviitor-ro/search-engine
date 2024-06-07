@@ -30,10 +30,11 @@ const DisplayFilters = () => {
     const handleFilterDelete = (name: string, value: string) => {
       const params = new URLSearchParams(searchParams.toString());
       const currentValues = params.getAll(name);
-      console.log(currentValues);
 
       if (currentValues.includes(value)) {
         params.delete(name);
+        // Set the page parameter to 1 when applying filters
+        params.set("pagina", "1");
         currentValues
           .filter((val) => val !== value)
           .forEach((val) => {

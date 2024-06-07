@@ -1,9 +1,7 @@
 import "./globals.css";
 
-export const revalidate = 360;
-
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {

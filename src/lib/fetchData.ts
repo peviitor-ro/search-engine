@@ -61,7 +61,7 @@ export const getNameOfCompanies = async (): Promise<
 // get number of Jobs
 export async function getNumberOfJobs(): Promise<number | undefined> {
   try {
-    const res = await fetch(API_JOBS_NUMBERS);
+    const res = await fetch(API_JOBS_NUMBERS, { cache: "no-store" });
 
     if (!res.ok) {
       throw new Error("Fetch error: Server responded with an error");

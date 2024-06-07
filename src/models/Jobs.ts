@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const JobSchema = z.object({
   id: z.string(),
-  job_title: z.array(z.string()),
+  job_title: z.array(z.string()).optional(),
   job_link: z.array(z.string().url()),
   company: z.array(z.string()).optional(),
   company_str: z.string().optional(),
