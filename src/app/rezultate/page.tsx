@@ -37,12 +37,33 @@ export async function generateMetadata({
 
   const data: JobsResults | undefined = await fetchData(paramsSearch);
   const numFound: number | undefined = data?.numFound;
+
+  const queryText = query ? ` pentru postul de ${query}` : "";
+  const companyText = company ? ` la compania ${company}` : "";
+  const keywords = `${query}, locuri de muncă, joburi, oportunități, carieră, ${
+    company ? company : ""
+  }`;
+
+  let title = `🔍 Locuri de muncă te așteaptă!`;
+  let description = `Descoperă oportunități de carieră${queryText}${companyText}. Începe-ți călătoria profesională acum!`;
+
+  if (numFound !== undefined) {
+    if (numFound === 0) {
+      title = `🔍 Niciun loc de muncă${queryText} nu a fost găsit`;
+      description = `Nu am găsit oportunități de carieră${queryText}${companyText}. Verifică mai târziu pentru noi oferte.`;
+    } else if (numFound === 1) {
+      title = `🔍 Un loc de muncă ${queryText} te așteaptă!`;
+      description = `Descoperă o oportunitate de carieră${queryText}${companyText}. Începe-ți călătoria profesională acum!`;
+    } else {
+      title = `🔍 ${numFound} locuri de muncă${queryText} te așteaptă!`;
+      description = `Descoperă peste ${numFound} oportunități de carieră${queryText}${companyText}. Începe-ți călătoria profesională acum!`;
+    }
+  }
+
   return {
-    title: `🔍 ${numFound} de locuri de muncă pentru postul de ${query} te așteaptă!`,
-    description: `Descoperă peste ${numFound} de oportunități de carieră pentru postul de ${query}${
-      company ? ` la compania ${company}` : ""
-    }. Începe-ți călătoria profesională acum!`,
-    keywords: `${query}, locuri de muncă, joburi, oportunități, carieră`
+    title,
+    description,
+    keywords
   };
 }
 
