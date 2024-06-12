@@ -5,21 +5,15 @@
 name: Build and deploy most of branches
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["feature/*", "main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: write
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: true
@@ -28,44 +22,33 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          echo "manager=npm" >> $GITHUB_OUTPUT
-          echo "command=ci" >> $GITHUB_OUTPUT
-          echo "runner=npx --no-install" >> $GITHUB_OUTPUT
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: "18"
           cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-      # - name: Lint
-      #   run: npm run lint
-      # - name: Run unit test with coverage
-      #   run: npm run test
+
       - name: Build frontend
         run: npm run build
-      # - name: install lighthouse
-      #   run: npm install @lhci/cli@0.12.x
-      # - name: run lighthouse
-      #   env:
-      #     NODE_OPTIONS: '--max_old_space_size=4096'
-      #   run: npx lhci autorun
+
+      - name: Export static site
+        run: npm run export
+
       - name: Create CNAME file
-        run: echo "peviitor.ro" > ./.next/CNAME
+        run: echo "peviitor.ro" > ./out/CNAME
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.next
+          publish_dir: ./out
