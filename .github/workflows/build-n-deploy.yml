@@ -6,7 +6,9 @@ name: Build and deploy most of branches
 
 on:
   push:
-    branches: ["feature/*", "main"]
+    branches: ['feature/*', 'main']
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 permissions:
@@ -15,7 +17,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 env:
@@ -31,24 +33,26 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          cache: "npm"
-
+          node-version: '18'
+          cache: 'npm'
       - name: Install dependencies
         run: npm ci
-
-      - name: Build frontend
+      # - name: Lint
+      #   run: npm run lint
+      # - name: Run unit test with coverage
+      #   run: npm run test
+      - name: Build frontend to ./build
         run: npm run build
 
       - name: Export static site
         run: npm run export
 
       - name: Create CNAME file
-        run: echo "peviitor.ro" > ./out/CNAME
+        run: echo "peviitor.ro" > ./build/CNAME
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+          publish_dir: ./build
