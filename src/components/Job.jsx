@@ -41,13 +41,11 @@ const Job = ({
 
   const renderCompanyLogo = (companyName) => {
     // check if copmany name is the same as logo name
-    const company = logoData.find((item) => item.name === companyName);
-    if (company) {
-      return company.logo;
-    } else {
-      // If company logo doesn't exist return "noLogo" placeholder
-      return noLogo;
-    }
+    // wait for logoData to be fetched
+
+    const company = logoData.find((item) => item.name.toLowerCase() === companyName.toLowerCase());
+
+    return company ? company.logo : noLogo;
   };
 
   return (
@@ -55,9 +53,15 @@ const Job = ({
       <div className="container-logo">
         <img
           className="company-logo"
-          src={renderCompanyLogo(company !== undefined && company[0])}
+          src={
+            company
+              ? renderCompanyLogo(company.join(""))
+              : noLogo
+          }
           alt={company}
           onError={(e) => (e.target.src = noLogo)}
+
+
         />
       </div>
 
