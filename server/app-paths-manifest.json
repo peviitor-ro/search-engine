@@ -1,0 +1,9 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/icon.ico/route": "app/icon.ico/route.js",
+  "/opengraph-image.png/route": "app/opengraph-image.png/route.js",
+  "/page": "app/page.js",
+  "/rezultate/page": "app/rezultate/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js"
+}
