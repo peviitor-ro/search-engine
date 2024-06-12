@@ -1,0 +1,161 @@
+.background-img {
+  background: url("../assets/images/landing-cover.png") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.landing {
+  overflow-x: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+.landing footer {
+  margin: 0 auto;
+  width: 70%;
+  border-top: 1px solid #ccdde2;
+  padding-top: 21px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.navbar {
+  width: 70%;
+  border-bottom: 1px solid #ccdde2;
+}
+.navbar img {
+  padding: 10px;
+}
+
+main {
+  font-family: PoppinsRegular;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10em;
+}
+main h1 {
+  color: #f3781d;
+  font-size: 60px;
+  font-weight: 600;
+  text-align: left;
+  margin-bottom: 8px;
+  line-height: 110%;
+}
+main h4 {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 25px;
+  text-align: left;
+  color: #4b4646;
+}
+main h4 span {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  text-align: left;
+  color: rgb(24, 24, 24);
+}
+main .content {
+  order: 1;
+}
+main .content .text {
+  position: relative;
+  width: 486px;
+}
+main .content .text .dungi {
+  position: absolute;
+  top: 125px;
+  right: 60px;
+  transform: scale(1.1);
+}
+main .racheta {
+  order: 1;
+}
+main .input-container {
+  order: 2;
+}
+main .input-container form {
+  display: flex;
+}
+
+@media (min-width: 1500px) {
+  .input-container {
+    flex: 0 0 50%;
+  }
+}
+@media (max-width: 1100px) {
+  main {
+    margin-bottom: 60px;
+    padding-top: 60px;
+  }
+  main h1 {
+    font-size: 44px;
+  }
+  main .content .text {
+    width: 350px;
+  }
+  main .content .text .dungi {
+    top: 138px;
+    transform: scale(0.6);
+    left: -50px;
+  }
+  main .content .racheta {
+    transform: scale(1);
+  }
+  main .input-container {
+    order: 2;
+  }
+}
+@media (max-width: 800px) {
+  main {
+    width: 70%;
+    align-items: center;
+  }
+  main h1 {
+    font-size: 40px;
+  }
+  main .content {
+    order: 1;
+  }
+  main .content .text {
+    width: 310px;
+  }
+  main .content .text .dungi {
+    top: 128px;
+    transform: scale(0.6);
+    left: -50px;
+  }
+  main .racheta {
+    order: 3;
+  }
+  main .input-container {
+    order: 2;
+  }
+}
+@media (max-width: 640px) {
+  main {
+    align-items: center;
+  }
+  main h1 {
+    font-size: 40px;
+  }
+  main .content {
+    order: 1;
+  }
+  main .racheta {
+    order: 3;
+    width: 320px;
+  }
+  main .racheta img {
+    width: 100%;
+  }
+  main .input-container {
+    order: 2;
+  }
+}/*# sourceMappingURL=landing.css.map */
