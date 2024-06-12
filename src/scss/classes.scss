@@ -1,0 +1,46 @@
+@use "./colors";
+
+@keyframes btn_bg_color_change {
+  from {
+    background-color: colors.$background_green;
+  }
+}
+
+.text--orange {
+  color: colors.$text_orange;
+}
+
+.bold {
+  font-family: PoppinsRegular;
+  font-weight: 700;
+}
+
+.btn {
+  all: unset;
+  padding: 12px;
+  background-color: colors.$background_green;
+  border-radius: 8px;
+  color: colors.$white;
+  text-align: center;
+  font-family: PoppinsLight;
+  font-weight: 100;
+  font-size: 16px;
+  line-height: 24px;
+  transition: all 100ms;
+
+  cursor: pointer;
+}
+
+.input-serp {
+  all: unset;
+  font-family: PoppinsLight;
+  font-size: 16px;
+  padding: 16px;
+  line-height: 18px;
+  color: colors.$text_ink_black;
+  width: 100%;
+
+  ::placeholder {
+    color: colors.$text_grey;
+  }
+}
