@@ -25,7 +25,7 @@ import { createSearchString } from "../utils/createSearchString";
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 
 const Fetch = () => {
-  const { q, city, remote, county, country, company, removeTag, contextSetQ } =
+  const { q, city, remote, county, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
@@ -83,7 +83,7 @@ const Fetch = () => {
       const handleFetchData = async () => {
         // send in props the values from state to create the String for fetch.
         const { jobs, total } = await getData(
-          createSearchString(q, city, county, country, company, remote, 1)
+          createSearchString(q, city, county, company, remote, 1)
         );
         dispatch(clearJobs());
         dispatch(setJobs(jobs));
@@ -92,7 +92,7 @@ const Fetch = () => {
       handleFetchData();
       dispatch(setLoading());
     }
-  }, [removeTag, dispatch, q, city, remote, company, country, county]);
+  }, [removeTag, dispatch, q, city, remote, company, county]);
   // remove text from input on X button.
   function handleClearX() {
     setText("");

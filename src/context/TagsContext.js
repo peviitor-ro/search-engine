@@ -27,7 +27,6 @@ export const TagsProvider = ({ children }) => {
     () => JSON.parse(localStorage.getItem("company")) || []
   );
   const [county] = useState([""]);
-  const [country] = useState("România");
 
   // take data from checkbox
   const handleCheckBoxChange = (e, type) => {
@@ -141,7 +140,6 @@ export const TagsProvider = ({ children }) => {
         city,
         county,
         remote,
-        country,
         company,
         deletAll,
         fields,
