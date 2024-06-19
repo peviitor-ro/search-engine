@@ -11,7 +11,6 @@ import { getLogoOfCompanies } from "../utils/fetchData";
 const Job = ({
   city,
   company,
-  country,
   county,
   job_link,
   job_title,

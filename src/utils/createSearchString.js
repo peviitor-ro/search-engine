@@ -9,7 +9,6 @@ export function createSearchString(
   q,
   city,
   county,
-  country,
   company,
   remote,
   page
@@ -34,9 +33,6 @@ export function createSearchString(
   if (Array.isArray(company) && company.filter(Boolean).length > 0) {
     queryParams.push(`company=${createString(company).replace(/,/g, "+")}`);
   }
-
-  // Include country
-  queryParams.push(`country=${country}`);
 
   // Check and include remote if not empty
   if (Array.isArray(remote) && remote.filter(Boolean).length > 0) {

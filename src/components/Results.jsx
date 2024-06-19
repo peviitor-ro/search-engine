@@ -39,7 +39,6 @@ const Results = () => {
     city,
     remote,
     county,
-    country,
     company,
     fields,
     removeTag,
@@ -58,7 +57,7 @@ const Results = () => {
   async function fetchMoreData() {
     const nextPage = page + 1;
     const { jobs } = await getData(
-      createSearchString(q, city, county, country, company, remote, nextPage)
+      createSearchString(q, city, county, company, remote, nextPage)
     ).catch(() => ({ jobs: [] }));
     dispatch(setJobs(jobs));
     setPage(nextPage);
@@ -97,14 +96,13 @@ const Results = () => {
         <div className="cards-containter">
           {jobs.map(
             (
-              { city, company, country, county, job_link, job_title, remote },
+              { city, company, county, job_link, job_title, remote },
               idx
             ) => (
               <Job
                 key={idx}
                 city={city}
                 company={company}
-                country={country}
                 county={county}
                 job_link={job_link}
                 job_title={job_title}
