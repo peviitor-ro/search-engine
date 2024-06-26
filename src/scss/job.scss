@@ -66,6 +66,14 @@
     }
   }
 }
+
+.job-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 354px;
+}
+
 @media (max-width: 800px) {
   .card {
     margin-inline: auto;
