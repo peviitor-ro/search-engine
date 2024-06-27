@@ -64,7 +64,7 @@ const Footer = () => {
             </a>
             <a
               className="icon"
-              href="https://dev.to/t/peviitor"
+              href="https://dev.to/t/peviitor/latest"
               target="_blank"
               rel="noreferrer"
               title="Dev"
