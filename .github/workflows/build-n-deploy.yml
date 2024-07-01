@@ -51,7 +51,7 @@ jobs:
       # - name: Run unit test with coverage
       #   run: npm run test
       - name: Build frontend to ./build
-        run: npm run build
+        run: npm run build:production
       # - name: install lighthouse
       #   run: npm install @lhci/cli@0.12.x
       # - name: run lighthouse
