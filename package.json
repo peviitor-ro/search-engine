@@ -7,6 +7,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "env-cmd": "^10.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
@@ -21,7 +22,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:local": "env-cmd -f ./env/.env.local react-scripts start",
+    "start:qa": "env-cmd -f ./env/.env.qa react-scripts start",
+    "start:production": "env-cmd -f ./env/.env.production react-scripts start",
+    "start:final": "env-cmd -f ./env/.env.final react-scripts start",
     "build": "react-scripts build",
+    "build:local": "env-cmd -f ./env/.env.local react-scripts build",
+    "build:qa": "env-cmd -f ./env/.env.qa react-scripts build",
+    "build:production": "env-cmd -f ./env/.env.production react-scripts build",
+    "build:final": "env-cmd -f ./env/.env.final react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
