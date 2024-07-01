@@ -1,7 +1,5 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
-console.log(API_URL);
-
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
   try {
