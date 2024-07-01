@@ -1,4 +1,4 @@
-const API_URL = "https://api.peviitor.ro/v3/search/";
+const API_URL = process.env.REACT_APP_API_URL;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
