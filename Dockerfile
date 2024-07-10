@@ -13,6 +13,3 @@ RUN npm install
 
 # Define build argument for environment
 ARG BUILD_ENV=local
-
-# Build the React app for the specified environment
-RUN npm run build:${BUILD_ENV}
