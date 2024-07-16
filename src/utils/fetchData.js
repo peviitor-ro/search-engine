@@ -1,4 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL;
+const API_LOGO = process.env.REACT_APP_API_LOGO;
+const API_COMPANIES = process.env.REACT_APP_API_COMPANIES;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
@@ -28,7 +30,7 @@ export const getNumberOfJobs = async () => {
 // get the number of Company we have in our DB
 export const getNumberOfCompany = async () => {
   try {
-    const response = await fetch(`https://api.peviitor.ro/v3/logo/`);
+    const response = await fetch(API_LOGO); // this was v3 for production
     const data = await response.json();
     return data.companies.length;
   } catch (error) {
@@ -41,7 +43,7 @@ export const getNumberOfCompany = async () => {
 // fetch pentru a lua numele de la firme pentru checkbox.
 export const getNameOfCompanies = async () => {
   try {
-    const response = await fetch(`https://api.peviitor.ro/v3/companies/`);
+    const response = await fetch(API_COMPANIES);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -53,7 +55,7 @@ export const getNameOfCompanies = async () => {
 // fetch pentru a lua logo-urile pentru firme
 export const getLogoOfCompanies = async () => {
   try {
-    const response = await fetch(`https://api.peviitor.ro/v1/logo/`);
+    const response = await fetch(API_LOGO); // this was v1 instead of v3 for production
     const data = await response.json();
 
     return data.companies;
