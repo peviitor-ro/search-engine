@@ -17,7 +17,7 @@ const Landing = () => {
   useEffect(() => {
     async function fetchTotalJobs() {
       const jobsNumber = await getNumberOfJobs();
-      setTotalJobs(jobsNumber);
+      setTotalJobs(jobsNumber.total.jobs);
     }
     fetchTotalJobs();
   }, []);
