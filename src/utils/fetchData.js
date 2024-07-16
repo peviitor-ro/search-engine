@@ -1,6 +1,9 @@
 const API_URL = process.env.REACT_APP_API_URL;
+const DEPLOY_ENV = process.env.REACT_APP_DEPLOY_ENV;
+
 const API_LOGO = process.env.REACT_APP_API_LOGO;
 const API_COMPANIES = process.env.REACT_APP_API_COMPANIES;
+const API_TOTAL = process.env.REACT_APP_API_TOTAL;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {
@@ -19,9 +22,9 @@ export const getData = async (createQueryString) => {
 // get the number of jobs in Romania.
 export const getNumberOfJobs = async () => {
   try {
-    const response = await fetch(`${API_URL}?country=România`);
+    const response = await fetch(API_TOTAL);
     const data = await response.json();
-    return data.response.numFound;
+    return data;
   } catch (error) {
     console.log(error);
   }
