@@ -1,5 +1,5 @@
 const API_URL = process.env.REACT_APP_API_URL;
-const DEPLOY_ENV = process.env.REACT_APP_DEPLOY_ENV;
+// const DEPLOY_ENV = process.env.REACT_APP_DEPLOY_ENV;
 
 const API_LOGO = process.env.REACT_APP_API_LOGO;
 const API_COMPANIES = process.env.REACT_APP_API_COMPANIES;
