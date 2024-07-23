@@ -90,7 +90,7 @@ const Footer = () => {
           target="_blank"
           rel="noreferrer"
         >
-          ASOCIATIA OPORTUNITATI SI CARIERE
+          ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE
         </a>
       </section>
     </footer>
