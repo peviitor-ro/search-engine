@@ -233,7 +233,7 @@ const FiltreGrup = () => {
                       checked={fields.remote.includes("on-site")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="on-site">La fata locului</label>
+                    <label htmlFor="on-site">La fața locului</label>
                   </div>
                   <div>
                     <input
