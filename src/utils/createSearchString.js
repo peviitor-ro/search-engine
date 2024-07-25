@@ -6,7 +6,7 @@ function createString(arr, isCity = false) {
 }
 
 function removeSpecialChars(str) {
-  return str.replace(/[\$&"]/g, (match) => {
+  return str.replace(/[$&]/g, (match) => {
     switch (match) {
       case "$":
         return "%24";
@@ -51,8 +51,6 @@ export function createSearchString(q, city, county, company, remote, page) {
 
   // Always include page
   queryParams.push(`page=${page}`);
-
-  console.log("queryParams", queryParams);
-
+  
   return queryParams.join("&");
 }
