@@ -5,10 +5,8 @@ import mapPin from "../assets/svg/map_pin.svg";
 import "../scss/job.scss";
 // react
 import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { getLogoOfCompanies } from "../utils/fetchData";
 const Job = ({
+  logoUrl,
   city,
   company,
   county,
@@ -16,18 +14,6 @@ const Job = ({
   job_title,
   remote
 }) => {
-  const [logoData, setLogoData] = useState([]);
-
-  // fetch data for logo
-  useEffect(() => {
-    const fetchLogoData = async () => {
-      const logoData = await getLogoOfCompanies();
-      setLogoData(logoData);
-    };
-
-    fetchLogoData();
-  }, []);
-
   function displayLocation(cities) {
     return cities
       ? cities[0].toLowerCase() === "all"
@@ -38,29 +24,14 @@ const Job = ({
       : remote.join(", ");
   }
 
-  const renderCompanyLogo = (companyName) => {
-    // check if copmany name is the same as logo name
-    // wait for logoData to be fetched
-
-    const company = logoData.find((item) => item.name.toLowerCase() === companyName.toLowerCase());
-
-    return company ? company.logo : noLogo;
-  };
-
   return (
     <div className="card">
       <div className="container-logo">
         <img
           className="company-logo"
-          src={
-            company
-              ? renderCompanyLogo(company.join(""))
-              : noLogo
-          }
+          src={logoUrl}
           alt={company}
           onError={(e) => (e.target.src = noLogo)}
-
-
         />
       </div>
 

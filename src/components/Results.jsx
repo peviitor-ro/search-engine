@@ -96,11 +96,12 @@ const Results = () => {
         <div className="cards-containter">
           {jobs.map(
             (
-              { city, company, county, job_link, job_title, remote },
+              {logoUrl, city, company, county, job_link, job_title, remote },
               idx
             ) => (
               <Job
                 key={idx}
+                logoUrl={logoUrl}
                 city={city}
                 company={company}
                 county={county}

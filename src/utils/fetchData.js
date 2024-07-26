@@ -55,15 +55,4 @@ export const getNameOfCompanies = async () => {
   }
 };
 
-// fetch pentru a lua logo-urile pentru firme
-export const getLogoOfCompanies = async () => {
-  try {
-    const response = await fetch(API_LOGO); // this was v1 instead of v3 for production
-    const data = await response.json();
 
-    return data.companies;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
-  }
-};
