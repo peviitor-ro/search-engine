@@ -44,9 +44,9 @@ export const getNumberOfCompany = async () => {
 };
 
 // fetch pentru a lua numele de la firme pentru checkbox.
-export const getNameOfCompanies = async () => {
+export const getNameOfCompanies = async (value) => {
   try {
-    const response = await fetch(API_COMPANIES);
+    const response = await fetch(API_COMPANIES + `?userInput=${value}`);
     const data = await response.json();
     return data;
   } catch (error) {
@@ -54,5 +54,3 @@ export const getNameOfCompanies = async () => {
     throw error;
   }
 };
-
-
