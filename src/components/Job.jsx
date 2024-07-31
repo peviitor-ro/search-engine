@@ -37,7 +37,9 @@ const Job = ({
 
       <div className="card-info">
         <p className="company-name">{company}</p>
-        <h2 className="job-title">{job_title}</h2>
+        <h2 className="job-title" title={job_title}>
+          {job_title}
+        </h2>
         <p className="location">
           <img src={mapPin} alt="map pin" className="icon" />
           {city || remote ? displayLocation(city) : ""}
