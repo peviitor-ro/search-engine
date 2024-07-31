@@ -6,7 +6,7 @@ const initialState = {
   total: 0,
   totalJobs: 0,
   totalCompany: 0,
-  loading: true,
+  loading: false
 };
 
 // Create slice
@@ -30,16 +30,16 @@ const jobsSlice = createSlice({
     clearTotal: (state) => {
       state.total = 0;
     },
-    setLoading: (state) => {
-      state.loading = true;
+    setLoading: (state, action) => {
+      state.loading = action.payload;
     },
     setNumberOfJobs(state, action) {
       state.totalJobs = action.payload;
     },
     setNumberOfCompany(state, action) {
       state.totalCompany = action.payload;
-    },
-  },
+    }
+  }
 });
 
 // Export actions
@@ -50,7 +50,7 @@ export const {
   clearTotal,
   setLoading,
   setNumberOfJobs,
-  setNumberOfCompany,
+  setNumberOfCompany
 } = jobsSlice.actions;
 
 // Export reducer

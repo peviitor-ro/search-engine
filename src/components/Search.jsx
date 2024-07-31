@@ -70,29 +70,50 @@ const Fetch = () => {
   // fetch data when states changes values
   // this make the fetch automated when checkboxes are checked or unchec
   useEffect(() => {
-    if (
-      q.length === 0 &&
-      city.length === 0 &&
-      remote.length === 0 &&
-      company.length === 0
-    ) {
-      dispatch(clearJobs());
-      dispatch(setTotal(0));
-    } else {
-      // fetch the data when the stats isn't empty.
-      const handleFetchData = async () => {
-        // send in props the values from state to create the String for fetch.
-        const { jobs, total } = await getData(
-          createSearchString(q, city, county, company, remote, 1)
+    // Function to fetch data and update state
+    const fetchData = async () => {
+      try {
+        dispatch(setLoading(true));
+        // Create the search string
+        const searchString = createSearchString(
+          q,
+          city,
+          county,
+          company,
+          remote,
+          1
         );
+
+        // Fetch the data
+        const { jobs, total } = await getData(searchString);
+
+        // Update the Redux state
         dispatch(clearJobs());
         dispatch(setJobs(jobs));
         dispatch(setTotal(total));
-      };
-      handleFetchData();
-      dispatch(setLoading());
+      } catch (error) {
+        // Handle any errors that occur during fetch
+        console.error("Failed to fetch data:", error);
+      } finally {
+        // Ensure loading is set to false after data is fetched or an error occurs
+        dispatch(setLoading(false));
+      }
+    };
+
+    // Only fetch data if any of the query parameters are set
+    if (
+      q.length !== 0 ||
+      city.length !== 0 ||
+      remote.length !== 0 ||
+      company.length !== 0
+    ) {
+      fetchData();
+    } else {
+      // Clear jobs and total if no query parameters are set
+      dispatch(clearJobs());
+      dispatch(setTotal(0));
     }
-  }, [removeTag, dispatch, q, city, remote, company, county]);
+  }, [dispatch, q, city, remote, company, county, removeTag]);
   // remove text from input on X button.
   function handleClearX() {
     setText("");

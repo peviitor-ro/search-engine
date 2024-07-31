@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import "../scss/rezults.scss";
 // svg
 import removeIcon from "../assets/svg/remove.svg";
+import loadingIcon from "../assets/svg/loading.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
@@ -17,6 +18,7 @@ import { setJobs } from "../reducers/jobsSlice";
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
+import JobSkeleton from "./JobSkeleton";
 
 function tagMapper([key, currentArray]) {
   return currentArray.map((item) => (
@@ -53,18 +55,22 @@ const Results = () => {
   const [page, setPage] = useState(1);
   const [isVisible, setIsVisible] = useState(false);
 
+  // loading state for "Incarca mai multe" button
+  const [loadingMore, setLoadingMore] = useState(false);
+
   // fetch more data changing the page value
   async function fetchMoreData() {
+    setLoadingMore(true);
     const nextPage = page + 1;
     const { jobs } = await getData(
       createSearchString(q, city, county, company, remote, nextPage)
     ).catch(() => ({ jobs: [] }));
+    setLoadingMore(false);
     dispatch(setJobs(jobs));
     setPage(nextPage);
   }
 
   // scrollUp Button
-
   useEffect(() => {
     const checkScrollHeight = () => {
       setIsVisible(window.scrollY > 500);
@@ -76,10 +82,12 @@ const Results = () => {
 
   return (
     <div className="rezults-container">
-      {loading && (
+      {!loading ? (
         <h3 className="total-rezultate">
           {total} {total !== 0 ? "de" : ""} rezultate
         </h3>
+      ) : (
+        <p className="skeleton-h3"></p>
       )}
       {!deletAll && (
         <div className="taguri-container">
@@ -92,35 +100,62 @@ const Results = () => {
         </div>
       )}
 
-      {jobs.length > 0 ? (
-        <div className="cards-containter">
-          {jobs.map(
-            (
-              {logoUrl, city, company, county, job_link, job_title, remote },
-              idx
-            ) => (
-              <Job
-                key={idx}
-                logoUrl={logoUrl}
-                city={city}
-                company={company}
-                county={county}
-                job_link={job_link}
-                job_title={job_title}
-                remote={remote}
-              />
-            )
-          )}
+      {loading ? (
+        <div className="cards-container">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <JobSkeleton key={idx} />
+          ))}
         </div>
       ) : (
-        <FaraRezultate />
+        <>
+          {jobs.length > 0 ? (
+            <div className="cards-container">
+              {jobs.map(
+                (
+                  {
+                    logoUrl,
+                    city,
+                    company,
+                    county,
+                    job_link,
+                    job_title,
+                    remote
+                  },
+                  idx
+                ) => (
+                  <Job
+                    key={idx}
+                    logoUrl={logoUrl}
+                    city={city}
+                    company={company}
+                    county={county}
+                    job_link={job_link}
+                    job_title={job_title}
+                    remote={remote}
+                  />
+                )
+              )}
+            </div>
+          ) : (
+            <FaraRezultate />
+          )}
+        </>
       )}
-      {total <= 10 ||
-        (jobs.length === total ? null : (
-          <button className="load-more" onClick={fetchMoreData}>
-            Incarca mai multe
-          </button>
-        ))}
+
+      {loadingMore ? (
+        <div className="load-svg-container">
+          <img src={loadingIcon} alt="loading icon" className="loading-svg" />
+        </div>
+      ) : (
+        <>
+          {total <= 10 ||
+            (jobs.length === total ? null : (
+              <button className="load-more" onClick={fetchMoreData}>
+                Incarca mai multe
+              </button>
+            ))}
+        </>
+      )}
 
       <button
         className={`scrol-up ${isVisible && "is-visible"}`}
