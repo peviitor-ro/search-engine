@@ -1,4 +1,5 @@
 @use "./colors";
+
 .rezult-page {
   background: url("../assets/images/rezultate-cover.png") no-repeat center
     center fixed;
@@ -33,7 +34,7 @@
     margin: 30px 0px;
     color: #979c9e;
   }
-  .cards-containter {
+  .cards-container {
     display: grid;
     justify-content: center;
     align-items: center;
@@ -60,6 +61,34 @@
       box-shadow: 0px 5px 5px 0px #00000040 inset;
     }
   }
+
+  .load-svg-container {
+    padding: 12px 40px 12px 40px;
+    border-radius: 30px;
+    background: colors.$background_green;
+    display: flex;
+    margin: 0px auto 60px auto;
+    width: 60px;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0px 5px 5px 0px #00000040 inset;
+    }
+    .loading-svg {
+      width: 24px;
+      margin: auto;
+      animation: rotate 1.5s linear infinite;
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .scrol-up {
     bottom: 50px;
     position: fixed;
@@ -114,7 +143,7 @@
 
 @media (max-width: 1400px) {
   .rezults-container {
-    .cards-containter {
+    .cards-container {
       grid-template-columns: repeat(2, 1fr);
       gap: 40px;
     }
@@ -128,7 +157,7 @@
       text-align: center;
     }
 
-    .cards-containter {
+    .cards-container {
       grid-template-columns: 1fr;
       align-content: center;
       align-items: center;
@@ -152,5 +181,35 @@
         gap: 12px;
       }
     }
+  }
+}
+
+// Skeleton H3
+
+.skeleton-h3 {
+  height: 1.5em;
+  margin: 30px 0px;
+  width: 13%;
+  background: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #f5f5f5;
+  }
+  100% {
+    background-color: #e0e0e0;
+  }
+}
+
+@media (max-width: 800px) {
+  .skeleton-h3 {
+    margin: 30px auto;
+    text-align: center;
   }
 }
