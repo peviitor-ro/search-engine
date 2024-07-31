@@ -3,11 +3,30 @@ import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 
+// Custom debounce hook
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
 const FiltreCompanies = ({ dropDown }) => {
   const [inputCompany, setInputCompany] = useState("");
   const [data, setData] = useState([]);
   const [error, setError] = useState("");
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
+
+  const debouncedInputCompany = useDebounce(inputCompany, 300);
 
   // Empty the search value when dropdown its closed
   useEffect(() => {
@@ -20,27 +39,33 @@ const FiltreCompanies = ({ dropDown }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getNameOfCompanies(inputCompany);
+        const response = await getNameOfCompanies(debouncedInputCompany);
         setData(response);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    if (inputCompany.length > 2 || inputCompany.length === 0) {
+    if (
+      debouncedInputCompany.length > 2 ||
+      debouncedInputCompany.length === 0
+    ) {
       fetchData();
-    } else if (inputCompany.length > 0 && inputCompany.length < 3) {
+    } else if (
+      debouncedInputCompany.length > 0 &&
+      debouncedInputCompany.length < 3
+    ) {
       setData([]);
       setError(
         "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
       );
     }
-  }, [inputCompany, fields]);
+  }, [debouncedInputCompany, fields]);
 
   // Function to handle changes in the input field
   const handleInputChange = (event) => {
-    const value = event.target.value; // Get the current value of the input field
-    setInputCompany(value); // Update the state with the new input value
+    const value = event.target.value;
+    setInputCompany(value);
   };
 
   return (
