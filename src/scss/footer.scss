@@ -36,10 +36,13 @@
     display: flex;
     gap: 16px;
     a {
-      margin-inline: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      @media (min-width: 768px) {
+        margin-inline: 10px;
+      }
     }
   }
 }
