@@ -19,6 +19,7 @@ import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
+import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 function tagMapper([key, currentArray]) {
   return currentArray.map((item) => (
@@ -52,7 +53,7 @@ const Results = () => {
   const total = useSelector((state) => state.jobs.total);
   const loading = useSelector((state) => state.jobs.loading);
   //state
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(() => findParamInURL("page") || 1);
   const [isVisible, setIsVisible] = useState(false);
 
   // loading state for "Incarca mai multe" button
@@ -68,6 +69,7 @@ const Results = () => {
     setLoadingMore(false);
     dispatch(setJobs(jobs));
     setPage(nextPage);
+    updateUrlParams({ page: nextPage });
   }
 
   // scrollUp Button

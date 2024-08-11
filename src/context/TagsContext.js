@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import {
-  updateURL,
+  updateUrlParams,
   findParamInURL,
   removeFiltersFromURL
 } from "../utils/urlManipulation";
@@ -49,7 +49,7 @@ export const TagsProvider = ({ children }) => {
       ...prevFields,
       [type]: updatedArray
     }));
-    updateURL(type, updatedArray);
+    updateUrlParams({ [type]: updatedArray });
     // Update the state for string creation.
     if (type === "orase") {
       setCity(updatedArray);
@@ -73,7 +73,7 @@ export const TagsProvider = ({ children }) => {
       updatedArray.splice(index, 1);
     }
 
-    updateURL(type, updatedArray);
+    updateUrlParams({ [type]: updatedArray });
 
     // Update state with the updated array
     setFields((prevFields) => ({
@@ -96,7 +96,7 @@ export const TagsProvider = ({ children }) => {
   };
   const contextSetQ = (text) => {
     setQ(text);
-    updateURL("q", text);
+    updateUrlParams({ q: text, page: 1 });
   };
   // Update fields state from URL when component mounts
   useEffect(() => {

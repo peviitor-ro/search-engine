@@ -1,17 +1,19 @@
-export const updateURL = (key, value) => {
+export const updateUrlParams = (paramsObj) => {
   const currentUrl = window.location.href;
   const [baseUrl, queryString] = currentUrl.split("?");
   const params = new URLSearchParams(queryString ? queryString : "");
 
-  if (Array.isArray(value)) {
-    if (value.length > 0) {
-      params.set(key, value.join(","));
+  Object.entries(paramsObj).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      if (value.length > 0) {
+        params.set(key, value.join(","));
+      } else {
+        params.delete(key);
+      }
     } else {
-      params.delete(key);
+      value ? params.set(key, value) : params.delete(key);
     }
-  } else {
-    value ? params.set(key, value) : params.delete(key);
-  }
+  });
 
   // Replace %2C with commas
   const newQueryStr = Array.from(params)

@@ -4,7 +4,7 @@ import logo from "../assets/svg/logo.svg";
 // scss
 import "../scss/search.scss";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useMemo } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
@@ -23,14 +23,14 @@ import {
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
-import { updateURL } from "../utils/urlManipulation";
+import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 const Fetch = () => {
   const { q, city, remote, county, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
-
+  const page = useMemo(() => findParamInURL("page") || 1, []);
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
@@ -74,7 +74,7 @@ const Fetch = () => {
           county,
           company,
           remote,
-          1
+          page
         );
 
         // Fetch the data
@@ -106,11 +106,11 @@ const Fetch = () => {
       dispatch(clearJobs());
       dispatch(setTotal(0));
     }
-  }, [dispatch, q, city, remote, company, county, removeTag]);
+  }, [dispatch, q, city, remote, company, county, removeTag, page]);
   // remove text from input on X button.
   function handleClearX() {
     setText("");
-    updateURL("q", null);
+    updateUrlParams({ q: null });
   }
   return (
     <>
