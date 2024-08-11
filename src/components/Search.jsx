@@ -4,7 +4,7 @@ import logo from "../assets/svg/logo.svg";
 // scss
 import "../scss/search.scss";
 
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
