@@ -23,6 +23,7 @@ import {
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
+import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 const Fetch = () => {
   const { q, city, remote, county, company, removeTag, contextSetQ } =
@@ -42,13 +43,11 @@ const Fetch = () => {
     }
   }, [location.pathname, q]);
 
-  // useEffect for localStorage
   useEffect(() => {
-    localStorage.setItem("q", JSON.stringify(q));
-    localStorage.setItem("city", JSON.stringify(city));
-    localStorage.setItem("remote", JSON.stringify(remote));
-    localStorage.setItem("company", JSON.stringify(company));
-  }, [q, city, remote, company]);
+    //Keeping the state in sync with the URL param
+    const qParam = findParamInURL("q");
+    qParam != null && contextSetQ(qParam);
+  }, [contextSetQ, location.search]);
 
   // useEffect to load the number of company and jobs
   useEffect(() => {
@@ -62,10 +61,10 @@ const Fetch = () => {
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
-    await contextSetQ([text]);
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
+    contextSetQ([text]);
   };
   // fetch data when states changes values
   // this make the fetch automated when checkboxes are checked or unchec
@@ -91,6 +90,7 @@ const Fetch = () => {
         dispatch(clearJobs());
         dispatch(setJobs(jobs));
         dispatch(setTotal(total));
+        updateUrlParams({ page: 1 });
       } catch (error) {
         // Handle any errors that occur during fetch
         console.error("Failed to fetch data:", error);
@@ -117,6 +117,7 @@ const Fetch = () => {
   // remove text from input on X button.
   function handleClearX() {
     setText("");
+    updateUrlParams({ q: null });
   }
   return (
     <>

@@ -3,21 +3,36 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import sageata from "../assets/svg/arrow_bottom.svg";
 
+import { useLocation } from "react-router-dom";
+
 // scss
 import "../scss/filtre.scss";
 
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
+import { findParamInURL } from "../utils/urlManipulation";
 
 const FiltreGrup = () => {
+  const location = useLocation();
   // use it for closing dropdown on click
   const refDropdown = useRef();
 
   // Destructuring fields and handleCheckBoxChange from the context
-  const { fields, handleCheckBoxChange } = useContext(TagsContext);
+  const { fields, handleCheckBoxChange, contextSetField } =
+    useContext(TagsContext);
 
   // State for dropdown visibility
   const [dropDown, setDropDown] = useState([false, false, false]);
+
+  useEffect(() => {
+    //Keeping the state in sync with the URL params
+    const cityParam = findParamInURL("orase");
+    const remoteParam = findParamInURL("remote");
+    const companyParam = findParamInURL("company");
+    contextSetField("orase", cityParam);
+    contextSetField("remote", remoteParam);
+    contextSetField("company", companyParam);
+  }, [contextSetField, location.search]);
 
   // Function to handle dropdown toggle
   function handleDropDown(index) {
