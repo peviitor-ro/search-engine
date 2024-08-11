@@ -30,7 +30,10 @@ const Fetch = () => {
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
-  const page = useMemo(() => findParamInURL("page") || 1, []);
+  const [page, setPage] = useState(
+    () => Number(findParamInURL("page")) || 1,
+    []
+  );
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
@@ -42,6 +45,14 @@ const Fetch = () => {
       setText(q + "");
     }
   }, [location.pathname, q]);
+
+  useEffect(() => {
+    //Keeping the state in sync with the URL param
+    const qParam = findParamInURL("q");
+    const pageParam = Number(findParamInURL("page")) || 1;
+    qParam != null && contextSetQ(qParam);
+    setPage(pageParam);
+  }, [contextSetQ, location.search]);
 
   // useEffect to load the number of company and jobs
   useEffect(() => {
@@ -58,7 +69,7 @@ const Fetch = () => {
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
-    contextSetQ([text]);
+    contextSetQ(text);
   };
   // fetch data when states changes values
   // this make the fetch automated when checkboxes are checked or unchec

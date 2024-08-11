@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import {
   updateUrlParams,
   findParamInURL,
@@ -8,16 +8,11 @@ import {
 const TagsContext = createContext();
 
 export const TagsProvider = ({ children }) => {
-  const [fields, setFields] = useState(() => {
-    const storedFields = JSON.parse(localStorage.getItem("fields"));
-    return (
-      storedFields || {
-        orase: [],
-        remote: [],
-        company: [],
-        experienta: []
-      }
-    );
+  const [fields, setFields] = useState({
+    orase: [],
+    remote: [],
+    company: [],
+    experienta: []
   });
   // string values
   // make them empty if they don't exist in the URL.
@@ -26,7 +21,6 @@ export const TagsProvider = ({ children }) => {
   const [remote, setRemote] = useState(() => findParamInURL("remote") || []);
   const [company, setCompany] = useState(() => findParamInURL("company") || []);
   const [county] = useState([""]);
-
   // take data from checkbox
   const handleCheckBoxChange = (e, type) => {
     const { value, checked } = e.target;
@@ -94,10 +88,44 @@ export const TagsProvider = ({ children }) => {
       setCompany(updatedCompany);
     }
   };
-  const contextSetQ = (text) => {
+
+  const contextSetQ = useCallback((text) => {
     setQ(text);
-    updateUrlParams({ q: text, page: 1 });
-  };
+    const pageParam = findParamInURL("page");
+    if (pageParam) {
+      updateUrlParams({ q: text });
+    } else {
+      updateUrlParams({ q: text, page: 1 });
+    }
+  }, []);
+
+  const contextSetField = useCallback((fieldName, value) => {
+    const allowedFields = ["orase", "remote", "company"];
+    if (!allowedFields.includes(fieldName) || !value) {
+      return;
+    }
+    const newValue = Array.isArray(value) ? value : [value];
+
+    switch (fieldName) {
+      case "orase":
+        setCity(newValue);
+        break;
+      case "remote":
+        setRemote(newValue);
+        break;
+      case "company":
+        setCompany(newValue);
+        break;
+      default:
+        return;
+    }
+
+    setFields((prev) => ({
+      ...prev,
+      [fieldName]: newValue
+    }));
+  }, []);
+
   // Update fields state from URL when component mounts
   useEffect(() => {
     setFields({
@@ -152,7 +180,8 @@ export const TagsProvider = ({ children }) => {
         handleRemoveAllFilters,
         handleCheckBoxChange,
         removeTag,
-        contextSetQ
+        contextSetQ,
+        contextSetField
       }}
     >
       {children}
