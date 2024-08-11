@@ -23,6 +23,7 @@ import {
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
+import { updateURL } from "../utils/urlManipulation";
 
 const Fetch = () => {
   const { q, city, remote, county, company, removeTag, contextSetQ } =
@@ -42,14 +43,6 @@ const Fetch = () => {
     }
   }, [location.pathname, q]);
 
-  // useEffect for localStorage
-  useEffect(() => {
-    localStorage.setItem("q", JSON.stringify(q));
-    localStorage.setItem("city", JSON.stringify(city));
-    localStorage.setItem("remote", JSON.stringify(remote));
-    localStorage.setItem("company", JSON.stringify(company));
-  }, [q, city, remote, company]);
-
   // useEffect to load the number of company and jobs
   useEffect(() => {
     const numbersInfo = async () => {
@@ -62,10 +55,10 @@ const Fetch = () => {
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
-    await contextSetQ([text]);
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
+    contextSetQ([text]);
   };
   // fetch data when states changes values
   // this make the fetch automated when checkboxes are checked or unchec
@@ -117,6 +110,7 @@ const Fetch = () => {
   // remove text from input on X button.
   function handleClearX() {
     setText("");
+    updateURL("q", null);
   }
   return (
     <>

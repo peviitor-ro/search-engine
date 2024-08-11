@@ -1,4 +1,9 @@
 import { createContext, useState, useEffect } from "react";
+import {
+  updateURL,
+  findParamInURL,
+  removeFiltersFromURL
+} from "../utils/urlManipulation";
 
 const TagsContext = createContext();
 
@@ -15,17 +20,11 @@ export const TagsProvider = ({ children }) => {
     );
   });
   // string values
-  // make them empty if in localStorage they don't exist.
-  const [q, setQ] = useState(() => JSON.parse(localStorage.getItem("q")) || []);
-  const [city, setCity] = useState(
-    () => JSON.parse(localStorage.getItem("city")) || []
-  );
-  const [remote, setRemote] = useState(
-    () => JSON.parse(localStorage.getItem("remote")) || []
-  );
-  const [company, setCompany] = useState(
-    () => JSON.parse(localStorage.getItem("company")) || []
-  );
+  // make them empty if they don't exist in the URL.
+  const [q, setQ] = useState(() => findParamInURL("q") || []);
+  const [city, setCity] = useState(() => findParamInURL("orase") || []);
+  const [remote, setRemote] = useState(() => findParamInURL("remote") || []);
+  const [company, setCompany] = useState(() => findParamInURL("company") || []);
   const [county] = useState([""]);
 
   // take data from checkbox
@@ -50,6 +49,7 @@ export const TagsProvider = ({ children }) => {
       ...prevFields,
       [type]: updatedArray
     }));
+    updateURL(type, updatedArray);
     // Update the state for string creation.
     if (type === "orase") {
       setCity(updatedArray);
@@ -59,6 +59,7 @@ export const TagsProvider = ({ children }) => {
       setCompany(updatedArray);
     }
   };
+
   // modify removeTag function to accept a parameter indicating the type of field
   const removeTag = (type, value) => {
     // Clone the current array based on the type
@@ -71,6 +72,8 @@ export const TagsProvider = ({ children }) => {
     if (index !== -1) {
       updatedArray.splice(index, 1);
     }
+
+    updateURL(type, updatedArray);
 
     // Update state with the updated array
     setFields((prevFields) => ({
@@ -91,10 +94,11 @@ export const TagsProvider = ({ children }) => {
       setCompany(updatedCompany);
     }
   };
-  function contextSetQ(text) {
+  const contextSetQ = (text) => {
     setQ(text);
-  }
-  // Update fields state from localStorage when component mounts
+    updateURL("q", text);
+  };
+  // Update fields state from URL when component mounts
   useEffect(() => {
     setFields({
       orase: city,
@@ -116,6 +120,7 @@ export const TagsProvider = ({ children }) => {
     setCity([]);
     setCompany([]);
     setRemote([]);
+    removeFiltersFromURL();
   };
   useEffect(() => {
     // Function to check if all arrays in fields object are empty
@@ -133,6 +138,7 @@ export const TagsProvider = ({ children }) => {
 
     // Add fields dependency to re-run the effect whenever fields change
   }, [fields]);
+
   return (
     <TagsContext.Provider
       value={{
