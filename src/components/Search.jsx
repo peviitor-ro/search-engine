@@ -69,7 +69,7 @@ const Fetch = () => {
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
-    contextSetQ(text);
+    contextSetQ([text]);
   };
   // fetch data when states changes values
   // this make the fetch automated when checkboxes are checked or unchec
