@@ -19,6 +19,8 @@ import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
+import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
+import { useLocation } from "react-router-dom";
 
 function tagMapper([key, currentArray]) {
   return currentArray.map((item) => (
@@ -47,12 +49,13 @@ const Results = () => {
     deletAll,
     handleRemoveAllFilters
   } = useContext(TagsContext);
+  const location = useLocation();
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
   const loading = useSelector((state) => state.jobs.loading);
   //state
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(() => Number(findParamInURL("page")) || 1);
   const [isVisible, setIsVisible] = useState(false);
 
   // loading state for "Incarca mai multe" button
@@ -68,6 +71,7 @@ const Results = () => {
     setLoadingMore(false);
     dispatch(setJobs(jobs));
     setPage(nextPage);
+    updateUrlParams({ page: nextPage });
   }
 
   // scrollUp Button
@@ -79,6 +83,12 @@ const Results = () => {
 
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
+
+  useEffect(() => {
+    //Keeping the state in sync with the URL param
+    const pageParam = Number(findParamInURL("page")) || 1;
+    setPage(pageParam);
+  }, [location.search]);
 
   return (
     <div className="rezults-container">
