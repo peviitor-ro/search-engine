@@ -47,23 +47,28 @@ const FiltreCities = ({ dropDown }) => {
   }, [filteredItems, inputValue]);
 
   return (
-    <div className="search-input">
-      <div className="search-container">
-        <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
+    <div>
+      <div className="flex items-center gap-1 px-[2px] border-b-[1px] border-border_grey">
+        <img
+          src={magnifyGlass}
+          alt="magnify-glass"
+          className="relative left-0 w-[20px] ml-1"
+        />
         <input
           type="search"
           value={inputValue}
           placeholder={`Cauta oras`}
           onChange={handleInputChange}
+          className="border-0 outline-none py-[10px] text-sm w-[190px] rounded-full"
         />
       </div>
 
-      <div className="checkbox-container">
+      <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
         {error ? (
           <div>Nu există rezultate "{inputValue}"</div>
         ) : (
           filteredItems.map((item, index) => (
-            <div key={index} className="checkbox-parent">
+            <div key={index}>
               <input
                 type="checkbox"
                 id={item}
@@ -71,8 +76,11 @@ const FiltreCities = ({ dropDown }) => {
                 value={item}
                 checked={fields["orase"].includes(item)}
                 onChange={(e) => handleCheckBoxChange(e, "orase")}
+                className="accent-background_green"
               />
-              <label htmlFor={item}>{item}</label>
+              <label htmlFor={item} className="pl-1 cursor-pointer">
+                {item}
+              </label>
             </div>
           ))
         )}
