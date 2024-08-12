@@ -20,7 +20,11 @@ export const updateUrlParams = (paramsObj) => {
     .map(([key, val]) => `${key}=${val}`)
     .join("&");
 
-  window.history.pushState({}, "", `${baseUrl}?${newQueryStr}`);
+  if (newQueryStr) {
+    window.history.pushState({}, "", `${baseUrl}?${newQueryStr}`);
+  } else {
+    window.history.pushState({}, "", baseUrl);
+  }
 };
 
 export const removeFiltersFromURL = () => {
