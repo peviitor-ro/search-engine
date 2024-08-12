@@ -5,9 +5,6 @@ import sageata from "../assets/svg/arrow_bottom.svg";
 
 import { useLocation } from "react-router-dom";
 
-// scss
-import "../scss/filtre.scss";
-
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
@@ -94,13 +91,20 @@ const FiltreGrup = () => {
 
   // Rendering the component
   return (
-    <div className="drop-down-parent" ref={refDropdown}>
+    <div
+      className="flex items-center justify-center flex-wrap mt-2 md:mx-auto w-fit gap-4 md:gap-4 relative font-PoppinsRegular z-10"
+      ref={refDropdown}
+    >
       {/* Mapping through each dropdown */}
       {dropDown.map((isOpen, index) => (
         <div key={index}>
           {/* Button for toggling the dropdown */}
           <button
-            className="drop-down"
+            className={`${
+              isOpen ? "text-background_green" : ""
+            } ${getButtonStyle(
+              index
+            )} flex items-baseline bg-none border-none px-4 py-2 cursor-pointer hover:text-background_green`}
             onClick={() => handleDropDown(index)}
             style={getButtonStyle(index)}
           >
@@ -109,12 +113,16 @@ const FiltreGrup = () => {
             {/* Arrow icon for indicating dropdown state */}
             <img
               src={sageata}
-              className={`arrow-bottom ${isOpen ? "up" : ""}`}
+              className={`${isOpen ? "rotate-180" : ""} ml-2`}
               alt="drop-down"
             />
           </button>
           {/* Dropdown container */}
-          <div className={`drop-down-container ${isOpen ? "open" : ""}`}>
+          <div
+            className={`${
+              isOpen ? "block" : "hidden"
+            }  text-lg py-1 border border-background_green rounded-3xl shadow-checbox_shadow absolute bg-white left-1/2 transform -translate-x-1/2 md:left-auto md:transform-none`}
+          >
             {/* Dynamically rendering checkbox based on index */}
 
             {/* Cities Drop-down */}
@@ -133,18 +141,21 @@ const FiltreGrup = () => {
 
             {index === 2 && (
               <React.Fragment>
-                <div className="checkbox-remote">
+                {/* <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2"> */}
+                <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2">
                   <div>
                     <input
                       type="checkbox"
                       id="on-site"
                       name="on-site"
                       value="on-site"
-                      className="mdl"
+                      className="accent-background_green"
                       checked={fields.remote.includes("on-site")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="on-site">La fața locului</label>
+                    <label htmlFor="on-site" className="pl-1 cursor-pointer">
+                      La fața locului
+                    </label>
                   </div>
                   <div>
                     <input
@@ -152,11 +163,13 @@ const FiltreGrup = () => {
                       id="hibrid"
                       name="hibrid"
                       value="hibrid"
-                      className="mdl"
+                      className="accent-background_green"
                       checked={fields.remote.includes("hibrid")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="hibrid">Hibrid</label>
+                    <label htmlFor="hibrid" className="pl-1 cursor-pointer">
+                      Hibrid
+                    </label>
                   </div>
                   <div>
                     <input
@@ -164,11 +177,13 @@ const FiltreGrup = () => {
                       id="Remote"
                       name="remote"
                       value="Remote"
-                      className="mdl"
+                      className="accent-background_green"
                       checked={fields.remote.includes("Remote")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="Remote">La distanță</label>
+                    <label htmlFor="Remote" className="pl-1 cursor-pointer">
+                      La distanță
+                    </label>
                   </div>
                 </div>
               </React.Fragment>

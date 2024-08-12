@@ -1,8 +1,6 @@
 // svg
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import logo from "../assets/svg/logo.svg";
-// scss
-import "../scss/search.scss";
 
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
@@ -121,22 +119,33 @@ const Fetch = () => {
   }
   return (
     <>
-      <div className="input-container">
+      <div className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2">
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo">
             <img src={logo} alt="peviitor" />
           </a>
         )}
-        <form onSubmit={handleUpdateQ}>
-          <img className="lupa" src={magnifyGlass} alt="magnify-glass" />
+        <form
+          onSubmit={handleUpdateQ}
+          className="flex flex-col items-center md:flex-row relative gap-2"
+        >
+          <img
+            src={magnifyGlass}
+            alt="magnify-glass"
+            className="absolute top-4 left-4"
+          />
           <input
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Caută un loc de muncă"
+            className="pl-12 w-[290px] h-[54px] md:w-[400px]  mb-3 md:mb-0 xl:w-[620px]  border rounded-full border-border_grey outline-none "
           />
           {text.length !== 0 ? (
-            <span className="clear" onClick={handleClearX}>
+            <span
+              className="absolute right-5 md:right-[148px] top-5 cursor-pointer"
+              onClick={handleClearX}
+            >
               <svg
                 focusable="false"
                 xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +159,12 @@ const Fetch = () => {
           ) : (
             ""
           )}
-          <button type="submit">Caută</button>
+          <button
+            type="submit"
+            className="m-auto bg-background_green text-white w-[122px] h-[54px]  text-base px-10 py-3 rounded-full transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+          >
+            Caută
+          </button>
         </form>
       </div>
       {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
