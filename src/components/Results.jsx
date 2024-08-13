@@ -101,12 +101,12 @@ const Results = () => {
           {!deletAll && (
             <div className="flex gap-2 ml-4">
               <hr className="h-auto w-[1px] bg-black" />
-              <buton
+              <button
                 className="self-center cursor-pointer"
                 onClick={handleRemoveAllFilters}
               >
                 Sterge filtre
-              </buton>
+              </button>
             </div>
           )}
         </div>

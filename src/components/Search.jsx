@@ -42,10 +42,13 @@ const Fetch = () => {
   }, [location.pathname, q]);
 
   useEffect(() => {
+    if (!location.pathname.includes("/rezultate")) {
+      return;
+    }
     //Keeping the state in sync with the URL param
     const qParam = findParamInURL("q");
-    qParam != null && contextSetQ(qParam);
-  }, [contextSetQ, location.search]);
+    contextSetQ(qParam || [""]);
+  }, [contextSetQ, location.pathname, location.search]);
 
   // useEffect to load the number of company and jobs
   useEffect(() => {

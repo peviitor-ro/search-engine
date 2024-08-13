@@ -91,11 +91,10 @@ export const TagsProvider = ({ children }) => {
 
   const contextSetQ = useCallback((text) => {
     setQ(text);
-    const pageParam = findParamInURL("page");
-    if (pageParam) {
-      updateUrlParams({ q: text });
+    if (Array.isArray(text)) {
+      updateUrlParams({ q: text[0] });
     } else {
-      updateUrlParams({ q: text, page: 1 });
+      updateUrlParams({ q: text });
     }
   }, []);
 
