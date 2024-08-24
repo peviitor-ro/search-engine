@@ -1,4 +1,4 @@
-#Graphic designer
+#Graphic designers
 Oana Toudut (https://www.linkedin.com/in/oanatoudut/)
 Honorius Petronel (https://www.linkedin.com/in/honorius-petronel/)
 Mihaela-Talida Ganciu (https://www.linkedin.com/in/mihaela-talida-g-66532716a/)
@@ -6,7 +6,7 @@ Patricia Istrate (https://www.linkedin.com/in/patriciaistrate/)
 
 
 
-#Front-End developer
+#Front-End developers
 Sergiu Avram (https://www.linkedin.com/in/sergiuavram/)
 Calin Catuta (https://www.linkedin.com/in/calin-catuta-665a19238/)
 Mihaela-Talida Ganciu (https://www.linkedin.com/in/mihaela-talida-g-66532716a/)
@@ -14,10 +14,14 @@ Ovidiu-Alexandru Ciobanu (https://www.linkedin.com/in/ovidiu-alexandru-ciobanu/)
 
 
 
-#Back-End developer
+#Back-End developers
 Sebastian Boga (https://www.linkedin.com/in/sebastianboga/)
 Laurentiu Baluta (https://www.linkedin.com/in/laurentiu-baluta-3153b9217/)
 Ifrim Alexandra (https://www.linkedin.com/in/alexandra-ifrim-9958092b0/)
+
+
+
+#DevOps
 Alex Stefan (https://www.linkedin.com/in/alex-stefan99/)
 
 
@@ -45,6 +49,7 @@ Adelina Guliman (https://www.linkedin.com/in/adelina-guliman-111631286/)
 Adriana Cionca (https://www.linkedin.com/in/adriana-cionca-63b14620a/)
 Diana Nicolae (https://www.linkedin.com/in/diananicolae/)
 Rares Irimus (https://www.linkedin.com/in/raresirimus/)
+
 
 
 #Scraper developers
