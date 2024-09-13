@@ -65,3 +65,5 @@ BETA.PEVIITOR.RO
 version: v03
 
 https://www.figma.com/file/gY6yYTFjC0fuZ4bTRlUaH6/Pe-viitor?type=design&node-id=804-141&mode=design
+
+[V.04](https://www.figma.com/design/SS81SUL5ZnytusulXYwuUG/Pe-Viitor?node-id=1494-36669&t=44ghMcjx9lwi5Nav-1)
