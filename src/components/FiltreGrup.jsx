@@ -142,7 +142,7 @@ const FiltreGrup = () => {
             {index === 2 && (
               <React.Fragment>
                 {/* <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2"> */}
-                <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2">
+                <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2 text-sm">
                   <div>
                     <input
                       type="checkbox"

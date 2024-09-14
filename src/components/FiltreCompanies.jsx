@@ -89,7 +89,7 @@ const FiltreCompanies = ({ dropDown }) => {
         {inputCompany.length > 0 && inputCompany.length < 3 && <p>{error}</p>}
         {Array.isArray(data) ? (
           data.map((item, index) => (
-            <div key={index} className="checkbox-parent">
+            <div key={index} className="checkbox-parent text-sm">
               <input
                 type="checkbox"
                 id={item}
