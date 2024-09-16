@@ -48,7 +48,7 @@ const FiltreCities = ({ dropDown }) => {
 
   return (
     <div>
-      <div className="flex items-center gap-1 px-[2px] border-b-[1px] border-border_grey">
+      <div className="flex items-center gap-1 px-[2px] border-b-[1px] border-border_grey ">
         <img
           src={magnifyGlass}
           alt="magnify-glass"
@@ -68,7 +68,7 @@ const FiltreCities = ({ dropDown }) => {
           <div>Nu există rezultate "{inputValue}"</div>
         ) : (
           filteredItems.map((item, index) => (
-            <div key={index}>
+            <div key={index} className="pl-1 text-sm">
               <input
                 type="checkbox"
                 id={item}
@@ -85,6 +85,7 @@ const FiltreCities = ({ dropDown }) => {
           ))
         )}
       </div>
+      <div className="h-3"></div>
     </div>
   );
 };
