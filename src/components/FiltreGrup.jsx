@@ -168,7 +168,7 @@ const FiltreGrup = () => {
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
                     <label htmlFor="Hybrid" className="pl-1 cursor-pointer">
-                      Hybrid
+                      Hibrid
                     </label>
                   </div>
                   <div>
