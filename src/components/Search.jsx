@@ -4,7 +4,7 @@ import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
 
 // svg
-import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
+/* import magnifyGlass from "../assets/svg/magniy_glass_icon.svg"; */
 import logo from "../assets/svg/logo.svg";
 
 import { useEffect, useState, useContext } from "react";
@@ -43,16 +43,16 @@ const Fetch = () => {
   const [jobTitle, setJobTitle] = useState("");
   const [locationn, setLocation] = useState("");
 
-  const [locationTest, setLocationSuggestions] = useState([]);
+  /* const [locationTest, setLocationSuggestions] = useState([]); */
 
   const [focusedInput, setFocusedInput] = useState(null);
 
   const handleClearJobTitle = () => setJobTitle("");
   const handleClearLocation = () => setLocation("");
 
-  const handleFocus = (input) => setFocusedInput(input);
+  /* const handleFocus = (input) => setFocusedInput(input);
   const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
-
+ */
   const jobSuggestions = [
     "Relatii clineti",
     "Mecanic Auto",
@@ -189,17 +189,17 @@ const Fetch = () => {
                   onChange={(e) => setText(e.target.value)}
                   /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
 
-                  /*  onFocus={() => handleFocus("jobTitle")}
+                  /* onFocus={() => handleFocus("jobTitle")}
                   onBlur={handleBlur} */
 
                   /* until here */
                   placeholder="Cauta un loc de munca"
                   className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
-                {jobTitle && (
+                {text && (
                   <XIcon
                     className="w-4 h-4 text-gray-700 mr-3 cursor-pointer"
-                    onClick={handleClearJobTitle}
+                    onClick={handleClearX}
                   />
                 )}
               </div>
@@ -236,8 +236,9 @@ const Fetch = () => {
                   onChange={(e) => setLocation(e.target.value)}
                   /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
 
-                  onFocus={() => handleFocus("location")}
-                  onBlur={handleBlur}
+                  /* onFocus={() => handleFocus("location")}
+                  onBlur={handleBlur} */
+
                   /* until here */
                   placeholder="Adauga o locatie"
                   className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
