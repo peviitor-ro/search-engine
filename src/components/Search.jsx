@@ -71,21 +71,6 @@ const Fetch = () => {
     "Web Developer (somer)",
     "Back-end Developer PHP"
   ];
-  const locationSuggestions = [
-    "București",
-    "Cluj",
-    "Timișoara",
-    "Iași",
-    "București",
-    "Cluj",
-    "Timișoara",
-    "Iași",
-    "București",
-    "Cluj",
-    "Timișoara",
-    "Iași"
-  ];
-
   //new
 
   // useEffect to set the search input field as the user search querry
@@ -178,176 +163,114 @@ const Fetch = () => {
   return (
     <>
       <div className="m-10 p-10">
-        <div className="flex items-center  relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
+        <div className="flex items-center relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
           {location.pathname === "/rezultate" && (
-            <a
-              href="/"
-              className="logo mr-2
-            "
-            >
-              <img src={logo} alt="peviitor" />
-            </a>
-          )}
-          <form
-          onSubmit={handleUpdateQ}
-          className="flex flex-col items-center md:flex-row relative gap-2"
-        >
-
-          <div className="flex items-center justify-between relative lg:w-[522px]">
-            {/* insert */}
-
-            <div
-              className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-r-0 lg:rounded-tl-lg lg:rounded-tr-none lg:rounded-br-none divider
-           ${
-             focusedInput === "jobTitle"
-               ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
-               : ""
-           }`}
-            >
-              <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
-              <input
-                type="text"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                onFocus={() => handleFocus("jobTitle")}
-                onBlur={handleBlur}
-                placeholder="Cauta un loc de munca"
-                className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-              />
-              {jobTitle && (
-                <XIcon
-                  className="w-4 h-4 text-gray-700 mr-3 cursor-pointer"
-                  onClick={handleClearJobTitle}
-                />
-              )}
-            </div>
-
-            {/* {/* Dropdown for Job Title */}
-            {focusedInput === "jobTitle" && (
-              <ul
-                className={
-                  "hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border"
-                }
-              >
-                {jobSuggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => setJobTitle(suggestion)}
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* end */}
-          </div>
-          <div className="flex items-center justify-between relative lg:w-[325px]">
-            {/* test */}
-            <div
-              className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none   lg:rounded-tr-lg
-            ${
-              focusedInput === "location"
-                ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                : " "
-            }`}
-            >
-              <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
-              <input
-                type="text"
-                value={locationn}
-                onChange={(e) => setLocation(e.target.value)}
-                onFocus={() => handleFocus("location")}
-                onBlur={handleBlur}
-                placeholder="Adauga o locatie"
-                className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-              />
-              {locationn && (
-                <XIcon
-                  className="w-7 h-7 text-gray-500 mr-3 cursor-pointer"
-                  onClick={handleClearLocation}
-                />
-              )}
-              <button
-                type="submit"
-                className="m-1 bg-[#E08D22] text-white w-[122px] h-[30px]  text-base px-10  rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
-              >
-                Caută
-              </button>
-            </div>
-            </form>
-            {/* Dropdown for Location */}
-            {focusedInput === "location" && (
-              <ul
-                className={
-                  "hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border"
-                }
-              >
-                {locationSuggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                    onClick={() => setLocation(suggestion)}
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {/* test */}
-          </div>
-        </div>
-      </div>
-      {/* cod vechi */}
-      {/* <div className="m-10 p-10">
-        <div className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2">
-          {location.pathname === "/rezultate" && (
-            <a href="/" className="logo">
+            <a href="/" className="logo mr-2">
               <img src={logo} alt="peviitor" />
             </a>
           )}
           <form
             onSubmit={handleUpdateQ}
-            className="flex flex-col items-center md:flex-row relative gap-2"
+            className="flex flex-col items-center justify-between md:flex-row relative "
           >
-            <img
-              src={magnifyGlass}
-              alt="magnify-glass"
-              className="absolute top-4 left-4"
-            />
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="Caută un loc de muncă"
-              className="pl-12 w-[290px] h-[54px] md:w-[400px]  mb-3 md:mb-0 xl:w-[620px]  border rounded-full border-border_grey outline-none "
-            />
-            {text.length !== 0 ? (
-              <span
-                className="absolute right-5 md:right-[148px] top-5 cursor-pointer"
-                onClick={handleClearX}
+            <div className="flex items-center justify-between relative lg:w-[522px]">
+              {/* Job Title Input */}
+              <div
+                className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-r-0 lg:rounded-tl-lg lg:rounded-tr-none lg:rounded-br-none divider ${
+                  focusedInput === "jobTitle"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
+                    : ""
+                }`}
               >
-                <svg
-                  focusable="false"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  width="15px"
-                  height="15px"
+                <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
+                <input
+                  type="text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
+
+                  /*  onFocus={() => handleFocus("jobTitle")}
+                  onBlur={handleBlur} */
+
+                  /* until here */
+                  placeholder="Cauta un loc de munca"
+                  className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                />
+                {jobTitle && (
+                  <XIcon
+                    className="w-4 h-4 text-gray-700 mr-3 cursor-pointer"
+                    onClick={handleClearJobTitle}
+                  />
+                )}
+              </div>
+
+              {/* Dropdown for Job Title */}
+              {focusedInput === "jobTitle" && (
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                  {jobSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                      onClick={() => setJobTitle(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Location Input */}
+            <div className="flex items-center justify-between relative lg:w-[325px]">
+              <div
+                className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
+                  focusedInput === "location"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                    : ""
+                }`}
+              >
+                <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
+                <input
+                  type="text"
+                  value={locationn}
+                  onChange={(e) => setLocation(e.target.value)}
+                  /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
+
+                  onFocus={() => handleFocus("location")}
+                  onBlur={handleBlur}
+                  /* until here */
+                  placeholder="Adauga o locatie"
+                  className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                />
+                {locationn && (
+                  <XIcon
+                    className="w-7 h-7 text-gray-500 mr-3 cursor-pointer"
+                    onClick={handleClearLocation}
+                  />
+                )}
+                <button
+                  type="submit"
+                  className="m-1 bg-[#E08D22] text-white w-[122px] h-[30px] text-base px-10 rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
                 >
-                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-                </svg>
-              </span>
-            ) : (
-              ""
-            )}
-            <button
-              type="submit"
-              className="m-auto bg-background_green text-white w-[122px] h-[54px]  text-base px-10 py-3 rounded-full transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
-            >
-              Caută
-            </button>
+                  Caută
+                </button>
+              </div>
+
+              {/* Dropdown for Location */}
+              {focusedInput === "location" && (
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                  {orase.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                      onClick={() => setLocation(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </form>
         </div>
         {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
@@ -355,7 +278,7 @@ const Fetch = () => {
             <FiltreGrup />
           </>
         )}
-      </div> */}
+      </div>
     </>
   );
 };
