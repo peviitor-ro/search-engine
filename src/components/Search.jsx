@@ -50,9 +50,9 @@ const Fetch = () => {
   const handleClearJobTitle = () => setJobTitle("");
   const handleClearLocation = () => setLocation("");
 
-  /* const handleFocus = (input) => setFocusedInput(input);
+  const handleFocus = (input) => setFocusedInput(input);
   const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
- */
+
   const jobSuggestions = [
     "Relatii clineti",
     "Mecanic Auto",
@@ -176,7 +176,11 @@ const Fetch = () => {
             <div className="flex items-center justify-between relative lg:w-[522px]">
               {/* Job Title Input */}
               <div
-                className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-r-0 lg:rounded-tl-lg lg:rounded-tr-none lg:rounded-br-none divider ${
+                className={`flex items-center relative w-full border border-[#89969C] rounded-lg ${
+                  location.pathname !== "/"
+                    ? "lg:border-r-2 border-[#89969C] rounded-lg"
+                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă border pe dreapta dacă nu e pe "/"
+                } ${
                   focusedInput === "jobTitle"
                     ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
                     : ""
@@ -187,12 +191,13 @@ const Fetch = () => {
                   type="text"
                   value={text}
                   onChange={(e) => setText(e.target.value)}
-                  /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
-
-                  /* onFocus={() => handleFocus("jobTitle")}
-                  onBlur={handleBlur} */
-
-                  /* until here */
+                  /* Dropdown on the main page === " / "   */
+                  onFocus={
+                    location.pathname === "/"
+                      ? () => handleFocus("jobTitle")
+                      : undefined
+                  }
+                  onBlur={location.pathname === "/" ? handleBlur : undefined}
                   placeholder="Cauta un loc de munca"
                   className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
@@ -220,58 +225,59 @@ const Fetch = () => {
               )}
             </div>
 
-            {/* Location Input */}
-            <div className="flex items-center justify-between relative lg:w-[325px]">
-              <div
-                className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
-                  focusedInput === "location"
-                    ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                    : ""
-                }`}
-              >
-                <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
-                <input
-                  type="text"
-                  value={locationn}
-                  onChange={(e) => setLocation(e.target.value)}
-                  /* We need to remove this 2 lines until we have the filter on the side like in v4.0 */
+            {/* Add Location Input */}
+            <div>
+              {location.pathname === "/" && ( // Verify if is the main page
+                <div className="flex items-center justify-between relative lg:w-[325px]">
+                  <div
+                    className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
+                      focusedInput === "location"
+                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                        : ""
+                    }`}
+                  >
+                    <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
+                    <input
+                      type="text"
+                      value={locationn}
+                      onChange={(e) => setLocation(e.target.value)}
+                      onFocus={() => handleFocus("location")}
+                      onBlur={handleBlur}
+                      placeholder="Adauga o locatie"
+                      className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                    />
+                    {locationn && (
+                      <XIcon
+                        className="w-4 h-4 text-gray-500 mr-3 cursor-pointer"
+                        onClick={handleClearLocation}
+                      />
+                    )}
+                  </div>
 
-                  /* onFocus={() => handleFocus("location")}
-                  onBlur={handleBlur} */
-
-                  /* until here */
-                  placeholder="Adauga o locatie"
-                  className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-                />
-                {locationn && (
-                  <XIcon
-                    className="w-7 h-7 text-gray-500 mr-3 cursor-pointer"
-                    onClick={handleClearLocation}
-                  />
-                )}
-                <button
-                  type="submit"
-                  className="m-1 bg-[#E08D22] text-white w-[122px] h-[30px] text-base px-10 rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
-                >
-                  Caută
-                </button>
-              </div>
-
-              {/* Dropdown for Location */}
-              {focusedInput === "location" && (
-                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
-                  {orase.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                      onClick={() => setLocation(suggestion)}
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
+                  {/* Add Location Input dropdown*/}
+                  {focusedInput === "location" && (
+                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                      {orase.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                          onClick={() => setLocation(suggestion)}
+                        >
+                          {suggestion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               )}
             </div>
+            {/* button search */}
+            <button
+              type="submit"
+              className="m-2 bg-background_green text-white w-[122px] h-[42px] text-base px-10 rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+            >
+              Caută
+            </button>
           </form>
         </div>
         {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
