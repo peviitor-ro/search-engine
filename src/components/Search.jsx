@@ -7,7 +7,7 @@ import { orase } from "../utils/getCityName";
 /* import magnifyGlass from "../assets/svg/magniy_glass_icon.svg"; */
 import logo from "../assets/svg/logo.svg";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
@@ -33,27 +33,19 @@ const Fetch = () => {
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
-
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
-
   //new
-  const [jobTitle, setJobTitle] = useState("");
+  const [setJobTitle] = useState("");
   const [locationn, setLocation] = useState("");
-
   /* const [locationTest, setLocationSuggestions] = useState([]); */
-
   const [focusedInput, setFocusedInput] = useState(null);
-
-  const handleClearJobTitle = () => setJobTitle("");
   const handleClearLocation = () => setLocation("");
-
   const handleFocus = (input) => setFocusedInput(input);
   const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
   const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
-
   const jobSuggestions = [
     "Relatii clineti",
     "Mecanic Auto",
@@ -73,8 +65,7 @@ const Fetch = () => {
     "Back-end Developer PHP"
   ];
   //new
-
-  // useEffect to set the search input field as the user search querry
+  // useEffect to set the search input field as the user search query
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
@@ -102,13 +93,15 @@ const Fetch = () => {
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
+
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
     contextSetQ([text]);
   };
-  // fetch data when states changes values
-  // this make the fetch automated when checkboxes are checked or unchec
+
+  // fetch data when states change values
+  // this make the fetch automated when checkboxes are checked or unchecked
   useEffect(() => {
     // Function to fetch data and update state
     const fetchData = async () => {
@@ -155,30 +148,33 @@ const Fetch = () => {
       dispatch(setTotal(0));
     }
   }, [dispatch, q, city, remote, company, county, removeTag]);
+
   // remove text from input on X button.
   function handleClearX() {
     setText("");
     updateUrlParams({ q: null });
   }
 
-  //function to remove diactritics
+  //function to remove diacritics
   const removeDiacritics = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   };
 
   // Function to filter cities based on input
-  const filterCities = (input) => {
+  const filterCities = useCallback((input) => {
+    // Use useCallback
     const normalizedInput = removeDiacritics(input.toLowerCase()); // Normalize input
     const filtered = orase.filter(
       (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput) // Normalize city names
     );
     setFilteredCities(filtered);
-  };
+  }, []); // You might want to add dependencies here if `orase` changes
 
   // Update filtered cities when location input changes
   useEffect(() => {
     filterCities(locationn);
-  }, [locationn]);
+  }, [locationn, filterCities]); // Include filterCities in the dependency array
+
   return (
     <>
       <div className="m-10 p-10">
@@ -261,7 +257,7 @@ const Fetch = () => {
                       value={locationn}
                       onChange={(e) => setLocation(e.target.value)}
                       onFocus={() => handleFocus("location")}
-                      onBlur={handleBlur}
+                      // onBlur={handleBlur}
                       placeholder="Adauga o locatie"
                       className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                     />
@@ -280,7 +276,10 @@ const Fetch = () => {
                         <li
                           key={index}
                           className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                          onClick={() => setLocation(suggestion)}
+                          onClick={() => {
+                            setLocation(suggestion); // Actualizează doar locationn
+                            setFocusedInput(null); // Închide dropdown-ul
+                          }}
                         >
                           {suggestion}
                         </li>

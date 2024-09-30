@@ -63,3 +63,8 @@
   background-color: #bdc2c4;
   margin: 1rem 0;
 }
+@media (max-width: 1024px) {
+  .divider::after {
+    display: none;
+  }
+}
