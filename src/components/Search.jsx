@@ -52,6 +52,7 @@ const Fetch = () => {
 
   const handleFocus = (input) => setFocusedInput(input);
   const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
+  const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
 
   const jobSuggestions = [
     "Relatii clineti",
@@ -160,6 +161,24 @@ const Fetch = () => {
     updateUrlParams({ q: null });
   }
 
+  //function to remove diactritics
+  const removeDiacritics = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  // Function to filter cities based on input
+  const filterCities = (input) => {
+    const normalizedInput = removeDiacritics(input.toLowerCase()); // Normalize input
+    const filtered = orase.filter(
+      (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput) // Normalize city names
+    );
+    setFilteredCities(filtered);
+  };
+
+  // Update filtered cities when location input changes
+  useEffect(() => {
+    filterCities(locationn);
+  }, [locationn]);
   return (
     <>
       <div className="m-10 p-10">
@@ -257,7 +276,7 @@ const Fetch = () => {
                   {/* Add Location Input dropdown*/}
                   {focusedInput === "location" && (
                     <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
-                      {orase.map((suggestion, index) => (
+                      {filteredCities.map((suggestion, index) => (
                         <li
                           key={index}
                           className="px-12 py-2 cursor-pointer hover:bg-gray-100"
