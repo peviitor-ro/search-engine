@@ -7,7 +7,7 @@ import { orase } from "../utils/getCityName";
 /* import magnifyGlass from "../assets/svg/magniy_glass_icon.svg"; */
 import logo from "../assets/svg/logo.svg";
 
-import { useEffect, useState, useContext, useCallback } from "react";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
@@ -46,6 +46,8 @@ const Fetch = () => {
   const handleFocus = (input) => setFocusedInput(input);
   const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
   const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
+  const dropdownRef = useRef(null);
+
   const jobSuggestions = [
     "Relatii clineti",
     "Mecanic Auto",
@@ -174,6 +176,21 @@ const Fetch = () => {
   useEffect(() => {
     filterCities(locationn);
   }, [locationn, filterCities]); // Include filterCities in the dependency array
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFocusedInput(null); // Close the dropdown
+      }
+    };
+
+    if (focusedInput) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [focusedInput]);
 
   return (
     <>
@@ -241,8 +258,10 @@ const Fetch = () => {
             </div>
 
             {/* Add Location Input */}
-            <div>
-              {location.pathname === "/" && ( // Verify if is the main page
+            <div ref={dropdownRef}>
+              {" "}
+              {/* Add ref to the container */}
+              {location.pathname === "/" && (
                 <div className="flex items-center justify-between relative lg:w-[325px]">
                   <div
                     className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
@@ -257,7 +276,6 @@ const Fetch = () => {
                       value={locationn}
                       onChange={(e) => setLocation(e.target.value)}
                       onFocus={() => handleFocus("location")}
-                      // onBlur={handleBlur}
                       placeholder="Adauga o locatie"
                       className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                     />
@@ -277,8 +295,8 @@ const Fetch = () => {
                           key={index}
                           className="px-12 py-2 cursor-pointer hover:bg-gray-100"
                           onClick={() => {
-                            setLocation(suggestion); // Actualizează doar locationn
-                            setFocusedInput(null); // Închide dropdown-ul
+                            setLocation(suggestion);
+                            setFocusedInput(null); // Close dropdown on selection
                           }}
                         >
                           {suggestion}
