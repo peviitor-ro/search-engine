@@ -142,7 +142,7 @@ const Fetch = () => {
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="Caută un loc de muncă"
-            className="pl-12 w-[290px] h-[54px] md:w-[400px]  mb-3 md:mb-0 xl:w-[620px]  border rounded-full border-border_grey outline-none "
+            className="pl-12 w-[300px] h-[54px] md:w-[360px] mb-3 lg:w-[590px] md:mb-0 xl:w-[740px]  border rounded-full border-border_grey outline-none "
           />
           {text.length !== 0 ? (
             <span
