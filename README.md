@@ -4,7 +4,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 =======
 # Current designs
-https://www.figma.com/file/ZnxmiUT0MBUvGFv2D3vaZz/Website-designs?node-id=0%3A1
+[https://www.figma.com/file/ZnxmiUT0MBUvGFv2D3vaZz/Website-designs?node-id=0%3A1](https://www.figma.com/file/SS81SUL5ZnytusulXYwuUG/Pe-Viitor?type=design&node-id=1460%3A27732&mode=design&t=rj7AoGfBedhMHa9Q-1)
         
 ! The logo is not supposed to have a different background than the landing page photo/ header background, but the used Font (Just Mandrown) was not available when putting together the new designs, so a picture was used instead as an easy fix. 
 
