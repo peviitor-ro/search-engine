@@ -37,3 +37,7 @@
   border-radius: 26px;
   cursor: pointer;
 }
+
+.fill_arrow {
+    fill: #048a81;
+}
