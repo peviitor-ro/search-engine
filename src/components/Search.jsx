@@ -1,15 +1,15 @@
+// svg
+import logo from "../assets/svg/logo.svg";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
+import TagsContext from "../context/TagsContext";
+import { useNavigate, useLocation } from "react-router-dom";
+//NEW IMPORTS\\
 import { ReactComponent as LupeIcon } from "../assets/svg/lupe.svg";
 import { ReactComponent as XIcon } from "../assets/svg/x.svg";
 import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
+//\\//\\//\\//\\
 
-// svg
-/* import magnifyGlass from "../assets/svg/magniy_glass_icon.svg"; */
-import logo from "../assets/svg/logo.svg";
-
-import { useEffect, useState, useContext, useCallback, useRef } from "react";
-import TagsContext from "../context/TagsContext";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
@@ -37,7 +37,8 @@ const Fetch = () => {
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
-  //new
+
+  //new\\
   const [setJobTitle] = useState("");
   const [locationn, setLocation] = useState("");
   /* const [locationTest, setLocationSuggestions] = useState([]); */
@@ -66,7 +67,6 @@ const Fetch = () => {
     "Web Developer (somer)",
     "Back-end Developer PHP"
   ];
-  //new
   // useEffect to set the search input field as the user search query
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -82,7 +82,6 @@ const Fetch = () => {
     const qParam = findParamInURL("q");
     contextSetQ(qParam || [""]);
   }, [contextSetQ, location.pathname, location.search]);
-
   // useEffect to load the number of company and jobs
   useEffect(() => {
     const numbersInfo = async () => {
@@ -91,7 +90,6 @@ const Fetch = () => {
     };
     numbersInfo();
   }, [dispatch]);
-
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
@@ -150,6 +148,7 @@ const Fetch = () => {
       dispatch(setTotal(0));
     }
   }, [dispatch, q, city, remote, company, county, removeTag]);
+  //new
 
   // remove text from input on X button.
   function handleClearX() {
