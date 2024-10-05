@@ -38,6 +38,7 @@
   cursor: pointer;
 }
 
+
 /* Search-bar styles + divider | for work and location */
 .custom-scrollbar::-webkit-scrollbar {
   width: 10px;
@@ -67,4 +68,7 @@
   .divider::after {
     display: none;
   }
+
+.fill_arrow {
+    fill: #048a81;
 }

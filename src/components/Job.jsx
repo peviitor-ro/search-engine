@@ -31,7 +31,7 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
           {company}
         </p>
         <h2
-          className="text-lg font-bold truncate cursor-help"
+          className="text-lg font-bold truncate"
           title={job_title}
         >
           {job_title}
