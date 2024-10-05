@@ -38,6 +38,37 @@
   cursor: pointer;
 }
 
+
+/* Search-bar styles + divider | for work and location */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: green;
+  border-radius: 10px;
+  border: 3px solid white;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.divider::after {
+  position: absolute;
+  right: 0;
+  content: "";
+  display: block;
+  height: 60%;
+  width: 1px;
+  background-color: #bdc2c4;
+  margin: 1rem 0;
+}
+@media (max-width: 1024px) {
+  .divider::after {
+    display: none;
+  }
+
 .fill_arrow {
     fill: #048a81;
 }

@@ -1,10 +1,15 @@
 // svg
-import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import logo from "../assets/svg/logo.svg";
-
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
+import { useNavigate, useLocation } from "react-router-dom";
+//NEW IMPORTS\\
+import { ReactComponent as LupeIcon } from "../assets/svg/lupe.svg";
+import { ReactComponent as XIcon } from "../assets/svg/x.svg";
+import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
+import { orase } from "../utils/getCityName";
+//\\//\\//\\//\\
+
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
@@ -28,13 +33,41 @@ const Fetch = () => {
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
-
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
 
-  // useEffect to set the search input field as the user search querry
+  //new\\
+  const [setJobTitle] = useState("");
+  const [locationn, setLocation] = useState("");
+  /* const [locationTest, setLocationSuggestions] = useState([]); */
+  const [focusedInput, setFocusedInput] = useState(null);
+  const handleClearLocation = () => setLocation("");
+  const handleFocus = (input) => setFocusedInput(input);
+  const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
+  const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
+  const dropdownRef = useRef(null);
+
+  const jobSuggestions = [
+    "Relatii clineti",
+    "Mecanic Auto",
+    "Web Developer (somer)",
+    "Back-end Developer PHP",
+    "Relatii clineti",
+    "Mecanic Auto",
+    "Web Developer (somer)",
+    "Back-end Developer PHP",
+    "Relatii clineti",
+    "Mecanic Auto",
+    "Web Developer (somer)",
+    "Back-end Developer PHP",
+    "Relatii clineti",
+    "Mecanic Auto",
+    "Web Developer (somer)",
+    "Back-end Developer PHP"
+  ];
+  // useEffect to set the search input field as the user search query
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
@@ -49,7 +82,6 @@ const Fetch = () => {
     const qParam = findParamInURL("q");
     contextSetQ(qParam || [""]);
   }, [contextSetQ, location.pathname, location.search]);
-
   // useEffect to load the number of company and jobs
   useEffect(() => {
     const numbersInfo = async () => {
@@ -58,17 +90,18 @@ const Fetch = () => {
     };
     numbersInfo();
   }, [dispatch]);
-
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
+
     if (location.pathname !== "/rezultate") {
       navigate("/rezultate"); // Use navigate to redirect to "/rezult"
     }
     contextSetQ([text]);
   };
-  // fetch data when states changes values
-  // this make the fetch automated when checkboxes are checked or unchec
+
+  // fetch data when states change values
+  // this make the fetch automated when checkboxes are checked or unchecked
   useEffect(() => {
     // Function to fetch data and update state
     const fetchData = async () => {
@@ -115,66 +148,179 @@ const Fetch = () => {
       dispatch(setTotal(0));
     }
   }, [dispatch, q, city, remote, company, county, removeTag]);
+  //new
+
   // remove text from input on X button.
   function handleClearX() {
     setText("");
     updateUrlParams({ q: null });
   }
+
+  //function to remove diacritics
+  const removeDiacritics = (text) => {
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  };
+
+  // Function to filter cities based on input
+  const filterCities = useCallback((input) => {
+    // Use useCallback
+    const normalizedInput = removeDiacritics(input.toLowerCase()); // Normalize input
+    const filtered = orase.filter(
+      (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput) // Normalize city names
+    );
+    setFilteredCities(filtered);
+  }, []); // You might want to add dependencies here if `orase` changes
+
+  // Update filtered cities when location input changes
+  useEffect(() => {
+    filterCities(locationn);
+  }, [locationn, filterCities]); // Include filterCities in the dependency array
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFocusedInput(null); // Close the dropdown
+      }
+    };
+
+    if (focusedInput) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [focusedInput]);
+
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2">
-        {location.pathname === "/rezultate" && (
-          <a href="/" className="logo">
-            <img src={logo} alt="peviitor" />
-          </a>
-        )}
-        <form
-          onSubmit={handleUpdateQ}
-          className="flex flex-col items-center md:flex-row relative gap-2"
-        >
-          <img
-            src={magnifyGlass}
-            alt="magnify-glass"
-            className="absolute top-4 left-4"
-          />
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Caută un loc de muncă"
-            className="pl-12 w-[290px] h-[54px] md:w-[400px]  mb-3 md:mb-0 xl:w-[620px]  border rounded-full border-border_grey outline-none "
-          />
-          {text.length !== 0 ? (
-            <span
-              className="absolute right-5 md:right-[148px] top-5 cursor-pointer"
-              onClick={handleClearX}
-            >
-              <svg
-                focusable="false"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="15px"
-                height="15px"
-              >
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-              </svg>
-            </span>
-          ) : (
-            ""
+      <div className="m-10 p-10">
+        <div className="flex items-center relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
+          {location.pathname === "/rezultate" && (
+            <a href="/" className="logo mr-2">
+              <img src={logo} alt="peviitor" />
+            </a>
           )}
-          <button
-            type="submit"
-            className="m-auto bg-background_green text-white w-[122px] h-[54px]  text-base px-10 py-3 rounded-full transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+          <form
+            onSubmit={handleUpdateQ}
+            className="flex flex-col items-center justify-between md:flex-row relative "
           >
-            Caută
-          </button>
-        </form>
+            <div className="flex items-center justify-between relative lg:w-[522px]">
+              {/* Job Title Input */}
+              <div
+                className={`flex items-center relative w-full border border-[#89969C] rounded-lg ${
+                  location.pathname !== "/"
+                    ? "lg:border-r-2 border-[#89969C] rounded-lg"
+                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă border pe dreapta dacă nu e pe "/"
+                } ${
+                  focusedInput === "jobTitle"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
+                    : ""
+                }`}
+              >
+                <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
+                <input
+                  type="text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  /* Dropdown on the main page === " / "   */
+                  onFocus={
+                    location.pathname === "/"
+                      ? () => handleFocus("jobTitle")
+                      : undefined
+                  }
+                  onBlur={location.pathname === "/" ? handleBlur : undefined}
+                  placeholder="Cauta un loc de munca"
+                  className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                />
+                {text && (
+                  <XIcon
+                    className="w-4 h-4 text-gray-700 mr-3 cursor-pointer"
+                    onClick={handleClearX}
+                  />
+                )}
+              </div>
+
+              {/* Dropdown for Job Title */}
+              {focusedInput === "jobTitle" && (
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                  {jobSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                      onClick={() => setJobTitle(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Add Location Input */}
+            <div ref={dropdownRef}>
+              {" "}
+              {/* Add ref to the container */}
+              {location.pathname === "/" && (
+                <div className="flex items-center justify-between relative lg:w-[325px]">
+                  <div
+                    className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
+                      focusedInput === "location"
+                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                        : ""
+                    }`}
+                  >
+                    <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
+                    <input
+                      type="text"
+                      value={locationn}
+                      onChange={(e) => setLocation(e.target.value)}
+                      onFocus={() => handleFocus("location")}
+                      placeholder="Adauga o locatie"
+                      className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                    />
+                    {locationn && (
+                      <XIcon
+                        className="w-4 h-4 text-gray-500 mr-3 cursor-pointer"
+                        onClick={handleClearLocation}
+                      />
+                    )}
+                  </div>
+
+                  {/* Add Location Input dropdown*/}
+                  {focusedInput === "location" && (
+                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                      {filteredCities.map((suggestion, index) => (
+                        <li
+                          key={index}
+                          className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            setLocation(suggestion);
+                            setFocusedInput(null); // Close dropdown on selection
+                          }}
+                        >
+                          {suggestion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+            {/* button search */}
+            <button
+              type="submit"
+              className="m-2 bg-background_green text-white w-[122px] h-[42px] text-base px-10 rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+            >
+              Caută
+            </button>
+          </form>
+        </div>
+        {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
+          <>
+            <FiltreGrup />
+          </>
+        )}
       </div>
-      {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
-        <>
-          <FiltreGrup />
-        </>
-      )}
     </>
   );
 };
