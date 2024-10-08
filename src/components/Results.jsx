@@ -121,7 +121,7 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="grid gap-7 px-14 w-full mx-auto sm:grid-cols-2 lg:flex lg:flex-wrap lg:justify-center">
+            <section className="grid gap-7 px-14 w-full mx-auto md:grid-cols-2 lg:flex lg:flex-wrap lg:justify-center">
               {jobs.map(
                 (
                   { city, company, county, job_link, job_title, remote },
