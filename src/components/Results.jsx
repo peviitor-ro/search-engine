@@ -105,7 +105,7 @@ const Results = () => {
                 className="self-center cursor-pointer"
                 onClick={handleRemoveAllFilters}
               >
-                Sterge filtre
+                Șterge filtre
               </button>
             </div>
           )}
@@ -161,7 +161,7 @@ const Results = () => {
                 className="flex justify-center items-center px-8 py-3 rounded-full  bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto my-12"
                 onClick={fetchMoreData}
               >
-                Incarca mai multe
+                Încarcă mai multe
               </button>
             ))}
         </>
