@@ -25,7 +25,11 @@ import {
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
-import { getData, getNumberOfCompany } from "../utils/fetchData";
+import {
+  getData,
+  getNumberOfCompany,
+  getJobSuggestion
+} from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 const Fetch = () => {
@@ -39,7 +43,6 @@ const Fetch = () => {
   const dispatch = useDispatch();
 
   //new\\
-  const [setJobTitle] = useState("");
   const [locationn, setLocation] = useState("");
   /* const [locationTest, setLocationSuggestions] = useState([]); */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -49,24 +52,8 @@ const Fetch = () => {
   const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
   const dropdownRef = useRef(null);
 
-  const jobSuggestions = [
-    "Relatii clineti",
-    "Mecanic Auto",
-    "Web Developer (somer)",
-    "Back-end Developer PHP",
-    "Relatii clineti",
-    "Mecanic Auto",
-    "Web Developer (somer)",
-    "Back-end Developer PHP",
-    "Relatii clineti",
-    "Mecanic Auto",
-    "Web Developer (somer)",
-    "Back-end Developer PHP",
-    "Relatii clineti",
-    "Mecanic Auto",
-    "Web Developer (somer)",
-    "Back-end Developer PHP"
-  ];
+  // state for job suggestion drop-down
+  const [jobSuggestions, setJobSuggestions] = useState([]);
   // useEffect to set the search input field as the user search query
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -191,6 +178,16 @@ const Fetch = () => {
     };
   }, [focusedInput]);
 
+  // fetch job suggestion
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await getJobSuggestion(text);
+  //     setJobSuggestions(response.suggestions);
+  //     console.log(response.suggestions);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
   return (
     <>
       <div className="m-10 p-10">
@@ -243,15 +240,18 @@ const Fetch = () => {
               {/* Dropdown for Job Title */}
               {focusedInput === "jobTitle" && (
                 <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
-                  {jobSuggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                      onClick={() => setJobTitle(suggestion)}
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
+                  {}
+                  {/* {jobSuggestions &&
+                    jobSuggestions.length > 0 &&
+                    jobSuggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                        onClick={() => console.log(suggestion.term)}
+                      >
+                        {suggestion.term}
+                      </li>
+                    ))} */}
                 </ul>
               )}
             </div>
