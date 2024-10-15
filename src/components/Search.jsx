@@ -179,15 +179,29 @@ const Fetch = () => {
   }, [focusedInput]);
 
   // fetch job suggestion
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await getJobSuggestion(text);
-  //     setJobSuggestions(response.suggestions);
-  //     console.log(response.suggestions);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
+  // Updated fetch logic with your provided async function
+  const fetchData = async (text) => {
+    try {
+      const response = await getJobSuggestion(text); // Assuming getJobSuggestion is defined elsewhere
+      setJobSuggestions(response.suggestions); // Update suggestions state with fetched data
+      console.log(response.suggestions);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Debouncing the fetch call
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (text) {
+        fetchData(text); // Call the updated fetch function
+      } else {
+        setJobSuggestions([]); // Reset suggestions if text is empty
+      }
+    }, 300); // Adjust debounce delay as needed
+
+    return () => clearTimeout(timer); // Cleanup timeout if user continues typing
+  }, [text]);
   return (
     <>
       <div className="m-10 p-10">
@@ -241,7 +255,7 @@ const Fetch = () => {
               {focusedInput === "jobTitle" && (
                 <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
-                  {/* {jobSuggestions &&
+                  {jobSuggestions &&
                     jobSuggestions.length > 0 &&
                     jobSuggestions.map((suggestion, index) => (
                       <li
@@ -251,7 +265,7 @@ const Fetch = () => {
                       >
                         {suggestion.term}
                       </li>
-                    ))} */}
+                    ))}
                 </ul>
               )}
             </div>
