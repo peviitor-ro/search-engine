@@ -120,12 +120,44 @@ const Fetch = () => {
     setText("");
     updateUrlParams({ q: null });
   }
+
+  // Aligning the h2 with the first card
+  const [inputWidth, setInputWidth] = useState(300)
+  const calculateTotalCardsWidth = () => {
+    const screenWidth = window.innerWidth;
+    const gap = 28;
+    let cardWidth;
+    const breakpoint = 1024;
+
+    if (screenWidth > breakpoint) {
+      cardWidth = 384;
+    } else {
+      cardWidth = 300;
+    }
+
+    if (screenWidth < 768) {
+        setInputWidth(300);
+    } else {
+        const cardsNo = 
+        Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1;
+    setInputWidth((cardsNo * cardWidth + (cardsNo - 1) * gap) - 235);
+    } 
+  };
+
+  useEffect(() => {
+    calculateTotalCardsWidth();
+    window.addEventListener("resize", calculateTotalCardsWidth);
+    return () => {
+      window.removeEventListener("resize", calculateTotalCardsWidth);
+    };
+  }, []);
+
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2">
+      <div className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2" style={{width: inputWidth}}>
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo">
-            <img src={logo} alt="peviitor" />
+            <img src={logo} alt="peviitor" style={{maxWidth: 'none'}} />
           </a>
         )}
         <form
@@ -140,9 +172,10 @@ const Fetch = () => {
           <input
             type="text"
             value={text}
+            style={{width: inputWidth}}
             onChange={(e) => setText(e.target.value)}
             placeholder="Caută un loc de muncă"
-            className="pl-12 w-[290px] h-[54px] md:w-[400px]  mb-3 md:mb-0 xl:w-[620px]  border rounded-full border-border_grey outline-none "
+            className="pl-12 w-[290px] h-[54px] mb-3 md:mb-0 border rounded-full border-border_grey outline-none "
           />
           {text.length !== 0 ? (
             <span
