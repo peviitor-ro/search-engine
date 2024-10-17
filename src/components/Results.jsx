@@ -133,7 +133,8 @@ const Results = () => {
       )}
 
       {!deletAll && (
-        <div className="pb-9 flex gap-2 flex-wrap justify-center lg:justify-start">
+        <div className="pb-9 flex gap-2 flex-wrap justify-center lg:justify-start"
+        style={{ width: h2Width, margin: "0 auto" }}>
           {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
           {!deletAll && (
             <div className="flex gap-2 ml-4">
