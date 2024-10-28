@@ -108,6 +108,7 @@ const FiltreCompanies = ({ dropDown }) => {
           <div>{data.message}</div>
         )}
       </div>
+      <div className="h-3"></div>
     </>
   );
 };
