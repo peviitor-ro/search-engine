@@ -23,7 +23,9 @@ import { createSearchString } from "../utils/createSearchString";
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-const Fetch = () => {
+const Fetch = (props) => {
+  const { inputWidth } = props;
+
   const { q, city, remote, county, company, removeTag, contextSetQ } =
     useContext(TagsContext);
   // fields
@@ -121,44 +123,10 @@ const Fetch = () => {
     updateUrlParams({ q: null });
   }
 
-  // Aligning the h2 with the first card
-  const [inputWidth, setInputWidth] = useState(300);
-  const calculateTotalCardsWidth = () => {
-    const screenWidth = window.innerWidth;
-    const gap = 28;
-    let cardWidth;
-    const breakpoint = 1024;
-
-    cardWidth = screenWidth > breakpoint ? 384 : 300;
-
-    setInputWidth(
-      screenWidth < 768
-        ? 300
-        : (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-            1) *
-            cardWidth +
-            (Math.floor(
-              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-            ) +
-              1 -
-              1) *
-              gap -
-            235
-    );
-  };
-
-  useEffect(() => {
-    calculateTotalCardsWidth();
-    window.addEventListener("resize", calculateTotalCardsWidth);
-    return () => {
-      window.removeEventListener("resize", calculateTotalCardsWidth);
-    };
-  }, []);
-
   return (
     <>
       <div
-        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2 bg-red-600"
+        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2"
         style={{ width: inputWidth }}
       >
         {location.pathname === "/rezultate" && (

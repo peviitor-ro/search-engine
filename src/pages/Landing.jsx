@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 const Landing = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  const [inputWidth, setInputWidth] = useState(300);
 
   useEffect(() => {
     const fetchJobsData = async () => {
@@ -30,6 +31,28 @@ const Landing = () => {
     };
 
     fetchJobsData();
+  }, []);
+
+  const calculateInputWidth = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 768) {
+      setInputWidth(300);
+    } else if (screenWidth >= 768 && screenWidth < 1024) {
+      setInputWidth(360);
+    } else if (screenWidth >= 1024 && screenWidth < 1280) {
+      setInputWidth(590);
+    } else if (screenWidth >= 1280) {
+      setInputWidth(735);
+    }
+  };
+
+  useEffect(() => {
+    calculateInputWidth();
+    window.addEventListener("resize", calculateInputWidth);
+    return () => {
+      window.removeEventListener("resize", calculateInputWidth);
+    };
   }, []);
 
   return (
@@ -69,8 +92,8 @@ const Landing = () => {
             className="min-w-[250px] mt-6 md:min-w-full md:mt-0"
           />
         </div>
-        <div className="order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
-          <Search />
+        <div className="flex justify-center order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
+          <Search inputWidth={inputWidth} />
         </div>
       </main>
       <Footer />
