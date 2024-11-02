@@ -95,10 +95,19 @@ const Results = () => {
 
     cardWidth = screenWidth > breakpoint ? 384 : 300;
 
-    const cardsNo =
-      Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1;
-    const totalCardsWidth = cardsNo * cardWidth + (cardsNo - 1) * gap;
-    setH2Width(totalCardsWidth);
+    screenWidth >= 740 && screenWidth <= 767
+      ? setH2Width(300)
+      : setH2Width(
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+            1) *
+            cardWidth +
+            (Math.floor(
+              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+            ) +
+              1 -
+              1) *
+              gap
+        );
   };
 
   useEffect(() => {
