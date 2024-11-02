@@ -129,19 +129,14 @@ const Fetch = () => {
     let cardWidth;
     const breakpoint = 1024;
 
-    if (screenWidth > breakpoint) {
-      cardWidth = 384;
-    } else {
-      cardWidth = 300;
-    }
-
-    if (screenWidth < 768) {
-        setInputWidth(300);
-    } else {
-        const cardsNo = 
-        Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1;
-    setInputWidth((cardsNo * cardWidth + (cardsNo - 1) * gap) - 235);
-    } 
+    cardWidth = (screenWidth > breakpoint) ? 384 : 300
+   
+    setInputWidth(
+        (screenWidth < 768) ? 300 : 
+        ((Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) 
+        + 1) * cardWidth + ((Math.floor((screenWidth - gap * 4 - cardWidth) 
+        / (cardWidth + gap)) + 1) - 1) * gap) - 235
+    );
   };
 
   useEffect(() => {

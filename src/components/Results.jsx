@@ -93,21 +93,12 @@ const Results = () => {
     let cardWidth;
     const breakpoint = 1024;
 
-    if (screenWidth > breakpoint) {
-      cardWidth = 384;
-    } else {
-      cardWidth = 300;
-    }
+    cardWidth = screenWidth > breakpoint ? 384 : 300;
 
-    // Avoid setting the width for h2 between 741px and 767px to prevent alignment issues
-    if (screenWidth >= 741 && screenWidth <= 767) {
-      setH2Width("auto");
-    } else {
-      const cardsNo =
-        Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1;
-      const totalCardsWidth = cardsNo * cardWidth + (cardsNo - 1) * gap;
-      setH2Width(totalCardsWidth);
-    }
+    const cardsNo =
+      Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1;
+    const totalCardsWidth = cardsNo * cardWidth + (cardsNo - 1) * gap;
+    setH2Width(totalCardsWidth);
   };
 
   useEffect(() => {
@@ -124,17 +115,20 @@ const Results = () => {
         <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
       ) : (
         total > 0 && (
-        <h2
-          className="text-center md:text-start text-text_grey_darker my-8 text-lg"
-          style={{ width: h2Width, margin: "32px auto" }}
-        >
-          {total} {nrJoburi}
-        </h2>)
+          <h2
+            className="text-center md:text-start text-text_grey_darker my-8 text-lg"
+            style={{ width: h2Width, margin: "32px auto" }}
+          >
+            {total} {nrJoburi}
+          </h2>
+        )
       )}
 
       {!deletAll && (
-        <div className="pb-9 flex gap-2 flex-wrap justify-center lg:justify-start"
-        style={{ width: h2Width, margin: "0 auto" }}>
+        <div
+          className="pb-9 flex gap-2 flex-wrap"
+          style={{ width: h2Width, margin: "0 auto" }}
+        >
           {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
           {!deletAll && (
             <div className="flex gap-2 ml-4">
