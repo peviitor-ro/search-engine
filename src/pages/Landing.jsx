@@ -34,7 +34,7 @@ const Landing = () => {
 
   return (
     <div className="landing-page flex flex-col justify-between items-center py-5 min-h-[100vh]">
-      <nav className="w-[70%] md:w-[70%] border-b border-border_grey">
+      <nav className="w-[80%] md:w-[80%] border-b border-border_grey">
         <img src={logo} alt="peviitor-logo" />
       </nav>
       <main className="w-[70%] flex flex-wrap justify-center md:gap-2 lg:gap-0 items-center sm:items-start mt-[8em] mb-[10em] font-PoppinsRegular text-left">
