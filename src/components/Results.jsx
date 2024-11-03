@@ -5,6 +5,7 @@ import loadingIcon from "../assets/svg/loading.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
+import Button from "./Button";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
@@ -21,16 +22,18 @@ import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 function tagMapper([key, currentArray]) {
   return currentArray.map((item) => (
-    <div
+    <Button
       key={item}
+      onClick={() => this.removeTag(key, item)}
       className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
     >
-      <h3>{item}</h3>
+      {/* <h3>{item}</h3> */}
+      {item}
       {/* Call removeTag with the specific type and value */}
-      <button onClick={() => this.removeTag(key, item)}>
+      {/* <button onClick={() => this.removeTag(key, item)}> */}
         <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-      </button>
-    </div>
+      {/* </button> */}
+    </Button>
   ));
 }
 
@@ -110,6 +113,10 @@ const Results = () => {
         );
   };
 
+  function handleScrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   useEffect(() => {
     calculateH2Width();
     window.addEventListener("resize", calculateH2Width);
@@ -141,13 +148,11 @@ const Results = () => {
           {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
           {!deletAll && (
             <div className="flex gap-2 ml-4">
-              <hr className="h-auto w-[1px] bg-black" />
-              <button
-                className="self-center cursor-pointer"
+              <Button buttonType="deleteFilters"
                 onClick={handleRemoveAllFilters}
               >
                 Șterge filtre
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -198,24 +203,22 @@ const Results = () => {
         <>
           {total <= 10 ||
             (jobs.length === total ? null : (
-              <button
-                className="flex justify-center items-center px-8 py-3 rounded-full  bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto my-12"
-                onClick={fetchMoreData}
-              >
+              <Button buttonType="loadMore" onClick={fetchMoreData}>
                 Încarcă mai multe
-              </button>
+              </Button>
             ))}
         </>
       )}
 
-      <button
+      <Button
+        buttonType="scrollToTop"
         className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 ${
           isVisible && "opacity-100 pointer-events-auto"
         }`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
+        // className={`float-right ${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
+        onClick={handleScrollToTop}>
         <img src={scrollUp} alt="scroll-up" />
-      </button>
+      </Button>
     </div>
   );
 };
