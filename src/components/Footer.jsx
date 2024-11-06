@@ -10,7 +10,7 @@ import api from "../assets/svg/api-svgrepo-com.svg";
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="w-[80%] flex flex-col gap-2 border-t border-border_grey pt-[20px] mb-5 mt-auto">
+    <footer className="w-[80%] flex flex-col gap-2 border-t border-border_grey pt-[20px] mb-5">
       <section className="flex justify-between flex-wrap">
         <div className="flex gap-[10px] justify-between flex-wrap items-center mx-auto md:mx-0">
           <a

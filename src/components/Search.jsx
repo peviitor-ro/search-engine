@@ -1,6 +1,7 @@
 // svg
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import logo from "../assets/svg/logo.svg";
+import removeIcon from "../assets/svg/remove.svg";
 
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
@@ -23,10 +24,25 @@ import { createSearchString } from "../utils/createSearchString";
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
+function tagMapper([key, currentArray]) {
+    return currentArray.map((item) => (
+      <div
+        key={item}
+        className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
+      >
+        <h3>{item}</h3>
+        {/* Call removeTag with the specific type and value */}
+        <button onClick={() => this.removeTag(key, item)}>
+          <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+        </button>
+      </div>
+    ));
+  }
+
 const Fetch = (props) => {
   const { inputWidth } = props;
 
-  const { q, city, remote, county, company, removeTag, contextSetQ } =
+  const { q, city, remote, county, company, removeTag, contextSetQ, deletAll, handleRemoveAllFilters, fields } =
     useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
@@ -123,11 +139,44 @@ const Fetch = (props) => {
     updateUrlParams({ q: null });
   }
 
+  // Aligning the h2 with the first card
+  const [h2Width, setH2Width] = useState("auto");
+  const calculateH2Width = () => {
+    const screenWidth = window.innerWidth;
+    const gap = 28;
+    let cardWidth;
+    const breakpoint = 1024;
+
+    cardWidth = screenWidth > breakpoint ? 384 : 300;
+
+    screenWidth >= 740 && screenWidth <= 767
+      ? setH2Width(300)
+      : setH2Width(
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+            1) *
+            cardWidth +
+            (Math.floor(
+              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+            ) +
+              1 -
+              1) *
+              gap
+        );
+  };
+
+  useEffect(() => {
+    calculateH2Width();
+    window.addEventListener("resize", calculateH2Width);
+    return () => {
+      window.removeEventListener("resize", calculateH2Width);
+    };
+  }, []);
+
   return (
-    <>
+    <div>
       <div
-        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2"
-        style={{ width: inputWidth }}
+        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2 mx-auto"
+        style={{ width: h2Width }}
       >
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo">
@@ -182,7 +231,28 @@ const Fetch = (props) => {
           <FiltreGrup />
         </>
       )}
-    </>
+
+{!deletAll && (
+        <div
+          className="pb-9 flex gap-2 flex-wrap"
+          style={{ width: h2Width, margin: "0 auto" }}
+        >
+          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
+          {!deletAll && (
+            <div className="flex gap-2 ml-4">
+              <hr className="h-auto w-[1px] bg-black" />
+              <button
+                className="self-center cursor-pointer"
+                onClick={handleRemoveAllFilters}
+              >
+                Șterge filtre
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+    </div>
   );
 };
 export default Fetch;

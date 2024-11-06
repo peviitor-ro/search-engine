@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from "react";
 // svg
-import removeIcon from "../assets/svg/remove.svg";
 import loadingIcon from "../assets/svg/loading.svg";
 // components
 import Job from "./Job";
@@ -19,21 +18,6 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-function tagMapper([key, currentArray]) {
-  return currentArray.map((item) => (
-    <div
-      key={item}
-      className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
-    >
-      <h3>{item}</h3>
-      {/* Call removeTag with the specific type and value */}
-      <button onClick={() => this.removeTag(key, item)}>
-        <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-      </button>
-    </div>
-  ));
-}
-
 const Results = () => {
   // redux
   const dispatch = useDispatch();
@@ -43,11 +27,7 @@ const Results = () => {
     city,
     remote,
     county,
-    company,
-    fields,
-    removeTag,
-    deletAll,
-    handleRemoveAllFilters
+    company
   } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
@@ -98,16 +78,8 @@ const Results = () => {
     screenWidth >= 740 && screenWidth <= 767
       ? setH2Width(300)
       : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-            1) *
-            cardWidth +
-            (Math.floor(
-              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-            ) +
-              1 -
-              1) *
-              gap
-        );
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1) * cardWidth + (Math.floor(
+          (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1 - 1) * gap);
   };
 
   useEffect(() => {
@@ -125,32 +97,12 @@ const Results = () => {
       ) : (
         total > 0 && (
           <h2
-            className="text-center md:text-start text-text_grey_darker my-8 text-lg"
+            className="text-center text-start text-text_grey_darker my-8 text-lg"
             style={{ width: h2Width, margin: "32px auto" }}
           >
             {total} {nrJoburi}
           </h2>
         )
-      )}
-
-      {!deletAll && (
-        <div
-          className="pb-9 flex gap-2 flex-wrap"
-          style={{ width: h2Width, margin: "0 auto" }}
-        >
-          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
-          {!deletAll && (
-            <div className="flex gap-2 ml-4">
-              <hr className="h-auto w-[1px] bg-black" />
-              <button
-                className="self-center cursor-pointer"
-                onClick={handleRemoveAllFilters}
-              >
-                Șterge filtre
-              </button>
-            </div>
-          )}
-        </div>
       )}
 
       {loading ? (
