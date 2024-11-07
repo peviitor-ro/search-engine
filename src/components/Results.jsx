@@ -217,7 +217,7 @@ const Results = () => {
         className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
         onClick={handleScrollToTop}
       >
-          <img src={scrollUp} alt="scroll-up" />
+        <img src={scrollUp} alt="scroll-up" />
       </Button>
     </div>
   );
