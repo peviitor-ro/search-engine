@@ -20,21 +20,23 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-function tagMapper([key, currentArray]) {
-  return currentArray.map((item) => (
-    <Button
-      key={item}
-      onClick={() => this.removeTag(key, item)}
-      className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
-    >
-      {/* <h3>{item}</h3> */}
-      {item}
-      {/* Call removeTag with the specific type and value */}
-      {/* <button onClick={() => this.removeTag(key, item)}> */}
-        <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-      {/* </button> */}
-    </Button>
-  ));
+const FilterTags = ({ tags, removeTag }) => {
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {Object.entries(tags).map(([key, currentArray]) => (
+        currentArray.map((item) => (
+          <Button
+            key={item}
+            buttonType="addFilters"
+            onClick={() => removeTag(key, item)}
+          >
+            {item}
+            <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+          </Button>
+        ))
+      ))}
+    </div>
+  );
 }
 
 const Results = () => {
@@ -128,7 +130,7 @@ const Results = () => {
   return (
     <div>
       {loading ? (
-        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>      
       ) : (
         total > 0 && (
           <h2
@@ -145,7 +147,7 @@ const Results = () => {
           className="pb-9 flex gap-2 flex-wrap"
           style={{ width: h2Width, margin: "0 auto" }}
         >
-          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
+          <FilterTags tags={fields} removeTag={removeTag} />
           {!deletAll && (
             <div className="flex gap-2 ml-4">
               <Button buttonType="deleteFilters"
@@ -212,13 +214,18 @@ const Results = () => {
 
       <Button
         buttonType="scrollToTop"
-        className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 ${
-          isVisible && "opacity-100 pointer-events-auto"
-        }`}
-        // className={`float-right ${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
+        // className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 
+        //   ${isVisible && "opacity-100 pointer-events-auto"}`
+        // }
+
+        className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 
+          ${isVisible && "opacity-100 pointer-events-auto"}`
+        }
+       
         onClick={handleScrollToTop}>
-        <img src={scrollUp} alt="scroll-up" />
+          <img src={scrollUp} alt="scroll-up" />
       </Button>
+
     </div>
   );
 };

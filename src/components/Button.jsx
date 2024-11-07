@@ -12,8 +12,10 @@ const BUTTON_TYPE_CLASSES = {
     loadMore: "flex justify-center items-center px-8 py-3 rounded-full bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto my-12",
     //results: sterge filtre
     deleteFilters: "bg-transparent text-center px-2 py-2 text-black border-black border-l",
-    // scrollToTop: "fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0",
-    // scrollToTop: 'fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0',
+    addFilters: "py-2 px-4 bg-background_green_light rounded-3xl flex items-center",
+    scrollToTop: "absolute bottom-12 right-2.5 md:right-2.5 transition-opacity ease-in-out duration-300",
+
+ //   scrollToTop: "fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0",
 
 }
 

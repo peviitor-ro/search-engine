@@ -4,7 +4,7 @@ import logo from "../assets/svg/logo.svg";
 
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
@@ -175,11 +175,9 @@ const Fetch = (props) => {
             </Button>
           </form>
       </div>
-      {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
-        <>
-          <FiltreGrup />
-        </>
-      )}
+      
+      {/* // Conditionally render the checkboxes */}
+      {location.pathname === "/rezultate" && <FiltreGrup />}
     </>
   );
 };
