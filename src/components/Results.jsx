@@ -214,18 +214,11 @@ const Results = () => {
 
       <Button
         buttonType="scrollToTop"
-        // className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 
-        //   ${isVisible && "opacity-100 pointer-events-auto"}`
-        // }
-
-        className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 
-          ${isVisible && "opacity-100 pointer-events-auto"}`
-        }
-       
-        onClick={handleScrollToTop}>
+        className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
+        onClick={handleScrollToTop}
+      >
           <img src={scrollUp} alt="scroll-up" />
       </Button>
-
     </div>
   );
 };
