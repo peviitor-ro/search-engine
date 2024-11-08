@@ -48,11 +48,8 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
           <p>{city || remote ? displayLocation(city) : ""}</p>
         </div>
         
-        <Button onClick={handleJobSeach}
-            buttonType="search"
-            // className="bg-background_green px-[40px] py-[14px] text-white rounded-3xl mx-auto hover:shadow-button_shadow transition duration-300 ease-out"
-        >
-            Către site
+        <Button onClick={handleJobSeach} buttonType="searchJob">
+          Către site
         </Button>
       </div>
     </div>

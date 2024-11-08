@@ -24,7 +24,7 @@ import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
 
-const Fetch = (props) => {
+const Search = (props) => {
   const { inputWidth } = props;
 
   const { q, city, remote, county, company, removeTag, contextSetQ } =
@@ -170,7 +170,7 @@ const Fetch = (props) => {
           ) : (
             ""
           )}
-            <Button type="submit" buttonType="searchLanding">
+            <Button type="submit" buttonType="search">
                 Caută
             </Button>
           </form>
@@ -181,4 +181,4 @@ const Fetch = (props) => {
     </>
   );
 };
-export default Fetch;
+export default Search;
