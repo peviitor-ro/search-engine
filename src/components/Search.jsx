@@ -4,7 +4,7 @@ import logo from "../assets/svg/logo.svg";
 
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
-import { useNavigate, useLocation } from "react-router-dom"; // Import useNavigate and useLocation
+import { useNavigate, useLocation } from "react-router-dom";
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
@@ -22,6 +22,7 @@ import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
+import Button from "./Button";
 
 const Fetch = (props) => {
   const { inputWidth } = props;
@@ -169,19 +170,14 @@ const Fetch = (props) => {
           ) : (
             ""
           )}
-          <button
-            type="submit"
-            className="m-auto bg-background_green text-white w-[122px] h-[54px]  text-base px-10 py-3 rounded-full transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
-          >
-            Caută
-          </button>
-        </form>
+            <Button type="submit" buttonType="searchLanding">
+                Caută
+            </Button>
+          </form>
       </div>
-      {location.pathname === "/rezultate" && ( // Conditionally render the checkboxes
-        <>
-          <FiltreGrup />
-        </>
-      )}
+      
+      {/* // Conditionally render the checkboxes */}
+      {location.pathname === "/rezultate" && <FiltreGrup />}
     </>
   );
 };

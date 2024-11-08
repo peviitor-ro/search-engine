@@ -1,7 +1,6 @@
 import Results from "../components/Results";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
-
 import { useState, useEffect } from "react";
 
 const Rezultate = () => {
@@ -46,4 +45,5 @@ const Rezultate = () => {
     </div>
   );
 };
+
 export default Rezultate;
