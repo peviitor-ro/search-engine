@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom"; // Import useNaviga
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // functions to update the jobSlice state.
 import {
   setJobs,
@@ -25,25 +25,35 @@ import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 function tagMapper([key, currentArray]) {
-    return currentArray.map((item) => (
-      <div
-        key={item}
-        className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
-      >
-        <h3>{item}</h3>
-        {/* Call removeTag with the specific type and value */}
-        <button onClick={() => this.removeTag(key, item)}>
-          <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-        </button>
-      </div>
-    ));
-  }
+  return currentArray.map((item) => (
+    <div
+      key={item}
+      className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
+    >
+      <h3>{item}</h3>
+      {/* Call removeTag with the specific type and value */}
+      <button onClick={() => this.removeTag(key, item)}>
+        <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+      </button>
+    </div>
+  ));
+}
 
 const Fetch = (props) => {
   const { inputWidth } = props;
 
-  const { q, city, remote, county, company, removeTag, contextSetQ, deletAll, handleRemoveAllFilters, fields } =
-    useContext(TagsContext);
+  const {
+    q,
+    city,
+    remote,
+    county,
+    company,
+    removeTag,
+    contextSetQ,
+    deletAll,
+    handleRemoveAllFilters,
+    fields
+  } = useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
 
@@ -51,6 +61,12 @@ const Fetch = (props) => {
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
+
+  // jobs
+  const total = useSelector((state) => state.jobs.total);
+  const loading = useSelector((state) => state.jobs.loading);
+  const nrJoburi =
+    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
 
   // useEffect to set the search input field as the user search querry
   useEffect(() => {
@@ -152,16 +168,8 @@ const Fetch = (props) => {
     screenWidth >= 740 && screenWidth <= 767
       ? setH2Width(300)
       : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-            1) *
-            cardWidth +
-            (Math.floor(
-              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-            ) +
-              1 -
-              1) *
-              gap
-        );
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1) * cardWidth +
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1 - 1) * gap);
   };
 
   useEffect(() => {
@@ -232,7 +240,20 @@ const Fetch = (props) => {
         </>
       )}
 
-{!deletAll && (
+      {loading ? (
+        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+      ) : (
+        total > 0 && (
+          <h2
+            className="text-center text-start text-text_grey_darker my-8 text-lg"
+            style={{ width: h2Width, margin: "32px auto" }}
+          >
+            {total} {nrJoburi}
+          </h2>
+        )
+      )}
+
+      {!deletAll && (
         <div
           className="pb-9 flex gap-2 flex-wrap"
           style={{ width: h2Width, margin: "0 auto" }}
@@ -251,7 +272,6 @@ const Fetch = (props) => {
           )}
         </div>
       )}
-
     </div>
   );
 };

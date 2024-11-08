@@ -62,49 +62,8 @@ const Results = () => {
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
 
-  const nrJoburi =
-    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
-
-  // Aligning the h2 with the first card
-  const [h2Width, setH2Width] = useState("auto");
-  const calculateH2Width = () => {
-    const screenWidth = window.innerWidth;
-    const gap = 28;
-    let cardWidth;
-    const breakpoint = 1024;
-
-    cardWidth = screenWidth > breakpoint ? 384 : 300;
-
-    screenWidth >= 740 && screenWidth <= 767
-      ? setH2Width(300)
-      : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1) * cardWidth + (Math.floor(
-          (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1 - 1) * gap);
-  };
-
-  useEffect(() => {
-    calculateH2Width();
-    window.addEventListener("resize", calculateH2Width);
-    return () => {
-      window.removeEventListener("resize", calculateH2Width);
-    };
-  }, []);
-
   return (
     <div>
-      {loading ? (
-        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
-      ) : (
-        total > 0 && (
-          <h2
-            className="text-center text-start text-text_grey_darker my-8 text-lg"
-            style={{ width: h2Width, margin: "32px auto" }}
-          >
-            {total} {nrJoburi}
-          </h2>
-        )
-      )}
-
       {loading ? (
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 w-fit mx-auto">
           {Array.from({ length: 6 }).map((_, idx) => (
