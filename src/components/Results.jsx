@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 // svg
-import removeIcon from "../assets/svg/remove.svg";
 import loadingIcon from "../assets/svg/loading.svg";
+// import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
@@ -20,40 +20,11 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-const FilterTags = ({ tags, removeTag }) => {
-  return (
-    <div className="flex gap-2 flex-wrap">
-      {Object.entries(tags).map(([key, currentArray]) => (
-        currentArray.map((item) => (
-          <Button
-            key={item}
-            buttonType="addFilters"
-            onClick={() => removeTag(key, item)}
-          >
-            {item}
-            <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-          </Button>
-        ))
-      ))}
-    </div>
-  );
-}
-
 const Results = () => {
   // redux
   const dispatch = useDispatch();
   // context
-  const {
-    q,
-    city,
-    remote,
-    county,
-    company,
-    fields,
-    removeTag,
-    deletAll,
-    handleRemoveAllFilters
-  } = useContext(TagsContext);
+  const { q, city, remote, county, company } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
@@ -87,79 +58,12 @@ const Results = () => {
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
 
-  const nrJoburi =
-    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
-
-  // Aligning the h2 with the first card
-  const [h2Width, setH2Width] = useState("auto");
-  const calculateH2Width = () => {
-    const screenWidth = window.innerWidth;
-    const gap = 28;
-    let cardWidth;
-    const breakpoint = 1024;
-
-    cardWidth = screenWidth > breakpoint ? 384 : 300;
-
-    screenWidth >= 740 && screenWidth <= 767
-      ? setH2Width(300)
-      : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-            1) *
-            cardWidth +
-            (Math.floor(
-              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-            ) +
-              1 -
-              1) *
-              gap
-        );
-  };
-
   function handleScrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-  useEffect(() => {
-    calculateH2Width();
-    window.addEventListener("resize", calculateH2Width);
-    return () => {
-      window.removeEventListener("resize", calculateH2Width);
-    };
-  }, []);
 
   return (
     <div>
-      {loading ? (
-        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>      
-      ) : (
-        total > 0 && (
-          <h2
-            className="text-center md:text-start text-text_grey_darker my-8 text-lg"
-            style={{ width: h2Width, margin: "32px auto" }}
-          >
-            {total} {nrJoburi}
-          </h2>
-        )
-      )}
-
-      {!deletAll && (
-        <div
-          className="pb-9 flex gap-2 flex-wrap"
-          style={{ width: h2Width, margin: "0 auto" }}
-        >
-          <FilterTags tags={fields} removeTag={removeTag} />
-          {!deletAll && (
-            <div className="flex gap-2 ml-4">
-              <Button buttonType="deleteFilters"
-                onClick={handleRemoveAllFilters}
-              >
-                Șterge filtre
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
-
       {loading ? (
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 w-fit mx-auto">
           {Array.from({ length: 6 }).map((_, idx) => (
@@ -169,7 +73,7 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="grid gap-7 px-14 w-full mx-auto md:grid-cols-2 lg:flex lg:flex-wrap lg:justify-center">
+            <section className="grid gap-7 px-14 w-full mx-auto pb-12  md:flex md:flex-wrap md:justify-center">
               {jobs.map(
                 (
                   { city, company, county, job_link, job_title, remote },

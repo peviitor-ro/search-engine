@@ -1,6 +1,7 @@
 // svg
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import logo from "../assets/svg/logo.svg";
+import removeIcon from "../assets/svg/remove.svg";
 
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
@@ -8,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // functions to update the jobSlice state.
 import {
   setJobs,
@@ -24,11 +25,40 @@ import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
 
+const FilterTags = ({ tags, removeTag }) => {
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {Object.entries(tags).map(([key, currentArray]) =>
+        currentArray.map((item) => (
+          <Button
+            key={item}
+            buttonType="addFilters"
+            onClick={() => removeTag(key, item)}
+          >
+            {item}
+            <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+          </Button>
+        ))
+      )}
+    </div>
+  );
+};
+
 const Search = (props) => {
   const { inputWidth } = props;
 
-  const { q, city, remote, county, company, removeTag, contextSetQ } =
-    useContext(TagsContext);
+  const {
+    q,
+    city,
+    remote,
+    county,
+    company,
+    removeTag,
+    contextSetQ,
+    deletAll,
+    handleRemoveAllFilters,
+    fields
+  } = useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
 
@@ -36,6 +66,12 @@ const Search = (props) => {
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
+
+  // jobs
+  const total = useSelector((state) => state.jobs.total);
+  const loading = useSelector((state) => state.jobs.loading);
+  const nrJoburi =
+    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
 
   // useEffect to set the search input field as the user search querry
   useEffect(() => {
@@ -124,11 +160,44 @@ const Search = (props) => {
     updateUrlParams({ q: null });
   }
 
+  // Aligning the h2 with the first card
+  const [h2Width, setH2Width] = useState("auto");
+  const calculateH2Width = () => {
+    const screenWidth = window.innerWidth;
+    const gap = 28;
+    let cardWidth;
+    const breakpoint = 1024;
+
+    cardWidth = screenWidth > breakpoint ? 384 : 300;
+
+    screenWidth >= 740 && screenWidth <= 767
+      ? setH2Width(300)
+      : setH2Width(
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+            1) *
+            cardWidth +
+            (Math.floor(
+              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+            ) +
+              1 -
+              1) *
+              gap
+        );
+  };
+
+  useEffect(() => {
+    calculateH2Width();
+    window.addEventListener("resize", calculateH2Width);
+    return () => {
+      window.removeEventListener("resize", calculateH2Width);
+    };
+  }, []);
+
   return (
-    <>
+    <div>
       <div
-        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2"
-        style={{ width: inputWidth }}
+        className="flex flex-col md:flex-row items-center justify-center pt-5 gap-2 mx-auto"
+        style={{ width: h2Width }}
       >
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo">
@@ -170,15 +239,46 @@ const Search = (props) => {
           ) : (
             ""
           )}
-            <Button type="submit" buttonType="search">
-                Caută
-            </Button>
-          </form>
+          <Button type="submit" buttonType="search">
+            Caută
+          </Button>
+        </form>
       </div>
-      
+
       {/* // Conditionally render the checkboxes */}
       {location.pathname === "/rezultate" && <FiltreGrup />}
-    </>
+      {loading ? (
+        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+      ) : (
+        total > 0 && (
+          <h2
+            className="text-start text-text_grey_darker my-8 text-lg"
+            style={{ width: h2Width, margin: "32px auto" }}
+          >
+            {total} {nrJoburi}
+          </h2>
+        )
+      )}
+
+      {!deletAll && (
+        <div
+          className="pb-9 flex gap-2 flex-wrap"
+          style={{ width: h2Width, margin: "0 auto" }}
+        >
+          <FilterTags tags={fields} removeTag={removeTag} />
+          {!deletAll && (
+            <div className="flex gap-2 ml-4">
+              <Button
+                buttonType="deleteFilters"
+                onClick={handleRemoveAllFilters}
+              >
+                Șterge filtre
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 export default Search;
