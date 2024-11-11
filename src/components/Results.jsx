@@ -20,25 +20,6 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-// const FilterTags = ({ tags, removeTag }) => {
-//   return (
-//     <div className="flex gap-2 flex-wrap">
-//       {Object.entries(tags).map(([key, currentArray]) =>
-//         currentArray.map((item) => (
-//           <Button
-//             key={item}
-//             buttonType="addFilters"
-//             onClick={() => removeTag(key, item)}
-//           >
-//             {item}
-//             <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-//           </Button>
-//         ))
-//       )}
-//     </div>
-//   );
-// };
-
 const Results = () => {
   // redux
   const dispatch = useDispatch();
@@ -77,45 +58,9 @@ const Results = () => {
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
 
-//   const nrJoburi =
-//     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
-
-  // Aligning the h2 with the first card
-//   const [h2Width, setH2Width] = useState("auto");
-//   const calculateH2Width = () => {
-//     const screenWidth = window.innerWidth;
-//     const gap = 28;
-//     let cardWidth;
-//     const breakpoint = 1024;
-
-//     cardWidth = screenWidth > breakpoint ? 384 : 300;
-
-//     screenWidth >= 740 && screenWidth <= 767
-//       ? setH2Width(300)
-//       : setH2Width(
-//           (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-//             1) *
-//             cardWidth +
-//             (Math.floor(
-//               (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-//             ) +
-//               1 -
-//               1) *
-//               gap
-//         );
-//   };
-
   function handleScrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
-//   useEffect(() => {
-//     calculateH2Width();
-//     window.addEventListener("resize", calculateH2Width);
-//     return () => {
-//       window.removeEventListener("resize", calculateH2Width);
-//     };
-//   }, []);
 
   return (
     <div>

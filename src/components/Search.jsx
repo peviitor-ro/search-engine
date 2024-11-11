@@ -25,20 +25,24 @@ import { getData, getNumberOfCompany } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
 
-function tagMapper([key, currentArray]) {
-  return currentArray.map((item) => (
-    <div
-      key={item}
-      className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
-    >
-      <h3>{item}</h3>
-      {/* Call removeTag with the specific type and value */}
-      <button onClick={() => this.removeTag(key, item)}>
-        <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-      </button>
+const FilterTags = ({ tags, removeTag }) => {
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {Object.entries(tags).map(([key, currentArray]) =>
+        currentArray.map((item) => (
+          <Button
+            key={item}
+            buttonType="addFilters"
+            onClick={() => removeTag(key, item)}
+          >
+            {item}
+            <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+          </Button>
+        ))
+      )}
     </div>
-  ));
-}
+  );
+};
 
 const Search = (props) => {
   const { inputWidth } = props;
@@ -169,8 +173,16 @@ const Search = (props) => {
     screenWidth >= 740 && screenWidth <= 767
       ? setH2Width(300)
       : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1) * cardWidth +
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) + 1 - 1) * gap);
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+            1) *
+            cardWidth +
+            (Math.floor(
+              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+            ) +
+              1 -
+              1) *
+              gap
+        );
   };
 
   useEffect(() => {
@@ -227,10 +239,10 @@ const Search = (props) => {
           ) : (
             ""
           )}
-            <Button type="submit" buttonType="search">
-                Caută
-            </Button>
-          </form>
+          <Button type="submit" buttonType="search">
+            Caută
+          </Button>
+        </form>
       </div>
 
       {/* // Conditionally render the checkboxes */}
@@ -253,16 +265,15 @@ const Search = (props) => {
           className="pb-9 flex gap-2 flex-wrap"
           style={{ width: h2Width, margin: "0 auto" }}
         >
-          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
+          <FilterTags tags={fields} removeTag={removeTag} />
           {!deletAll && (
             <div className="flex gap-2 ml-4">
-              <hr className="h-auto w-[1px] bg-black" />
-              <button
-                className="self-center cursor-pointer"
+              <Button
+                buttonType="deleteFilters"
                 onClick={handleRemoveAllFilters}
               >
                 Șterge filtre
-              </button>
+              </Button>
             </div>
           )}
         </div>
