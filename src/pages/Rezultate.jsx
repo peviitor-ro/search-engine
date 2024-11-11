@@ -2,9 +2,12 @@ import Results from "../components/Results";
 import Search from "../components/Search";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Rezultate = () => {
   const [inputWidth, setInputWidth] = useState(300);
+  const total = useSelector((state) => state.jobs.total);
+  let justyfyContentStyle = total > 0 ? "flex-start" : "space-between";
   const calculateTotalCardsWidth = () => {
     const screenWidth = window.innerWidth;
     const gap = 28;
@@ -38,7 +41,7 @@ const Rezultate = () => {
   }, []);
 
   return (
-    <div className="rezultate-pagina flex flex-col justify-between items-center min-h-[100vh]">
+    <div className="rezultate-pagina flex flex-col items-center min-h-[100vh]" style={{justifyContent: justyfyContentStyle}}>
       <Search inputWidth={inputWidth} />
       <Results />
       <Footer />
