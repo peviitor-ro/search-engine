@@ -160,14 +160,14 @@ const FiltreGrup = () => {
                   <div>
                     <input
                       type="checkbox"
-                      id="hibrid"
-                      name="hibrid"
-                      value="hibrid"
+                      id="Hybrid"
+                      name="Hybrid"
+                      value="Hybrid"
                       className="accent-background_green"
-                      checked={fields.remote.includes("hibrid")}
+                      checked={fields.remote.includes("Hybrid")}
                       onChange={(e) => handleCheckBoxChange(e, "remote")}
                     />
-                    <label htmlFor="hibrid" className="pl-1 cursor-pointer">
+                    <label htmlFor="Hybrid" className="pl-1 cursor-pointer">
                       Hibrid
                     </label>
                   </div>

@@ -1,9 +1,11 @@
 import { useContext, useState, useEffect } from "react";
 // svg
 import loadingIcon from "../assets/svg/loading.svg";
+// import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
+import Button from "./Button";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
@@ -18,17 +20,30 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
+// const FilterTags = ({ tags, removeTag }) => {
+//   return (
+//     <div className="flex gap-2 flex-wrap">
+//       {Object.entries(tags).map(([key, currentArray]) =>
+//         currentArray.map((item) => (
+//           <Button
+//             key={item}
+//             buttonType="addFilters"
+//             onClick={() => removeTag(key, item)}
+//           >
+//             {item}
+//             <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+//           </Button>
+//         ))
+//       )}
+//     </div>
+//   );
+// };
+
 const Results = () => {
   // redux
   const dispatch = useDispatch();
   // context
-  const {
-    q,
-    city,
-    remote,
-    county,
-    company
-  } = useContext(TagsContext);
+  const { q, city, remote, county, company } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
@@ -61,6 +76,46 @@ const Results = () => {
 
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
+
+//   const nrJoburi =
+//     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
+
+  // Aligning the h2 with the first card
+//   const [h2Width, setH2Width] = useState("auto");
+//   const calculateH2Width = () => {
+//     const screenWidth = window.innerWidth;
+//     const gap = 28;
+//     let cardWidth;
+//     const breakpoint = 1024;
+
+//     cardWidth = screenWidth > breakpoint ? 384 : 300;
+
+//     screenWidth >= 740 && screenWidth <= 767
+//       ? setH2Width(300)
+//       : setH2Width(
+//           (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+//             1) *
+//             cardWidth +
+//             (Math.floor(
+//               (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+//             ) +
+//               1 -
+//               1) *
+//               gap
+//         );
+//   };
+
+  function handleScrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+//   useEffect(() => {
+//     calculateH2Width();
+//     window.addEventListener("resize", calculateH2Width);
+//     return () => {
+//       window.removeEventListener("resize", calculateH2Width);
+//     };
+//   }, []);
 
   return (
     <div>
@@ -109,24 +164,20 @@ const Results = () => {
         <>
           {total <= 10 ||
             (jobs.length === total ? null : (
-              <button
-                className="flex justify-center items-center px-8 py-3 rounded-full  bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto my-12"
-                onClick={fetchMoreData}
-              >
+              <Button buttonType="loadMore" onClick={fetchMoreData}>
                 Încarcă mai multe
-              </button>
+              </Button>
             ))}
         </>
       )}
 
-      <button
-        className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 ${
-          isVisible && "opacity-100 pointer-events-auto"
-        }`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      <Button
+        buttonType="scrollToTop"
+        className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
+        onClick={handleScrollToTop}
       >
         <img src={scrollUp} alt="scroll-up" />
-      </button>
+      </Button>
     </div>
   );
 };
