@@ -48,7 +48,7 @@ const Fetch = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
-  const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
+  // const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
   const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
   const dropdownRef = useRef(null);
 
@@ -156,7 +156,7 @@ const Fetch = () => {
       (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput) // Normalize city names
     );
     setFilteredCities(filtered);
-  }, []); // You might want to add dependencies here if `orase` changes
+  }, []); // You might want to add dependencies here if orase changes
 
   // Update filtered cities when location input changes
   useEffect(() => {
@@ -231,15 +231,9 @@ const Fetch = () => {
                 <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
                 <input
                   type="text"
-                  value={text}
+                  value={text} // Valoarea pentru căutare joburi
                   onChange={(e) => setText(e.target.value)}
-                  /* Dropdown on the main page === " / "   */
-                  onFocus={
-                    location.pathname === "/"
-                      ? () => handleFocus("jobTitle")
-                      : undefined
-                  }
-                  onBlur={location.pathname === "/" ? handleBlur : undefined}
+                  onFocus={() => handleFocus("jobTitle")}
                   placeholder="Cauta un loc de munca"
                   className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
@@ -261,7 +255,12 @@ const Fetch = () => {
                       <li
                         key={index}
                         className="px-12 py-2 cursor-pointer hover:bg-gray-100"
-                        onClick={() => console.log(suggestion.term)}
+                        onMouseDown={() => {
+                          setText(suggestion.term);
+                          // Actualizează textul cu sugestia
+                          setFocusedInput(null);
+                          // Resetează focusedInput
+                        }}
                       >
                         {suggestion.term}
                       </li>
