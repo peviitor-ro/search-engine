@@ -65,7 +65,7 @@ const FiltreCities = ({ dropDown }) => {
 
       <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
         {error ? (
-          <div>Nu există rezultate "{inputValue}"</div>
+          <div className="pl-[10px]">Nu există rezultate "{inputValue}"</div>
         ) : (
           filteredItems.map((item, index) => (
             <div key={index} className="pl-1 text-sm">

@@ -1,10 +1,12 @@
 // svg
 import noLogo from "../assets/svg/no-logo.svg";
 import mapPin from "../assets/svg/map_pin.svg";
-
 // react
 import React from "react";
+import Button from "./Button";
+
 const Job = ({ city, company, county, job_link, job_title, remote }) => {
+
   function displayLocation(cities) {
     return cities
       ? cities[0].toLowerCase() === "all"
@@ -15,8 +17,13 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
       : remote.join(", ");
   }
 
+  function handleJobSeach() {
+    window.open(job_link, '_blank');
+    console.log("Către site");
+  }
+
   return (
-    <div className="w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-around items-center flex-wrap gap-3 px-4 py-[6px] rounded-2xl shadow-card_shadow hover:shadow-hover_card_shadow">
+    <div className="w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-between items-center flex-wrap gap-3 px-4 py-[18px] rounded-2xl shadow-card_shadow hover:shadow-hover_card_shadow">
       <div className="flex items-center justify-center w-[200px] min-h-[100px]">
         <img
           src={noLogo}
@@ -40,14 +47,10 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
           <img src={mapPin} alt="map pin" className="w-auto h-[16px]" />
           <p>{city || remote ? displayLocation(city) : ""}</p>
         </div>
-        <a
-          rel="noopener noreferrer"
-          target="_blank"
-          href={job_link}
-          className="bg-background_green px-[40px] py-[14px] text-white rounded-3xl mx-auto hover:shadow-button_shadow transition duration-300 ease-out"
-        >
+        
+        <Button onClick={handleJobSeach} buttonType="searchJob">
           Către site
-        </a>
+        </Button>
       </div>
     </div>
   );

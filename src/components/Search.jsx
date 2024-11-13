@@ -8,8 +8,8 @@ import { ReactComponent as LupeIcon } from "../assets/svg/lupe.svg";
 import { ReactComponent as XIcon } from "../assets/svg/x.svg";
 import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
-//\\//\\//\\//\\
-
+//\\//\\//\\//\\ 
+ 
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
@@ -31,10 +31,20 @@ import {
   getJobSuggestion
 } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
+ 
 
-const Fetch = () => {
-  const { q, city, remote, county, company, removeTag, contextSetQ } =
-    useContext(TagsContext);
+const Search = (props) => {
+   
+
+  const {
+    q,
+    city,
+    remote,
+    county,
+    company,
+    removeTag,
+    contextSetQ,   
+  } = useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
   // dispatch
@@ -42,6 +52,7 @@ const Fetch = () => {
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
 
+ 
   //new\\
   const [locationn, setLocation] = useState("");
   /* const [locationTest, setLocationSuggestions] = useState([]); */
@@ -55,6 +66,7 @@ const Fetch = () => {
   // state for job suggestion drop-down
   const [jobSuggestions, setJobSuggestions] = useState([]);
   // useEffect to set the search input field as the user search query
+ 
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
@@ -142,7 +154,7 @@ const Fetch = () => {
     setText("");
     updateUrlParams({ q: null });
   }
-
+ 
   //function to remove diacritics
   const removeDiacritics = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -216,17 +228,17 @@ const Fetch = () => {
             className="flex flex-col items-center justify-between md:flex-row relative "
           >
             <div className="flex items-center justify-between relative lg:w-[522px]">
-              {/* Job Title Input */}
-              <div
-                className={`flex items-center relative w-full border border-[#89969C] rounded-lg ${
-                  location.pathname !== "/"
-                    ? "lg:border-r-2 border-[#89969C] rounded-lg"
-                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă border pe dreapta dacă nu e pe "/"
-                } ${
-                  focusedInput === "jobTitle"
-                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
-                    : ""
-                }`}
+               {/* Job Title Input */}
+               <div
+               className={`flex items-center relative w-full border border-[#89969C] rounded-lg ${
+                location.pathname !== "/" 
+                  ? "lg:border-r-2 border-[#89969C]" // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
+                  : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă divider doar pe paginile care nu sunt "/"
+              } ${
+                focusedInput === "jobTitle" && location.pathname === "/"
+                  ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" // border-ul de jos doar pe pagina principală
+                  : ""
+              }`}
               >
                 <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
                 <input
@@ -246,7 +258,7 @@ const Fetch = () => {
               </div>
 
               {/* Dropdown for Job Title */}
-              {focusedInput === "jobTitle" && (
+              { location.pathname === "/" &&  focusedInput === "jobTitle" && (
                 <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
                   {jobSuggestions &&
@@ -337,4 +349,5 @@ const Fetch = () => {
     </>
   );
 };
-export default Fetch;
+export default Search;
+

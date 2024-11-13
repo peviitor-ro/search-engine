@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 const Landing = () => {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(false);
+  const [inputWidth, setInputWidth] = useState(300);
 
   useEffect(() => {
     const fetchJobsData = async () => {
@@ -32,9 +33,31 @@ const Landing = () => {
     fetchJobsData();
   }, []);
 
+  const calculateInputWidth = () => {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 768) {
+      setInputWidth(300);
+    } else if (screenWidth >= 768 && screenWidth < 1024) {
+      setInputWidth(360);
+    } else if (screenWidth >= 1024 && screenWidth < 1280) {
+      setInputWidth(590);
+    } else if (screenWidth >= 1280) {
+      setInputWidth(735);
+    }
+  };
+
+  useEffect(() => {
+    calculateInputWidth();
+    window.addEventListener("resize", calculateInputWidth);
+    return () => {
+      window.removeEventListener("resize", calculateInputWidth);
+    };
+  }, []);
+
   return (
     <div className="landing-page flex flex-col justify-between items-center py-5 min-h-[100vh]">
-      <nav className="w-[70%] md:w-[70%] border-b border-border_grey">
+      <nav className="w-[80%] md:w-[80%] border-b border-border_grey">
         <img src={logo} alt="peviitor-logo" />
       </nav>
       <main className="w-[70%] flex flex-wrap justify-center md:gap-2 lg:gap-0 items-center sm:items-start mt-[8em] mb-[10em] font-PoppinsRegular text-left">
@@ -69,8 +92,8 @@ const Landing = () => {
             className="min-w-[250px] mt-6 md:min-w-full md:mt-0"
           />
         </div>
-        <div className="order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
-          <Search />
+        <div className="flex justify-center order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
+          <Search inputWidth={inputWidth} />
         </div>
       </main>
       <Footer />

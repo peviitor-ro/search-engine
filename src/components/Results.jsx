@@ -1,10 +1,11 @@
 import { useContext, useState, useEffect } from "react";
 // svg
-import removeIcon from "../assets/svg/remove.svg";
 import loadingIcon from "../assets/svg/loading.svg";
+// import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
 import FaraRezultate from "./FaraRezultate";
+import Button from "./Button";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
@@ -19,36 +20,11 @@ import { getData } from "../utils/fetchData";
 import JobSkeleton from "./JobSkeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
-function tagMapper([key, currentArray]) {
-  return currentArray.map((item) => (
-    <div
-      key={item}
-      className="py-2 px-4 bg-background_green_light rounded-3xl flex items-center"
-    >
-      <h3>{item}</h3>
-      {/* Call removeTag with the specific type and value */}
-      <button onClick={() => this.removeTag(key, item)}>
-        <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
-      </button>
-    </div>
-  ));
-}
-
 const Results = () => {
   // redux
   const dispatch = useDispatch();
   // context
-  const {
-    q,
-    city,
-    remote,
-    county,
-    company,
-    fields,
-    removeTag,
-    deletAll,
-    handleRemoveAllFilters
-  } = useContext(TagsContext);
+  const { q, city, remote, county, company } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
@@ -82,36 +58,12 @@ const Results = () => {
     return () => window.removeEventListener("scroll", checkScrollHeight);
   }, []);
 
-  const nrJoburi =
-    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
+  function handleScrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   return (
     <div>
-      {loading ? (
-        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
-      ) : (
-        <h2 className="text-center md:text-start text-text_grey_darker my-8 text-lg">
-          {total} {nrJoburi}
-        </h2>
-      )}
-
-      {!deletAll && (
-        <div className="pb-9 flex gap-2 flex-wrap justify-center lg:justify-start">
-          {Object.entries(fields).map(tagMapper.bind({ removeTag }))}
-          {!deletAll && (
-            <div className="flex gap-2 ml-4">
-              <hr className="h-auto w-[1px] bg-black" />
-              <button
-                className="self-center cursor-pointer"
-                onClick={handleRemoveAllFilters}
-              >
-                Sterge filtre
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-
       {loading ? (
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 w-fit mx-auto">
           {Array.from({ length: 6 }).map((_, idx) => (
@@ -121,7 +73,7 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 w-fit mx-auto">
+            <section className="grid gap-7 px-14 w-full mx-auto pb-12  md:flex md:flex-wrap md:justify-center">
               {jobs.map(
                 (
                   { city, company, county, job_link, job_title, remote },
@@ -157,24 +109,20 @@ const Results = () => {
         <>
           {total <= 10 ||
             (jobs.length === total ? null : (
-              <button
-                className="flex justify-center items-center px-8 py-3 rounded-full  bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto my-12"
-                onClick={fetchMoreData}
-              >
-                Incarca mai multe
-              </button>
+              <Button buttonType="loadMore" onClick={fetchMoreData}>
+                Încarcă mai multe
+              </Button>
             ))}
         </>
       )}
 
-      <button
-        className={`fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 ${
-          isVisible && "opacity-100 pointer-events-auto"
-        }`}
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      <Button
+        buttonType="scrollToTop"
+        className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
+        onClick={handleScrollToTop}
       >
         <img src={scrollUp} alt="scroll-up" />
-      </button>
+      </Button>
     </div>
   );
 };
