@@ -62,7 +62,7 @@ const Footer = () => {
               <strong>Implică-te!</strong>
             </Link>
 
-            <Link to="https://oportunitatisicariere.ro/#why-contribute"
+            <Link to="https://oportunitatisicariere.ro/#schedule"
               target="_blank" rel="noopener noreferrer"
             >Alătură-te cauzei noastre
             </Link>
@@ -76,8 +76,12 @@ const Footer = () => {
               Despre noi
             </Link>
             <Link to="https://oportunitatisicariere.ro/#our-mission" target="_blank" rel="noopener noreferrer">
-              Viziune
+              Misiune
             </Link>
+            {/* will be added */}
+            {/* <Link to="" target="_blank" rel="noopener noreferrer">
+              Viziune
+            </Link> */}
           </div>
 
           {/* will be added */}
@@ -91,7 +95,7 @@ const Footer = () => {
       <section className="flex flex-col items-center lg:flex-row mt-[20px] lg:gap-4 text-text_grey_darker">
         <p> © {year} - Toate drepturile rezervate</p>
         <Link to="https://www.oportunitatisicariere.ro" target="_blank" rel="noopener noreferrer">
-          <strong>ASOCIAȚIA OPORTUNITĂȚi ȘI CARIERE</strong>
+          <strong>ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE</strong>
         </Link>
       </section>
     </footer>
