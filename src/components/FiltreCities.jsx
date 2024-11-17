@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import { orase } from "../utils/getCityName";
+import InputField from "./InputField";
 
 const FiltreCities = ({ dropDown }) => {
   // State to store the input value
@@ -68,20 +69,17 @@ const FiltreCities = ({ dropDown }) => {
           <div className="pl-[10px]">Nu există rezultate "{inputValue}"</div>
         ) : (
           filteredItems.map((item, index) => (
-            <div key={index} className="pl-1 text-sm">
-              <input
+              <InputField key={index}
                 type="checkbox"
                 id={item}
                 name="orase"
                 value={item}
                 checked={fields["orase"].includes(item)}
                 onChange={(e) => handleCheckBoxChange(e, "orase")}
-                className="accent-background_green"
+                inputType="checkBoxList"
+                label={item}
+                item={item}
               />
-              <label htmlFor={item} className="pl-1 cursor-pointer">
-                {item}
-              </label>
-            </div>
           ))
         )}
       </div>
