@@ -8,6 +8,8 @@ import { useLocation } from "react-router-dom";
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
+import InputField from "./InputField";
+
 
 const FiltreGrup = () => {
   const location = useLocation();
@@ -140,53 +142,41 @@ const FiltreGrup = () => {
             )}
 
             {index === 2 && (
-              <React.Fragment>
-                {/* <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2"> */}
-                <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2 text-sm">
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="on-site"
-                      name="on-site"
-                      value="on-site"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("on-site")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="on-site" className="pl-1 cursor-pointer">
-                      La fața locului
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Hybrid"
-                      name="Hybrid"
-                      value="Hybrid"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("Hybrid")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="Hybrid" className="pl-1 cursor-pointer">
-                      Hibrid
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Remote"
-                      name="remote"
-                      value="Remote"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("Remote")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="Remote" className="pl-1 cursor-pointer">
-                      La distanță
-                    </label>
-                  </div>
-                </div>
-              </React.Fragment>
+              <div className="flex justify-evenly flex-col gap-[5px] py-4 px-2 text-sm">
+                <InputField key={index}
+                  type="checkbox"
+                  id="on-site"
+                  name="on-site"
+                  value="on-site"
+                  checked={fields.remote.includes("on-site")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxList"
+                  label="La fața locului"
+                  item="on-site"
+                />
+                <InputField key={index}
+                  type="checkbox"
+                  id="Hybrid"
+                  name="Hybrid"
+                  value="Hybrid"
+                  checked={fields.remote.includes("Hybrid")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxList"
+                  label="Hibrid"
+                  item="Hybrid"
+                />
+                <InputField key={index}
+                  type="checkbox"
+                  id="Remote"
+                  name="remote"
+                  value="Remote"
+                  checked={fields.remote.includes("Remote")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxList"
+                  label="La distanță"
+                  item="Remote"
+                />
+              </div>
             )}
           </div>
         </div>

@@ -2,6 +2,8 @@ import React from "react";
 
 const INPUT_TYPE_CLASSES = {
   checkBoxList: "accent-background_green cursor-pointer mx-1",
+
+  //  className="checkbox-parent text-sm" - Company Filters
 };
 
 const InputField = ({

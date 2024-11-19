@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
-
+import InputField from "./InputField";
 // Custom debounce hook
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -89,20 +89,17 @@ const FiltreCompanies = ({ dropDown }) => {
         {inputCompany.length > 0 && inputCompany.length < 3 && <p>{error}</p>}
         {Array.isArray(data) ? (
           data.map((item, index) => (
-            <div key={index} className="checkbox-parent text-sm">
-              <input
-                type="checkbox"
-                id={item}
-                name="company"
-                value={item}
-                checked={fields["company"].includes(item)}
-                onChange={(e) => handleCheckBoxChange(e, "company")}
-                className="accent-background_green"
-              />
-              <label htmlFor={item} className="pl-1 cursor-pointer">
-                {item}
-              </label>
-            </div>
+            <InputField key={index}
+              type="checkbox"
+              id={item}
+              name="company"
+              value={item}
+              checked={fields["company"].includes(item)}
+              onChange={(e) => handleCheckBoxChange(e, "company")}
+              inputType="checkBoxList"
+              label={item}
+              item={item}
+            />
           ))
         ) : (
           <div className="pl-[7px]">{data.message}</div>
