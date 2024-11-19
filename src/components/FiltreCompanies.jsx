@@ -88,7 +88,8 @@ const FiltreCompanies = ({ dropDown }) => {
       <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
         {inputCompany.length > 0 && inputCompany.length < 3 && <p>{error}</p>}
         {Array.isArray(data) ? (
-          data.map((item, index) => (
+            // data.sort((a, b) => a.localeCompare(b)).map((item, index) => (
+            data.map((item, index) => (
             <InputField key={index}
               type="checkbox"
               id={item}
@@ -96,7 +97,7 @@ const FiltreCompanies = ({ dropDown }) => {
               value={item}
               checked={fields["company"].includes(item)}
               onChange={(e) => handleCheckBoxChange(e, "company")}
-              inputType="checkBoxList"
+              inputType="checkBoxType"
               label={item}
               item={item}
             />

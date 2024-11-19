@@ -76,7 +76,7 @@ const FiltreCities = ({ dropDown }) => {
                 value={item}
                 checked={fields["orase"].includes(item)}
                 onChange={(e) => handleCheckBoxChange(e, "orase")}
-                inputType="checkBoxList"
+                inputType="checkBoxType"
                 label={item}
                 item={item}
               />

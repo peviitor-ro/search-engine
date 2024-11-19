@@ -1,9 +1,8 @@
 import React from "react";
 
 const INPUT_TYPE_CLASSES = {
-  checkBoxList: "accent-background_green cursor-pointer mx-1",
-
-  //  className="checkbox-parent text-sm" - Company Filters
+  checkBoxType: "accent-background_green cursor-pointer mx-1",
+  // searchType will be added
 };
 
 const InputField = ({
@@ -18,15 +17,7 @@ const InputField = ({
   const labelProps = { ...otherProps };
 
   return (
-    <div
-      className={className}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "2px 0",
-        marginBottom: "2px",
-      }}
-    >
+    <div className={`flex items-center py-[2px] mb-[2px] ${className}`}>
       <input
         id={item}
         className={`${className} ${INPUT_TYPE_CLASSES[inputType]}`}
