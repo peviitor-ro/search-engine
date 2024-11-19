@@ -1,8 +1,8 @@
 import React from "react";
 
 const INPUT_TYPE_CLASSES = {
-  checkBoxType: "accent-background_green cursor-pointer mx-1",
-  // searchType will be added
+  checkBoxType: "accent-background_green cursor-pointer ml-[0.6rem] mr-[0.4rem]",
+  searchType: "border-0 outline-none py-[0.4rem] text-sm w-[190px] rounded-full",
 };
 
 const InputField = ({

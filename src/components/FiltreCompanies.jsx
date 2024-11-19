@@ -69,20 +69,20 @@ const FiltreCompanies = ({ dropDown }) => {
   };
 
   return (
-    <>
-      <div className="flex items-center gap-1 px-[2px] border-b-[1px] border-border_grey">
+    <div className="flex flex-col">
+      <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">
         <img
-          src={magnifyGlass}
-          alt="magnify-glass"
-          className="relative left-0 w-[20px] ml-1"
-        />
-        <input
-          type="search"
+            src={magnifyGlass}
+            alt="magnify-glass"
+            className="relative left-0 w-[20px] ml-1"
+          />
+
+        <InputField 
           value={inputCompany}
-          placeholder={`Cauta companie`}
+          placeholder={`Caută companie`}
           onChange={handleInputChange}
-          className="border-0 outline-none py-[10px] text-sm w-[190px] rounded-full"
-        />
+          inputType="searchType"
+          type="search" />
       </div>
 
       <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
@@ -107,7 +107,7 @@ const FiltreCompanies = ({ dropDown }) => {
         )}
       </div>
       <div className="h-3"></div>
-    </>
+    </div>
   );
 };
 
