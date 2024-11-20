@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import { orase } from "../utils/getCityName";
+import InputField from "./InputField";
 
 const FiltreCities = ({ dropDown }) => {
   // State to store the input value
@@ -47,20 +48,19 @@ const FiltreCities = ({ dropDown }) => {
   }, [filteredItems, inputValue]);
 
   return (
-    <div>
-      <div className="flex items-center gap-1 px-[2px] border-b-[1px] border-border_grey ">
+    <div className="flex flex-col">
+      <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">
         <img
           src={magnifyGlass}
           alt="magnify-glass"
           className="relative left-0 w-[20px] ml-1"
         />
-        <input
-          type="search"
+        <InputField 
           value={inputValue}
-          placeholder={`Cauta oras`}
+          placeholder={`Caută oraș`}
           onChange={handleInputChange}
-          className="border-0 outline-none py-[10px] text-sm w-[190px] rounded-full"
-        />
+          inputType="searchType"
+          type="search" />
       </div>
 
       <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
@@ -68,20 +68,17 @@ const FiltreCities = ({ dropDown }) => {
           <div className="pl-[10px]">Nu există rezultate "{inputValue}"</div>
         ) : (
           filteredItems.map((item, index) => (
-            <div key={index} className="pl-1 text-sm">
-              <input
+              <InputField key={index}
                 type="checkbox"
                 id={item}
                 name="orase"
                 value={item}
                 checked={fields["orase"].includes(item)}
                 onChange={(e) => handleCheckBoxChange(e, "orase")}
-                className="accent-background_green"
+                inputType="checkBoxType"
+                label={item}
+                item={item}
               />
-              <label htmlFor={item} className="pl-1 cursor-pointer">
-                {item}
-              </label>
-            </div>
           ))
         )}
       </div>
