@@ -1,5 +1,6 @@
 // svg
 import logo from "../assets/svg/logo.svg";
+ 
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -8,6 +9,8 @@ import { ReactComponent as LupeIcon } from "../assets/svg/lupe.svg";
 import { ReactComponent as XIcon } from "../assets/svg/x.svg";
 import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
+//\\//\\//\\//\\ 
+ 
 //\\//\\//\\//\\ 
  
 // components
@@ -45,12 +48,28 @@ const Search = (props) => {
     removeTag,
     contextSetQ,   
   } = useContext(TagsContext);
+ 
+
+const Search = (props) => {
+   
+
+  const {
+    q,
+    city,
+    remote,
+    county,
+    company,
+    removeTag,
+    contextSetQ,   
+  } = useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
   // dispatch
   const navigate = useNavigate(); // Get the navigate function
   const location = useLocation(); // Get the current location
   const dispatch = useDispatch();
+
+ 
 
  
   //new\\
@@ -66,6 +85,7 @@ const Search = (props) => {
   // state for job suggestion drop-down
   const [jobSuggestions, setJobSuggestions] = useState([]);
   // useEffect to set the search input field as the user search query
+ 
  
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -155,6 +175,7 @@ const Search = (props) => {
     updateUrlParams({ q: null });
   }
  
+ 
   //function to remove diacritics
   const removeDiacritics = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -230,7 +251,7 @@ const Search = (props) => {
             <div className="flex items-center justify-between relative lg:w-[522px]">
                {/* Job Title Input */}
                <div
-               className={`flex items-center relative w-full border border-[#89969C] rounded-lg ${
+               className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-3xl ${
                 location.pathname !== "/" 
                   ? "lg:border-r-2 border-[#89969C]" // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
                   : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă divider doar pe paginile care nu sunt "/"
@@ -247,7 +268,7 @@ const Search = (props) => {
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => handleFocus("jobTitle")}
                   placeholder="Cauta un loc de munca"
-                  className="w-full py-2 px-2 pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                  className="w-full py-2 px-2 xl:pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
                 {text && (
                   <XIcon
@@ -259,14 +280,16 @@ const Search = (props) => {
 
               {/* Dropdown for Job Title */}
               { location.pathname === "/" &&  focusedInput === "jobTitle" && (
-                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
                   {jobSuggestions &&
                     jobSuggestions.length > 0 &&
                     jobSuggestions.map((suggestion, index) => (
                       <li
                         key={index}
-                        className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                        className={`px-12 py-2 cursor-pointer ${
+                          index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                        } hover:bg-gray-200`}
                         onMouseDown={() => {
                           setText(suggestion.term);
                           // Actualizează textul cu sugestia
@@ -286,9 +309,9 @@ const Search = (props) => {
               {" "}
               {/* Add ref to the container */}
               {location.pathname === "/" && (
-                <div className="flex items-center justify-between relative lg:w-[325px]">
+                <div className="flex items-center justify-between  relative lg:w-[325px]">
                   <div
-                    className={`flex items-center relative w-full border border-[#89969C] rounded-lg lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-lg ${
+                    className={`flex items-center relative w-full border border-[#89969C]  rounded-3xl   lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-3xl bg-white  ${
                       focusedInput === "location"
                         ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
                         : ""
@@ -313,11 +336,13 @@ const Search = (props) => {
 
                   {/* Add Location Input dropdown*/}
                   {focusedInput === "location" && (
-                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-lg lg:rounded-t-none lg:pt-2 lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                       {filteredCities.map((suggestion, index) => (
                         <li
                           key={index}
-                          className="px-12 py-2 cursor-pointer hover:bg-gray-100"
+                          className={`px-12 py-2 cursor-pointer ${
+                            index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                          } hover:bg-gray-200`}
                           onClick={() => {
                             setLocation(suggestion);
                             setFocusedInput(null); // Close dropdown on selection
@@ -334,7 +359,7 @@ const Search = (props) => {
             {/* button search */}
             <button
               type="submit"
-              className="m-2 bg-background_green text-white w-[122px] h-[42px] text-base px-10 rounded-md transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+              className="m-2 bg-background_green text-white w-[122px] h-[42px] text-base px-10  rounded-3xl transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
             >
               Caută
             </button>
@@ -350,4 +375,3 @@ const Search = (props) => {
   );
 };
 export default Search;
-
