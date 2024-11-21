@@ -36,20 +36,7 @@ import {
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
  
 
-const Search = (props) => {
-   
-
-  const {
-    q,
-    city,
-    remote,
-    county,
-    company,
-    removeTag,
-    contextSetQ,   
-  } = useContext(TagsContext);
  
-
 const Search = (props) => {
    
 
