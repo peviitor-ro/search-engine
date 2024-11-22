@@ -55,6 +55,8 @@ const Footer = () => {
           </Link>
         </div>
         <div className="flex justify-between items-start gap-20 mx-auto md:mx-0">
+        {/* <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-20 mx-auto md:mx-0"> */}
+
           <div className="flex flex-col gap-1">
             <Link to="https://oportunitatisicariere.ro/#how-contribute"
               target="_blank" rel="noopener noreferrer"
@@ -82,12 +84,13 @@ const Footer = () => {
             {/* <Link to="" target="_blank" rel="noopener noreferrer">
               Viziune
             </Link> */}
+            {/* <Link to="conditii-de-utilizare" aria-label="peviitor">Condiții de utilizare</Link> */}
           </div>
 
           {/* will be added */}
           {/* <div className="flex flex-col gap-1">
-            <Link to=""><strong>Informații suplimentare</strong></Link>
-            <Link to="">Condiții de utilizare</Link>
+            <Link to="/conditii"><strong>Informații suplimentare</strong></Link>
+            <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
             <Link to="">Politica de confidențialitate</Link>
           </div> */}
         </div>
