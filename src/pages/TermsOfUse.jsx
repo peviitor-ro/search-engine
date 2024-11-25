@@ -6,20 +6,13 @@ const TermsOfUse = () => {
         <Layout>
             <header
                 role="banner"
-                className="min-h-[60vh] w-full flex items-center justify-center flex-wrap flex-col"
+                className="font-PoppinsRegular w-full flex items-center justify-center flex-wrap flex-col py-16 md:py-24 lg:py-32"
                 style={{
                     background: `radial-gradient(circle, rgba(4,138,129,1) 19%, rgba(40,83,107,1) 100%)`,
                 }}
             >
-                <h1 
-                    className="text-white text-center break-words max-w-[90%]"
-                    style={{
-                        fontSize: "clamp(2.8rem, 5vw, 5rem)",
-                        fontFamily: "PoppinsRegular",
-                        letterSpacing: "0.2rem",
-                    }}
-                >
-                    <span className="font-bold">Condiții de utilizare</span>
+                <h1 className="leading-[62px] text-white text-[40px] md:text-[44px] xl:text-[60px] font-semibold mb-2">
+                    Condiții de utilizare
                 </h1>
             </header>
     
@@ -32,28 +25,28 @@ const TermsOfUse = () => {
                 // marginLeft: "2rem",
             }}
             >
-                    <section style={{ marginTop: "3rem"}} aria-labelledby="terms-intro-heading">
-                        <h2 style={{ marginBottom: "1rem", fontSize: "18px"}}><strong>TERMENI ŞI CONDIŢII DE UTILIZARE</strong></h2>
-                        <p style={{ fontSize: "16px", marginBottom: "1rem"}}>Prin utilizarea acestui site, 
+                    <section style={{ marginTop: "7rem"}} aria-labelledby="terms-intro-heading">
+                        <h2 className="text-2xl sm:text-xl md:text-xl lg:text-2xl leading-tight mb-4"><strong>TERMENI ŞI CONDIŢII DE UTILIZARE</strong></h2>
+                        <p className="text-base sm:text-sm md:text-lg lg:text-xl leading-relaxed ">Prin utilizarea acestui site,  
                             <a href="https://www.peviitor.ro" aria-label="Accesează www.peviitor.ro">
-                            <span style={{ color: "rgb(4, 138, 129)"}}>www.peviitor.ro</span>
+                            <span style={{ color: "rgb(4, 138, 129)"}}> www.peviitor.ro</span>
                             </a>
                             , sunteţi de acord cu termenii şi condiţiile de utilizare meţionate în aceasta pagină. Accesul şi utilizarea acestui site sunt supuse următorilor termeni şi condiţii de utilizare şi tuturor legilor şi regulamentelor aplicabile. Accesând şi utilizând site-ul, acceptaţi, fără limitări sau calificări, aceşti termeni şi condiţii şi luaţi la cunoştinţă că orice alte acorduri între dumneavoastră şi terţe părţi cu privire la utilizarea site-ului sunt înlocuite prin prevederile prezentului document. Dacă nu sunteţi de acord sau nu acceptaţi, fără limitări sau calificări, Termenii şi Condiţiile de Utilizare ale acestui site, vă rugăm să părăsiţi această platformă.</p>
-                        <p style={{ fontSize: "16px"}}>Prin continuarea utilizării serviciilor oferite de site-ul 
+                        <p className="text-base sm:text-sm md:text-lg lg:text-xl leading-relaxed">Prin continuarea utilizării serviciilor oferite de site-ul 
                         <a href="https://www.peviitor.ro" aria-label="Accesează www.peviitor.ro">
-                            <span style={{ color: "rgb(4, 138, 129)"}}>www.peviitor.ro</span>
+                            <span style={{ color: "rgb(4, 138, 129)"}}> www.peviitor.ro </span>
                             </a> 
                             confirmaţi că sunteţi de acord cu Termenii şi Condiţiile de Utilizare mai jos menţionaţi.</p>
                     </section>
                    
                     <section style={{ marginTop: "3rem"}} aria-labelledby="general-terms-heading">
-                        <h2 style={{ fontSize: "18px", marginBottom: "1rem"}}>
+                        <h2 className="text-2xl sm:text-xl md:text-2xl lg:text-3xl leading-tight mb-4">
                             <strong>TERMENI GENERALI</strong>
                         </h2>
                         <ol style={{ fontSize: "16px", listStyleType: "lower-alpha", marginBottom: "3rem", listStylePosition: "inside"}}>
-                            <li style={{ fontSize: "16px"}}>Site-ul www.peviitor.ro, este proprietatea ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE cu sediul în Zimbor numarul 215, județul Sălaj. Accesarea acestui site ori a oricărei părţi din acest site presupune acordul tacit cu termenii ce urmează. Acordul de utilizare îşi produce efectele între dumneavoastră şi ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE. Acceptarea se consideră tacită şi fără rezerve.</li>
-                            <li>www.peviitor.ro poate schimba conţinutul site-ului la orice moment, poate aduce modificări de structură, conţinut şi accesibilitate, poate sista furnizarea informaţiilor pe site, fără un acord prealabil şi fără vreo notificare către dumneavoastră ori către terţe persoane.</li>
-                            <li>Continuarea utilizării site-ului presupune acordul dumneavoastră tacit şi acordul în întregime cu Termenii şi condiţiile prezentate în cele ce urmează. Utilizarea presupune acceptarea regulilor.RO.</li>
+                            <li className="text-base sm:text-sm md:text-lg lg:text-xl leading-relaxed">Site-ul www.peviitor.ro, este proprietatea ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE cu sediul în Zimbor numarul 215, județul Sălaj. Accesarea acestui site ori a oricărei părţi din acest site presupune acordul tacit cu termenii ce urmează. Acordul de utilizare îşi produce efectele între dumneavoastră şi ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE. Acceptarea se consideră tacită şi fără rezerve.</li>
+                            <li className="text-base sm:text-sm md:text-lg lg:text-xl leading-relaxed">www.peviitor.ro poate schimba conţinutul site-ului la orice moment, poate aduce modificări de structură, conţinut şi accesibilitate, poate sista furnizarea informaţiilor pe site, fără un acord prealabil şi fără vreo notificare către dumneavoastră ori către terţe persoane.</li>
+                            <li className="text-base sm:text-sm md:text-lg lg:text-xl leading-relaxed">Continuarea utilizării site-ului presupune acordul dumneavoastră tacit şi acordul în întregime cu Termenii şi condiţiile prezentate în cele ce urmează. Utilizarea presupune acceptarea regulilor.RO.</li>
                             <li>ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE poate schimba, suspenda sau întrerupe, în orice moment, fără a anunţa în prealabil, site-ul. ASOCIATIA OPORTUNITATI SI CARIERE poate limita accesul la site ori la anumite părţi din site. Totodată, ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE poate limita accesul la anumite facilităţi/frame-uri din site, poate aduce limitări de acces anumitor IP-uri fără notificări şi fără vreo răspundere.</li>
                         </ol>
                     </section>
