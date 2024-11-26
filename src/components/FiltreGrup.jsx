@@ -43,11 +43,11 @@ const FiltreGrup = () => {
   // Function to get button style based on index and fields
   const getButtonStyle = (index) => {
     if (index === 0 && fields.orase.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else if (index === 1 && fields.company.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else if (index === 2 && fields.remote.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else {
       return {};
     }
@@ -60,12 +60,12 @@ const FiltreGrup = () => {
         fields.orase.length >= 1 ? `(${fields.orase.length})` : ""
       }`;
     } else if (index === 1) {
-      return `Companie ${
-        fields.company.length >= 1 ? `(${fields.company.length})` : ""
-      }`;
-    } else {
       return `Mod de lucru ${
         fields.remote.length >= 1 ? `(${fields.remote.length})` : ""
+      }`;
+    } else {
+      return `Companie ${
+        fields.company.length >= 1 ? `(${fields.company.length})` : ""
       }`;
     }
   };

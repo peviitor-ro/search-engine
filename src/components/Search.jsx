@@ -12,7 +12,7 @@ import { orase } from "../utils/getCityName";
 // components
 import FiltreGrup from "./FiltreGrup";
 // redux
-import { useSelector, useDispatch } from "react-redux";  
+import { useSelector, useDispatch } from "react-redux";
 // functions to update the jobSlice state.
 import {
   setJobs,
@@ -63,7 +63,7 @@ const Search = (props) => {
     handleRemoveAllFilters,
     contextSetQ,
     contextSetCity,
-    fields   
+    fields
   } = useContext(TagsContext);
   // fields
   const [text, setText] = useState("");
@@ -77,7 +77,7 @@ const Search = (props) => {
   const loading = useSelector((state) => state.jobs.loading);
   const nrJoburi =
     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
- 
+
   //new\\
   const [locationn, setLocation] = useState("");
   /* const [locationTest, setLocationSuggestions] = useState([]); */
@@ -91,8 +91,7 @@ const Search = (props) => {
   // state for job suggestion drop-down
   const [jobSuggestions, setJobSuggestions] = useState([]);
   // useEffect to set the search input field as the user search query
- 
- 
+
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
@@ -183,8 +182,7 @@ const Search = (props) => {
     setText("");
     updateUrlParams({ q: null });
   }
- 
- 
+
   //function to remove diacritics
   const removeDiacritics = (text) => {
     return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -234,36 +232,38 @@ const Search = (props) => {
     }
   };
 
-   // Aligning the h2 with the first card
-   const [h2Width, setH2Width] = useState("auto");
-   const calculateH2Width = () => {
-     const screenWidth = window.innerWidth;
-     const gap = 28;
-     let cardWidth;
-     const breakpoint = 1024;
- 
-     cardWidth = screenWidth > breakpoint ? 384 : 300;
- 
-     screenWidth >= 740 && screenWidth <= 767
-       ? setH2Width(300)
-       : setH2Width(
-           (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-             1) *
-             cardWidth +
-             (Math.floor(
-               (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-             ) +  1 -  1) *  gap
-         );
-   };
+  // Aligning the h2 with the first card
+  const [h2Width, setH2Width] = useState("auto");
+  const calculateH2Width = () => {
+    const screenWidth = window.innerWidth;
+    const gap = 28;
+    let cardWidth;
+    const breakpoint = 1024;
 
-    useEffect(() => {
+    cardWidth = screenWidth > breakpoint ? 384 : 300;
+
+    screenWidth >= 740 && screenWidth <= 767
+      ? setH2Width(300)
+      : setH2Width(
+          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
+            1) *
+            cardWidth +
+            (Math.floor(
+              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
+            ) +
+              1 -
+              1) *
+              gap
+        );
+  };
+
+  useEffect(() => {
     calculateH2Width();
     window.addEventListener("resize", calculateH2Width);
     return () => {
       window.removeEventListener("resize", calculateH2Width);
     };
   }, []);
-  
 
   // Debouncing the fetch call
   useEffect(() => {
@@ -279,8 +279,8 @@ const Search = (props) => {
   }, [text]);
   return (
     <>
-      <div className="m-10 p-10">
-        <div className="flex items-center justify-center   relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
+      <div>
+        <div className="flex items-center justify-center mt-5  relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
           {location.pathname === "/rezultate" && (
             <a href="/" className="logo mr-2">
               <img src={logo} alt="peviitor" />
@@ -291,17 +291,17 @@ const Search = (props) => {
             className="flex flex-col items-center   justify-between md:flex-row relative "
           >
             <div className="flex items-center justify-between  relative lg:w-[522px]  ">
-               {/* Job Title Input */}
-               <div
-               className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-3xl ${
-                location.pathname !== "/" 
-                  ? "lg:border-r-2 border-[#89969C]" // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
-                  : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă divider doar pe paginile care nu sunt "/"
-              } ${
-                focusedInput === "jobTitle" && location.pathname === "/"
-                  ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" // border-ul de jos doar pe pagina principală
-                  : ""
-              }`}
+              {/* Job Title Input */}
+              <div
+                className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-3xl ${
+                  location.pathname !== "/"
+                    ? "lg:border-r-2 border-[#89969C]" // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
+                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă divider doar pe paginile care nu sunt "/"
+                } ${
+                  focusedInput === "jobTitle" && location.pathname === "/"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" // border-ul de jos doar pe pagina principală
+                    : ""
+                }`}
               >
                 <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
                 <input
@@ -310,18 +310,18 @@ const Search = (props) => {
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => handleFocus("jobTitle")}
                   placeholder="Cauta un loc de munca"
-                  className="w-full py-2 px-2 xl:pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                  className="w-full py-3 px-2 xl:pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
                 {text && (
                   <XIcon
-                    className="w-4 h-4 text-gray-700 mr-3 cursor-pointer"
+                    className="w-5 h-4 mr-4 fill-slate-500  cursor-pointer"
                     onClick={handleClearX}
                   />
                 )}
               </div>
 
               {/* Dropdown for Job Title */}
-              { location.pathname === "/" &&  focusedInput === "jobTitle" && (
+              {location.pathname === "/" && focusedInput === "jobTitle" && (
                 <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
                   {jobSuggestions &&
@@ -366,11 +366,11 @@ const Search = (props) => {
                       onChange={(e) => setLocation(e.target.value)}
                       onFocus={() => handleFocus("location")}
                       placeholder="Adauga o locatie"
-                      className="w-full py-2 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                      className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                     />
                     {locationn && (
                       <XIcon
-                        className="w-4 h-4 text-gray-500 mr-3 cursor-pointer"
+                        className="w-5 h-4 fill-slate-500 mr-3 cursor-pointer"
                         onClick={handleClearLocation}
                       />
                     )}
@@ -401,34 +401,33 @@ const Search = (props) => {
             {/* button search */}
             <button
               type="submit"
-              className="m-2 bg-background_green text-white w-[122px] h-[42px] text-base px-10  rounded-3xl transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
+              className="m-2 bg-background_green text-white w-[122px] h-[48px] text-base px-10  rounded-3xl transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
             >
-              Caută
+              Cauta
             </button>
           </form>
         </div>
-         {/* // Conditionally render the checkboxes */}
-      {location.pathname === "/rezultate" && <FiltreGrup />}
-      {loading ? (
-        <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
-      ) : (
-        total > 0 && (
-          <h2
-            className="text-start text-text_grey_darker my-8 text-lg"
-            style={{ width: h2Width, margin: "32px auto" }}
-          >
-            {total} {nrJoburi}
-          </h2>
-        )
-      )}
+        {/* // Conditionally render the checkboxes */}
+        {location.pathname === "/rezultate" && <FiltreGrup />}
+        {loading ? (
+          <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+        ) : (
+          total > 0 && (
+            <h2
+              className="text-start text-text_grey_darker my-8 text-lg"
+              style={{ width: h2Width, margin: "32px auto" }}
+            >
+              {total} {nrJoburi}
+            </h2>
+          )
+        )}
 
-      {!deletAll && (
-        <div
-          className="pb-9 flex gap-2 flex-wrap"
-          style={{ width: h2Width, margin: "0 auto" }}
-        >
-          <FilterTags tags={fields} removeTag={removeTag} />
-          {!deletAll && (
+        {!deletAll && total > 0 && (
+          <div
+            className="pb-9 flex gap-2 flex-wrap"
+            style={{ width: h2Width, margin: "0 auto" }}
+          >
+            <FilterTags tags={fields} removeTag={removeTag} />
             <div className="flex gap-2 ml-4">
               <Button
                 buttonType="deleteFilters"
@@ -437,11 +436,8 @@ const Search = (props) => {
                 Șterge filtre
               </Button>
             </div>
-          )}
-        </div>
-      )}
-     
-        
+          </div>
+        )}
       </div>
     </>
   );
