@@ -282,7 +282,7 @@ const Search = (props) => {
       <div>
         <div className="flex items-center justify-center mt-5  relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px] ">
           {location.pathname === "/rezultate" && (
-            <a href="/" className="logo mr-2">
+            <a href="/" className="logo mr-8">
               <img src={logo} alt="peviitor" />
             </a>
           )}
@@ -290,20 +290,24 @@ const Search = (props) => {
             onSubmit={handleUpdateQ}
             className="flex flex-col items-center   justify-between md:flex-row relative "
           >
-            <div className="flex items-center justify-between  relative lg:w-[522px]  ">
+            <div
+              className={`flex items-center justify-between w-[300px] relative sm:w-[300px] lg:w-[485px] ${
+                location.pathname !== "/" ? "2xl:w-[700px]" : ""
+              }`}
+            >
               {/* Job Title Input */}
               <div
                 className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-3xl ${
                   location.pathname !== "/"
-                    ? "lg:border-r-2 border-[#89969C]" // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
-                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider " // Adaugă divider doar pe paginile care nu sunt "/"
+                    ? "lg:border-r-2 border-[#89969C] " // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
+                    : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider" // Adaugă divider doar pe paginile care nu sunt "/"
                 } ${
                   focusedInput === "jobTitle" && location.pathname === "/"
                     ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" // border-ul de jos doar pe pagina principală
                     : ""
                 }`}
               >
-                <LupeIcon className="w-5 h-5 text-gray-500 ml-3" />
+                <LupeIcon className="w-6 h-6 text-gray-500 ml-3" />
                 <input
                   type="text"
                   value={text} // Valoarea pentru căutare joburi
@@ -351,7 +355,7 @@ const Search = (props) => {
               {" "}
               {/* Add ref to the container */}
               {location.pathname === "/" && (
-                <div className="flex items-center justify-between  relative lg:w-[325px]">
+                <div className="flex items-center justify-between w-[300px] mt-1  relative sm:w-[300px] lg:w-[241px] md:mt-0">
                   <div
                     className={`flex items-center relative w-full border border-[#89969C]  rounded-3xl   lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-3xl bg-white  ${
                       focusedInput === "location"
