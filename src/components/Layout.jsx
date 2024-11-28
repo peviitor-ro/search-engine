@@ -22,7 +22,8 @@ const Layout = ({ children }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 marginBottom: "2rem"
-                }}>{children}</main>
+                }}>{children}
+            </main>
             <Footer />
         </div>
     );

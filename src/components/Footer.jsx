@@ -84,7 +84,7 @@ const Footer = () => {
             {/* <Link to="" target="_blank" rel="noopener noreferrer">
               Viziune
             </Link> */}
-            <Link to="conditii-de-utilizare" aria-label="peviitor">Condiții de utilizare</Link>
+            {/* <Link to="conditii-de-utilizare" aria-label="peviitor">Condiții de utilizare</Link> */}
           </div>
 
           {/* will be added */}
