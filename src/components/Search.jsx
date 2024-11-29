@@ -1,8 +1,8 @@
 // svg
-import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
+// import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import logo from "../assets/svg/logo.svg";
 import removeIcon from "../assets/svg/remove.svg";
-
+import flagMagnifyGlass from "../assets/svg/ro_flag_magnifying_glass.svg";
 import { useEffect, useState, useContext } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -209,10 +209,11 @@ const Search = (props) => {
           className="flex flex-col items-center md:flex-row relative gap-2"
         >
           <img
-            src={magnifyGlass}
+            src={flagMagnifyGlass}
             alt="magnify-glass"
             className="absolute top-4 left-4"
           />
+
           <input
             type="text"
             value={text}
