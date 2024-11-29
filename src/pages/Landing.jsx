@@ -93,7 +93,7 @@ const Landing = () => {
           />
         </div>
         <div className="flex justify-center order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
-          <Search />
+          <Search inputWidth={inputWidth} />
         </div>
       </main>
       <Footer />
