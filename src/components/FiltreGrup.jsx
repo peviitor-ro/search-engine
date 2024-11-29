@@ -1,13 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-
 import TagsContext from "../context/TagsContext";
 import sageata from "../assets/svg/arrow_bottom.svg";
-
 import { useLocation } from "react-router-dom";
-
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
+import InputField from "./InputField";
+
 
 const FiltreGrup = () => {
   const location = useLocation();
@@ -89,7 +88,6 @@ const FiltreGrup = () => {
     };
   }, [dropDown]);
 
-  // Rendering the component
   return (
     <div
       className="flex items-center justify-center flex-wrap mt-2 md:mx-auto w-fit gap-4 md:gap-4 relative font-PoppinsRegular z-10"
@@ -123,70 +121,50 @@ const FiltreGrup = () => {
               isOpen ? "block" : "hidden"
             }  text-lg py-1 border border-background_green rounded-3xl shadow-checbox_shadow absolute bg-white left-1/2 transform -translate-x-1/2 md:left-auto md:transform-none`}
           >
-            {/* Dynamically rendering checkbox based on index */}
 
             {/* Cities Drop-down */}
-            {index === 0 && (
-              <React.Fragment>
-                <FiltreCities dropDown={dropDown} />
-              </React.Fragment>
-            )}
+            {index === 0 && (<FiltreCities dropDown={dropDown} />)}
 
             {/* Companies Drop-down */}
-            {index === 1 && (
-              <React.Fragment>
-                <FiltreCompanies dropDown={dropDown} />
-              </React.Fragment>
-            )}
+            {index === 1 && (<FiltreCompanies dropDown={dropDown} />)}
 
             {index === 2 && (
-              <React.Fragment>
-                {/* <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2"> */}
-                <div className="w-[190px] h-[190px] flex justify-evenly flex-col gap-[5px] py-4 px-2 text-sm">
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="on-site"
-                      name="on-site"
-                      value="on-site"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("on-site")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="on-site" className="pl-1 cursor-pointer">
-                      La fața locului
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Hybrid"
-                      name="Hybrid"
-                      value="Hybrid"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("Hybrid")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="Hybrid" className="pl-1 cursor-pointer">
-                      Hibrid
-                    </label>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="Remote"
-                      name="remote"
-                      value="Remote"
-                      className="accent-background_green"
-                      checked={fields.remote.includes("Remote")}
-                      onChange={(e) => handleCheckBoxChange(e, "remote")}
-                    />
-                    <label htmlFor="Remote" className="pl-1 cursor-pointer">
-                      La distanță
-                    </label>
-                  </div>
-                </div>
-              </React.Fragment>
+              <div key={index} 
+                className="w-[190px] flex flex-col px-2 pt-[30px] pb-[30px]">
+                <InputField 
+                  type="checkbox"
+                  id="on-site"
+                  name="on-site"
+                  value="on-site"
+                  checked={fields.remote.includes("on-site")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxType"
+                  label="La fața locului"
+                  item="on-site"
+                />
+                <InputField 
+                  type="checkbox"
+                  id="Hybrid"
+                  name="Hybrid"
+                  value="Hybrid"
+                  checked={fields.remote.includes("Hybrid")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxType"
+                  label="Hibrid"
+                  item="Hybrid"
+                />
+                <InputField
+                  type="checkbox"
+                  id="Remote"
+                  name="remote"
+                  value="Remote"
+                  checked={fields.remote.includes("Remote")}
+                  onChange={(e) => handleCheckBoxChange(e, "remote")}
+                  inputType="checkBoxType"
+                  label="La distanță"
+                  item="Remote"
+                />
+              </div>
             )}
           </div>
         </div>

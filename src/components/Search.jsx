@@ -5,7 +5,7 @@ import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import removeIcon from "../assets/svg/remove.svg";
 //NEW IMPORTS\\
-import { ReactComponent as LupeIcon } from "../assets/svg/lupe.svg";
+import { ReactComponent as LupeIcon } from "../assets/svg/ro_flag_magnifying_glass.svg";
 import { ReactComponent as XIcon } from "../assets/svg/x.svg";
 import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
@@ -313,7 +313,7 @@ const Search = (props) => {
                   value={text} // Valoarea pentru căutare joburi
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => handleFocus("jobTitle")}
-                  placeholder="Cauta un loc de munca"
+                  placeholder="Caută un loc de muncă"
                   className="w-full py-3 px-2 xl:pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
                 {text && (
@@ -407,7 +407,7 @@ const Search = (props) => {
               type="submit"
               className="m-2 bg-background_green text-white w-[122px] h-[48px] text-base px-10  rounded-3xl transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
             >
-              Cauta
+              Caută
             </button>
           </form>
         </div>

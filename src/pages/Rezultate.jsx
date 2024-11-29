@@ -32,6 +32,7 @@ const Rezultate = () => {
   useEffect(() => {
     calculateTotalCardsWidth();
     window.addEventListener("resize", calculateTotalCardsWidth);
+    window.scrollTo(0, 0);
     return () => {
       window.removeEventListener("resize", calculateTotalCardsWidth);
     };

@@ -68,9 +68,9 @@ const Landing = () => {
               <img
                 src={dungi}
                 alt="dungi"
-                className="absolute top-[128px] left-[-30px] scale-[0.7] md:scale-[0.9] md:top-[90px] md:left-[-30px] lg:top-[140px] lg:left-[-50px] lg:scale-[0.7] xl:top-[115px] xl:left-[180px] xl:scale-110"
+                className="absolute top-[125px] left-[-3px] scale-[0.7] md:scale-[0.9] md:top-[90px] md:left-[-5px] lg:top-[138px] lg:left-[-30px] lg:scale-[0.7] xl:top-[113px] xl:left-[220px] xl:scale-110"
               />{" "}
-              la un clic distanță
+              la un click distanță
             </h1>
             <h4 className="text-lg leading-6 text-text_grey">
               Peste{" "}

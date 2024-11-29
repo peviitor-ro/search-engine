@@ -55,6 +55,8 @@ const Footer = () => {
           </Link>
         </div>
         <div className="flex justify-between items-start gap-20 mx-auto md:mx-0">
+        {/* <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-20 mx-auto md:mx-0"> */}
+
           <div className="flex flex-col gap-1">
             <Link to="https://oportunitatisicariere.ro/#how-contribute"
               target="_blank" rel="noopener noreferrer"
@@ -62,7 +64,7 @@ const Footer = () => {
               <strong>Implică-te!</strong>
             </Link>
 
-            <Link to="https://oportunitatisicariere.ro/#why-contribute"
+            <Link to="https://oportunitatisicariere.ro/#schedule"
               target="_blank" rel="noopener noreferrer"
             >Alătură-te cauzei noastre
             </Link>
@@ -76,14 +78,19 @@ const Footer = () => {
               Despre noi
             </Link>
             <Link to="https://oportunitatisicariere.ro/#our-mission" target="_blank" rel="noopener noreferrer">
-              Viziune
+              Misiune
             </Link>
+            {/* will be added */}
+            {/* <Link to="" target="_blank" rel="noopener noreferrer">
+              Viziune
+            </Link> */}
+            {/* <Link to="conditii-de-utilizare" aria-label="peviitor">Condiții de utilizare</Link> */}
           </div>
 
           {/* will be added */}
           {/* <div className="flex flex-col gap-1">
-            <Link to=""><strong>Informații suplimentare</strong></Link>
-            <Link to="">Condiții de utilizare</Link>
+            <Link to="/conditii"><strong>Informații suplimentare</strong></Link>
+            <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
             <Link to="">Politica de confidențialitate</Link>
           </div> */}
         </div>
@@ -91,7 +98,7 @@ const Footer = () => {
       <section className="flex flex-col items-center lg:flex-row mt-[20px] lg:gap-4 text-text_grey_darker">
         <p> © {year} - Toate drepturile rezervate</p>
         <Link to="https://www.oportunitatisicariere.ro" target="_blank" rel="noopener noreferrer">
-          <strong>ASOCIAȚIA OPORTUNITĂȚi ȘI CARIERE</strong>
+          <strong>ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE</strong>
         </Link>
       </section>
     </footer>
