@@ -98,6 +98,15 @@ export const TagsProvider = ({ children }) => {
     }
   }, []);
 
+  const contextSetCity = useCallback((text) => {
+    setQ(text);
+    if (Array.isArray(text)) {
+      updateUrlParams({ q: text[0] });
+    } else {
+      updateUrlParams({ q: text });
+    }
+  }, []);
+
   const contextSetField = useCallback((fieldName, value) => {
     const allowedFields = ["orase", "remote", "company"];
     if (!allowedFields.includes(fieldName) || !value) {
@@ -180,6 +189,7 @@ export const TagsProvider = ({ children }) => {
         handleCheckBoxChange,
         removeTag,
         contextSetQ,
+        contextSetCity,
         contextSetField
       }}
     >

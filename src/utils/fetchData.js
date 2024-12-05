@@ -3,6 +3,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const API_LOGO = process.env.REACT_APP_API_LOGO;
 const API_COMPANIES = process.env.REACT_APP_API_COMPANIES;
+const API_SUGGEST = process.env.REACT_APP_API_SUGGEST;
 const API_TOTAL = process.env.REACT_APP_API_TOTAL;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
@@ -47,6 +48,17 @@ export const getNumberOfCompany = async () => {
 export const getNameOfCompanies = async (value) => {
   try {
     const response = await fetch(API_COMPANIES + `?userInput=${value}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const getJobSuggestion = async (value) => {
+  try {
+    const response = await fetch(API_SUGGEST + `?q=${value}`);
     const data = await response.json();
     return data;
   } catch (error) {

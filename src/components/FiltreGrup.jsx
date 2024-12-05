@@ -7,7 +7,6 @@ import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
 import InputField from "./InputField";
 
-
 const FiltreGrup = () => {
   const location = useLocation();
   // use it for closing dropdown on click
@@ -42,11 +41,11 @@ const FiltreGrup = () => {
   // Function to get button style based on index and fields
   const getButtonStyle = (index) => {
     if (index === 0 && fields.orase.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else if (index === 1 && fields.company.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else if (index === 2 && fields.remote.length >= 1) {
-      return { color: "#048a81" };
+      return { color: "#F3781D" };
     } else {
       return {};
     }
@@ -121,17 +120,18 @@ const FiltreGrup = () => {
               isOpen ? "block" : "hidden"
             }  text-lg py-1 border border-background_green rounded-3xl shadow-checbox_shadow absolute bg-white left-1/2 transform -translate-x-1/2 md:left-auto md:transform-none`}
           >
-
             {/* Cities Drop-down */}
-            {index === 0 && (<FiltreCities dropDown={dropDown} />)}
+            {index === 0 && <FiltreCities dropDown={dropDown} />}
 
             {/* Companies Drop-down */}
-            {index === 1 && (<FiltreCompanies dropDown={dropDown} />)}
+            {index === 1 && <FiltreCompanies dropDown={dropDown} />}
 
             {index === 2 && (
-              <div key={index} 
-                className="w-[190px] flex flex-col px-2 pt-[30px] pb-[30px]">
-                <InputField 
+              <div
+                key={index}
+                className="w-[190px] flex flex-col px-2 pt-[30px] pb-[30px]"
+              >
+                <InputField
                   type="checkbox"
                   id="on-site"
                   name="on-site"
@@ -142,7 +142,7 @@ const FiltreGrup = () => {
                   label="La fața locului"
                   item="on-site"
                 />
-                <InputField 
+                <InputField
                   type="checkbox"
                   id="Hybrid"
                   name="Hybrid"
