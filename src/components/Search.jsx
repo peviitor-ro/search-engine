@@ -78,7 +78,7 @@ const Search = (props) => {
     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
 
   //new\\
-  const [locationn, setLocation] = useState("");
+  const [isLocation, setLocation] = useState("");
   /* const [locationTest, setLocationSuggestions] = useState([]); */
   const [focusedInput, setFocusedInput] = useState(null);
   const handleClearLocation = () => setLocation("");
@@ -120,10 +120,10 @@ const Search = (props) => {
     e.preventDefault();
 
     if (location.pathname !== "/rezultate") {
-      navigate("/rezultate"); // Use navigate to redirect to "/rezult"
+      navigate("/rezultate");
     }
     contextSetQ([text]);
-    contextSetCity([locationn]);
+    contextSetCity([isLocation]);
   };
 
   // fetch data when states change values
@@ -197,8 +197,8 @@ const Search = (props) => {
 
   // Update filtered cities when location input changes
   useEffect(() => {
-    filterCities(locationn);
-  }, [locationn, filterCities]); // Include filterCities in the dependency array
+    filterCities(isLocation);
+  }, [isLocation, filterCities]); // Include filterCities in the dependency array
 
   // Close dropdown
   useEffect(() => {
@@ -276,29 +276,31 @@ const Search = (props) => {
   }, [text]);
   return (
     <>
-      <div  style={{backgroundColor: "", height: "54px"}}
-          className="flex items-center  mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[54px]
-         "
-        >
+      <div  
+      // {location.pathname === "/rezultate" && (style={{backgroundColor: "violet"}})}
+          // className="flex items-center h-[54px] mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[54px]"
+          className={`flex items-center justify-beetween h-[54px] mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row
+          ${location.pathname === "/rezultate" ? "bg-violet-500 w-[80%] md:w-[80%] 2xl:w-[80%]" : ""}`}
+      >
           {location.pathname === "/rezultate" && (
-            <a href="/" className="logo mr-4">
+            <a href="/" className="logo mr-3">
               <img src={logo} alt="peviitor" />
             </a>
           )}
           <form
             onSubmit={handleUpdateQ}
-            className="flex flex-col items-center justify-between lg:flex-row relative"
+            className="flex flex-col items-center justify-between lg:flex-row relative w-full"
           >
-            <div  style={{height: "54px", gap: "10px"}}
-              className={`flex items-center justify-between relative w-[300px]  md:w-[480px] lg:w-[340px] xl:w-[485px] ${
-                location.pathname !== "/" ? "2xl:w-[700px]" : ""
-              }`}
+            <div  style={{ gap: "10px"}}
+              className={`flex items-center justify-between relative rounded-full w-[300px] md:w-[480px] lg:w-[340px] xl:w-[485px] 
+                ${location.pathname === "/rezultate" ? "2xl:w-[90%] lg:w-[90%]" : ""}`}
             >
               {/* Job Title Input */}
               <div 
               style={{height: "54px"}}
-                className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-full ${
-                  location.pathname !== "/"
+                className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full 
+                ${location.pathname === "/rezultate" ? "bg-blue-500 w-[px]" : ""}
+                ${location.pathname !== "/"
                     ? "lg:border-r-2 border-[#89969C] " // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
                     : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider" // Adaugă divider doar pe paginile care nu sunt "/"
                 } ${
@@ -322,7 +324,7 @@ const Search = (props) => {
                 />
                 {text && (
                   <CloseIcon
-                    className="w-5 h-4 mr-4 fill-slate-500  cursor-pointer"
+                    className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
                     onClick={handleClearX}
                   />
                 )}
@@ -359,36 +361,38 @@ const Search = (props) => {
               {" "}
               {/* Add ref to the container */}
               {location.pathname === "/" && (
-                <div 
+                <div
                   className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
-                  <div style={{height: "54px"}}
-                    className={`flex items-center relative w-full border border-[#89969C]  rounded-3xl   lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-3xl bg-white  
-                    ${
-                      focusedInput === "location"
-                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                        : ""
-                    }`}
+                  <div style={{height: "54px" }}
+                    className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-full  lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
+                      ${
+                        focusedInput === "location"
+                          ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                          : ""
+                      }`}
                   >
-                    <MapPinIcon className="w-7 h-7 text-gray-500 ml-3" />
+                    <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
                     <input
                       type="text"
-                      value={locationn}
+                      value={isLocation}
                       onChange={(e) => setLocation(e.target.value)}
                       onFocus={() => handleFocus("location")}
                       placeholder="Adaugă o locație"
                       className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                     />
-                    {locationn && (
+                    {isLocation && (
                       <CloseIcon
-                        className="w-4 h-4 fill-slate-500 mr-3 cursor-pointer"
+                        className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
                         onClick={handleClearLocation}
                       />
                     )}
+                    
                   </div>
 
                   {/* Add Location Input dropdown*/}
                   {focusedInput === "location" && (
-                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                    <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
+                    lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                       {filteredCities.map((suggestion, index) => (
                         <li
                           key={index}
