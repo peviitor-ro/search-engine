@@ -4,9 +4,8 @@ import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import removeIcon from "../assets/svg/remove.svg";
-//NEW IMPORTS\\
-import { ReactComponent as LupeIcon } from "../assets/svg/ro_flag_magnifying_glass.svg";
-import { ReactComponent as XIcon } from "../assets/svg/x.svg";
+import { ReactComponent as FlagMagnifyGlass } from "../assets/svg/ro_flag_magnifying_glass.svg";
+import { ReactComponent as CloseIcon } from "../assets/svg/close_icon.svg";
 import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
 import { orase } from "../utils/getCityName";
 // components
@@ -190,11 +189,9 @@ const Search = (props) => {
 
   // Function to filter cities based on input
   const filterCities = useCallback((input) => {
-    // Use useCallback
-    const normalizedInput = removeDiacritics(input.toLowerCase()); // Normalize input
+    const normalizedInput = removeDiacritics(input.toLowerCase()); 
     const filtered = orase.filter(
-      (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput) // Normalize city names
-    );
+      (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput));
     setFilteredCities(filtered);
   }, []); // You might want to add dependencies here if orase changes
 
@@ -279,28 +276,28 @@ const Search = (props) => {
   }, [text]);
   return (
     <>
-      <div>
-        <div
-          className="flex items-center justify-center mt-5  relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[50px]
+      <div  style={{backgroundColor: "", height: "54px"}}
+          className="flex items-center  mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[54px]
          "
         >
           {location.pathname === "/rezultate" && (
-            <a href="/" className="logo mr-8">
+            <a href="/" className="logo mr-4">
               <img src={logo} alt="peviitor" />
             </a>
           )}
           <form
             onSubmit={handleUpdateQ}
-            className="flex flex-col items-center   justify-between lg:flex-row relative "
+            className="flex flex-col items-center justify-between lg:flex-row relative"
           >
-            <div
+            <div  style={{height: "54px", gap: "10px"}}
               className={`flex items-center justify-between relative w-[300px]  md:w-[480px] lg:w-[340px] xl:w-[485px] ${
                 location.pathname !== "/" ? "2xl:w-[700px]" : ""
               }`}
             >
               {/* Job Title Input */}
-              <div
-                className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-3xl ${
+              <div 
+              style={{height: "54px"}}
+                className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-full ${
                   location.pathname !== "/"
                     ? "lg:border-r-2 border-[#89969C] " // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
                     : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider" // Adaugă divider doar pe paginile care nu sunt "/"
@@ -310,17 +307,21 @@ const Search = (props) => {
                     : ""
                 }`}
               >
-                <LupeIcon className="w-6 h-6 text-gray-500 ml-3" />
+                <FlagMagnifyGlass 
+                // className="absolute top-4 left-4"
+                // className="w-6 h-6 text-gray-500 ml-3"
+                 className="ml-5"
+                 />
                 <input
                   type="text"
-                  value={text} // Valoarea pentru căutare joburi
+                  value={text}
                   onChange={(e) => setText(e.target.value)}
                   onFocus={() => handleFocus("jobTitle")}
                   placeholder="Caută un loc de muncă"
-                  className="w-full py-3 px-2 xl:pl-10 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                  className="w-full py-3 px-2 xl:pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
                 {text && (
-                  <XIcon
+                  <CloseIcon
                     className="w-5 h-4 mr-4 fill-slate-500  cursor-pointer"
                     onClick={handleClearX}
                   />
@@ -329,7 +330,9 @@ const Search = (props) => {
 
               {/* Dropdown for Job Title */}
               {location.pathname === "/" && focusedInput === "jobTitle" && (
-                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                <ul 
+                // style={{height: "54px"}}
+                  className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
                   {jobSuggestions &&
                     jobSuggestions.length > 0 &&
@@ -341,9 +344,7 @@ const Search = (props) => {
                         } hover:bg-gray-200`}
                         onMouseDown={() => {
                           setText(suggestion.term);
-                          // Actualizează textul cu sugestia
                           setFocusedInput(null);
-                          // Resetează focusedInput
                         }}
                       >
                         {suggestion.term}
@@ -354,13 +355,15 @@ const Search = (props) => {
             </div>
 
             {/* Add Location Input */}
-            <div ref={dropdownRef}>
+            <div ref={dropdownRef} style={{height: "54px"}}>
               {" "}
               {/* Add ref to the container */}
               {location.pathname === "/" && (
-                <div className="flex items-center justify-between w-[300px] mt-1  relative md:w-[480px] lg:w-[241px] lg:mt-0">
-                  <div
-                    className={`flex items-center relative w-full border border-[#89969C]  rounded-3xl   lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-3xl bg-white  ${
+                <div 
+                  className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
+                  <div style={{height: "54px"}}
+                    className={`flex items-center relative w-full border border-[#89969C]  rounded-3xl   lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none lg:rounded-tr-3xl bg-white  
+                    ${
                       focusedInput === "location"
                         ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
                         : ""
@@ -372,12 +375,12 @@ const Search = (props) => {
                       value={locationn}
                       onChange={(e) => setLocation(e.target.value)}
                       onFocus={() => handleFocus("location")}
-                      placeholder="Adauga o locatie"
+                      placeholder="Adaugă o locație"
                       className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                     />
                     {locationn && (
-                      <XIcon
-                        className="w-5 h-4 fill-slate-500 mr-3 cursor-pointer"
+                      <CloseIcon
+                        className="w-4 h-4 fill-slate-500 mr-3 cursor-pointer"
                         onClick={handleClearLocation}
                       />
                     )}
@@ -405,47 +408,43 @@ const Search = (props) => {
                 </div>
               )}
             </div>
-            {/* button search */}
-            <button
-              type="submit"
-              className="m-2 bg-background_green text-white w-[122px] h-[48px] text-base px-10  rounded-3xl transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none"
-            >
-              Caută
-            </button>
-          </form>
-        </div>
-        {/* // Conditionally render the checkboxes */}
-        {location.pathname === "/rezultate" && <FiltreGrup />}
-        {loading ? (
-          <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
-        ) : (
-          total > 0 && (
-            <h2
-              className="text-start text-text_grey_darker my-8 text-lg"
-              style={{ width: h2Width, margin: "32px auto" }}
-            >
-              {total} {nrJoburi}
-            </h2>
-          )
-        )}
 
-        {!deletAll && total > 0 && (
-          <div
-            className="pb-9 flex gap-2 flex-wrap"
-            style={{ width: h2Width, margin: "0 auto" }}
-          >
-            <FilterTags tags={fields} removeTag={removeTag} />
-            <div className="flex gap-2 ml-4">
-              <Button
-                buttonType="deleteFilters"
-                onClick={handleRemoveAllFilters}
-              >
-                Șterge filtre
-              </Button>
-            </div>
-          </div>
-        )}
+            <Button type="submit" buttonType="search">
+              Caută
+            </Button>
+          </form>
       </div>
+      {/* // Conditionally render the checkboxes */}
+      {location.pathname === "/rezultate" && <FiltreGrup />}
+      {loading ? (
+          <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+      ) : (
+        total > 0 && (
+          <h2
+            className="text-start text-text_grey_darker my-8 text-lg"
+            style={{ width: h2Width, margin: "32px auto" }}
+          >
+            {total} {nrJoburi}
+          </h2>
+        )
+      )}
+
+      {!deletAll && total > 0 && (
+        <div
+          className="pb-9 flex gap-2 flex-wrap"
+          style={{ width: h2Width, margin: "0 auto" }}
+        >
+          <FilterTags tags={fields} removeTag={removeTag} />
+          <div className="flex gap-2 ml-4">
+            <Button
+              buttonType="deleteFilters"
+              onClick={handleRemoveAllFilters}
+            >
+              Șterge filtre
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

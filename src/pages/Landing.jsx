@@ -85,14 +85,16 @@ const Landing = () => {
             </h4>
           </div>
         </div>
-        <div className="order-3 lg:order-1">
+        <div className="order-3 lg:order-1" 
+        // style={{border:"1px solid red"}}
+        >
           <img
             src={racheta}
             alt="racheta"
             className="min-w-[250px] mt-6 md:min-w-full md:mt-0"
           />
         </div>
-        <div className="flex justify-center order-2 lg:order-2  2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
+        <div className="flex justify-center order-2 lg:order-2 2xl:shrink-0 2xl:grow-0 2xl:basis-[80%]">
           <Search inputWidth={inputWidth} />
         </div>
       </main>
