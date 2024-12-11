@@ -50,7 +50,7 @@ const FilterTags = ({ tags, removeTag }) => {
   );
 };
 
-const Search = (props) => {
+const Search = () => {
   const {
     q,
     city,
@@ -67,8 +67,8 @@ const Search = (props) => {
   // fields
   const [text, setText] = useState("");
   // dispatch
-  const navigate = useNavigate(); // Get the navigate function
-  const location = useLocation(); // Get the current location
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
   const dispatch = useDispatch();
 
   // jobs
@@ -77,14 +77,13 @@ const Search = (props) => {
   const nrJoburi =
     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
 
-  //new\\
+
   const [isLocation, setLocation] = useState("");
-  /* const [locationTest, setLocationSuggestions] = useState([]); */
   const [focusedInput, setFocusedInput] = useState(null);
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
   // const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
-  const [filteredCities, setFilteredCities] = useState(orase); // State for filtered cities
+  const [filteredCities, setFilteredCities] = useState(orase); 
   const dropdownRef = useRef(null);
 
   // state for job suggestion drop-down
@@ -177,7 +176,7 @@ const Search = (props) => {
   //new
 
   // remove text from input on X button.
-  function handleClearX() {
+  function handleCloseIcon() {
     setText("");
     updateUrlParams({ q: null });
   }
@@ -276,20 +275,20 @@ const Search = (props) => {
   }, [text]);
   return (
     <>
-      <div  
-      // {location.pathname === "/rezultate" && (style={{backgroundColor: "violet"}})}
-          // className="flex items-center h-[54px] mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[54px]"
-          className={`flex items-center justify-beetween flex-row h-[54px] mt-5 relative gap-2 lg:gap-0 lg:flex-row
-          ${location.pathname === "/rezultate" ? "bg-violet-500 w-[80%] md:w-[80%] 2xl:w-[80%]" : ""}`}
+      <div 
+          className={`flex items-center justify-beetween flex-row h-[54px] mt-5  gap-2 lg:gap-0 lg:flex-row
+          ${location.pathname === "/rezultate" ? "bg-violet-500 sm:flex-col sm:center md:flex-col w-[80%] md:w-[80%] 2xl:w-[80%]" : "relative"}`}
       >
           {location.pathname === "/rezultate" && (
-            <a href="/" className="logo mr-3">
-              <img src={logo} alt="peviitor" />
+            <a href="/" className="logo mr-3 ">
+              <img src={logo} alt="peviitor"/>
             </a>
           )}
           <form
             onSubmit={handleUpdateQ}
-            className="flex flex-col gap-2 mt-4 md:gap-2 items-center justify-between lg:mt-0 lg:gap-0 lg:flex-row relative w-full"
+            className={`flex flex-col  items-center justify-between lg:mt-0 lg:gap-0 lg:flex-row relative w-full
+               ${location.pathname === "/" ? "gap-2 mt-4 md:gap-2" : ""}
+               ${location.pathname === "/rezultate" ? "md:flex-col" : ""}`}
           >
             <div  
             
@@ -326,7 +325,7 @@ const Search = (props) => {
                 {text && (
                   <CloseIcon
                     className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
-                    onClick={handleClearX}
+                    onClick={handleCloseIcon}
                   />
                 )}
               </div>
@@ -334,8 +333,7 @@ const Search = (props) => {
               {/* Dropdown for Job Title */}
               {location.pathname === "/" && focusedInput === "jobTitle" && (
                 <ul 
-                // style={{height: "54px"}}
-                  className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                  className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0 lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                   {}
                   {jobSuggestions &&
                     jobSuggestions.length > 0 &&
@@ -392,7 +390,7 @@ const Search = (props) => {
                   {/* Add Location Input dropdown*/}
                   {focusedInput === "location" && (
                     <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
-                    lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-48 lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                    lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
                       {filteredCities.map((suggestion, index) => (
                         <li
                           key={index}
@@ -412,9 +410,6 @@ const Search = (props) => {
 
                 </div>
               )}
-                          {/* <Button type="submit" buttonType="search">
-              Caută
-            </Button> */}
             </div>
                           
             <Button type="submit" buttonType="search">
