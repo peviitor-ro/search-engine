@@ -279,7 +279,7 @@ const Search = (props) => {
       <div  
       // {location.pathname === "/rezultate" && (style={{backgroundColor: "violet"}})}
           // className="flex items-center h-[54px] mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row lg:h-[54px]"
-          className={`flex items-center justify-beetween h-[54px] mt-5 relative flex-col gap-2 lg:gap-0 lg:flex-row
+          className={`flex items-center justify-beetween flex-row h-[54px] mt-5 relative gap-2 lg:gap-0 lg:flex-row
           ${location.pathname === "/rezultate" ? "bg-violet-500 w-[80%] md:w-[80%] 2xl:w-[80%]" : ""}`}
       >
           {location.pathname === "/rezultate" && (
@@ -289,9 +289,10 @@ const Search = (props) => {
           )}
           <form
             onSubmit={handleUpdateQ}
-            className="flex flex-col items-center justify-between lg:flex-row relative w-full"
+            className="flex flex-col gap-2 mt-4 md:gap-2 items-center justify-between lg:mt-0 lg:gap-0 lg:flex-row relative w-full"
           >
-            <div  style={{ gap: "10px"}}
+            <div  
+            
               className={`flex items-center justify-between relative rounded-full w-[300px] md:w-[480px] lg:w-[340px] xl:w-[485px] 
                 ${location.pathname === "/rezultate" ? "2xl:w-[90%] lg:w-[90%]" : ""}`}
             >
@@ -386,7 +387,6 @@ const Search = (props) => {
                         onClick={handleClearLocation}
                       />
                     )}
-                    
                   </div>
 
                   {/* Add Location Input dropdown*/}
@@ -409,10 +409,14 @@ const Search = (props) => {
                       ))}
                     </ul>
                   )}
+
                 </div>
               )}
+                          {/* <Button type="submit" buttonType="search">
+              Caută
+            </Button> */}
             </div>
-
+                          
             <Button type="submit" buttonType="search">
               Caută
             </Button>
