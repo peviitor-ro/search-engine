@@ -274,46 +274,40 @@ const Search = () => {
     return () => clearTimeout(timer); // Cleanup timeout if user continues typing
   }, [text]);
   return (
-    <>
-      <div 
-          className={`flex items-center justify-beetween flex-row h-[54px] mt-5  gap-2 lg:gap-0 lg:flex-row
-          ${location.pathname === "/rezultate" ? "bg-violet-500 sm:flex-col sm:center md:flex-col w-[80%] md:w-[80%] 2xl:w-[80%]" : "relative"}`}
+    <div style={{display: "flex", flexDirection:"column", justifyContent: "center", alignItems:"center", width: "100%"}}
+          className={`${location.pathname === "/rezultate" ? "md:flex-row lg:flex-row":""}`}>
+      <div className={`flex items-center justify-beetween flex-col mt-5 gap-2 lg:gap-0 lg:flex-row
+          ${location.pathname === "/" ? "w-[100%] mt-0 md:flex-col sm:items-center sm:flex-col sm:items-center" : ""}
+          ${location.pathname === "/rezultate" ? "md:justify-center  w-[80%] md:w-[80%] lg:justify-between 2xl:w-[80%]" : ""}`}
       >
           {location.pathname === "/rezultate" && (
-            <a href="/" className="logo mr-3 ">
+            <a href="/" className="logo lg:mr-3" style={{minWidth: "54px"}}>
               <img src={logo} alt="peviitor"/>
             </a>
           )}
-          <form
-            onSubmit={handleUpdateQ}
-            className={`flex flex-col  items-center justify-between lg:mt-0 lg:gap-0 lg:flex-row relative w-full
-               ${location.pathname === "/" ? "gap-2 mt-4 md:gap-2" : ""}
-               ${location.pathname === "/rezultate" ? "md:flex-col" : ""}`}
+          <form onSubmit={handleUpdateQ} 
+            className={`flex flex-col items-center relative  lg:justify-between lg:mt-0 lg:gap-0 lg:flex-row  max-w-full
+                ${location.pathname === "/" ? "gap-2 mt-4 md:gap-2" : ""}
+                ${location.pathname === "/rezultate" ? "w-full gap-1 sm:justify-center sm:w-auto md:justify-center md:items-center md:w-[90%]" : ""}`}
           >
-            <div  
-            
-              className={`flex items-center justify-between relative rounded-full w-[300px] md:w-[480px] lg:w-[340px] xl:w-[485px] 
-                ${location.pathname === "/rezultate" ? "2xl:w-[90%] lg:w-[90%]" : ""}`}
+            <div className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px] 
+                ${location.pathname === "/" ? "relative xl:w-[485px] " : ""}
+                ${location.pathname === "/rezultate" ? "sm:flex-col sm:w-[400px] md:w-[580px] 2xl:w-[90%] lg:w-[90%]" : ""}`}
             >
               {/* Job Title Input */}
               <div 
-              style={{height: "54px"}}
-                className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full 
-                ${location.pathname === "/rezultate" ? "bg-blue-500 w-[px]" : ""}
+                className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full h-[54px]
+                ${location.pathname === "/rezultate" ? "w-full" : ""}
                 ${location.pathname !== "/"
                     ? "lg:border-r-2 border-[#89969C] " // border-ul pe dreapta se păstrează pe orice pagină, nu doar pe "/"
                     : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider" // Adaugă divider doar pe paginile care nu sunt "/"
-                } ${
-                  focusedInput === "jobTitle" && location.pathname === "/"
-                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" // border-ul de jos doar pe pagina principală
+                } 
+                ${focusedInput === "jobTitle" && location.pathname === "/"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-bl-none" 
                     : ""
                 }`}
               >
-                <FlagMagnifyGlass 
-                // className="absolute top-4 left-4"
-                // className="w-6 h-6 text-gray-500 ml-3"
-                 className="ml-5"
-                 />
+                <FlagMagnifyGlass className="ml-5"/>
                 <input
                   type="text"
                   value={text}
@@ -356,7 +350,7 @@ const Search = () => {
             </div>
 
             {/* Add Location Input */}
-            <div ref={dropdownRef} style={{height: "54px"}}>
+            <div ref={dropdownRef} >
               {" "}
               {/* Add ref to the container */}
               {location.pathname === "/" && (
@@ -417,38 +411,43 @@ const Search = () => {
             </Button>
           </form>
       </div>
-      {/* // Conditionally render the checkboxes */}
-      {location.pathname === "/rezultate" && <FiltreGrup />}
-      {loading ? (
-          <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
-      ) : (
-        total > 0 && (
-          <h2
-            className="text-start text-text_grey_darker my-8 text-lg"
-            style={{ width: h2Width, margin: "32px auto" }}
-          >
-            {total} {nrJoburi}
-          </h2>
-        )
-      )}
 
-      {!deletAll && total > 0 && (
-        <div
-          className="pb-9 flex gap-2 flex-wrap"
-          style={{ width: h2Width, margin: "0 auto" }}
-        >
-          <FilterTags tags={fields} removeTag={removeTag} />
-          <div className="flex gap-2 ml-4">
-            <Button
-              buttonType="deleteFilters"
-              onClick={handleRemoveAllFilters}
+      {/* new component */}
+      {location.pathname === "/rezultate" &&
+        <div>
+          {location.pathname === "/rezultate" && <FiltreGrup />}
+          {loading ? (
+              <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+              ) : (
+                total > 0 && (
+                  <h2
+                    className="text-start text-text_grey_darker my-8 text-lg"
+                    style={{ width: h2Width, margin: "32px auto" }}
+                  >
+                    {total} {nrJoburi} 
+                  </h2>
+                )
+              )}
+
+          {!deletAll && total > 0 && (
+            <div
+              className="pb-9 flex gap-2 flex-wrap"
+              style={{ width: h2Width, margin: "0 auto" }}
             >
-              Șterge filtre
-            </Button>
-          </div>
+              <FilterTags tags={fields} removeTag={removeTag} />
+              <div className="flex gap-2 ml-4">
+                <Button
+                  buttonType="deleteFilters"
+                  onClick={handleRemoveAllFilters}
+                >
+                  Șterge filtre
+                </Button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </>
+      }
+    </div>
   );
 };
 export default Search;

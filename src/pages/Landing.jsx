@@ -60,7 +60,7 @@ const Landing = () => {
       <nav className="w-[80%] md:w-[80%] border-b border-border_grey">
         <img src={logo} alt="peviitor-logo" />
       </nav>
-      <main className="w-[70%] gap-y-10 flex flex-wrap justify-center md:gap-12 lg:gap-0 items-center sm:items-start mt-[8em] mb-[10em] font-PoppinsRegular text-left">
+      <main className="w-[70%] gap-y-10 flex flex-wrap justify-center xs:gap-0 sm:gap-0 md:gap-2 lg:gap-0 items-center sm:items-start mt-[8em] mb-[10em] font-PoppinsRegular text-left">
         <div className="order-1">
           <div className="relative w-[300px] md:w-[486px] lg:w-[340px] xl:w-[486px]">
             <h1 className="text-text_orange text-[40px] md:text-[44px] xl:text-6xl font-semibold  mb-2 leading-[110%]">
@@ -89,10 +89,10 @@ const Landing = () => {
           <img 
             src={racheta}
             alt="racheta"
-            className="min-w-[250px] mt-6 md:min-w-full md:mt-0"
+            className="min-w-[250px] mt-6 lg:mt-0 md:min-w-full"
           />
         </div>
-        <div className="flex justify-center order-2 lg:order-2 2xl:shrink-0 2xl:grow-0 2xl:basis-[81%]">
+        <div className="flex justify-center items-center order-2 2xl:shrink-0 2xl:grow-0 ">
           <Search inputWidth={inputWidth} />
         </div>
       </main>
