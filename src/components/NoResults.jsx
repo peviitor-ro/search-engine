@@ -1,7 +1,7 @@
 // svg
 import strut from "../assets/svg/strut.svg";
 
-const FaraRezultate = () => {
+const NoResults = () => {
   return (
     <div className="flex flex-col items-center justify-center text-text_grey_darker gap-20 md:flex-row px-4">
       <div>
@@ -17,4 +17,4 @@ const FaraRezultate = () => {
     </div>
   );
 };
-export default FaraRezultate;
+export default NoResults;

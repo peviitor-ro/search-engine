@@ -4,7 +4,7 @@ import loadingIcon from "../assets/svg/loading.svg";
 // import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
-import FaraRezultate from "./FaraRezultate";
+import NoResults from "./NoResults";
 import Button from "./Button";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
@@ -73,7 +73,8 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="grid gap-7 px-14 w-full mx-auto pb-12  md:flex md:flex-wrap md:justify-center">
+              <section className="grid gap-7 px-14 w-full mx-auto pb-12  md:flex md:flex-wrap md:justify-center">
+            {/* // <section className="grid gap-7 px-14 w-full mx-auto pb-12 mt-2 md:flex md:flex-wrap md:justify-center"> */}
               {jobs.map(
                 (
                   { city, company, county, job_link, job_title, remote },
@@ -92,7 +93,7 @@ const Results = () => {
               )}
             </section>
           ) : (
-            <FaraRezultate />
+            <NoResults />
           )}
         </>
       )}

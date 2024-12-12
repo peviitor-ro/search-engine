@@ -47,6 +47,7 @@ const FiltreCities = ({ dropDown }) => {
     setError(filteredItems.length === 0 && inputValue.length > 0);
   }, [filteredItems, inputValue]);
 
+   
   return (
     <div className="flex flex-col">
       <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">

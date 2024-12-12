@@ -39,8 +39,7 @@ const Rezultate = () => {
   }, []);
 
   return (
-    <div className="rezultate-pagina justify-between flex flex-col items-center min-h-[100vh]" 
-    >
+    <div className="rezultate-pagina flex flex-col  items-center min-h-[100vh]">
       <Search inputWidth={inputWidth} />
       <Results />
       <Footer />

@@ -38,7 +38,43 @@
   cursor: pointer;
 }
 
-.fill_arrow {
+/* Search-bar styles + divider | for work and location */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #33a79f;
+  border-radius: 10px;
+  border: 3px solid rgb(255, 255, 255); 
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin-bottom: 13px;
+}
+
+.bg-custom-gray {
+  background-color: #F0F3F6;
+}
+
+.divider::after {
+  position: absolute;
+  right: 0;
+  content: "";
+  display: block;
+  height: 60%;
+  width: 1px;
+  background-color: #bdc2c4;
+  margin: 1rem 0;
+}
+@media (max-width: 1024px) {
+  .divider::after {
+    display: none;
+  }
+
+  .fill_arrow {
     fill: #048a81;
+  }
 }
 
