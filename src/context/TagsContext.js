@@ -99,7 +99,9 @@ export const TagsProvider = ({ children }) => {
   }, []);
 
   const contextSetCity = useCallback((text) => {
-    setCity(text);
+    if (text[0]) {
+      setCity(text);
+    }
     if (Array.isArray(text)) {
       updateUrlParams({ 'orase': text[0] });
     } else {
