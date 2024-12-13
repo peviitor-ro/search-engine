@@ -119,7 +119,7 @@ const Search = () => {
     e.preventDefault();
 
     if (location.pathname !== "/rezultate") {
-      navigate("/rezultate");
+      await navigate("/rezultate");
     }
     contextSetQ([text]);
     contextSetCity([isLocation]);
