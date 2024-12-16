@@ -179,6 +179,7 @@ const Search = () => {
   function handleCloseIcon() {
     setText("");
     updateUrlParams({ q: null });
+    contextSetQ(['']);
   }
 
   //function to remove diacritics
