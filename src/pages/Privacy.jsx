@@ -1,17 +1,7 @@
 import React,  { useEffect } from "react";
-import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 
-
-const HomeLink = () => {
-    return (
-        <Link to="https://www.peviitor.ro" aria-label="Accesează www.peviitor.ro">
-            <span className="text-background_green hover:text-[#28536B]"> www.peviitor.ro</span>
-        </Link>
-    );
-};
-
-const TermsOfUse = () => {
+const Privacy = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -164,7 +154,7 @@ const TermsOfUse = () => {
 
                     <ol start="4" className="mb-8 w-3/4 [list-style-type:lower-alpha] list-inside"> 
                         <li className="mb-4">Fiecare utilizator al site-ului 
-                            <HomeLink/> este de acord ca, la cererea  ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE să exonereze de răspundere ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE pentru orice acţiuni judiciare sau extrajudiciare, 
+                            este de acord ca, la cererea  ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE să exonereze de răspundere ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE pentru orice acţiuni judiciare sau extrajudiciare, 
                             şi să acopere cheltuielile de judecată şi orice alte cheltuieli care ar putea să apară ca urmare a încălcării de către utilizatorul respectiv a clauzelor din prezentul document.
                             Persoanele fizice sau juridice responsabile de încălcarea prevederilor din prezentul document vor suporta prevederile legislaţiei în vigoare în România.
                             </li>
@@ -194,4 +184,4 @@ const TermsOfUse = () => {
     );
 };
 
-export default TermsOfUse;
+export default Privacy;
