@@ -30,6 +30,7 @@ import {
 } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
+import getCityMatch from "../utils/getCityMatch";
 
 const FilterTags = ({ tags, removeTag }) => {
   return (
@@ -181,16 +182,9 @@ const Search = () => {
     updateUrlParams({ q: null });
   }
 
-  //function to remove diacritics
-  const removeDiacritics = (text) => {
-    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  };
-
   // Function to filter cities based on input
   const filterCities = useCallback((input) => {
-    const normalizedInput = removeDiacritics(input.toLowerCase()); 
-    const filtered = orase.filter(
-      (city) => removeDiacritics(city.toLowerCase()).includes(normalizedInput));
+    const filtered = getCityMatch(input);
     setFilteredCities(filtered);
   }, []); // You might want to add dependencies here if orase changes
 

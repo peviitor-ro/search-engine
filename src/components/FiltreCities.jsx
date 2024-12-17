@@ -3,6 +3,7 @@ import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import { orase } from "../utils/getCityName";
 import InputField from "./InputField";
+import getCityMatch from "../utils/getCityMatch";
 
 const FiltreCities = ({ dropDown }) => {
   // State to store the input value
@@ -24,22 +25,10 @@ const FiltreCities = ({ dropDown }) => {
   const handleInputChange = (event) => {
     const value = event.target.value; // Get the current value of the input field
     setInputValue(value); // Update the state with the new input value
-
-    // Create a regular expression to match the input value at the start of items names
-    const regex = new RegExp(`^${normalizeString(value)}`, "i"); // Normalize the input value before creating the regex
-
-    // Filter the items array based on the normalized input value
-    const filtered = orase.filter((data) => normalizeString(data).match(regex));
+    const filtered = getCityMatch(value);
 
     // Update the state with the filtered list of items
     setFilteredItems(filtered);
-  };
-
-  // Function to normalize strings by removing diacritical marks (accents)
-  const normalizeString = (str) => {
-    // Normalize the string to decompose characters and diacritics
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    // \u0300-\u036f is a range of Unicode for diacritical marks
   };
 
   // Effect to handle error when no results are found
