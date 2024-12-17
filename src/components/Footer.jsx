@@ -88,11 +88,11 @@ const Footer = () => {
           </div>
 
           {/* will be added */}
-          {/* <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1">
             <Link to="/conditii"><strong>Informații suplimentare</strong></Link>
             <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
-            <Link to="">Politica de confidențialitate</Link>
-          </div> */}
+            <Link to="confidentialitate">Politica de confidențialitate</Link>
+          </div>
         </div>
       </section>
       <section className="flex flex-col items-center lg:flex-row mt-[20px] lg:gap-4 text-text_grey_darker">
