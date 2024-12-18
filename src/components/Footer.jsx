@@ -89,9 +89,9 @@ const Footer = () => {
 
           {/* will be added */}
           <div className="flex flex-col gap-1">
-            <Link to="/conditii"><strong>Informații suplimentare</strong></Link>
+            {/* <Link to=""><strong>Informații suplimentare</strong></Link>
             <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
-            <Link to="confidentialitate">Politica de confidențialitate</Link>
+            <Link to="confidentialitate">Politica de confidențialitate</Link> */}
           </div>
         </div>
       </section>

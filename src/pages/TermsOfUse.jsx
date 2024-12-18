@@ -1,15 +1,6 @@
 import React,  { useEffect } from "react";
-import { Link } from "react-router-dom";
+import HomeLink from "../components/CustomLinks";
 import Layout from "../components/Layout";
-
-
-const HomeLink = () => {
-    return (
-        <Link to="https://www.peviitor.ro" aria-label="Accesează www.peviitor.ro">
-            <span className="text-background_green hover:text-[#28536B]"> www.peviitor.ro</span>
-        </Link>
-    );
-};
 
 const TermsOfUse = () => {
     useEffect(() => {
