@@ -3,6 +3,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Rezultate from "./pages/Rezultate";
 import TermsOfUse from "./pages/TermsOfUse";
+import Privacy from "./pages/Privacy";
 // context
 import { TagsProvider } from "./context/TagsContext";
 const router = createHashRouter([
@@ -21,6 +22,10 @@ const router = createHashRouter([
   {
     path: "conditii-de-utilizare",
     element: <TermsOfUse />
+  },
+  {
+    path: "confidentialitate",
+    element: <Privacy />
   }
 ]);
 function App() {
