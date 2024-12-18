@@ -180,6 +180,7 @@ const Search = () => {
   function handleCloseIcon() {
     setText("");
     updateUrlParams({ q: null });
+    contextSetQ(['']);
   }
 
   // Function to filter cities based on input
