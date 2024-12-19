@@ -12,10 +12,6 @@ const router = createHashRouter([
     element: <Landing />
   },
   {
-    path: "*",
-    element: <Landing />
-  },
-  {
     path: "rezultate",
     element: <Rezultate />
   },
@@ -24,8 +20,12 @@ const router = createHashRouter([
     element: <TermsOfUse />
   },
   {
-    path: "confidentialitate",
+    path: "politica-de-confidentialitate",
     element: <Privacy />
+  },
+  {
+    path: "*",
+    element: <Landing />
   }
 ]);
 function App() {
