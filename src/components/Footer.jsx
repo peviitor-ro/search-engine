@@ -11,9 +11,9 @@ import dev from "../assets/svg/dev_icon.svg";
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="w-[80%] flex flex-col gap-2 border-t border-border_grey pt-[20px] mb-5">
+    <footer className="w-[80%] flex flex-col gap-2 border-t border-border_grey pt-[20px] mb-5 lg:px-0">
       <section className="flex justify-between flex-wrap items-start md:!gap-1">
-        <div className="flex gap-4 mx-auto justify-between items-center px-2 xs:mb-5 md:mx-0">
+        <div className="flex gap-4 mx-auto justify-between items-center xs:mb-5 md:mx-0">
           <Link to="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
@@ -54,48 +54,41 @@ const Footer = () => {
             <img src={api} alt="API icon" className="max-w-[100px]" />
           </Link> */}
         </div>
-        <div className="flex justify-between items-start gap-20 px-2 mx-auto md:mx-0">
-        {/* <div className="flex flex-col md:flex-row justify-between items-start gap-4 md:gap-20 mx-auto md:mx-0"> */}
-
+        <div className="flex items-start gap-5 flex-wrap sm:flex-row sm:items-center md:mx-0 md:gap-25 md:flex-wrap md:items-center md:flex-row lg:flex-wrap lg:gap-20">
           <div className="flex flex-col gap-1">
-            <Link to="https://oportunitatisicariere.ro/#how-contribute"
-              target="_blank" rel="noopener noreferrer"
-            >
-              <strong>Implică-te!</strong>
-            </Link>
-
+            <h3><strong>Implică-te!</strong></h3>
             <Link to="https://oportunitatisicariere.ro/#schedule"
               target="_blank" rel="noopener noreferrer"
             >Alătură-te cauzei noastre
             </Link>
+            <Link to="https://oportunitatisicariere.ro/index.html#how-contribute"
+              target="_blank" rel="noopener noreferrer"
+            >Cum poți ajuta
+            </Link>
           </div>
 
           <div className="flex flex-col gap-1">
-            <Link to="https://oportunitatisicariere.ro/#" target="_blank" rel="noopener noreferrer">
-              <strong>Organizație</strong>
-            </Link>
+            <h3><strong>Organizație</strong></h3>
             <Link to="https://oportunitatisicariere.ro/#team" target="_blank" rel="noopener noreferrer">
               Despre noi
             </Link>
-            <Link to="https://oportunitatisicariere.ro/#our-mission" target="_blank" rel="noopener noreferrer">
+            <Link to="https://oportunitatisicariere.ro/index.html#our-mission" target="_blank" rel="noopener noreferrer">
               Misiune
             </Link>
             {/* will be added */}
             {/* <Link to="" target="_blank" rel="noopener noreferrer">
               Viziune
             </Link> */}
-            {/* <Link to="conditii-de-utilizare" aria-label="peviitor">Condiții de utilizare</Link> */}
           </div>
 
-          {/* will be added */}
           <div className="flex flex-col gap-1">
-            {/* <Link to=""><strong>Informații suplimentare</strong></Link>
+            <h3><strong>Informații suplimentare</strong></h3>
             <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
-            <Link to="confidentialitate">Politica de confidențialitate</Link> */}
+            <Link to="confidentialitate">Politica de confidențialitate</Link>
           </div>
         </div>
       </section>
-      <section className="flex flex-col items-center lg:flex-row mt-[20px] lg:gap-4 text-text_grey_darker">
+      <section className="flex flex-col items-center mt-[20px] text-text_grey_darker lg:flex-row lg:gap-4">
         <p> © {year} - Toate drepturile rezervate</p>
         <Link to="https://www.oportunitatisicariere.ro" target="_blank" rel="noopener noreferrer">
           <strong>ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE</strong>
