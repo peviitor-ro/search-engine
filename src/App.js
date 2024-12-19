@@ -20,7 +20,7 @@ const router = createHashRouter([
     element: <TermsOfUse />
   },
   {
-    path: "confidentialitate",
+    path: "politica-de-confidentialitate",
     element: <Privacy />
   },
   {

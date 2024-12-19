@@ -83,8 +83,8 @@ const Footer = () => {
 
           <div className="flex flex-col gap-1">
             <h3><strong>Informații suplimentare</strong></h3>
-            <Link to="conditii-de-utilizare">Condiții de utilizare</Link>
-            <Link to="confidentialitate">Politica de confidențialitate</Link>
+            <Link to="/conditii-de-utilizare">Condiții de utilizare</Link>
+            <Link to="/politica-de-confidentialitate">Politica de confidențialitate</Link>
           </div>
         </div>
       </section>
