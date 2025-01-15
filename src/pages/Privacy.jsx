@@ -19,7 +19,7 @@ const Privacy = () => {
     
             <article className="font-PoppinsRegular flex flex-col w-full">
                 <section className="pt-12 bg-text_orange/5 w-full flex flex-col items-center" aria-labelledby="terms-intro-heading">
-                    <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>SOLICITARE ACORD ȘI INFORMARE GENERALĂ CU PRIVIRE LA POLITICA DE PRELUCRARE A DATELOR CU CARACTER PERSONAL</strong></h2>
+                    <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>INFORMARE GENERALĂ CU PRIVIRE LA POLITICA DE CONFIDENȚIALITATE SI PRELUCRARE A DATELOR CU CARACTER PERSONAL</strong></h2>
                     <p className="mb-4 w-3/4">
                         Vă mulțumim pentru interesul acordat <strong>ASOCIAȚIEI OPORTUNTĂȚI ȘI CARIERE</strong>, Pentru noi este deosebit de important să asigurăm protecția datelor cu caracter personal pe care ni le furnizați:
                     </p>
