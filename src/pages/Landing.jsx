@@ -64,7 +64,7 @@ const Landing = () => {
         <div className="order-1">
           <div className="relative w-[300px] md:w-[486px] lg:w-[340px] xl:w-[486px]">
             <h1 className="text-text_orange text-[40px] md:text-[44px] xl:text-6xl font-semibold  mb-2 leading-[110%]">
-              Locul de muncă visat,
+              Locul de muncă visat DADADA,
               <img
                 src={dungi}
                 alt="dungi"
