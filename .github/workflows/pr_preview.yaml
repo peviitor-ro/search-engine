@@ -1,67 +1,23 @@
-name: Deploy PR Preview
-
+# .github/workflows/preview.yml
+name: Deploy PR previews
+concurrency: preview-${{ github.ref }}
 on:
-  # Trigger on pull request events
   pull_request:
-    types: [opened, synchronize, reopened]
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
 jobs:
-  build-and-deploy-preview:
+  deploy-preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          echo "manager=npm" >> $GITHUB_OUTPUT
-          echo "command=ci" >> $GITHUB_OUTPUT
-          echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - run: npm i && npm run build
+        if: github.event.action != 'closed'
+      - uses: rossjrw/pr-preview-action@v1
         with:
-          node-version: "18"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend to ./build
-        run: npm run build:production
-
-      # Generate a unique subdomain or folder for the PR
-      - name: Generate unique deployment path
-        id: pr-info
-        run: echo "deploy_path=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
-
-      - name: Deploy PR preview to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          destination_dir: ${{ steps.pr-info.outputs.deploy_path }}
-
-      - name: Comment on the PR with the preview URL
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            const previewUrl = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${prNumber}`;
-            const commentBody = `🚀 Preview your changes here: [${previewUrl}](${previewUrl})`;
-
-            await github.rest.issues.createComment({
-              issue_number: prNumber,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: commentBody,
-            });
+          source-dir: .
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
+          action: auto
