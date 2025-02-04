@@ -1,6 +1,7 @@
 import React,  { useEffect } from "react";
 import HomeLink from "../components/CustomLinks";
 import Layout from "../components/Layout";
+import Navigation from "../components/Navigation";
 
 const Privacy = () => {
     useEffect(() => {
@@ -9,6 +10,7 @@ const Privacy = () => {
 
     return (
         <Layout>
+            <Navigation navType="orange" />
             <header
                 role="banner"
                 className="font-PoppinsRegular w-full flex items-center justify-center flex-wrap flex-col py-16 md:py-24 lg:py-32 leading-[110%] bg-[radial-gradient(circle,_rgba(243,120,29,1)_77%,_rgba(255,106,106,1)_100%)]">

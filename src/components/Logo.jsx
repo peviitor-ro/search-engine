@@ -5,7 +5,7 @@ const LOGO_TYPE_CLASSES = {
     secondary: ''
 }
 
-const Logo = ({className, logoType}) => {
+const Logo = ({children, className, logoType, ...otherProps}) => {
     return (
         <img src={logo} alt="logo" className={`${className} ${LOGO_TYPE_CLASSES[logoType]}`}/>
     );
