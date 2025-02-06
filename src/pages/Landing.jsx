@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { getNumberOfJobs } from "../utils/fetchData";
 // images
 import logo from "../assets/svg/logo.svg";
-// import Navigation from "../components/Navigation";
+// import Navigat
+// ion from "../components/Navigation";
 import dungi from "../assets/svg/dungi.svg";
 // racheta
 import racheta from "../assets/svg/racheta.svg";
