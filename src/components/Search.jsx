@@ -117,7 +117,7 @@ const Search = () => {
       dispatch(setNumberOfCompany(companyNumber));
     };
     numbersInfo();
-  }, [dispatch]);
+  }, [dispatch, location.pathname]);
   // Send text from input into state q.
   const handleUpdateQ = async (e) => {
     e.preventDefault();
