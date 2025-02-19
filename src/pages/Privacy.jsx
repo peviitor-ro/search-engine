@@ -24,7 +24,7 @@ const Privacy = () => {
                         Vă mulțumim pentru interesul acordat <strong>ASOCIAȚIEI OPORTUNTĂȚI ȘI CARIERE</strong>, Pentru noi este deosebit de important să asigurăm protecția datelor cu caracter personal pe care ni le furnizați:
                     </p>
                     <p className="mb-4 w-3/4">ASOCIAȚIA OPORTUNTĂȚI ȘI CARIERE cu sediul social în Zimbor nr 215 , județul Salaj, în calitate de operator de date cu caracter personal 
-                        (denumită în continuare „Societatea” sau „Operatorul”), respectă întocmai prevederile legale în vigoare privind protecția persoanelor cu privire la prelucrarea datelor 
+                        (denumită în continuare „Asociația” sau „Operatorul”), respectă întocmai prevederile legale în vigoare privind protecția persoanelor cu privire la prelucrarea datelor 
                         cu caracter personal și libera circulație a acestor date.
                     </p>
                     <p className="mb-4 w-3/4">Ne angajăm să prelucrăm datele dumneavoastră cu caracter personal în concordanță cu Regulamentul (UE) 679/2016 (GDPR), precum și cu orice altă legislație 
@@ -121,7 +121,7 @@ const Privacy = () => {
                 <section className="pt-12 bg-text_orange/5 w-full flex flex-col items-center" aria-labelledby="user-obligations">
                     <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>6. MĂSURI DE SECURITATE A DATELOR</strong></h2>
                     <ol className="mb-8 w-3/4">
-                        <li className="mb-4">Societatea asigură măsurile tehnice și juridice adecvate pentru a asigura o protecție efectivă a datelor cu caracter personal. 
+                        <li className="mb-4">Asociația asigură măsurile tehnice și juridice adecvate pentru a asigura o protecție efectivă a datelor cu caracter personal. 
                             Ne angajăm să păstrăm datele în siguranță și luăm măsurile rezonabile în acest sens, inclusiv împotriva accesului neautorizat, al utilizării 
                             neautorizate a datelor, distrugerii, pierderii sau alterării acestora.
                         </li>
@@ -248,8 +248,8 @@ const Privacy = () => {
                     <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>9. DATE ALE MINORILOR : NU DORIM SĂ COLECTĂM SAU SĂ 
                         PRELUCRĂM DATE ALE MINORILOR CARE NU AU ÎMPLINIT VÂRSTA DE 18 ANI</strong></h2>
                     <ol className="mb-8 w-3/4">
-                        <li className="mb-4">Societatea are dreptul de a modifica Politica de protecție a datelor oricând, fără o notificare prealabilă, postând varianta actualizată pe site. Aveți
-                             obligația de a citi Termenii și condițiile, Politica de protecție a datelor și Politica de cookie-uri ori de câte ori accesați site-ul.</li>
+                        <li className="mb-4">Asociația are dreptul de a modifica Politica de protecție a datelor oricând, fără o notificare prealabilă, postând varianta actualizată pe site. Aveți
+                            obligația de a citi Termenii și condițiile, Politica de protecție a datelor și Politica de cookie-uri ori de câte ori accesați site-ul.</li>
                     </ol>
                 </section>           
             </article>
