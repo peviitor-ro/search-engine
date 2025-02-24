@@ -35,7 +35,7 @@ const Privacy = () => {
                         de protecție a datelor cu caracter personal, rămânând în sarcina dumneavoastră să verificați conținutul acestei Politici ori de câte ori accesați site-ul, pentru a vă asigura 
                         că sunteți la curent cu ultima versiune.
                     </p>
-                    <p className="mb-4 w-3/4">Vă stăm la dispoziție pentru informații și pe email asocpeviitor@gmail.com.</p>
+                    <p className="mb-4 w-3/4">Vă stăm la dispoziție pentru informații și pe email aocpeviitor@gmail.com.</p>
                 </section>
                    
                 <section  className="pt-12 w-full flex flex-col items-center" aria-labelledby="general-terms-heading">
@@ -142,7 +142,7 @@ const Privacy = () => {
                         </li>
                         <li className="mb-4">
                             Dreptul la informare – puteți solicita informații și detalii privind activitățile de prelucrare a datelor personale. Vă stăm 
-                            la dispoziție la adresa de email: asocpeviitor@gmail.com . Suntem atenți la asigurarea dreptului dumneavoastră de a primi informații clare, 
+                            la dispoziție la adresa de email: aocpeviitor@gmail.com . Suntem atenți la asigurarea dreptului dumneavoastră de a primi informații clare, 
                             transparente, ușor de înțeles și accesibile cu privire la modul în care vă prelucrăm datele, inclusiv detalii legate de drepturile pe care le dețineți 
                             în acest sens și care sunt prezentate și în acest document.
                         </li>
@@ -233,14 +233,14 @@ const Privacy = () => {
                     </p>
                     <p className="w-3/4 mb-4">
                         Vă puteți exercita aceste drepturi, fie individual, fie cumulat, foarte ușor, prin simpla transmitere a unei solicitări pe 
-                        email la adresa asocpeviitor@gmail.com
+                        email la adresa aocpeviitor@gmail.com
                     </p>
                 </section>
 
                 <section className="pt-12 bg-text_orange/5 w-full flex flex-col items-center" aria-labelledby="updates">
                     <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>8. DATELE DE CONTACT RESPONSABILULUI CU PROTECȚIA DATELOR</strong></h2>
                     <ol className="mb-8 w-3/4">
-                        <li className="mb-4">Boga Sebastian: email: asocpeviitor@gmail.com</li>
+                        <li className="mb-4">Boga Sebastian: email: aocpeviitor@gmail.com</li>
                     </ol>
                 </section>
 
