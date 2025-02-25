@@ -5,6 +5,7 @@ import github from "../assets/svg/github_icon.svg";
 import jitsi from "../assets/svg/jitsi_icon.svg";
 import instagram from "../assets/svg/instagram_icon.svg";
 import dev from "../assets/svg/dev_icon.svg";
+import { Tooltip } from "./Tooltip";
 // import api from "../assets/svg/api-svgrepo-com.svg";
 
 
@@ -14,11 +15,13 @@ const Footer = () => {
     <footer className="w-[80%] flex flex-col gap-2 border-t border-border_grey pt-[20px] mb-5 lg:px-0">
       <section className="flex justify-between flex-wrap items-start md:!gap-1">
         <div className="flex gap-4 mx-auto justify-between items-center xs:mb-5 md:mx-0">
+          <Tooltip tooltipText={"LinkedIn"}>
           <Link to="https://www.linkedin.com/company/asociatia-oportunitati-si-cariere/"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
             <img src={linkedin} alt="linkedin icon" className="max-w-[100px]" />
-          </Link>
+            </Link></Tooltip>
+          <Tooltip tooltipText={"Instagram"}>
           <Link to="https://www.instagram.com/peviitor.ro"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
@@ -27,27 +30,31 @@ const Footer = () => {
               alt="instagram icon"
               className="max-w-[100px]"
             />
-          </Link>
+            </Link></Tooltip>
+          <Tooltip tooltipText={"Discord"}>
           <Link to="https://discord.gg/t2aEdmR52a"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
             <img src={discord} alt="discord icon" className="max-w-[100px]" />
-          </Link>
+            </Link></Tooltip>
+          <Tooltip tooltipText={"GitHub"}>
           <Link to="https://github.com/peviitor-ro"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
             <img src={github} alt="github icon" className="max-w-[100px]" />
-          </Link>
+            </Link></Tooltip>
+          <Tooltip tooltipText={"Jitsi"}>
           <Link to="https://meet.jit.si/PEVIITOR.RO"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
             <img src={jitsi} alt="jitsi icon" className="max-w-[100px]" />
-          </Link>
+            </Link></Tooltip>
+          <Tooltip tooltipText={"DEV Community"}>
           <Link to="https://dev.to/t/peviitor/latest"
             target="_blank" rel="noopener noreferrer" className="mx-1"
           >
             <img src={dev} alt="dev icon" className="max-w-[100px]" />
-          </Link>
+          </Link></Tooltip>
           {/* <Link to="https://api.peviitor.ro/"
             target="_blank" rel="noopener noreferrer" className="mx-2"
           >
