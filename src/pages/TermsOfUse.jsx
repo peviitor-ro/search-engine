@@ -172,7 +172,7 @@ const TermsOfUse = () => {
                         </li>
                         <li className="mb-4">ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE nu cere clienţilor săi informaţii personale prin intermediul unei corespondenţe nesolicitate 
                             de aceştia. Orice tip de corespondenţă care cere divulgarea de informaţii personale trebuie considerat un fals şi raportat către asociație 
-                            prin intermediul adresei de e-mail asocpeviitor@gmail.com
+                            prin intermediul adresei de e-mail aocpeviitor@gmail.com
                         </li>
                         <li>ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE  şi furnizorii săi de conţinut nu răspund pentru erorile, impreciziile sau întârzierile în furnizarea 
                             conţinutului oferit de site şi nici pentru orice acţiune care se bazează pe acest conţinut. ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE  îşi declină orice
