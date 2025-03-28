@@ -317,6 +317,7 @@ export const orase = [
   "Vulcan",
   "Zalău",
   "Zărnești",
+  "Zimbor",
   "Zimnicea",
   "Zlatna"
 ];
