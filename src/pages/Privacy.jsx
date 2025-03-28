@@ -23,7 +23,7 @@ const Privacy = () => {
                     <p className="mb-4 w-3/4">
                         Vă mulțumim pentru interesul acordat <strong>ASOCIAȚIEI OPORTUNTĂȚI ȘI CARIERE</strong>! Pentru noi este deosebit de important să asigurăm protecția datelor cu caracter personal pe care ni le furnizați:
                     </p>
-                    <p className="mb-4 w-3/4">ASOCIAȚIA OPORTUNTĂȚI ȘI CARIERE cu sediul social în Zimbor nr 215 , județul Salaj, în calitate de operator de date cu caracter personal
+                    <p className="mb-4 w-3/4">ASOCIAȚIA OPORTUNTĂȚI ȘI CARIERE cu sediul social în comuna Zimbor, sat Zimbor, str Optatiana, nr 82, județul Sălaj, în calitate de operator de date cu caracter personal
                         (denumită în continuare „Asociația” sau „Operatorul”), respectă întocmai prevederile legale în vigoare privind protecția persoanelor cu privire la prelucrarea datelor
                         cu caracter personal și libera circulație a acestor date.
                     </p>
