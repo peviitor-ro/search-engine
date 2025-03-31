@@ -31,6 +31,8 @@ import {
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
 import getCityMatch from "../utils/getCityMatch";
+import { comune } from "../utils/getCommuneName";
+import getCommuneMatch from "../utils/getCommuneMatch";
 
 const FilterTags = ({ tags, removeTag }) => {
   return (
@@ -84,6 +86,7 @@ const Search = () => {
   const handleFocus = (input) => setFocusedInput(input);
   // const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
   const [filteredCities, setFilteredCities] = useState(orase);
+  const [filteredCommunes, setFilteredCommunes] = useState(comune);
   const dropdownRef = useRef(null);
 
   // state for job suggestion drop-down
@@ -188,8 +191,8 @@ const Search = () => {
 
   // Function to filter cities based on input
   const filterCities = useCallback((input) => {
-    const filtered = getCityMatch(input);
-    setFilteredCities(filtered);
+    setFilteredCities(getCityMatch(input));
+    setFilteredCommunes(getCommuneMatch(input))
   }, []); // You might want to add dependencies here if orase changes
 
   // Update filtered cities when location input changes
@@ -433,7 +436,30 @@ const Search = () => {
                     className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
                     lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border"
                   >
+                    <li
+                        className={`px-12 py-2 cursor-pointer bg-white`}
+                      >
+                        <b>Orașe</b>
+                      </li> 
                     {filteredCities.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className={`px-12 py-2 cursor-pointer ${index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                          } hover:bg-gray-200`}
+                        onClick={() => {
+                          setLocation(suggestion);
+                          setFocusedInput(null); // Close dropdown on selection
+                        }}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                    <li
+                        className={`px-12 py-2 cursor-pointer bg-white`}
+                      >
+                        <b>Comune</b>
+                      </li> 
+                    {filteredCommunes.map((suggestion, index) => (
                       <li
                         key={index}
                         className={`px-12 py-2 cursor-pointer ${index % 2 === 0 ? "bg-custom-gray" : "bg-white"

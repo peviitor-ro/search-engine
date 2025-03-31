@@ -79,7 +79,6 @@ export const orase = [
   "Cehu Silvaniei",
   "Cernavodă",
   "Chișineu-Criș",
-  "Chiajna",
   "Chitila",
   "Ciacova",
   "Cisnădie",
@@ -317,7 +316,6 @@ export const orase = [
   "Vulcan",
   "Zalău",
   "Zărnești",
-  "Zimbor",
   "Zimnicea",
   "Zlatna"
 ];
