@@ -57,7 +57,7 @@ const TermsOfUse = () => {
                 <section className="pt-12 bg-white/20 w-full flex flex-col items-center" aria-labelledby="content-heading">
                     <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>1. CONŢINUTUL</strong></h2>
                     <ol className="mb-8 w-3/4 [list-style-type:lower-alpha] list-inside">
-                        <li className="mb-4">Conţinutul site-ului este destinat uzului personal, fără scop direct ori indirect comercial. Toate materialele publicate (incluzând, dar fără a se limita la,
+                        <li className="mb-4">Conţinutul site-ului este destinat uzului personal, fără scop direct ori indirect comercial. Toate materialele publicate (incluzând, dar fără a se limita la
                             articole, informaţii, fotografii, date, clipuri audio/video – generic numite conţinut) sunt protejate de dispoziţiile legale incidente: Legea nr. 8/1996, cu modificările şi completările
                             ulterioare – privind dreptul de autor şi drepturile conexe, Legea nr. 84/1998 – privind mărcile şi indicaţiile geografice şi Legea nr. 129/1992, republicată – privind protecţia
                             desenelor şi modelelor. Lipsa menţiunii privind unele texte legale ori dispoziţii incidente nu duc la inaplicabilitatea acestora.
@@ -75,7 +75,7 @@ const TermsOfUse = () => {
                         <li className="mb-4">În cazul în care consideraţi că orice material publicat pe acest site oricine altcineva încalcă drepturile de autor sau orice alte drepturi,
                             vă rugăm să ne sesizaţi acest lucru printr-un mesaj trimis la adresa publicată în secţiunea Contact a site-ului sau pe adresa de e-mail aocpeviitor@gmail.com
                         </li>
-                        <li className="mb-4">Vă informăm că ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE îşi va asigura şi impune în mod hotărît recunoaşterea drepturilor de proprietate intelectuală
+                        <li className="mb-4">Vă informăm că ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE îşi va asigura şi impune în mod hotărât recunoaşterea drepturilor de proprietate intelectuală
                             în conformitate cu legile în vigoare, ajungând dacă este cazul, la acţionarea în judecată a celor vinovaţi de încălcarea dreptului de proprietate intelectuală.
                         </li>
                     </ol>
@@ -181,9 +181,9 @@ const TermsOfUse = () => {
                         </li>
                     </ol>
 
-                    <p className="w-3/4 flex flex-col items-center mb-4">Pentru cazul fortuit, ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE și/sau reprezentantii săi, este exonerata total de răspundere.
-                        Cazurile fortuite includ, dar nu se limiteaza la, erori de functionare ale echipamentului tehnic, lipsa funcţionării conexiunii la internet, lipsa
-                        funcţionării conexiunilor de telefon, virusii informatici, accesul neautorizat in sistemele Site-ului, erorile de operare, etc.
+                    <p className="w-3/4 flex flex-col items-center mb-4">Pentru cazul fortuit, ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE și/sau reprezentanții săi, este exonerată total de răspundere.
+                        Cazurile fortuite includ, dar nu se limitează la: erori de funcționare ale echipamentului tehnic, lipsa funcţionării conexiunii la internet, lipsa
+                        funcţionării conexiunilor de telefon, virușii informatici, accesul neautorizat în sistemele site-ului, erorile de operare, etc.
                     </p>
 
                     <ol start="4" className="mb-8 w-3/4 [list-style-type:lower-alpha] list-inside">
