@@ -223,7 +223,6 @@ const Search = () => {
     try {
       const response = await getJobSuggestion(text); // Assuming getJobSuggestion is defined elsewhere
       setJobSuggestions(response.suggestions); // Update suggestions state with fetched data
-      console.log(response.suggestions);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -373,30 +372,6 @@ const Search = () => {
                     ))}
                 </ul>
               )}
-
-            {/* Dropdown for Job Title */}
-            {location.pathname === "/" &&
-              focusedInput === "jobTitle" &&
-              text.length >= 3 && (
-                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0 lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
-                  { }
-                  {jobSuggestions &&
-                    jobSuggestions.length > 0 &&
-                    jobSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        className={`px-12 py-2 cursor-pointer ${index % 2 === 0 ? "bg-custom-gray" : "bg-white"
-                          } hover:bg-gray-200`}
-                        onMouseDown={() => {
-                          setText(suggestion.term);
-                          setFocusedInput(null);
-                        }}
-                      >
-                        {suggestion.term}
-                      </li>
-                    ))}
-                </ul>
-              )}
           </div>
 
           {/* Add Location Input */}
@@ -437,10 +412,10 @@ const Search = () => {
                     lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border"
                   >
                     <li
-                        className={`px-12 py-2 cursor-pointer bg-white`}
-                      >
-                        <b>Orașe</b>
-                      </li> 
+                      className={`px-12 py-2 cursor-pointer bg-white`}
+                    >
+                      <b>Orașe</b>
+                    </li>
                     {filteredCities.map((suggestion, index) => (
                       <li
                         key={index}
@@ -455,10 +430,10 @@ const Search = () => {
                       </li>
                     ))}
                     <li
-                        className={`px-12 py-2 cursor-pointer bg-white`}
-                      >
-                        <b>Comune</b>
-                      </li> 
+                      className={`px-12 py-2 cursor-pointer bg-white`}
+                    >
+                      <b>Comune</b>
+                    </li>
                     {filteredCommunes.map((suggestion, index) => (
                       <li
                         key={index}
