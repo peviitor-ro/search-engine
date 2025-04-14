@@ -109,8 +109,8 @@ const TermsOfUse = () => {
                         <li className="mb-4">Este interzis să utilizaţi site-ul
                             <HomeLink /> în scop de publicitate sau pentru orice fel de cerere/ofertă cu caracter comercial fără acordul ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE.
                         </li>
-                        <li className="mb-4">Preluarea de informaţii de către alte site-uri web poate fi făcută numai în acord cu termenii agreaţi şi menţionaţi in această pagina,
-                            cu excepţia unui acord, valabil şi recunoscut de ambele parţi, utilizator şi ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE.
+                        <li className="mb-4">Preluarea de informaţii de către alte site-uri web poate fi făcută numai în acord cu termenii agreaţi şi menţionaţi în această pagină,
+                            cu excepţia unui acord, valabil şi recunoscut de ambele părţi, utilizator şi ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE.
                         </li>
                         <li className="mb-4">ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE, logo-ul
                             <HomeLink /> şi oricare derivaţie a logo-ului aprobat şi validat sunt proprietatea asociației, niciuna dintre ele neputând
@@ -128,7 +128,7 @@ const TermsOfUse = () => {
                             parte implicată în conceperea, producerea sau oferirea site-ului nu sunt răspunzătoare pentru daune directe sau indirecte, de orice natură,
                             ce ar rezulta din sau în legătură cu utilizarea acestui site sau a conţinului său. Asociația nu îşi asumă nicio responsabilitate şi nu va fi
                             răspunzătoare pentru nicio daună sau viruşi care ar putea să vă infecteze computerul sau alte bunuri în urma accesării sau utilizării acestui
-                            site, sau descărcării oricarui material, informaţii, text, imagini, video sau audio de pe acest site.
+                            site, sau descărcării oricărui material, informaţii, text, imagini, video sau audio de pe acest site.
                         </li>
                         <li className="mb-4">Utilizarea site-ului reprezintă faptul că declaraţi şi sunteţi de acord cu publicarea de către ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE
                             a unui Conţinut, stabilit pe baza unor criterii proprii, Conţinut ce poate fi interpretat ca fiind publicat, prezentat într-o manieră care să
@@ -188,7 +188,7 @@ const TermsOfUse = () => {
 
                     <ol start="4" className="mb-8 w-3/4 [list-style-type:lower-alpha] list-inside">
                         <li className="mb-4">Fiecare utilizator al site-ului
-                            <HomeLink /> este de acord ca, la cererea  ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE să exonereze de răspundere ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE pentru orice acţiuni judiciare sau extrajudiciare,
+                            <HomeLink /> este de acord ca, la cererea  ASOCIAȚIEI OPORTUNITĂȚI ȘI CARIERE să exonereze de răspundere ASOCIAȚIA OPORTUNITĂȚI ȘI CARIERE pentru orice acţiuni judiciare sau extrajudiciare
                             şi să acopere cheltuielile de judecată şi orice alte cheltuieli care ar putea să apară ca urmare a încălcării de către utilizatorul respectiv a clauzelor din prezentul document.
                             Persoanele fizice sau juridice responsabile de încălcarea prevederilor din prezentul document vor suporta prevederile legislaţiei în vigoare în România.
                         </li>
@@ -201,7 +201,7 @@ const TermsOfUse = () => {
                 <section className="pt-12 bg-white/20 w-full flex flex-col items-center" aria-labelledby="updates">
                     <h2 className="text-lg leading-6 text-left mb-4 w-3/4"><strong>7. ACTUALIZARE</strong></h2>
                     <ol className="mb-8 w-3/4 [list-style-type:lower-alpha] list-inside">
-                        <li className="mb-4">Aceşti TERMENI ŞI CONDIŢII se actualizeaza de câte ori este nevoie. Modificările se vor reflecta în tipul de informaţii publicate sau transmite de către ASOCIATIE.
+                        <li className="mb-4">Aceşti TERMENI ŞI CONDIŢII se actualizează de câte ori este nevoie. Modificările se vor reflecta în tipul de informaţii publicate sau transmite de către ASOCIATIE.
                             Vă rugăm să citiţi periodic aceste condiţii, pentru a fi la curent cu ce informaţii colectează, foloseşte şi transmite ASOCIATIA OPORTUNITATI SI CARIERE
                         </li>
                     </ol>
