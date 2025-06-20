@@ -18,13 +18,13 @@
 }
 
 .landing-page {
-  background: url("./assets/images/landing-cover.png") no-repeat center center
+  background: url("./assets/images/landing-cover.webp") no-repeat center center
     fixed;
   background-size: cover;
 }
 
 .rezultate-pagina {
-  background: url("./assets/images/rezultate-cover.png") no-repeat center center
+  background: url("./assets/images/rezultate-cover.webp") no-repeat center center
     fixed;
   background-size: cover;
 }
