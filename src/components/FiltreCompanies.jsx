@@ -52,11 +52,6 @@ const FiltreCompanies = ({ dropDown }) => {
       );
       setFilteredCompanies(filtered.map((el) => el.name));
       setError("");
-    } else if (debouncedInput.length > 0 && debouncedInput.length < 3) {
-      setFilteredCompanies([]);
-      setError(
-        "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
-      );
     } else {
       setFilteredCompanies([]);
       setError(
