@@ -3,7 +3,7 @@ import linkedin from "../assets/svg/linkedin_icon.svg";
 import discord from "../assets/svg/discord_icon.svg";
 import github from "../assets/svg/github_icon.svg";
 import jitsi from "../assets/svg/jitsi_icon.svg";
-import instagram from "../assets/svg/instagram_icon.svg";
+// import instagram from "../assets/svg/instagram_icon.svg";
 import dev from "../assets/svg/dev_icon.svg";
 import { Tooltip } from "./Tooltip";
 // import api from "../assets/svg/api-svgrepo-com.svg";
