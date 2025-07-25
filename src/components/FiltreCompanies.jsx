@@ -3,6 +3,7 @@ import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import InputField from "./InputField";
+
 // Custom debounce hook
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -22,91 +23,78 @@ function useDebounce(value, delay) {
 
 const FiltreCompanies = ({ dropDown }) => {
   const [inputCompany, setInputCompany] = useState("");
-  const [data, setData] = useState([]);
+  const [allCompanies, setAllCompanies] = useState([]);
+  const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [error, setError] = useState("");
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
-  const debouncedInputCompany = useDebounce(inputCompany, 300);
-
-  // Empty the search value when dropdown its closed
-  useEffect(() => {
-    if (dropDown[0] || dropDown[1]) {
-      setInputCompany("");
-    }
-  }, [dropDown]);
+  const debouncedInput = useDebounce(inputCompany, 300);
 
   // Fetching company data
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getNameOfCompanies(debouncedInputCompany);
-        setData(response);
+        const companies = await getNameOfCompanies();
+        setAllCompanies(companies);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching companies:", error);
       }
     };
 
-    if (
-      debouncedInputCompany.length > 2 ||
-      debouncedInputCompany.length === 0
-    ) {
-      fetchData();
-    } else if (
-      debouncedInputCompany.length > 0 &&
-      debouncedInputCompany.length < 3
-    ) {
-      setData([]);
+    fetchData();
+  }, []);
+
+  // Filtering companies
+  useEffect(() => {
+    if (debouncedInput.length >= 3) {
+      const filtered = allCompanies.filter((company) =>
+        company.name.toLowerCase().includes(debouncedInput.toLowerCase())
+      );
+      setFilteredCompanies(filtered.map((el) => el.name));
+      setError("");
+    } else {
+      setFilteredCompanies([]);
       setError(
         "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
       );
     }
-  }, [debouncedInputCompany, fields]);
+  }, [debouncedInput, allCompanies]);
 
-  // Function to handle changes in the input field
-  const handleInputChange = (event) => {
-    const value = event.target.value;
-    setInputCompany(value);
+  const handleInputChange = (e) => {
+    setInputCompany(e.target.value);
   };
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">
-        <img
-            src={magnifyGlass}
-            alt="magnify-glass"
-            className="relative left-0 w-[20px] ml-1"
-          />
-
-        <InputField 
+      <div className="flex items-center gap-1 border-b border-border_grey">
+        <img src={magnifyGlass} alt="search" className="w-5 ml-1" />
+        <InputField
           value={inputCompany}
-          placeholder={`Caută companie`}
+          placeholder="Caută companie"
           onChange={handleInputChange}
           inputType="searchType"
-          type="search" />
+          type="search"
+        />
       </div>
 
-      <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
-        {inputCompany.length > 0 && inputCompany.length < 3 && <p>{error}</p>}
-        {Array.isArray(data) ? (
-            // data.sort((a, b) => a.localeCompare(b)).map((item, index) => (
-            data.map((item, index) => (
-            <InputField key={index}
-              type="checkbox"
-              id={item}
-              name="company"
-              value={item}
-              checked={fields["company"].includes(item)}
-              onChange={(e) => handleCheckBoxChange(e, "company")}
-              inputType="checkBoxType"
-              label={item}
-              item={item}
-            />
-          ))
-        ) : (
-          <div className="pl-[7px]">{data.message}</div>
-        )}
+      <div className="flex flex-col py-1 px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
+        {error && <p className="text-sm">{error}</p>}
+        {filteredCompanies.map((name, index) => (
+          <InputField
+            key={index}
+            type="checkbox"
+            id={name}
+            name="company"
+            value={name}
+            checked={fields["company"].includes(name)}
+            onChange={(e) => handleCheckBoxChange(e, "company")}
+            inputType="checkBoxType"
+            label={name}
+            item={name}
+          />
+        ))}
       </div>
-      <div className="h-3"></div>
+      <div className="h-3" />
     </div>
   );
 };
