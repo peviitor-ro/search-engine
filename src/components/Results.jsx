@@ -73,8 +73,8 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-              <section className="grid gap-7 md:px-14 w-full mx-auto pb-12 md:flex md:flex-wrap md:justify-center">
-            {/* // <section className="grid gap-7 px-14 w-full mx-auto pb-12 mt-2 md:flex md:flex-wrap md:justify-center"> */}
+            <section className="grid gap-7 md:px-14 w-full mx-auto pb-12 md:flex md:flex-wrap md:justify-center">
+              {/* // <section className="grid gap-7 px-14 w-full mx-auto pb-12 mt-2 md:flex md:flex-wrap md:justify-center"> */}
               {jobs.map(
                 (
                   { city, company, county, job_link, job_title, remote },

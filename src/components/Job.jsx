@@ -2,23 +2,31 @@
 import noLogo from "../assets/svg/no-logo.svg";
 import mapPin from "../assets/svg/map_pin.svg";
 // react
-import React from "react";
 import Button from "./Button";
+const exceptions = ["de", "lui"];
 
 const Job = ({ city, company, county, job_link, job_title, remote }) => {
+  function displayLocation(cities, remote) {
+    const citiesName = cities.map((el) => {
+      return el
+        .toLowerCase() // normalize the string first
+        .split(/([ -])/g) // split by space or hyphen but **keep the separators**
+        .map((word) => {
+          return exceptions.includes(word)
+            ? word
+            : word.charAt(0).toUpperCase() + word.slice(1);
+        })
+        .join("");
+    });
 
-  function displayLocation(cities) {
-    return cities
-      ? cities[0].toLowerCase() === "all"
-        ? "Toate orasele"
-        : cities.length > 5
-        ? `${cities.slice(0, 5).join(", ")} + ${cities.length - 5}`
-        : cities.join(", ")
-      : remote.join(", ");
+    if (!citiesName) return remote.join(", ");
+    if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
+    if (citiesName.length > 5) return `${cities.slice(0, 5)}`;
+    return citiesName.join(", ");
   }
 
   function handleJobSeach() {
-    window.open(job_link, '_blank');
+    window.open(job_link, "_blank");
     console.log("Către site");
   }
 
@@ -37,17 +45,14 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
         <p className="leading-5" title={company}>
           {company}
         </p>
-        <h2
-          className="text-lg font-bold truncate"
-          title={job_title}
-        >
+        <h2 className="text-lg font-bold truncate" title={job_title}>
           {job_title}
         </h2>
         <div className="flex items-center justify-center gap-1">
           <img src={mapPin} alt="map pin" className="w-auto h-[16px]" />
           <p>{city || remote ? displayLocation(city) : ""}</p>
         </div>
-        
+
         <Button onClick={handleJobSeach} buttonType="searchJob">
           Către site
         </Button>
