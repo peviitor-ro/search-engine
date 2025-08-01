@@ -32,7 +32,7 @@ jobs:
         run: sed -i 's/8080/8081/g' .env.local
 
       - name: Build frontend to ./build
-        run: npm run build:production
+        run: npm run build:local
 
       - name: Archive build folder
         run: zip -r build.zip build
