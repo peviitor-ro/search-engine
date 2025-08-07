@@ -105,7 +105,8 @@ const Search = () => {
     }
     //Keeping the state in sync with the URL param
     const qParam = findParamInURL("q");
-    const cityParam = findParamInURL("city");
+    const cityParam = findParamInURL("orase");
+
     contextSetQ(qParam || [""]);
     contextSetCity(cityParam || [""]);
   }, [contextSetQ, contextSetCity, location.pathname, location.search]);
