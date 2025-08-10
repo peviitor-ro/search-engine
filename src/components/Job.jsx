@@ -7,7 +7,7 @@ const exceptions = ["de", "lui"];
 
 const Job = ({ city, company, county, job_link, job_title, remote }) => {
   function displayLocation(cities, remote) {
-    const citiesName = cities.map((el) => {
+    const citiesName = cities?.map((el) => {
       return el
         .toLowerCase() // normalize the string first
         .split(/([ -])/g) // split by space or hyphen but **keep the separators**
@@ -19,7 +19,7 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
         .join("");
     });
 
-    if (!citiesName) return remote.join(", ");
+    if (!citiesName) return remote?.join(", ");
     if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
     if (citiesName.length > 5) return `${cities.slice(0, 5)}`;
     return citiesName.join(", ");
