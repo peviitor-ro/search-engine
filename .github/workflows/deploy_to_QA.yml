@@ -1,4 +1,5 @@
-name: Deploy frontend build to QA environment
+name: Deploy LOCAL frontend build artifact to QA server via FTP
+
 on:
   push:
     branches:
@@ -9,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  deploy_to_QA:
+  deploy_ftp:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -27,7 +28,8 @@ jobs:
       - name: Copy .env.local to project root
         run: cp env/.env.local .env.local
 
-      # Pasul build este eliminat, se presupune ca folderul /build exista deja
+      - name: Build frontend to ./build
+        run: npm run build:local
 
       - name: Deploy build folder via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -35,5 +37,5 @@ jobs:
           server: ${{ secrets.QA_FTP_HOST }}
           username: ${{ secrets.QA_FTP_USER }}
           password: ${{ secrets.QA_FTP_PASSWD }}
-          local-dir: ./build
+          local-dir: ./build/
           server-dir: /htdocs/
