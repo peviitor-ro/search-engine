@@ -1,4 +1,4 @@
-name: Deploy LOCAL frontend build artifact to QA server via FTP
+name: Deploy frontend build artifact to QA server
 
 on:
   push:
@@ -25,11 +25,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Copy .env.local to project root
-        run: cp env/.env.local .env.local
+      - name: Copy .env.qa to project root
+        run: cp env/.env.qa .env.qa
 
       - name: Build frontend to ./build
-        run: npm run build:local
+        run: npm run build:qa
 
       - name: Deploy build folder via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
