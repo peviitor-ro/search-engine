@@ -1,0 +1,39 @@
+name: Deploy frontend build to QA environment
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy_to_QA:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Copy .env.local to project root
+        run: cp env/.env.local .env.local
+
+      # Pasul build este eliminat, se presupune ca folderul /build exista deja
+
+      - name: Deploy build folder via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.QA_FTP_HOST }}
+          username: ${{ secrets.QA_FTP_USER }}
+          password: ${{ secrets.QA_FTP_PASSWD }}
+          local-dir: ./build
+          server-dir: /htdocs/
