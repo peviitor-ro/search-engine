@@ -1,4 +1,4 @@
-name: Build and Release LOCAL frontend build artifact
+name: Build and Release QA frontend build artifact
 
 on:
   push:
