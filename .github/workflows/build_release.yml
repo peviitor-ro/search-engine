@@ -26,10 +26,10 @@ jobs:
         run: npm ci
 
       - name: Copy .env.local to project root
-        run: cp env/.env.local .env.local
+        run: cp env/.env.qa .env.qa
 
       - name: Build frontend to ./build
-        run: npm run build:local
+        run: npm run build:qa
 
       - name: Archive build folder
         run: zip -r build.zip build
