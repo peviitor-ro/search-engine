@@ -7,7 +7,7 @@ import jobsSlice from "./reducers/jobsSlice";
 
 export default configureStore({
   reducer: {
-    jobs: jobsSlice,
-  },
-  middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), thunk],
+    jobs: jobsSlice
+  }
+  // middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), thunk],
 });
