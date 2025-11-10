@@ -48,8 +48,8 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
         <h2 className="text-lg font-bold truncate" title={job_title}>
           {job_title}
         </h2>
-        <div className="flex items-center justify-center gap-1">
-          <img src={mapPin} alt="map pin" className="w-auto h-[16px]" />
+        <div className="flex flex-col items-center justify-center gap-1">
+          <img src={mapPin} alt="map pin" className="w-auto h-[18px]" />
           <p>{city || remote ? displayLocation(city) : ""}</p>
         </div>
 
