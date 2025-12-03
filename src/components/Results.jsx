@@ -62,6 +62,14 @@ const Results = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function handleStringDecode(str) {
+    if (!str) return "";
+    const parser = new DOMParser();
+    const decodedString = parser.parseFromString(str, "text/html").body
+      .textContent;
+    return decodedString;
+  }
+
   return (
     <div>
       {loading ? (
@@ -86,7 +94,7 @@ const Results = () => {
                     company={company}
                     county={county}
                     job_link={job_link}
-                    job_title={job_title}
+                    job_title={handleStringDecode(job_title)}
                     remote={remote}
                   />
                 )
