@@ -1,10 +1,10 @@
-const API_URL = process.env.REACT_APP_API_URL;
-// const DEPLOY_ENV = process.env.REACT_APP_DEPLOY_ENV;
+const API_URL = import.meta.env.VITE_API_URL;
+// const DEPLOY_ENV = import.meta.env.VITE_DEPLOY_ENV;
 
-const API_LOGO = process.env.REACT_APP_API_LOGO;
-const API_COMPANIES = process.env.REACT_APP_API_COMPANIES;
-const API_SUGGEST = process.env.REACT_APP_API_SUGGEST;
-const API_TOTAL = process.env.REACT_APP_API_TOTAL;
+const API_LOGO = import.meta.env.VITE_API_LOGO;
+const API_COMPANIES = import.meta.env.VITE_API_COMPANIES;
+const API_SUGGEST = import.meta.env.VITE_API_SUGGEST;
+const API_TOTAL = import.meta.env.VITE_API_TOTAL;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
 export const getData = async (createQueryString) => {

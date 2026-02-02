@@ -2,6 +2,7 @@
   "name": "react-search-engine",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@floating-ui/react": "^0.27.7",
     "@reduxjs/toolkit": "^2.2.2",
@@ -10,60 +11,35 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.20",
-    "env-cmd": "^10.1.0",
     "postcss": "^8.4.41",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.30.2",
-    "react-search-engine": "file:",
     "redux-thunk": "^3.1.0",
     "tailwindcss": "^3.4.9",
-    "web-vitals": "^2.1.4",
-    "webpack-dev-server": "^4.15.2"
-  },
-  "overrides": {
-    "qs": "^6.14.1",
-    "@remix-run/router": "^1.23.2",
-    "nth-check": "^2.0.1",
-    "lodash": "^4.17.23",
-    "react-router": "^6.30.2"
+    "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
     "@sentry/cli": "^2.46.0",
-    "react-scripts": "^5.0.1"
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "vite": "^5.2.0",
+    "vite-plugin-svgr": "^4.5.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "start:local": "env-cmd -f ./env/.env.local react-scripts start",
-    "start:qa": "env-cmd -f ./env/.env.qa react-scripts start",
-    "start:production": "env-cmd -f ./env/.env.production react-scripts start",
-    "start:final": "env-cmd -f ./env/.env.final react-scripts start",
-    "build": "react-scripts build",
-    "build:local": "env-cmd -f ./env/.env.local react-scripts build",
-    "build:qa": "env-cmd -f ./env/.env.qa react-scripts build",
-    "build:production": "env-cmd -f ./env/.env.production react-scripts build",
-    "build:final": "env-cmd -f ./env/.env.final react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "vite",
+    "start:local": "vite --mode local",
+    "start:qa": "vite --mode qa",
+    "start:production": "vite --mode production",
+    "start:final": "vite --mode final",
+    "build": "vite build",
+    "build:local": "vite build --mode local",
+    "build:qa": "vite build --mode qa",
+    "build:production": "vite build --mode production",
+    "build:final": "vite build --mode final",
+    "preview": "vite preview"
   }
 }
