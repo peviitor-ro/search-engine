@@ -1,4 +1,3 @@
-// svg
 import logo from "../assets/svg/logo.svg";
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
@@ -26,7 +25,8 @@ import { createSearchString } from "../utils/createSearchString";
 import {
   getData,
   getNumberOfCompany,
-  getJobSuggestion
+  getJobSuggestion,
+  getNumberOfJobs // 1. IMPORT ADDED
 } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
@@ -76,6 +76,8 @@ const Search = () => {
 
   // jobs
   const total = useSelector((state) => state.jobs.total);
+  const [globalJobsTotal, setGlobalJobsTotal] = useState(0);
+
   const loading = useSelector((state) => state.jobs.loading);
   const nrJoburi =
     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
@@ -84,14 +86,26 @@ const Search = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
-  // const handleBlur = () => setFocusedInput(null); // Optional, depending on whether you want to hide the dropdown when blurred
   const [filteredCities, setFilteredCities] = useState(orase);
   const [filteredCommunes, setFilteredCommunes] = useState(comune);
   const dropdownRef = useRef(null);
 
-  // state for job suggestion drop-down
   const [jobSuggestions, setJobSuggestions] = useState([]);
-  // useEffect to set the search input field as the user search query
+
+  // 3. NEW USE EFFECT to fetch global total on mount (Logic from Component 1)
+  useEffect(() => {
+    const fetchGlobalTotal = async () => {
+      try {
+        const response = await getNumberOfJobs();
+        if (response) {
+          setGlobalJobsTotal(response.total.jobs);
+        }
+      } catch (error) {
+        console.error("Error fetching global job count:", error);
+      }
+    };
+    fetchGlobalTotal();
+  }, []);
 
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -103,14 +117,13 @@ const Search = () => {
     if (!location.pathname.includes("/rezultate")) {
       return;
     }
-    //Keeping the state in sync with the URL param
     const qParam = findParamInURL("q");
     const cityParam = findParamInURL("orase");
 
     contextSetQ(qParam || [""]);
     contextSetCity(cityParam || [""]);
   }, [contextSetQ, contextSetCity, location.pathname, location.search]);
-  // useEffect to load the number of company and jobs
+
   useEffect(() => {
     if (!location.pathname.includes("/rezultate")) {
       return;
@@ -122,7 +135,7 @@ const Search = () => {
     };
     numbersInfo();
   }, [dispatch, location.pathname]);
-  // Send text from input into state q.
+
   const handleUpdateQ = async (e) => {
     e.preventDefault();
 
@@ -133,14 +146,10 @@ const Search = () => {
     contextSetCity([isLocation]);
   };
 
-  // fetch data when states change values
-  // this make the fetch automated when checkboxes are checked or unchecked
   useEffect(() => {
-    // Function to fetch data and update state
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
-        // Create the search string
         const searchString = createSearchString(
           q,
           city,
@@ -150,24 +159,19 @@ const Search = () => {
           1
         );
 
-        // Fetch the data
         const { jobs, total } = await getData(searchString);
 
-        // Update the Redux state
         dispatch(clearJobs());
         dispatch(setJobs(jobs));
         dispatch(setTotal(total));
         updateUrlParams({ page: 1 });
       } catch (error) {
-        // Handle any errors that occur during fetch
         console.error("Failed to fetch data:", error);
       } finally {
-        // Ensure loading is set to false after data is fetched or an error occurs
         dispatch(setLoading(false));
       }
     };
 
-    // Only fetch data if any of the query parameters are set
     if (
       q.length !== 0 ||
       city.length !== 0 ||
@@ -176,36 +180,30 @@ const Search = () => {
     ) {
       fetchData();
     } else {
-      // Clear jobs and total if no query parameters are set
       dispatch(clearJobs());
       dispatch(setTotal(0));
     }
   }, [dispatch, q, city, remote, company, county, removeTag]);
-  //new
 
-  // remove text from input on X button.
   function handleCloseIcon() {
     setText("");
     updateUrlParams({ q: null });
     contextSetQ([""]);
   }
 
-  // Function to filter cities based on input
   const filterCities = useCallback((input) => {
     setFilteredCities(getCityMatch(input));
     setFilteredCommunes(getCommuneMatch(input));
-  }, []); // You might want to add dependencies here if orase changes
+  }, []);
 
-  // Update filtered cities when location input changes
   useEffect(() => {
     filterCities(isLocation);
-  }, [isLocation, filterCities]); // Include filterCities in the dependency array
+  }, [isLocation, filterCities]);
 
-  // Close dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setFocusedInput(null); // Close the dropdown
+        setFocusedInput(null);
       }
     };
 
@@ -218,18 +216,15 @@ const Search = () => {
     };
   }, [focusedInput]);
 
-  // fetch job suggestion
-  // Updated fetch logic with your provided async function
-  const fetchData = async (text) => {
+  const fetchSuggestions = async (text) => {
     try {
-      const response = await getJobSuggestion(text); // Assuming getJobSuggestion is defined elsewhere
-      setJobSuggestions(response.suggestions); // Update suggestions state with fetched data
+      const response = await getJobSuggestion(text);
+      setJobSuggestions(response.suggestions);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  // Aligning the h2 with the first card
   const [h2Width, setH2Width] = useState("auto");
   const calculateH2Width = () => {
     const screenWidth = window.innerWidth;
@@ -262,18 +257,18 @@ const Search = () => {
     };
   }, []);
 
-  // Debouncing the fetch call
   useEffect(() => {
     const timer = setTimeout(() => {
       if (text) {
-        fetchData(text); // Call the updated fetch function
+        fetchSuggestions(text);
       } else {
-        setJobSuggestions([]); // Reset suggestions if text is empty
+        setJobSuggestions([]);
       }
-    }, 300); // Adjust debounce delay as needed
+    }, 300);
 
-    return () => clearTimeout(timer); // Cleanup timeout if user continues typing
+    return () => clearTimeout(timer);
   }, [text]);
+
   return (
     <div
       style={{
@@ -330,8 +325,8 @@ const Search = () => {
     ${location.pathname === "/rezultate" ? "w-full" : ""}
     ${
       location.pathname !== "/"
-        ? "lg:border-r-2 border-[#89969C] " // Border pe dreapta pe orice pagină, nu doar pe "/"
-        : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider" // Adaugă divider doar pe paginile care nu sunt "/"
+        ? "lg:border-r-2 border-[#89969C] "
+        : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
     } 
     ${
       focusedInput === "jobTitle" &&
@@ -386,7 +381,6 @@ const Search = () => {
           {/* Add Location Input */}
           <div ref={dropdownRef}>
             {" "}
-            {/* Add ref to the container */}
             {location.pathname === "/" && (
               <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
                 <div
@@ -415,7 +409,6 @@ const Search = () => {
                   )}
                 </div>
 
-                {/* Add Location Input dropdown*/}
                 {focusedInput === "location" && (
                   <ul
                     className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
@@ -429,7 +422,7 @@ const Search = () => {
                         } hover:bg-gray-200`}
                         onClick={() => {
                           setLocation(suggestion);
-                          setFocusedInput(null); // Close dropdown on selection
+                          setFocusedInput(null);
                         }}
                       >
                         {suggestion}
@@ -443,7 +436,7 @@ const Search = () => {
                         } hover:bg-gray-200`}
                         onClick={() => {
                           setLocation(suggestion);
-                          setFocusedInput(null); // Close dropdown on selection
+                          setFocusedInput(null);
                         }}
                       >
                         {suggestion}
@@ -461,21 +454,34 @@ const Search = () => {
         </form>
       </div>
 
-      {/* new component */}
       {location.pathname === "/rezultate" && (
         <div>
           {location.pathname === "/rezultate" && <FiltreGrup />}
           {loading ? (
             <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
           ) : (
-            total > 0 && (
-              <h2
-                className="text-start text-text_grey_darker my-8 text-lg"
-                style={{ width: h2Width, margin: "32px auto" }}
-              >
-                {total} {nrJoburi}
-              </h2>
-            )
+            (() => {
+              // 1. Check if any filter (search, city, company, etc) is active
+              const isFiltering = [q, city, county, company, remote].some(
+                (param) =>
+                  Array.isArray(param) && param.filter(Boolean).length > 0
+              );
+              const displayCount = isFiltering ? total : globalJobsTotal;
+              const displayLabel = isFiltering
+                ? nrJoburi
+                : "locuri de muncă disponibile";
+              if (displayCount > 0) {
+                return (
+                  <h2
+                    className="text-start text-text_grey_darker my-8 text-lg"
+                    style={{ width: h2Width, margin: "32px auto" }}
+                  >
+                    {displayCount} {displayLabel}
+                  </h2>
+                );
+              }
+              return null;
+            })()
           )}
 
           {!deletAll && total > 0 && (

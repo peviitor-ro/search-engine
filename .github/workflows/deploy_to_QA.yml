@@ -37,5 +37,5 @@ jobs:
           server: ${{ secrets.QA_FTP_HOST }}
           username: ${{ secrets.QA_FTP_USER }}
           password: ${{ secrets.QA_FTP_PASSWD }}
-          local-dir: ./build/
+          local-dir: ./dist/
           server-dir: /htdocs/
