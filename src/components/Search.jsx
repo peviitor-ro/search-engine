@@ -4,9 +4,9 @@ import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import removeIcon from "../assets/svg/remove.svg";
-import { ReactComponent as FlagMagnifyGlass } from "../assets/svg/ro_flag_magnifying_glass.svg";
-import { ReactComponent as CloseIcon } from "../assets/svg/close_icon.svg";
-import { ReactComponent as MapPinIcon } from "../assets/svg/map_pin.svg";
+import FlagMagnifyGlass from "../assets/svg/ro_flag_magnifying_glass.svg?react";
+import CloseIcon from "../assets/svg/close_icon.svg?react";
+import MapPinIcon from "../assets/svg/map_pin.svg?react";
 import { orase } from "../utils/getCityName";
 // components
 import FiltreGrup from "./FiltreGrup";

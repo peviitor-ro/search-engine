@@ -50,7 +50,7 @@ jobs:
       #   run: npm run lint
       # - name: Run unit test with coverage
       #   run: npm run test
-      - name: Build frontend to ./build
+      - name: Build frontend to ./dist
         run: npm run build:production
       # - name: install lighthouse
       #   run: npm install @lhci/cli@0.12.x
@@ -59,11 +59,11 @@ jobs:
       #     NODE_OPTIONS: '--max_old_space_size=4096'
       #   run: npx lhci autorun
       - name: Create CNAME file
-        run: echo "peviitor.ro" > ./build/CNAME
+        run: echo "peviitor.ro" > ./dist/CNAME
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./dist
