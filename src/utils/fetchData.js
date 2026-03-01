@@ -34,27 +34,27 @@ export const getNumberOfJobs = async () => {
 // get the number of Company we have in our DB
 export const getNumberOfCompany = async () => {
   try {
-    const response = await fetch(API_LOGO); // this was v3 for production
+    const response = await fetch(API_LOGO);
     const data = await response.json();
-    return data.companies.length;
+
+    return data?.companies?.length || 0;
   } catch (error) {
-    // Handle any errors that occurred during the fetch
     console.error("Error fetching data:", error);
-    throw error; // Re-throw the error to be handled by the caller if needed
+    return 0;
   }
 };
 
 // Fetch the list of companies
 export const getNameOfCompanies = async () => {
   try {
-    const response = await fetch(API_COMPANIES);
+    const response = await fetch(`${API_COMPANIES}?count=true`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    return data.companies;
+    return data.companies || [];
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
