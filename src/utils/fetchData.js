@@ -1,6 +1,4 @@
 const API_URL = import.meta.env.VITE_API_URL;
-// const DEPLOY_ENV = import.meta.env.VITE_DEPLOY_ENV;
-
 const API_LOGO = import.meta.env.VITE_API_LOGO;
 const API_COMPANIES = import.meta.env.VITE_API_COMPANIES;
 const API_SUGGEST = import.meta.env.VITE_API_SUGGEST;
@@ -11,23 +9,38 @@ export const getData = async (createQueryString) => {
   try {
     const response = await fetch(`${API_URL}?${createQueryString}`);
     const data = await response.json();
+
+    if (
+      !response.ok ||
+      data.error ||
+      !data.response ||
+      !Array.isArray(data.response.docs)
+    ) {
+      console.warn("Solr / Backend error. Fallback to empty data.", data);
+      return { jobs: [], total: 0 };
+    }
+
     return {
       jobs: data.response.docs,
-      total: data.response.numFound
+      total: data.response.numFound || 0
     };
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error; // Re-throw the error to propagate it to the caller
+    console.error("Error fetching jobs:", error);
+    return { jobs: [], total: 0 };
   }
 };
+
 // get the number of jobs in Romania.
 export const getNumberOfJobs = async () => {
   try {
     const response = await fetch(API_TOTAL);
+    if (!response.ok) throw new Error("Invalid response");
+
     const data = await response.json();
-    return data;
+    return data || 0;
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching total jobs:", error);
+    return 0;
   }
 };
 
@@ -35,11 +48,12 @@ export const getNumberOfJobs = async () => {
 export const getNumberOfCompany = async () => {
   try {
     const response = await fetch(API_LOGO);
-    const data = await response.json();
+    if (!response.ok) throw new Error("Invalid response");
 
+    const data = await response.json();
     return data?.companies?.length || 0;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error fetching total companies:", error);
     return 0;
   }
 };
@@ -48,26 +62,26 @@ export const getNumberOfCompany = async () => {
 export const getNameOfCompanies = async () => {
   try {
     const response = await fetch(`${API_COMPANIES}?count=true`);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error("Invalid response");
 
     const data = await response.json();
-    return data.companies || [];
+    return data?.companies || [];
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+    console.error("Error fetching company list:", error);
+    return [];
   }
 };
 
+// Fetch job suggestions
 export const getJobSuggestion = async (value) => {
   try {
-    const response = await fetch(API_SUGGEST + `?q=${value}`);
+    const response = await fetch(`${API_SUGGEST}?q=${value}`);
+    if (!response.ok) throw new Error("Invalid response");
+
     const data = await response.json();
-    return data;
+    return data || [];
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+    console.error("Error fetching suggestions:", error);
+    return [];
   }
 };
