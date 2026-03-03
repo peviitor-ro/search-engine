@@ -97,9 +97,7 @@ const Search = () => {
     const fetchGlobalTotal = async () => {
       try {
         const response = await getNumberOfJobs();
-        if (response) {
-          setGlobalJobsTotal(response.total.jobs);
-        }
+        setGlobalJobsTotal(response?.total?.jobs || 0);
       } catch (error) {
         console.error("Error fetching global job count:", error);
       }
@@ -219,7 +217,7 @@ const Search = () => {
   const fetchSuggestions = async (text) => {
     try {
       const response = await getJobSuggestion(text);
-      setJobSuggestions(response.suggestions);
+      setJobSuggestions(response?.suggestions || []);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
