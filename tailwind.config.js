@@ -25,13 +25,17 @@ export default {
         background_green: "#048a81",
         background_green_light: "#DBE8E9",
         background_cards: "#fbfbfb",
-        white: "#ffffff"
+        white: "#ffffff",
+        custom_teal: "#59948F",
+        salary_green: "#048a81"
       },
       boxShadow: {
         card_shadow: "0px 1px 3px 1px #00000026",
         hover_card_shadow: "0px 1px 2px 0px #0000004d",
         button_shadow: "0px 5px 5px 0px #00000040 inset",
-        checbox_shadow: "0px 4px 14px 0px #0000001a;"
+        checbox_shadow: "0px 4px 14px 0px #0000001a",
+        teal_rings:
+          "0 0 0 3px rgba(89, 148, 143, 0.4), 0 0 0 6px rgba(89, 148, 143, 0.15)"
       }
     }
   },

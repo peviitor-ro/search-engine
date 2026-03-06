@@ -1,12 +1,23 @@
-// svg
-import noLogo from "../assets/svg/no-logo.svg";
-import mapPin from "../assets/svg/map_pin.svg";
-// react
-import Button from "./Button";
+import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "./ui/tooltip.jsx";
 
 const exceptions = ["de", "lui"];
 
-const Job = ({ city, company, county, job_link, job_title, remote }) => {
+const Job = ({
+  city,
+  company,
+  county,
+  job_link,
+  job_title,
+  remote,
+  salary,
+  tags
+}) => {
   function displayLocation() {
     const citiesName = city
       ?.filter((el) => el)
@@ -23,49 +34,137 @@ const Job = ({ city, company, county, job_link, job_title, remote }) => {
       });
 
     if (!citiesName || citiesName.length === 0) {
-      if (Array.isArray(remote)) {
-        return remote.join(", ");
-      }
+      if (Array.isArray(remote)) return remote.join(", ");
       return remote ? String(remote) : "";
     }
     if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
-
     if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
     return citiesName.join(", ");
   }
 
-  function handleJobSearch() {
+  const handleApply = () => {
     window.open(job_link, "_blank");
-    console.log("Către site");
-  }
+  };
+
+  const getWorkTypeDisplay = () => {
+    const typeString = Array.isArray(remote)
+      ? remote.join(" ").toLowerCase()
+      : String(remote || "").toLowerCase();
+
+    if (typeString.includes("remote") || typeString.includes("remore")) {
+      return { label: "Remote", color: "bg-[#dcfce7] text-[#166534]" };
+    }
+    if (typeString.includes("hybrid")) {
+      return { label: "Hybrid", color: "bg-[#dbeafe] text-[#1e40af]" };
+    }
+    return { label: "On-site", color: "bg-[#fef3c7] text-[#92400e]" };
+  };
+
+  const { label: workTypeLabel, color: workTypeColor } = getWorkTypeDisplay();
+
+  const displaySalary = salary ? salary : "Nespecificat";
+
+  const safeTags =
+    tags && Array.isArray(tags) && tags.length > 0 ? tags : ["Fără tag-uri"];
+  const maxTags = 7;
+  const displayTags = safeTags.slice(0, maxTags);
+  const hasMoreTags = safeTags.length > maxTags;
 
   return (
-    <div className="w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-between items-center flex-wrap gap-3 px-4 py-[18px] rounded-2xl shadow-card_shadow hover:shadow-hover_card_shadow">
-      <div className="flex items-center justify-center w-[200px] min-h-[100px]">
-        <img
-          src={noLogo}
-          alt={company}
-          onError={(e) => (e.target.src = noLogo)}
-          className="max-w-[200px] max-h-[100px]"
-        />
-      </div>
-
-      <div className="flex flex-col justify-between gap-5 max-w-[280px] lg:max-w-[364px]">
-        <p className="leading-5" title={company}>
-          {company}
-        </p>
-        <h2 className="text-lg font-bold truncate" title={job_title}>
-          {job_title}
-        </h2>
-        <div className="flex flex-col items-center justify-center gap-1">
-          <img src={mapPin} alt="map pin" className="w-auto h-[18px]" />
-          <p>{city || remote ? displayLocation() : ""}</p>
+    // În Job.jsx
+    <div
+      className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
+  hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
+  w-full"
+    >
+      {/* Content Section */}
+      <div className="flex-1 p-5">
+        <div className="flex items-start justify-between gap-3 mb-3">
+          {/* 1. UPDATED TITLE: Removed line-clamp-2, added break-words */}
+          <h3
+            className="text-[18px] font-semibold text-[#111827] flex-1 break-words"
+            title={job_title}
+          >
+            {job_title}
+          </h3>
+          {/* Work Type Badge */}
+          <span
+            className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
+          >
+            {workTypeLabel}
+          </span>
         </div>
 
-        <Button onClick={handleJobSearch} buttonType="searchJob">
-          Către site
-        </Button>
+        {/* 2. UPDATED COMPANY & LOCATION: Changed to flex-col to stack them vertically */}
+        <div className="flex flex-col gap-2 mb-4">
+          <div className="flex items-center gap-2 text-[#6b7280]">
+            <Building2 className="w-4 h-4 flex-shrink-0" />
+            <span className="text-[13px] font-medium" title={company}>
+              {company}
+            </span>
+          </div>
+
+          <div className="flex items-start gap-2 text-[#6b7280]">
+            <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
+            <span className="text-[13px] leading-tight">
+              {displayLocation()}
+            </span>
+          </div>
+        </div>
+
+        {/* Salary */}
+        <div className="flex items-center gap-2 mb-3">
+          <Wallet
+            className={`w-4 h-4 flex-shrink-0 ${salary ? "text-salary_green" : "text-[#6b7280]"}`}
+          />
+          <span
+            className={`text-[14px] font-semibold ${salary ? "text-salary_green" : "text-[#6b7280]"}`}
+          >
+            {displaySalary}
+          </span>
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2">
+          {displayTags.map((tag, index) => (
+            <span
+              key={index}
+              className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]"
+            >
+              {tag}
+            </span>
+          ))}
+          {hasMoreTags && (
+            <span className="px-2 py-1 text-[#6b7280] text-[12px] flex items-center">
+              ...
+            </span>
+          )}
+        </div>
       </div>
+
+      {/* Button Section with Shadcn Tooltip */}
+      <TooltipProvider delayDuration={200}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={handleApply}
+              className="bg-[#f9fafb] text-[#6b7280] transition-all duration-300 md:px-6 py-3 md:py-0 flex items-center justify-center gap-2 group-hover:bg-custom_teal group-hover:text-white"
+            >
+              <ExternalLink className="w-5 h-5" />
+              <span className="md:hidden text-[14px] font-medium">
+                Către site
+              </span>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent
+            side="top"
+            align="center"
+            className="bg-text_grey text-white px-3 py-1.5 rounded-md text-sm"
+          >
+            <p>Aplicați pe site-ul companiei</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };

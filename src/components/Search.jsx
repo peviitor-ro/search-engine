@@ -26,7 +26,7 @@ import {
   getData,
   getNumberOfCompany,
   getJobSuggestion,
-  getNumberOfJobs // 1. IMPORT ADDED
+  getNumberOfJobs
 } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "./Button";
@@ -67,14 +67,12 @@ const Search = () => {
     contextSetCity,
     fields
   } = useContext(TagsContext);
-  // fields
+
   const [text, setText] = useState("");
-  // dispatch
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
 
-  // jobs
   const total = useSelector((state) => state.jobs.total);
   const [globalJobsTotal, setGlobalJobsTotal] = useState(0);
 
@@ -92,7 +90,6 @@ const Search = () => {
 
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
-  // 3. NEW USE EFFECT to fetch global total on mount (Logic from Component 1)
   useEffect(() => {
     const fetchGlobalTotal = async () => {
       try {
@@ -223,38 +220,6 @@ const Search = () => {
     }
   };
 
-  const [h2Width, setH2Width] = useState("auto");
-  const calculateH2Width = () => {
-    const screenWidth = window.innerWidth;
-    const gap = 28;
-    let cardWidth;
-    const breakpoint = 1024;
-
-    cardWidth = screenWidth > breakpoint ? 384 : 300;
-
-    screenWidth >= 740 && screenWidth <= 767
-      ? setH2Width(300)
-      : setH2Width(
-          (Math.floor((screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)) +
-            1) *
-            cardWidth +
-            (Math.floor(
-              (screenWidth - gap * 4 - cardWidth) / (cardWidth + gap)
-            ) +
-              1 -
-              1) *
-              gap
-        );
-  };
-
-  useEffect(() => {
-    calculateH2Width();
-    window.addEventListener("resize", calculateH2Width);
-    return () => {
-      window.removeEventListener("resize", calculateH2Width);
-    };
-  }, []);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       if (text) {
@@ -276,20 +241,20 @@ const Search = () => {
         alignItems: "center",
         width: "100%"
       }}
-      className={`${
+      className={`max-w-[1440px] mx-auto ${
         location.pathname === "/rezultate" ? "md:flex-row lg:flex-row" : ""
       }`}
     >
       <div
-        className={`flex items-center justify-beetween flex-col mt-5 gap-2 lg:gap-0 lg:flex-row
+        className={`flex items-center justify-between flex-col mt-5 gap-2 lg:gap-0 lg:flex-row
           ${
             location.pathname === "/"
-              ? "w-[100%] mt-0 md:flex-col sm:items-center sm:flex-col sm:items-center"
+              ? "w-[100%] mt-0 md:flex-col sm:items-center"
               : ""
           }
           ${
             location.pathname === "/rezultate"
-              ? "md:justify-center  w-[80%] md:w-[80%] lg:justify-between 2xl:w-[80%]"
+              ? "w-full max-w-[1440px] mx-auto px-4 md:px-14 md:justify-center lg:justify-between"
               : ""
           }`}
       >
@@ -300,7 +265,7 @@ const Search = () => {
         )}
         <form
           onSubmit={handleUpdateQ}
-          className={`flex flex-col items-center relative  lg:justify-between lg:mt-0 lg:gap-0 lg:flex-row  max-w-full
+          className={`flex flex-col items-center relative lg:justify-between lg:mt-0 lg:gap-0 lg:flex-row max-w-full
                 ${location.pathname === "/" ? "gap-2 mt-4 md:gap-2" : ""}
                 ${
                   location.pathname === "/rezultate"
@@ -313,7 +278,7 @@ const Search = () => {
                 ${location.pathname === "/" ? "relative xl:w-[485px] " : ""}
                 ${
                   location.pathname === "/rezultate"
-                    ? "sm:flex-col sm:w-[400px] md:w-[580px] 2xl:w-[90%] lg:w-[90%]"
+                    ? "sm:flex-col sm:w-[400px] md:w-[580px] lg:w-[90%] 2xl:w-[90%]"
                     : ""
                 }`}
           >
@@ -355,7 +320,7 @@ const Search = () => {
             {location.pathname === "/" &&
               focusedInput === "jobTitle" &&
               text.length >= 3 && (
-                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0 lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border">
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0 lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10">
                   {jobSuggestions &&
                     jobSuggestions.length > 0 &&
                     jobSuggestions.map((suggestion, index) => (
@@ -383,7 +348,7 @@ const Search = () => {
               <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
                 <div
                   style={{ height: "54px" }}
-                  className={`flex items-center  relative w-full border border-[#89969C] bg-white rounded-full  lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
+                  className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
                       ${
                         focusedInput === "location"
                           ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
@@ -410,7 +375,7 @@ const Search = () => {
                 {focusedInput === "location" && (
                   <ul
                     className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
-                    lg:rounded-3xl lg:rounded-t-none  lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border"
+                    lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10"
                   >
                     {filteredCities.map((suggestion, index) => (
                       <li
@@ -452,14 +417,15 @@ const Search = () => {
         </form>
       </div>
 
+      {/* 2. UPDATED FILTERS, H2, & TAGS CONTAINER */}
       {location.pathname === "/rezultate" && (
-        <div>
-          {location.pathname === "/rezultate" && <FiltreGrup />}
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-14">
+          <FiltreGrup />
+
           {loading ? (
-            <div className="h-[20px] w-[50%] md:w-[16%] mx-auto my-8 md:mx-0 bg-gray-300 animate-pulse rounded-md"></div>
+            <div className="h-[20px] w-[50%] md:w-[16%] my-8 bg-gray-300 animate-pulse rounded-md"></div>
           ) : (
             (() => {
-              // 1. Check if any filter (search, city, company, etc) is active
               const isFiltering = [q, city, county, company, remote].some(
                 (param) =>
                   Array.isArray(param) && param.filter(Boolean).length > 0
@@ -468,12 +434,10 @@ const Search = () => {
               const displayLabel = isFiltering
                 ? nrJoburi
                 : "locuri de muncă disponibile";
+
               if (displayCount > 0) {
                 return (
-                  <h2
-                    className="text-start text-text_grey_darker my-8 text-lg"
-                    style={{ width: h2Width, margin: "32px auto" }}
-                  >
+                  <h2 className="text-start text-text_grey_darker my-8 text-lg w-full">
                     {displayCount} {displayLabel}
                   </h2>
                 );
@@ -483,10 +447,7 @@ const Search = () => {
           )}
 
           {!deletAll && total > 0 && (
-            <div
-              className="pb-9 flex gap-2 flex-wrap"
-              style={{ width: h2Width, margin: "0 auto" }}
-            >
+            <div className="pb-9 flex gap-2 flex-wrap w-full">
               <FilterTags tags={fields} removeTag={removeTag} />
               <div className="flex gap-2 ml-4">
                 <Button
@@ -503,4 +464,5 @@ const Search = () => {
     </div>
   );
 };
+
 export default Search;
