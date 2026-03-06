@@ -35,7 +35,7 @@ const FiltreCompanies = ({ dropDown }) => {
     const fetchData = async () => {
       try {
         const companies = await getNameOfCompanies();
-        setAllCompanies(companies);
+        setAllCompanies(companies || []);
       } catch (error) {
         console.error("Error fetching companies:", error);
       }
@@ -47,16 +47,27 @@ const FiltreCompanies = ({ dropDown }) => {
   // Filtering companies
   useEffect(() => {
     if (debouncedInput.length >= 3) {
-      const filtered = allCompanies.filter((company) =>
-        company.name.toLowerCase().includes(debouncedInput.toLowerCase())
-      );
+      const filtered = allCompanies.filter((company) => {
+        if (!company || !company.name) {
+          return false;
+        }
+
+        return company.name
+          .toLowerCase()
+          .includes(debouncedInput.toLowerCase());
+      });
+
       setFilteredCompanies(filtered.map((el) => el.name));
       setError("");
     } else {
       setFilteredCompanies([]);
-      setError(
-        "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
-      );
+      if (debouncedInput.length > 0) {
+        setError(
+          "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
+        );
+      } else {
+        setError("");
+      }
     }
   }, [debouncedInput, allCompanies]);
 
@@ -78,7 +89,9 @@ const FiltreCompanies = ({ dropDown }) => {
       </div>
 
       <div className="flex flex-col py-1 px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
-        {error && <p className="text-sm">{error}</p>}
+        {error && (
+          <p className="text-sm text-text_grey_darker mt-2 px-1">{error}</p>
+        )}
         {filteredCompanies.map((name, index) => (
           <InputField
             key={index}

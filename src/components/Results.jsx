@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 // svg
 import loadingIcon from "../assets/svg/loading.svg";
-// import removeIcon from "../assets/svg/remove.svg";
 // components
 import Job from "./Job";
 import NoResults from "./NoResults";
@@ -71,9 +70,9 @@ const Results = () => {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {loading ? (
-        <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 w-fit mx-auto">
+        <section className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
           {Array.from({ length: 6 }).map((_, idx) => (
             <JobSkeleton key={idx} />
           ))}
@@ -81,11 +80,19 @@ const Results = () => {
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="grid gap-7 md:px-14 w-full mx-auto pb-12 md:flex md:flex-wrap md:justify-center">
-              {/* // <section className="grid gap-7 px-14 w-full mx-auto pb-12 mt-2 md:flex md:flex-wrap md:justify-center"> */}
+            <section className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
               {jobs.map(
                 (
-                  { city, company, county, job_link, job_title, remote },
+                  {
+                    city,
+                    company,
+                    county,
+                    job_link,
+                    job_title,
+                    remote,
+                    salary,
+                    tags
+                  },
                   idx
                 ) => (
                   <Job
@@ -96,6 +103,8 @@ const Results = () => {
                     job_link={job_link}
                     job_title={handleStringDecode(job_title)}
                     remote={remote}
+                    salary={salary}
+                    tags={tags}
                   />
                 )
               )}
@@ -107,7 +116,7 @@ const Results = () => {
       )}
 
       {loadingMore ? (
-        <div className="flex justify-center items-center  mx-auto my-12 w-fit  p-3.5 rounded-full bg-background_green  cursor-wait">
+        <div className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait">
           <img
             src={loadingIcon}
             alt="loading icon"
@@ -135,4 +144,5 @@ const Results = () => {
     </div>
   );
 };
+
 export default Results;
