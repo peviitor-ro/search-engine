@@ -1,5 +1,5 @@
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
-import { capitalizeJobTitle } from "@/utils/textFormat.js";
+import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
 import {
   Tooltip,
   TooltipContent,
@@ -63,7 +63,10 @@ const Job = ({
 
   const { label: workTypeLabel, color: workTypeColor } = getWorkTypeDisplay();
 
-  const displaySalary = salary ? salary : "Nespecificat";
+  const formattedSalaryString = formatSalary(salary);
+  const displaySalary = formattedSalaryString
+    ? formattedSalaryString
+    : "Nespecificat";
 
   const safeTags =
     tags && Array.isArray(tags) && tags.length > 0 ? tags : ["Fără tag-uri"];
