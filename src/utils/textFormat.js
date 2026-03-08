@@ -16,7 +16,7 @@ export function capitalizeJobTitle(title) {
 
   return title
     .toLowerCase()
-    .split(/([ -])/g)
+    .split(/([ \/-])/g)
     .map((word) => {
       if (!word.trim() || word === "-") return word;
       if (exceptions.includes(word)) return word;
@@ -24,4 +24,32 @@ export function capitalizeJobTitle(title) {
     })
 
     .join("");
+}
+
+export function formatSalary(salaryArray) {
+  if (!salaryArray || !Array.isArray(salaryArray) || salaryArray.length === 0) {
+    return null;
+  }
+
+  const rawSalary = salaryArray[0];
+  const regex = /([\d]+)\s*(?:-\s*([\d]+))?\s*([A-Za-z]+)?/;
+  const match = rawSalary.match(regex);
+
+  if (!match) return rawSalary;
+
+  const min = match[1];
+  const max = match[2];
+  const currency = match[3] || "";
+
+  const formatNumber = (num) => {
+    return Number(num).toLocaleString("ro-RO");
+  };
+
+  if (min && max) {
+    return `${formatNumber(min)} - ${formatNumber(max)} ${currency}`.trim();
+  } else if (min) {
+    return `${formatNumber(min)} ${currency}`.trim();
+  }
+
+  return rawSalary;
 }
