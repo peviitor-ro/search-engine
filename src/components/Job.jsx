@@ -1,4 +1,5 @@
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
+import { capitalizeJobTitle } from "@/utils/textFormat.js";
 import {
   Tooltip,
   TooltipContent,
@@ -85,7 +86,7 @@ const Job = ({
             className="text-[18px] font-semibold text-[#111827] flex-1 break-words"
             title={job_title}
           >
-            {job_title}
+            {capitalizeJobTitle(job_title)}
           </h3>
           {/* Work Type Badge */}
           <span
