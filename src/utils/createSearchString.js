@@ -3,7 +3,8 @@ function removeDiacritics(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-export function createSearchString(q, city, county, company, remote, page) {
+// 1. Am schimbat 'remote' în 'workmode' în argumentele funcției
+export function createSearchString(q, city, county, company, workmode, page) {
   const queryParams = [];
 
   // Check and include q if not empty
@@ -12,7 +13,6 @@ export function createSearchString(q, city, county, company, remote, page) {
     queryParams.push(`q=${encodeURIComponent(qValue)}`);
   }
 
-  // --- CITIES ---
   if (Array.isArray(city) && city.filter(Boolean).length > 0) {
     const expandedCities = city.flatMap((c) => {
       const cleanCity = removeDiacritics(c);
@@ -23,7 +23,6 @@ export function createSearchString(q, city, county, company, remote, page) {
     const safeCities = uniqueCities.map((c) => encodeURIComponent(c)).join(",");
     queryParams.push(`city=${safeCities}`);
   }
-  // --------------------------------
 
   // Check and include county if not empty
   if (Array.isArray(county) && county.filter(Boolean).length > 0) {
@@ -43,13 +42,13 @@ export function createSearchString(q, city, county, company, remote, page) {
     queryParams.push(`company=${safeCompanies}`);
   }
 
-  // Check and include remote if not empty
-  if (Array.isArray(remote) && remote.filter(Boolean).length > 0) {
-    const safeRemote = remote
+  // Check and include workmode if not empty
+  if (Array.isArray(workmode) && workmode.filter(Boolean).length > 0) {
+    const safeWorkmode = workmode
       .filter(Boolean)
-      .map((r) => encodeURIComponent(r))
+      .map((r) => encodeURIComponent(String(r).toLowerCase()))
       .join(",");
-    queryParams.push(`remote=${safeRemote}`);
+    queryParams.push(`workmode=${safeWorkmode}`);
   }
 
   // Always include page
