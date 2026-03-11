@@ -139,30 +139,30 @@ const FiltreGrup = () => {
                   checked={fields.remote.includes("on-site")}
                   onChange={(e) => handleCheckBoxChange(e, "remote")}
                   inputType="checkBoxType"
-                  label="La fața locului"
+                  label="Fizic"
                   item="on-site"
                 />
                 <InputField
                   type="checkbox"
-                  id="Hybrid"
-                  name="Hybrid"
-                  value="Hybrid"
-                  checked={fields.remote.includes("Hybrid")}
+                  id="hybrid"
+                  name="hybrid"
+                  value="hybrid"
+                  checked={fields.remote.includes("hybrid")}
                   onChange={(e) => handleCheckBoxChange(e, "remote")}
                   inputType="checkBoxType"
                   label="Hibrid"
-                  item="Hybrid"
+                  item="hybrid"
                 />
                 <InputField
                   type="checkbox"
-                  id="Remote"
+                  id="remote"
                   name="remote"
-                  value="Remote"
-                  checked={fields.remote.includes("Remote")}
+                  value="remote"
+                  checked={fields.remote.includes("remote")}
                   onChange={(e) => handleCheckBoxChange(e, "remote")}
                   inputType="checkBoxType"
                   label="La distanță"
-                  item="Remote"
+                  item="remote"
                 />
               </div>
             )}

@@ -23,7 +23,13 @@ const Results = () => {
   // redux
   const dispatch = useDispatch();
   // context
-  const { q, city, remote, county, company } = useContext(TagsContext);
+  const {
+    q,
+    city,
+    remote: workmode,
+    county,
+    company
+  } = useContext(TagsContext);
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
@@ -40,7 +46,7 @@ const Results = () => {
     setLoadingMore(true);
     const nextPage = pageUrl + 1;
     const { jobs } = await getData(
-      createSearchString(q, city, county, company, remote, nextPage)
+      createSearchString(q, city, county, company, workmode, nextPage)
     ).catch(() => ({ jobs: [] }));
     setLoadingMore(false);
     dispatch(setJobs(jobs));
@@ -84,12 +90,12 @@ const Results = () => {
               {jobs.map(
                 (
                   {
-                    city,
+                    location,
                     company,
                     county,
-                    job_link,
-                    job_title,
-                    remote,
+                    url,
+                    title,
+                    workmode: jobWorkmode,
                     salary,
                     tags
                   },
@@ -97,12 +103,12 @@ const Results = () => {
                 ) => (
                   <Job
                     key={idx}
-                    city={city}
+                    location={location}
                     company={company}
                     county={county}
-                    job_link={job_link}
-                    job_title={handleStringDecode(job_title)}
-                    remote={remote}
+                    url={url}
+                    title={handleStringDecode(title)}
+                    workmode={jobWorkmode}
                     salary={salary}
                     tags={tags}
                   />

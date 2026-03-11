@@ -10,17 +10,17 @@ import {
 const exceptions = ["de", "lui"];
 
 const Job = ({
-  city,
+  location,
   company,
   county,
-  job_link,
-  job_title,
-  remote,
+  url,
+  title,
+  workmode,
   salary,
   tags
 }) => {
   function displayLocation() {
-    const citiesName = city
+    const citiesName = location
       ?.filter((el) => el)
       .map((el) => {
         return String(el)
@@ -35,8 +35,8 @@ const Job = ({
       });
 
     if (!citiesName || citiesName.length === 0) {
-      if (Array.isArray(remote)) return remote.join(", ");
-      return remote ? String(remote) : "";
+      if (Array.isArray(workmode)) return workmode.join(", ");
+      return workmode ? String(workmode) : "";
     }
     if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
     if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
@@ -44,21 +44,27 @@ const Job = ({
   }
 
   const handleApply = () => {
-    window.open(job_link, "_blank");
+    window.open(url, "_blank");
   };
 
   const getWorkTypeDisplay = () => {
-    const typeString = Array.isArray(remote)
-      ? remote.join(" ").toLowerCase()
-      : String(remote || "").toLowerCase();
+    if (!workmode) {
+      return { label: "Fizic", color: "bg-[#fef3c7] text-[#92400e]" };
+    }
+
+    const typeString = Array.isArray(workmode)
+      ? workmode.join(" ").toLowerCase()
+      : String(workmode).toLowerCase();
 
     if (typeString.includes("remote") || typeString.includes("remore")) {
-      return { label: "Remote", color: "bg-[#dcfce7] text-[#166534]" };
+      return { label: "La distanță", color: "bg-[#dcfce7] text-[#166534]" };
     }
-    if (typeString.includes("hybrid")) {
-      return { label: "Hybrid", color: "bg-[#dbeafe] text-[#1e40af]" };
+
+    if (typeString.includes("hybrid") || typeString.includes("hibrid")) {
+      return { label: "Hibrid", color: "bg-[#dbeafe] text-[#1e40af]" };
     }
-    return { label: "On-site", color: "bg-[#fef3c7] text-[#92400e]" };
+
+    return { label: "Fizic", color: "bg-[#fef3c7] text-[#92400e]" };
   };
 
   const { label: workTypeLabel, color: workTypeColor } = getWorkTypeDisplay();
@@ -81,26 +87,23 @@ const Job = ({
   hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
   w-full"
     >
-      {/* Content Section */}
       <div className="flex-1 p-5">
+        {/* Title and Badge */}
         <div className="flex items-start justify-between gap-3 mb-3">
-          {/* 1. UPDATED TITLE: Removed line-clamp-2, added break-words */}
           <h3
             className="text-[18px] font-semibold text-[#111827] flex-1 break-words"
-            title={job_title}
+            title={title}
           >
-            {capitalizeJobTitle(job_title)}
+            {capitalizeJobTitle(title)}
           </h3>
-          {/* Work Type Badge */}
           <span
             className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
           >
             {workTypeLabel}
           </span>
         </div>
-
-        {/* 2. UPDATED COMPANY & LOCATION: Changed to flex-col to stack them vertically */}
         <div className="flex flex-col gap-2 mb-4">
+          {/* Company */}
           <div className="flex items-center gap-2 text-[#6b7280]">
             <Building2 className="w-4 h-4 flex-shrink-0" />
             <span className="text-[13px] font-medium" title={company}>
@@ -108,6 +111,7 @@ const Job = ({
             </span>
           </div>
 
+          {/* Location */}
           <div className="flex items-start gap-2 text-[#6b7280]">
             <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span className="text-[13px] leading-tight">
@@ -146,7 +150,6 @@ const Job = ({
         </div>
       </div>
 
-      {/* Button Section with Shadcn Tooltip */}
       <TooltipProvider delayDuration={200}>
         <Tooltip>
           <TooltipTrigger asChild>
