@@ -33,8 +33,23 @@ import Button from "./Button";
 import getCityMatch from "../utils/getCityMatch";
 import { comune } from "../utils/getCommuneName";
 import getCommuneMatch from "../utils/getCommuneMatch";
+import { X } from "lucide-react";
 
 const FilterTags = ({ tags, removeTag }) => {
+  const translateWorkmode = {
+    "on-site": "Fizic",
+    hybrid: "Hibrid",
+    remote: "La distanță"
+  };
+
+  const getDisplayText = (key, item) => {
+    if (key === "remote" || key === "workmode") {
+      const normalizedItem = String(item).toLowerCase();
+      return translateWorkmode[normalizedItem] || item;
+    }
+    return item;
+  };
+
   return (
     <div className="flex gap-2 flex-wrap">
       {Object.entries(tags).map(([key, currentArray]) =>
@@ -44,8 +59,8 @@ const FilterTags = ({ tags, removeTag }) => {
             buttonType="addFilters"
             onClick={() => removeTag(key, item)}
           >
-            {item}
-            <img src={removeIcon} alt="x" className="cursor-pointer ml-2" />
+            {getDisplayText(key, item)}
+            <X className="w-4 h-4" />
           </Button>
         ))
       )}
