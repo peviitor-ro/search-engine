@@ -123,10 +123,10 @@ const Job = ({
         {/* Salary */}
         <div className="flex items-center gap-2 mb-3">
           <Wallet
-            className={`w-4 h-4 flex-shrink-0 ${salary ? "text-salary_green" : "text-[#6b7280]"}`}
+            className={`w-4 h-4 flex-shrink-0 ${salary ? "text-background_green" : "text-[#6b7280]"}`}
           />
           <span
-            className={`text-[14px] font-semibold ${salary ? "text-salary_green" : "text-[#6b7280]"}`}
+            className={`text-[14px] font-semibold ${salary ? "text-background_green" : "text-[#6b7280]"}`}
           >
             {displaySalary}
           </span>

@@ -26,8 +26,7 @@ export default {
         background_green_light: "#DBE8E9",
         background_cards: "#fbfbfb",
         white: "#ffffff",
-        custom_teal: "#59948F",
-        salary_green: "#048a81"
+        custom_teal: "#59948F"
       },
       boxShadow: {
         card_shadow: "0px 1px 3px 1px #00000026",
