@@ -10,7 +10,7 @@ const BUTTON_TYPE_CLASSES = {
   deleteFilters:
     "bg-transparent text-center px-2 py-2 text-black border-black border-l",
   addFilters:
-    "py-2 px-4 bg-background_green_light text-background_green border-background_green border hover:bg-background_green_light hover:text-black transition-all duration-200 rounded-md flex items-center gap-2 cursor-pointer",
+    "py-1 px-4 bg-orange-200 text-orange-500 border-orange-500 border  hover:text-black transition-all duration-200 rounded-full flex items-center gap-2 cursor-pointer",
   scrollToTop:
     "fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0"
 };
