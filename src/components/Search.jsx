@@ -76,7 +76,7 @@ const Search = () => {
     county,
     company,
     removeTag,
-    deletAll,
+    deleteAll,
     handleRemoveAllFilters,
     contextSetQ,
     contextSetCity,
@@ -461,19 +461,23 @@ const Search = () => {
             })()
           )}
 
-          {!deletAll && total > 0 && (
-            <div className="pb-9 flex gap-2 flex-wrap w-full">
-              <FilterTags tags={fields} removeTag={removeTag} />
-              <div className="flex gap-2 ml-4">
-                <Button
-                  buttonType="deleteFilters"
-                  onClick={handleRemoveAllFilters}
-                >
-                  Șterge filtre
-                </Button>
+          {!deleteAll &&
+            [q, city, county, company, remote].some(
+              (param) =>
+                Array.isArray(param) && param.filter(Boolean).length > 0
+            ) && (
+              <div className="pb-9 flex gap-2 flex-wrap w-full mt-4">
+                <FilterTags tags={fields} removeTag={removeTag} />
+                <div className="flex gap-2 ml-4">
+                  <Button
+                    buttonType="deleteFilters"
+                    onClick={handleRemoveAllFilters}
+                  >
+                    Șterge filtre
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       )}
     </div>
