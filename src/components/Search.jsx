@@ -462,7 +462,7 @@ const Search = () => {
           )}
 
           {!deleteAll &&
-            [q, city, county, company, remote].some(
+            [city, county, company, remote].some(
               (param) =>
                 Array.isArray(param) && param.filter(Boolean).length > 0
             ) && (
