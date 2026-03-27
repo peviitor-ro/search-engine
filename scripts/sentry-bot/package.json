@@ -1,0 +1,12 @@
+{
+  "name": "sentry-github-sync",
+  "version": "1.0.0",
+  "description": "Sync Sentry issues to GitHub",
+  "main": "sync-sentry.js",
+  "scripts": {
+    "start": "node sync-sentry.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
