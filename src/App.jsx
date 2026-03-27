@@ -4,6 +4,7 @@ import Landing from "./pages/Landing";
 import Rezultate from "./pages/Rezultate";
 import TermsOfUse from "./pages/TermsOfUse";
 import Privacy from "./pages/Privacy";
+import CompanyProfile from "./pages/CompanyProfile";
 import Page404 from "./pages/Page404";
 // context
 import { TagsProvider } from "./context/TagsContext";
@@ -13,6 +14,10 @@ const router = createHashRouter(
     {
       path: "",
       element: <Landing />
+    },
+    {
+      path: "company/:id",
+      element: <CompanyProfile />
     },
     {
       path: "rezultate",

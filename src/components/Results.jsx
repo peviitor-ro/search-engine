@@ -97,7 +97,8 @@ const Results = () => {
                     title,
                     workmode: jobWorkmode,
                     salary,
-                    tags
+                    tags,
+                    cif // <- Extrage-l de aici
                   },
                   idx
                 ) => (
@@ -111,6 +112,7 @@ const Results = () => {
                     workmode={jobWorkmode}
                     salary={salary}
                     tags={tags}
+                    cif={cif}
                   />
                 )
               )}
