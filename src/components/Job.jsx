@@ -1,5 +1,7 @@
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -17,7 +19,8 @@ const Job = ({
   title,
   workmode,
   salary,
-  tags
+  tags,
+  cif
 }) => {
   function displayLocation() {
     const citiesName = location
@@ -42,6 +45,9 @@ const Job = ({
     if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
     return citiesName.join(", ");
   }
+
+  const routerLocation = useLocation();
+  const isProfilePage = routerLocation.pathname.includes("/company");
 
   const handleApply = () => {
     window.open(url, "_blank");
@@ -81,14 +87,12 @@ const Job = ({
   const hasMoreTags = safeTags.length > maxTags;
 
   return (
-    // În Job.jsx
     <div
       className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
   hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
   w-full"
     >
       <div className="flex-1 p-5">
-        {/* Title and Badge */}
         <div className="flex items-start justify-between gap-3 mb-3">
           <h3
             className="text-[18px] font-semibold text-[#111827] flex-1 break-words"
@@ -103,15 +107,24 @@ const Job = ({
           </span>
         </div>
         <div className="flex flex-col gap-2 mb-4">
-          {/* Company */}
           <div className="flex items-center gap-2 text-[#6b7280]">
             <Building2 className="w-4 h-4 flex-shrink-0" />
-            <span className="text-[13px] font-medium" title={company}>
-              {company}
-            </span>
+            {cif && !isProfilePage ? (
+              <Link
+                to={`/company/${cif}`}
+                className="group inline-flex items-center gap-1 text-[13px] font-medium text-background_green hover:underline cursor-pointer transition-colors"
+                title={`Vezi profilul companiei ${company}`}
+              >
+                {company}
+                <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+              </Link>
+            ) : (
+              <span className="text-[13px] font-medium" title={company}>
+                {company}
+              </span>
+            )}
           </div>
 
-          {/* Location */}
           <div className="flex items-start gap-2 text-[#6b7280]">
             <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <span className="text-[13px] leading-tight">
@@ -120,7 +133,6 @@ const Job = ({
           </div>
         </div>
 
-        {/* Salary */}
         <div className="flex items-center gap-2 mb-3">
           <Wallet
             className={`w-4 h-4 flex-shrink-0 ${salary ? "text-background_green" : "text-[#6b7280]"}`}
@@ -132,7 +144,6 @@ const Job = ({
           </span>
         </div>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-2">
           {displayTags.map((tag, index) => (
             <span
