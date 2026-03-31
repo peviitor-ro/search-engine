@@ -22,8 +22,8 @@ export default {
         text_orange: "#f3781d",
         text_grey: "#4b4646",
         text_grey_darker: "#6f777a",
-        background_green: "#048a81",
-        background_green_light: "#DBE8E9",
+        background_green: "#2f7973",
+        background_green_light: "#bfd5d4",
         background_cards: "#fbfbfb",
         white: "#ffffff",
         custom_teal: "#59948F"
