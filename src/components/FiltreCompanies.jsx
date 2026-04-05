@@ -23,56 +23,40 @@ function useDebounce(value, delay) {
 
 const FiltreCompanies = ({ dropDown }) => {
   const [inputCompany, setInputCompany] = useState("");
-  const [allCompanies, setAllCompanies] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [error, setError] = useState("");
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
   const debouncedInput = useDebounce(inputCompany, 300);
 
-  // Fetching company data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const companies = await getNameOfCompanies();
-        setAllCompanies(companies || []);
-      } catch (error) {
-        console.error("Error fetching companies:", error);
+    const fetchFilteredCompanies = async () => {
+      if (debouncedInput.length >= 3) {
+        try {
+          const companies = await getNameOfCompanies(debouncedInput);
+          setFilteredCompanies(companies || []);
+          setError("");
+        } catch (err) {
+          console.error("Error fetching companies:", err);
+          setFilteredCompanies([]);
+        }
+      } else {
+        setFilteredCompanies([]);
+        if (debouncedInput.length > 0) {
+          setError(
+            "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
+          );
+        } else {
+          setError("");
+        }
       }
     };
 
-    fetchData();
-  }, []);
-
-  // Filtering companies
-  useEffect(() => {
-    if (debouncedInput.length >= 3) {
-      const filtered = allCompanies.filter((company) => {
-        if (!company || !company.name) {
-          return false;
-        }
-
-        return company.name
-          .toLowerCase()
-          .includes(debouncedInput.toLowerCase());
-      });
-
-      setFilteredCompanies(filtered.map((el) => el.name));
-      setError("");
-    } else {
-      setFilteredCompanies([]);
-      if (debouncedInput.length > 0) {
-        setError(
-          "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
-        );
-      } else {
-        setError("");
-      }
-    }
-  }, [debouncedInput, allCompanies]);
+    fetchFilteredCompanies();
+  }, [debouncedInput]);
 
   const handleInputChange = (e) => {
-    setInputCompany(e.target.value);
+    setInputCompany(e.target.value.toUpperCase());
   };
 
   return (
@@ -99,7 +83,7 @@ const FiltreCompanies = ({ dropDown }) => {
             id={name}
             name="company"
             value={name}
-            checked={fields["company"].includes(name)}
+            checked={fields["company"]?.includes(name) || false}
             onChange={(e) => handleCheckBoxChange(e, "company")}
             inputType="checkBoxType"
             label={name}

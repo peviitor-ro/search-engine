@@ -59,13 +59,18 @@ export const getNumberOfCompany = async () => {
 };
 
 // Fetch the list of companies
-export const getNameOfCompanies = async () => {
+export const getNameOfCompanies = async (searchQuery = "") => {
   try {
-    const response = await fetch(`${API_COMPANIES}?count=true`);
+    const url = searchQuery
+      ? `${API_COMPANIES}?name=${encodeURIComponent(searchQuery)}`
+      : `${API_COMPANIES}?rows=100`;
+    const response = await fetch(url);
+
     if (!response.ok) throw new Error("Invalid response");
 
     const data = await response.json();
-    return data?.companies || [];
+    const companiesArray = data?.companies || [];
+    return companiesArray.map((item) => item.company);
   } catch (error) {
     console.error("Error fetching company list:", error);
     return [];
