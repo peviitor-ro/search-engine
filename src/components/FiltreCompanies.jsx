@@ -31,9 +31,11 @@ const FiltreCompanies = ({ dropDown }) => {
 
   useEffect(() => {
     const fetchFilteredCompanies = async () => {
-      if (debouncedInput.length >= 3) {
+      const searchTerm = debouncedInput.trim();
+
+      if (searchTerm.length >= 3) {
         try {
-          const companies = await getNameOfCompanies(debouncedInput);
+          const companies = await getNameOfCompanies(searchTerm);
           setFilteredCompanies(companies || []);
           setError("");
         } catch (err) {
