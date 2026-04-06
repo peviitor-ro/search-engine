@@ -1,5 +1,3 @@
-import React from "react";
-
 // Import Footer component
 import Footer from "./Footer";
 

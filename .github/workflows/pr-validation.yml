@@ -24,7 +24,7 @@ jobs:
 
       # 3. Install dependencies cleanly
       - name: Install Dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       # 4. Check Code Formatting (Prettier)
       - name: Check Formatting

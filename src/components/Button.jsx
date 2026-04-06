@@ -1,5 +1,3 @@
-import React from "react";
-
 const BUTTON_TYPE_CLASSES = {
   search:
     "ml-3 bg-background_green text-white w-[122px] h-[54px]  text-base rounded-full transition duration-300 ease-out hover:shadow-button_shadow focus:outline-none",

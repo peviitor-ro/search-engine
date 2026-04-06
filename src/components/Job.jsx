@@ -14,7 +14,6 @@ const exceptions = ["de", "lui"];
 const Job = ({
   location,
   company,
-  county,
   url,
   title,
   workmode,
