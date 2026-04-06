@@ -1,0 +1,40 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate:
+    name: Lint and Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the code from the repository
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # 3. Install dependencies cleanly
+      - name: Install Dependencies
+        run: npm ci
+
+      # 4. Check Code Formatting (Prettier)
+      - name: Check Formatting
+        run: npm run format:check
+        continue-on-error: true # False for strict formatting enforcement
+
+      # 5. Run ESLint
+      - name: Run Linter
+        run: npm run lint
+
+      # 6. Verify the Build
+      - name: Verify Build
+        run: npm run build
