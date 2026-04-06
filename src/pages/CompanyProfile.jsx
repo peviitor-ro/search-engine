@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Building2,
@@ -15,7 +15,6 @@ import Job from "../components/Job";
 import JobSkeleton from "../components/JobSkeleton";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
-import NoResults from "../components/NoResults";
 
 const CompanyProfile = () => {
   const { id } = useParams();

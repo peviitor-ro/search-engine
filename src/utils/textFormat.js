@@ -16,7 +16,7 @@ export function capitalizeJobTitle(title) {
 
   return title
     .toLowerCase()
-    .split(/([ \/-])/g)
+    .split(/([-])/g)
     .map((word) => {
       if (!word.trim() || word === "-") return word;
       if (exceptions.includes(word)) return word;

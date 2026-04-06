@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import { orase } from "../utils/getCityName";
@@ -36,7 +36,6 @@ const FiltreCities = ({ dropDown }) => {
     setError(filteredItems.length === 0 && inputValue.length > 0);
   }, [filteredItems, inputValue]);
 
-   
   return (
     <div className="flex flex-col">
       <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">
@@ -45,30 +44,34 @@ const FiltreCities = ({ dropDown }) => {
           alt="magnify-glass"
           className="relative left-0 w-[20px] ml-1"
         />
-        <InputField 
+        <InputField
           value={inputValue}
           placeholder={`Caută oraș`}
           onChange={handleInputChange}
           inputType="searchType"
-          type="search" />
+          type="search"
+        />
       </div>
 
       <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
         {error ? (
-          <div className="pl-[10px]">Nu există rezultate "{inputValue}"</div>
+          <div className="pl-[10px]">
+            Nu există rezultate pentru {inputValue}
+          </div>
         ) : (
           filteredItems.map((item, index) => (
-              <InputField key={index}
-                type="checkbox"
-                id={item}
-                name="orase"
-                value={item}
-                checked={fields["orase"].includes(item)}
-                onChange={(e) => handleCheckBoxChange(e, "orase")}
-                inputType="checkBoxType"
-                label={item}
-                item={item}
-              />
+            <InputField
+              key={index}
+              type="checkbox"
+              id={item}
+              name="orase"
+              value={item}
+              checked={fields["orase"].includes(item)}
+              onChange={(e) => handleCheckBoxChange(e, "orase")}
+              inputType="checkBoxType"
+              label={item}
+              item={item}
+            />
           ))
         )}
       </div>

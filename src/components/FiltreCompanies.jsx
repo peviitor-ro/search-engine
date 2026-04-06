@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
@@ -21,7 +21,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const FiltreCompanies = ({ dropDown }) => {
+const FiltreCompanies = () => {
   const [inputCompany, setInputCompany] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [error, setError] = useState("");

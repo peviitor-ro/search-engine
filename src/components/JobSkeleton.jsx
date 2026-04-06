@@ -1,5 +1,3 @@
-import React from "react";
-
 const JobSkeleton = () => {
   return (
     <div className="relative w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-around items-center flex-wrap gap-3 px-4 py-[6px] rounded-2xl shadow-card_shadow z-0">

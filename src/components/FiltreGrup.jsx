@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import sageata from "../assets/svg/arrow_bottom.svg";
 import { useLocation } from "react-router-dom";

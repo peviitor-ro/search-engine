@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import HomeLink from "../components/CustomLinks";
 import Layout from "../components/Layout";
 
