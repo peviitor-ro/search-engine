@@ -47,6 +47,8 @@
     "build:qa": "vite build --mode qa",
     "build:production": "vite build --mode production",
     "build:final": "vite build --mode final",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format:check": "npx prettier --check ."
   }
 }
