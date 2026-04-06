@@ -37,9 +37,9 @@ export function createSearchString(q, city, county, company, workmode, page) {
   if (Array.isArray(company) && company.filter(Boolean).length > 0) {
     const safeCompanies = company
       .filter(Boolean)
-      .map((c) => encodeURIComponent(c))
-      .join(",");
-    queryParams.push(`company=${safeCompanies}`);
+      .map((c) => `company=${encodeURIComponent(c)}`)
+      .join("&");
+    queryParams.push(safeCompanies);
   }
 
   // Check and include workmode if not empty
