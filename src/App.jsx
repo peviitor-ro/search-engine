@@ -9,6 +9,8 @@ import Page404 from "./pages/Page404";
 // context
 import { TagsProvider } from "./context/TagsContext";
 
+const makeLintFail = "Oops";
+
 const router = createHashRouter(
   [
     {
