@@ -1,0 +1,49 @@
+name: "Backlog Maintenance"
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at midnight
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/stale@v9
+        with:
+          # --- Thresholds ---
+          days-before-stale: 30
+          days-before-close: 7
+
+          # --- Rate Limiting ---
+          # Processes 30 items per run/day
+          operations-per-run: 50
+
+          # --- Exclusions ---
+          # 1. Documentation: Never mark these as stale
+          # 2. Stale/Closed: The bot naturally ignores things already closed
+          exempt-issue-labels: "documentation,pinned,security,important"
+          exempt-pr-labels: "documentation,dependencies"
+
+          # --- Issue Messages ---
+          stale-issue-message: >
+            **Automatic Maintenance Check** 🤖
+
+            This issue has had no activity for 30 days. To help us focus on what's still relevant:
+
+            1. **If this is still a priority:** Please leave a comment. This will remove the `stale` tag.
+            2. **If this is no longer relevant:** No action is needed; it will close in 7 days.
+
+          close-issue-message: "Closing this issue due to 30 days of inactivity."
+
+          # --- PR Messages ---
+          stale-pr-message: >
+            **PR Maintenance Check** 🛠️
+
+            This Pull Request has been open for 30 days without updates. Please push a commit or comment to keep it active, otherwise it will be closed in 7 days.
+
+          close-pr-message: "Closing this PR due to inactivity."
