@@ -3,7 +3,7 @@ name: "Backlog Maintenance"
 on:
   schedule:
     - cron: "0 0 * * *" # Runs daily at midnight
-  workflow_dispatch: # Allows manual trigger
+  workflow_dispatch:
 
 jobs:
   stale:
@@ -20,8 +20,10 @@ jobs:
           days-before-close: 7
 
           # --- Rate Limiting ---
-          # Processes 30 items per run/day
-          operations-per-run: 50
+          operations-per-run: 200
+
+          # --- Old to New Sorting ---
+          ascending: true
 
           # --- Exclusions ---
           # 1. Documentation: Never mark these as stale
