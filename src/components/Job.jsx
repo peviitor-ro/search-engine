@@ -1,7 +1,7 @@
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
 import { Link, useLocation } from "react-router-dom";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CalendarClock } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +19,9 @@ const Job = ({
   workmode,
   salary,
   tags,
-  cif
+  cif,
+  vdate,
+  date
 }) => {
   function displayLocation() {
     const citiesName = location
@@ -85,6 +87,20 @@ const Job = ({
   const displayTags = safeTags.slice(0, maxTags);
   const hasMoreTags = safeTags.length > maxTags;
 
+  const rawDate = vdate || date;
+  const dateUI = rawDate
+    ? new Date(rawDate)
+        .toLocaleDateString("ro-RO", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        })
+        .replace(".", "")
+        .split(" ")
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(" • ")
+    : "Lipsă";
+
   return (
     <div
       className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
@@ -132,15 +148,22 @@ const Job = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mb-3">
-          <Wallet
-            className={`w-4 h-4 flex-shrink-0 ${salary ? "text-background_green" : "text-[#6b7280]"}`}
-          />
-          <span
-            className={`text-[14px] font-semibold ${salary ? "text-background_green" : "text-[#6b7280]"}`}
-          >
-            {displaySalary}
-          </span>
+        <div className="flex items-center justify-between gap-3 flex-wrap w-full mb-3">
+          <div className="flex items-center gap-2">
+            <Wallet
+              className={`w-4 h-4 flex-shrink-0 ${salary ? "text-background_green" : "text-[#6b7280]"}`}
+            />
+            <span
+              className={`text-[14px] font-semibold ${salary ? "text-background_green" : "text-[#6b7280]"}`}
+            >
+              {displaySalary}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 text-[#6b7280]">
+            <CalendarClock className="w-4 h-4 flex-shrink-0" />
+            <span className="text-[14px] font-medium">{dateUI}</span>
+          </div>
         </div>
 
         <div className="flex flex-wrap gap-2">
