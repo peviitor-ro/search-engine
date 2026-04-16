@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Layout from "../components/Layout";
 import Job from "../components/Job";
-import JobSkeleton from "../components/JobSkeleton";
+import JobSkeleton from "@/components/ui/job-skeleton";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
 
