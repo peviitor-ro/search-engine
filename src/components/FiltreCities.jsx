@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
 import { orase } from "../utils/getCityName";
-import InputField from "./InputField";
+import InputField from "@/components/ui/input-field";
 import getCityMatch from "../utils/getCityMatch";
 
 const FiltreCities = ({ dropDown }) => {

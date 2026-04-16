@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
 import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
-import InputField from "./InputField";
+import InputField from "@/components/ui/input-field";
 
 // Custom debounce hook
 function useDebounce(value, delay) {
