@@ -28,7 +28,7 @@ import {
   getNumberOfJobs
 } from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
-import Button from "./Button";
+import Button from "@/components/ui/button";
 import getCityMatch from "../utils/getCityMatch";
 import { comune } from "../utils/getCommuneName";
 import getCommuneMatch from "../utils/getCommuneMatch";

@@ -4,7 +4,7 @@ import loadingIcon from "../assets/svg/loading.svg";
 // components
 import Job from "./Job";
 import NoResults from "./NoResults";
-import Button from "./Button";
+import Button from "@/components/ui/button";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
@@ -16,7 +16,7 @@ import { setJobs } from "../reducers/jobsSlice";
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
 import { getData } from "../utils/fetchData";
-import JobSkeleton from "./JobSkeleton";
+import JobSkeleton from "@/components/ui/job-skeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 const Results = () => {

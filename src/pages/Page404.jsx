@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 // Import components
 import Layout from "../components/Layout";
-import Button from "../components/Button";
+import Button from "@/components/ui/button";
 
 // Import 404 image
 import image404 from "../assets/svg/404image.svg";
@@ -16,7 +16,6 @@ const Page404 = () => {
 
   return (
     <Layout>
-      {/* Page Content */}
       <div className="flex flex-col items-center justify-center w-[80%] max-w-[750px] gap-6 mt-8 text-center">
         <img
           className="w-full h-auto object-cover"

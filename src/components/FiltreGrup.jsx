@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
-import InputField from "./InputField";
+import InputField from "@/components/ui/input-field";
 
 const FiltreGrup = () => {
   const location = useLocation();
