@@ -28,7 +28,7 @@ jobs:
           # --- Exclusions ---
           # 1. Documentation: Never mark these as stale
           # 2. Stale/Closed: The bot naturally ignores things already closed
-          exempt-issue-labels: "documentation,pinned,security,important"
+          exempt-issue-labels: "documentation,pinned,security,important,enhancement,Compliance,In-progress,Policy-Audit,Privacy-Policy"
           exempt-pr-labels: "documentation,dependencies"
 
           # --- Issue Messages ---
