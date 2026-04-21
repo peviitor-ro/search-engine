@@ -126,6 +126,40 @@ const CompanyProfile = () => {
     );
   };
 
+  const renderCareer = (careerData) => {
+    const careerUrl = Array.isArray(careerData) ? careerData[0] : careerData;
+
+    if (
+      !careerUrl ||
+      typeof careerUrl !== "string" ||
+      careerUrl.trim() === ""
+    ) {
+      return null;
+    }
+
+    const href = careerUrl.startsWith("http")
+      ? careerUrl
+      : `https://${careerUrl}`;
+
+    return (
+      <>
+        <div className="hidden md:block w-px h-5 bg-gray-300"></div>
+        <div className="flex items-center gap-2">
+          <Briefcase className="w-5 h-5 text-blue-600" />
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 font-medium group relative w-max"
+          >
+            Cariere
+            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-blue-600 transition-all duration-300 ease-out group-hover:w-full"></span>
+          </a>
+        </div>
+      </>
+    );
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -252,6 +286,7 @@ const CompanyProfile = () => {
           <div className="hidden md:block w-px h-5 bg-gray-300"></div>
 
           {renderWebsite(companyDetails.website)}
+          {renderCareer(companyDetails.career)}
         </div>
 
         <h2 className="text-xl font-bold mb-6 text-gray-900">
