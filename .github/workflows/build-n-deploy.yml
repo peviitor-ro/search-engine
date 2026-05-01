@@ -52,8 +52,6 @@ jobs:
       #   run: npm run test
       - name: Build frontend to ./dist
         run: npm run build:production
-        env:
-          VITE_CLARITY_ID: ${{ secrets.VITE_CLARITY_ID }}
       # - name: install lighthouse
       #   run: npm install @lhci/cli@0.12.x
       # - name: run lighthouse
