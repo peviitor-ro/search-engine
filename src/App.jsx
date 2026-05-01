@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import Clarity from "@microsoft/clarity";
 // Pages
 import Landing from "./pages/Landing";
 import Rezultate from "./pages/Rezultate";
@@ -47,7 +49,19 @@ const router = createHashRouter(
     }
   }
 );
+
 function App() {
+  useEffect(() => {
+    const clarityId = import.meta.env.VITE_CLARITY_ID;
+
+    if (import.meta.env.PROD && clarityId) {
+      Clarity.init(clarityId);
+    }
+
+    // Local testing
+    // if (clarityId) { Clarity.init(clarityId); }
+  }, []);
+
   return (
     <TagsProvider>
       <RouterProvider router={router} />

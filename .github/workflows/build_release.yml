@@ -30,6 +30,8 @@ jobs:
 
       - name: Build frontend to ./dist
         run: npm run build:qa
+        env:
+          VITE_CLARITY_ID: ${{ secrets.VITE_CLARITY_ID }}
 
       - name: Archive build folder
         run: zip -r build.zip dist
