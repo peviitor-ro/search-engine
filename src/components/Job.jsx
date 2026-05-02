@@ -18,7 +18,7 @@ const Job = ({
   title,
   workmode,
   salary,
-  tags,
+  tags: tagsProp,
   cif,
   vdate,
   date
@@ -39,8 +39,11 @@ const Job = ({
       });
 
     if (!citiesName || citiesName.length === 0) {
-      if (Array.isArray(workmode)) return workmode.join(", ");
-      return workmode ? String(workmode) : "";
+      if (Array.isArray(workmode) && workmode.length > 0)
+        return workmode.join(", ");
+      if (typeof workmode === "string" && workmode.trim().length > 0)
+        return workmode;
+      return "România";
     }
     if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
     if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
@@ -81,11 +84,21 @@ const Job = ({
     ? formattedSalaryString
     : "Nespecificat";
 
-  const safeTags =
-    tags && Array.isArray(tags) && tags.length > 0 ? tags : ["Fără tag-uri"];
+  const processedTags = (
+    Array.isArray(tagsProp)
+      ? tagsProp
+      : typeof tagsProp === "string"
+        ? tagsProp.split(",")
+        : []
+  )
+    .flatMap((tag) => (typeof tag === "string" ? tag.split(",") : tag))
+    .map((tag) => (tag ? String(tag).trim() : ""))
+    .filter((tag) => tag.length > 0);
+
+  const tags = processedTags.length > 0 ? processedTags : ["Fără tag-uri"];
   const maxTags = 7;
-  const displayTags = safeTags.slice(0, maxTags);
-  const hasMoreTags = safeTags.length > maxTags;
+  const displayTags = tags.slice(0, maxTags);
+  const hasMoreTags = tags.length > maxTags;
 
   const rawDate = vdate || date;
   const dateUI = rawDate
