@@ -13,11 +13,11 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/stale@v9
+      - uses: actions/stale@v10
         with:
           # --- Thresholds ---
           days-before-stale: 30
-          days-before-close: 7
+          days-before-close: -1
 
           # --- Rate Limiting ---
           operations-per-run: 200
@@ -32,20 +32,19 @@ jobs:
           exempt-pr-labels: "documentation,dependencies"
 
           # --- Issue Messages ---
-          stale-issue-message: >
+          stale-issue-message: |
             **Automatic Maintenance Check** 🤖
 
-            This issue has had no activity for 30 days. To help us focus on what's still relevant:
+            This issue has had no activity for 30 days. To help us keep our backlog clean and relevant, please check if this issue is still valid:
 
-            1. **If this is still a priority:** Please leave a comment. This will remove the `stale` tag.
-            2. **If this is no longer relevant:** No action is needed; it will close in 7 days.
-
-          close-issue-message: "Closing this issue due to 30 days of inactivity."
+            1. **If this issue is still valid and needs to be fixed:** Please leave a comment explaining the current state or confirming that it's still an issue. This will remove the `stale` tag.
+            2. **If this issue is no longer valid or has already been fixed:** Please close this issue, or leave a comment so we can close it.
 
           # --- PR Messages ---
-          stale-pr-message: >
+          stale-pr-message: |
             **PR Maintenance Check** 🛠️
 
-            This Pull Request has been open for 30 days without updates. Please push a commit or comment to keep it active, otherwise it will be closed in 7 days.
+            This Pull Request has been open for 30 days without updates. Please check if this PR is still valid:
 
-          close-pr-message: "Closing this PR due to inactivity."
+            1. **If this PR is still valid and needs to be merged:** Please push a commit or comment to keep it active, which will remove the `stale` tag.
+            2. **If this PR is no longer valid:** Please close it, or leave a comment so we can close it.
