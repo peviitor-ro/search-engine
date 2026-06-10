@@ -15,6 +15,7 @@ import Job from "../components/Job";
 import JobSkeleton from "@/components/ui/job-skeleton";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
+import { updateSEO, resetSEO } from "../utils/seo";
 
 const CompanyProfile = () => {
   const { id } = useParams();
@@ -94,6 +95,27 @@ const CompanyProfile = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (!loading && !error && companyDetails) {
+      const jobCount = jobs.length;
+      const jobText = jobCount === 1 ? "1 job activ" : `${jobCount} joburi active`;
+      const descJobText = jobCount === 1 ? "1 loc de muncă disponibil" : `${jobCount} locuri de muncă disponibile`;
+
+      updateSEO({
+        title: `Profil Companie: ${companyDetails.company} - ${jobText} | peviitor.ro`,
+        description: `Vezi cele ${descJobText} la compania ${companyDetails.company} în România pe peviitor.ro, motorul tău de căutare pentru joburi.`,
+        ogTitle: `Profil Companie: ${companyDetails.company} - ${jobText} | peviitor.ro`,
+        ogDescription: `Vezi cele ${descJobText} la compania ${companyDetails.company} în România pe peviitor.ro, motorul tău de căutare pentru joburi.`,
+        ogUrl: window.location.href,
+        ogImage: "https://peviitor.ro/peviitor.jpg"
+      });
+    }
+
+    return () => {
+      resetSEO();
+    };
+  }, [loading, error, companyDetails, jobs]);
+
   const renderWebsite = (websiteData) => {
     let siteUrl = Array.isArray(websiteData) ? websiteData[0] : websiteData;
 
@@ -165,8 +187,14 @@ const CompanyProfile = () => {
       <Layout>
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 py-10">
           <div className="mb-6 h-10 w-48 bg-gray-200 rounded animate-pulse"></div>
-          <JobSkeleton />
-          <JobSkeleton />
+          <ul className="flex flex-col gap-6">
+            <li>
+              <JobSkeleton />
+            </li>
+            <li>
+              <JobSkeleton />
+            </li>
+          </ul>
         </div>
       </Layout>
     );
@@ -177,9 +205,9 @@ const CompanyProfile = () => {
       <Layout>
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-8 py-20 text-center font-sans flex flex-col items-center justify-center">
           <Building2 className="w-16 h-16 text-gray-300 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-700 mb-2">
+          <h1 className="text-2xl font-bold text-gray-700 mb-2">
             Compania nu a putut fi găsită
-          </h2>
+          </h1>
           <p className="text-gray-500 mb-6">
             Ne pare rău, dar datele pentru această companie lipsesc sau adresa
             URL este greșită.
@@ -294,11 +322,13 @@ const CompanyProfile = () => {
         </h2>
 
         {jobs.length > 0 ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
+          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
             {jobs.map((job, idx) => (
-              <Job key={job.id || idx} {...job} cif={id} />
+              <li key={job.id || idx}>
+                <Job {...job} cif={id} />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
           <div className="w-full flex items-center justify-center py-12 px-4 rounded-xl border border-gray-100 bg-white">
             <p className="text-gray-500 text-center">

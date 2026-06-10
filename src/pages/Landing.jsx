@@ -73,7 +73,7 @@ const Landing = () => {
               />{" "}
               la un click distanță
             </h1>
-            <h4 className="text-lg leading-6 text-text_grey">
+            <h2 className="text-lg leading-6 text-text_grey">
               Peste{" "}
               <strong className="text-black">
                 {loading ? (
@@ -83,7 +83,7 @@ const Landing = () => {
                 )}
               </strong>{" "}
               de locuri de muncă din România actualizate zilnic
-            </h4>
+            </h2>
           </div>
         </div>
         <div className="order-3 lg:order-1">
