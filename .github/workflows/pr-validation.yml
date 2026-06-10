@@ -38,3 +38,11 @@ jobs:
       # 6. Verify the Build
       - name: Verify Build
         run: npm run build
+
+      # 7. Install Playwright Browsers and System Dependencies
+      - name: Install Playwright Browsers
+        run: npx playwright install chromium --with-deps
+
+      # 8. Run Playwright E2E Tests
+      - name: Run Playwright Tests
+        run: npm run test:e2e

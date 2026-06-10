@@ -22,7 +22,10 @@ const Page404 = () => {
           src={image404}
           alt="Imagine pagină 404"
         />
-        <p className="font-semibold text-base md:text-xl leading-7 text-text_grey_darker md:leading-8 tracking-[1.2px]">
+        <h1 className="font-semibold text-2xl md:text-3xl text-text_grey_darker tracking-[1.2px]">
+          Pagină negăsită
+        </h1>
+        <p className="text-base md:text-xl leading-7 text-text_grey_darker md:leading-8 tracking-[1.2px]">
           Se pare că ai ajuns într-un loc unde job-urile se ascund. Dar nu te
           lăsa descurajat, te ajutăm să le găsești!
         </p>

@@ -78,15 +78,17 @@ const Results = () => {
   return (
     <div className="w-full">
       {loading ? (
-        <section className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
+        <ul className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
           {Array.from({ length: 6 }).map((_, idx) => (
-            <JobSkeleton key={idx} />
+            <li key={idx}>
+              <JobSkeleton />
+            </li>
           ))}
-        </section>
+        </ul>
       ) : (
         <>
           {jobs.length > 0 ? (
-            <section className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
+            <ul className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
               {jobs.map(
                 (
                   {
@@ -104,23 +106,24 @@ const Results = () => {
                   },
                   idx
                 ) => (
-                  <Job
-                    key={idx}
-                    location={location}
-                    company={company}
-                    county={county}
-                    url={url}
-                    title={handleStringDecode(title)}
-                    workmode={jobWorkmode}
-                    salary={salary}
-                    tags={tags}
-                    cif={cif}
-                    vdate={vdate}
-                    date={date}
-                  />
+                  <li key={idx}>
+                    <Job
+                      location={location}
+                      company={company}
+                      county={county}
+                      url={url}
+                      title={handleStringDecode(title)}
+                      workmode={jobWorkmode}
+                      salary={salary}
+                      tags={tags}
+                      cif={cif}
+                      vdate={vdate}
+                      date={date}
+                    />
+                  </li>
                 )
               )}
-            </section>
+            </ul>
           ) : (
             <NoResults />
           )}
