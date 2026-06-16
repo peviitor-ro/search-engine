@@ -185,7 +185,13 @@ const Footer = () => {
             >
               Misiune
             </Link>
-            <Link to="https://api.peviitor.ro/">API</Link>
+            <Link
+              to="https://api.peviitor.ro/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              API
+            </Link>
           </div>
 
           <div className="flex flex-col gap-1">
