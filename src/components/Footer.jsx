@@ -186,6 +186,13 @@ const Footer = () => {
               Misiune
             </Link>
             <Link
+              to="https://joblio.ro/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Joblio
+            </Link>
+            <Link
               to="https://api.peviitor.ro/"
               target="_blank"
               rel="noopener noreferrer"
