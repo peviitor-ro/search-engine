@@ -42,7 +42,8 @@ const Results = () => {
 
   // fetch more data changing the page value
   async function fetchMoreData() {
-    const pageUrl = Number(findParamInURL("page"));
+    const pageVal = findParamInURL("page");
+    const pageUrl = pageVal ? Number(pageVal[0] || pageVal) : 1;
     setLoadingMore(true);
     const nextPage = pageUrl + 1;
     const { jobs } = await getData(
