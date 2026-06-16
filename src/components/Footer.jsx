@@ -146,20 +146,20 @@ const Footer = () => {
           </div>
         </TooltipProvider>
 
-        <div className="flex items-start gap-5 flex-wrap sm:flex-row sm:items-center md:mx-0 md:gap-25 md:flex-wrap md:items-center md:flex-row lg:flex-wrap lg:gap-20">
+        <div className="flex items-start  gap-5 flex-wrap sm:flex-row sm:items-center md:mx-0 md:gap-25 md:flex-wrap md:items-start md:flex-row lg:flex-wrap lg:gap-20">
           <div className="flex flex-col gap-1">
             <h3>
               <strong>Implică-te!</strong>
             </h3>
             <Link
-              to="https://oportunitatisicariere.ro/#schedule"
+              to="https://oportunitatisicariere.ro/echipa.html"
               target="_blank"
               rel="noopener noreferrer"
             >
               Alătură-te cauzei noastre
             </Link>
             <Link
-              to="https://oportunitatisicariere.ro/index.html#how-contribute"
+              to="https://oportunitatisicariere.ro/implica-te.html"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -172,23 +172,20 @@ const Footer = () => {
               <strong>Organizație</strong>
             </h3>
             <Link
-              to="https://oportunitatisicariere.ro/#team"
+              to="https://oportunitatisicariere.ro/"
               target="_blank"
               rel="noopener noreferrer"
             >
               Despre noi
             </Link>
             <Link
-              to="https://oportunitatisicariere.ro/index.html#our-mission"
+              to="https://oportunitatisicariere.ro/misiunea-noastra.html"
               target="_blank"
               rel="noopener noreferrer"
             >
               Misiune
             </Link>
-            {/* will be added */}
-            {/* <Link to="" target="_blank" rel="noopener noreferrer">
-              Viziune
-            </Link> */}
+            <Link to="https://api.peviitor.ro/">API</Link>
           </div>
 
           <div className="flex flex-col gap-1">
