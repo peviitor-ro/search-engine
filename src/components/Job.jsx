@@ -8,6 +8,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "./ui/tooltip.jsx";
+import TruncatedText from "./ui/truncated-text.jsx";
 
 const exceptions = ["de", "lui"];
 
@@ -122,12 +123,12 @@ const Job = ({
     >
       <div className="flex-1 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <h3
-            className="text-[18px] font-semibold text-[#111827] flex-1 break-words"
-            title={title}
-          >
-            {capitalizeJobTitle(title)}
-          </h3>
+          <TruncatedText
+            text={capitalizeJobTitle(title)}
+            lines={1}
+            as="h3"
+            className="text-[18px] font-semibold text-[#111827] flex-1"
+          />
           <span
             className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
           >
@@ -140,24 +141,32 @@ const Job = ({
             {cif && !isProfilePage ? (
               <Link
                 to={`/company/${cif}`}
-                className="group inline-flex items-center gap-1 text-[13px] font-medium text-background_green hover:underline cursor-pointer transition-colors"
+                className="group inline-flex items-center gap-1 text-[13px] font-medium text-background_green hover:underline cursor-pointer transition-colors min-w-0"
                 title={`Vezi profilul companiei ${company}`}
               >
-                {company}
-                <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                <TruncatedText
+                  text={company}
+                  lines={1}
+                  className="text-[13px] font-medium text-background_green"
+                />
+                <ArrowUpRight className="w-3.5 h-3.5 flex-shrink-0 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
               </Link>
             ) : (
-              <span className="text-[13px] font-medium" title={company}>
-                {company}
-              </span>
+              <TruncatedText
+                text={company}
+                lines={1}
+                className="text-[13px] font-medium text-[#6b7280]"
+              />
             )}
           </div>
 
           <div className="flex items-start gap-2 text-[#6b7280]">
             <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <span className="text-[13px] leading-tight">
-              {displayLocation()}
-            </span>
+            <TruncatedText
+              text={displayLocation()}
+              lines={1}
+              className="text-[13px] leading-tight text-[#6b7280]"
+            />
           </div>
         </div>
 
