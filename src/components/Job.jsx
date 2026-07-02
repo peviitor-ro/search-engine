@@ -9,6 +9,7 @@ import {
   TooltipTrigger
 } from "./ui/tooltip.jsx";
 import TruncatedText from "./ui/truncated-text.jsx";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 const exceptions = ["de", "lui"];
 
@@ -24,6 +25,9 @@ const Job = ({
   vdate,
   date
 }) => {
+
+  const isMobile = useMediaQuery("(max-width: 767px)")
+
   function displayLocation() {
     const citiesName = location
       ?.filter((el) => el)
@@ -125,7 +129,8 @@ const Job = ({
         <div className="flex items-start justify-between gap-3 mb-3">
           <TruncatedText
             text={capitalizeJobTitle(title)}
-            lines={1}
+            lines={isMobile ? 2 : 1}
+            disableTruncation={isMobile}
             as="h3"
             className="text-[18px] font-semibold text-[#111827] flex-1"
           />
@@ -146,7 +151,8 @@ const Job = ({
               >
                 <TruncatedText
                   text={company}
-                  lines={1}
+                  lines={isMobile ? 2 : 1}
+                  disableTruncation={isMobile}
                   className="text-[13px] font-medium text-background_green"
                 />
                 <ArrowUpRight className="w-3.5 h-3.5 flex-shrink-0 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
@@ -154,7 +160,8 @@ const Job = ({
             ) : (
               <TruncatedText
                 text={company}
-                lines={1}
+                lines={isMobile ? 2 : 1}
+                disableTruncation={isMobile}
                 className="text-[13px] font-medium text-[#6b7280]"
               />
             )}
@@ -164,7 +171,8 @@ const Job = ({
             <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
             <TruncatedText
               text={displayLocation()}
-              lines={1}
+              lines={isMobile ? 2 : 1}
+              disableTruncation={isMobile}
               className="text-[13px] leading-tight text-[#6b7280]"
             />
           </div>

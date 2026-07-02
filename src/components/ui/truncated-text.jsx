@@ -12,7 +12,8 @@ const TruncatedText = ({
   lines = 1,
   className = "",
   as: Tag = "span",
-  delayDuration = 300
+  delayDuration = 300,
+  disableTruncation = false
 }) => {
   const ref = useRef(null);
   const [isTruncated, setIsTruncated] = useState(false);
@@ -35,6 +36,10 @@ const TruncatedText = ({
       observer.disconnect();
     };
   }, [text, lines]);
+
+  if (disableTruncation) {
+    return <Tag className={cn("break-words", className)}>{text}</Tag>;
+  }
 
   const inlineStyle = {
     display: "-webkit-box",
