@@ -367,10 +367,6 @@ const CompanyProfile = () => {
           Pozitii disponibile:
         </h2>
 
-        <h2 className="text-xl font-bold mb-6 text-gray-900">
-          Pozitii disponibile:
-        </h2>
-
         {jobs.length > 0 ? (
           <>
             <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
