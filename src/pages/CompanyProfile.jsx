@@ -13,7 +13,6 @@ import {
 import Layout from "../components/Layout";
 import Job from "../components/Job";
 import JobSkeleton from "@/components/ui/job-skeleton";
-import Button from "@/components/ui/button";
 import loadingIcon from "../assets/svg/loading.svg";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
