@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Building2,
@@ -13,6 +13,7 @@ import {
 import Layout from "../components/Layout";
 import Job from "../components/Job";
 import JobSkeleton from "@/components/ui/job-skeleton";
+import loadingIcon from "../assets/svg/loading.svg";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
 import { updateSEO, resetSEO } from "../utils/seo";
@@ -25,6 +26,45 @@ const CompanyProfile = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalJobs, setTotalJobs] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const observerTarget = useRef(null);
+
+  const handleLoadMore = useCallback(async () => {
+    if (loadingMore) return;
+    setLoadingMore(true);
+
+    const nextPage = currentPage + 1;
+    const searchString = createSearchString(
+      null,
+      null,
+      null,
+      [companyDetails.company],
+      null,
+      nextPage
+    );
+
+    try {
+      const jobsData = await getData(searchString);
+      const newJobs = jobsData.jobs || [];
+
+      setJobs((prevJobs) => {
+        const uniqueJobs = newJobs.filter(
+          (job) => !prevJobs.some((existingJob) => existingJob.url === job.url)
+        );
+
+        return [...prevJobs, ...uniqueJobs];
+      });
+
+      setCurrentPage(nextPage);
+    } catch (err) {
+      console.error("Error loading more jobs:", err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [currentPage, loadingMore, companyDetails]);
 
   useEffect(() => {
     const fetchCompanyAndJobs = async () => {
@@ -45,40 +85,19 @@ const CompanyProfile = () => {
         setCompanyDetails(details);
 
         if (details && details.company) {
-          let allFetchedJobs = [];
-          let currentPage = 1;
-          let totalJobs = 0;
-          let hasMore = true;
+          const searchString = createSearchString(
+            null,
+            null,
+            null,
+            [details.company],
+            null,
+            1 // Încarcă doar pagina 1 la început
+          );
+          const jobsData = await getData(searchString);
 
-          while (hasMore) {
-            const searchString = createSearchString(
-              null,
-              null,
-              null,
-              [details.company],
-              null,
-              currentPage
-            );
-
-            const jobsData = await getData(searchString);
-            if (currentPage === 1) {
-              totalJobs = jobsData.total || 0;
-            }
-
-            const currentJobs = jobsData.jobs || [];
-            allFetchedJobs = [...allFetchedJobs, ...currentJobs];
-
-            if (
-              allFetchedJobs.length >= totalJobs ||
-              currentJobs.length === 0
-            ) {
-              hasMore = false;
-            } else {
-              currentPage++;
-            }
-          }
-
-          setJobs(allFetchedJobs);
+          setJobs(jobsData.jobs || []);
+          setTotalJobs(jobsData.total || 0);
+          setCurrentPage(1);
         } else {
           setError(true);
         }
@@ -119,6 +138,31 @@ const CompanyProfile = () => {
       resetSEO();
     };
   }, [loading, error, companyDetails, jobs]);
+
+  useEffect(() => {
+    if (jobs.length >= totalJobs || totalJobs === 0) return;
+
+    const currentTarget = observerTarget.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loadingMore) {
+          handleLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [jobs, totalJobs, loadingMore, handleLoadMore]);
 
   const renderWebsite = (websiteData) => {
     let siteUrl = Array.isArray(websiteData) ? websiteData[0] : websiteData;
@@ -276,10 +320,8 @@ const CompanyProfile = () => {
           <div className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-gray-500" />
             <span>
-              <span className="font-bold text-gray-900">{jobs.length}</span>{" "}
-              {jobs.length === 1
-                ? "Pozitie disponibila"
-                : "Pozitii disponibile"}
+              <span className="font-bold text-gray-900">{totalJobs}</span>{" "}
+              {totalJobs === 1 ? "Pozitie disponibila" : "Pozitii disponibile"}
             </span>
           </div>
 
@@ -325,21 +367,39 @@ const CompanyProfile = () => {
           Pozitii disponibile:
         </h2>
 
+        <h2 className="text-xl font-bold mb-6 text-gray-900">
+          Pozitii disponibile:
+        </h2>
+
         {jobs.length > 0 ? (
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
-            {jobs.map((job, idx) => (
-              <li key={job.id || idx}>
-                <Job {...job} cif={id} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
+              {jobs.map((job, idx) => (
+                <li key={job.id || idx}>
+                  <Job {...job} cif={id} />
+                </li>
+              ))}
+            </ul>
+
+            {jobs.length < totalJobs && (
+              <div
+                ref={observerTarget}
+                className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait"
+              >
+                <img
+                  src={loadingIcon}
+                  alt="loading icon"
+                  className="w-6 m-auto animate-spin"
+                />
+              </div>
+            )}
+          </>
         ) : (
           <div className="w-full flex items-center justify-center py-12 px-4 rounded-xl border border-gray-100 bg-white">
             <p className="text-gray-500 text-center">
               Momentan nu există joburi active listate pentru această companie.
             </p>
           </div>
-          // <NoResults />
         )}
       </div>
     </Layout>
