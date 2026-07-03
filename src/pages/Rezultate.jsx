@@ -40,7 +40,9 @@ const Rezultate = () => {
 
   return (
     <div className="rezultate-pagina flex flex-col  items-center min-h-[100vh]">
-      <h1 className="sr-only">Rezultate căutare locuri de muncă - peviitor.ro</h1>
+      <h1 className="sr-only">
+        Rezultate căutare locuri de muncă - peviitor.ro
+      </h1>
       <Search inputWidth={inputWidth} />
       <Results />
       <Footer />

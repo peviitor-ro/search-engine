@@ -45,7 +45,7 @@ const TruncatedText = ({
     display: "-webkit-box",
     WebkitBoxOrient: "vertical",
     WebkitLineClamp: lines,
-    overflow: "hidden",
+    overflow: "hidden"
   };
 
   return (

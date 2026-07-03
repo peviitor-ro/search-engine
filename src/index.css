@@ -24,8 +24,8 @@
 }
 
 .rezultate-pagina {
-  background: url("./assets/images/rezultate-cover.webp") no-repeat center center
-    fixed;
+  background: url("./assets/images/rezultate-cover.webp") no-repeat center
+    center fixed;
   background-size: cover;
 }
 
@@ -46,7 +46,7 @@
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #33a79f;
   border-radius: 10px;
-  border: 3px solid rgb(255, 255, 255); 
+  border: 3px solid rgb(255, 255, 255);
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -55,7 +55,7 @@
 }
 
 .bg-custom-gray {
-  background-color: #F0F3F6;
+  background-color: #f0f3f6;
 }
 
 .divider::after {
@@ -133,4 +133,3 @@
     --chart-5: 340 75% 55%;
   }
 }
-

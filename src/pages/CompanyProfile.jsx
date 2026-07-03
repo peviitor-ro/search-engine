@@ -98,8 +98,12 @@ const CompanyProfile = () => {
   useEffect(() => {
     if (!loading && !error && companyDetails) {
       const jobCount = jobs.length;
-      const jobText = jobCount === 1 ? "1 job activ" : `${jobCount} joburi active`;
-      const descJobText = jobCount === 1 ? "1 loc de muncă disponibil" : `${jobCount} locuri de muncă disponibile`;
+      const jobText =
+        jobCount === 1 ? "1 job activ" : `${jobCount} joburi active`;
+      const descJobText =
+        jobCount === 1
+          ? "1 loc de muncă disponibil"
+          : `${jobCount} locuri de muncă disponibile`;
 
       updateSEO({
         title: `Profil Companie: ${companyDetails.company} - ${jobText} | peviitor.ro`,

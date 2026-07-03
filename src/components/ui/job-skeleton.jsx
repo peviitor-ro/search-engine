@@ -1,10 +1,13 @@
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 const JobSkeleton = React.forwardRef(({ className, ...props }, ref) => {
   return (
-    <div 
-      className={cn("relative w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-around items-center flex-wrap gap-3 px-4 py-[6px] rounded-2xl shadow-card_shadow z-0", className)}
+    <div
+      className={cn(
+        "relative w-[300px] lg:w-[384px] min-h-[357px] bg-background_cards text-center flex flex-col justify-around items-center flex-wrap gap-3 px-4 py-[6px] rounded-2xl shadow-card_shadow z-0",
+        className
+      )}
       ref={ref}
       {...props}
     >
@@ -19,8 +22,8 @@ const JobSkeleton = React.forwardRef(({ className, ...props }, ref) => {
       </div>
     </div>
   );
-})
-JobSkeleton.displayName = "JobSkeleton"
+});
+JobSkeleton.displayName = "JobSkeleton";
 
-export { JobSkeleton }
-export default JobSkeleton
+export { JobSkeleton };
+export default JobSkeleton;
