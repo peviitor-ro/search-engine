@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Building2,
@@ -31,7 +31,9 @@ const CompanyProfile = () => {
   const [totalJobs, setTotalJobs] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
 
-  const handleLoadMore = async () => {
+  const observerTarget = useRef(null);
+
+  const handleLoadMore = useCallback(async () => {
     if (loadingMore) return;
     setLoadingMore(true);
 
@@ -63,7 +65,7 @@ const CompanyProfile = () => {
     } finally {
       setLoadingMore(false);
     }
-  };
+  }, [currentPage, loadingMore, companyDetails]);
 
   useEffect(() => {
     const fetchCompanyAndJobs = async () => {
@@ -137,6 +139,31 @@ const CompanyProfile = () => {
       resetSEO();
     };
   }, [loading, error, companyDetails, jobs]);
+
+  useEffect(() => {
+    if (jobs.length >= totalJobs || totalJobs === 0) return;
+
+    const currentTarget = observerTarget.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loadingMore) {
+          handleLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [jobs, totalJobs, loadingMore, handleLoadMore]);
 
   const renderWebsite = (websiteData) => {
     let siteUrl = Array.isArray(websiteData) ? websiteData[0] : websiteData;
@@ -341,6 +368,10 @@ const CompanyProfile = () => {
           Pozitii disponibile:
         </h2>
 
+        <h2 className="text-xl font-bold mb-6 text-gray-900">
+          Pozitii disponibile:
+        </h2>
+
         {jobs.length > 0 ? (
           <>
             <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
@@ -351,23 +382,17 @@ const CompanyProfile = () => {
               ))}
             </ul>
 
-            {loadingMore ? (
-              <div className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait">
+            {jobs.length < totalJobs && (
+              <div
+                ref={observerTarget}
+                className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait"
+              >
                 <img
                   src={loadingIcon}
                   alt="loading icon"
                   className="w-6 m-auto animate-spin"
                 />
               </div>
-            ) : (
-              <>
-                {totalJobs <= 10 ||
-                  (jobs.length === totalJobs ? null : (
-                    <Button buttonType="loadMore" onClick={handleLoadMore}>
-                      Încarcă mai multe
-                    </Button>
-                  ))}
-              </>
             )}
           </>
         ) : (
