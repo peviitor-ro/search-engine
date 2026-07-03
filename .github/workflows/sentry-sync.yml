@@ -2,11 +2,11 @@ name: Sentry to GitHub Issues Sync
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6AM UTC
+    - cron: "0 6 * * *" # Daily at 6AM UTC
   workflow_dispatch:
     inputs:
       force_sync:
-        description: 'Force sync all issues (ignore existing)'
+        description: "Force sync all issues (ignore existing)"
         required: false
         default: false
         type: boolean
@@ -27,7 +27,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: '24'
+          node-version: "24"
 
       - name: Install dependencies
         working-directory: scripts/sentry-bot
@@ -40,5 +40,5 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPO: ${{ github.repository }}
           FORCE_SYNC: ${{ github.event.inputs.force_sync == 'true' && 'true' || '' }}
-          NODE_NO_WARNINGS: '1'
+          NODE_NO_WARNINGS: "1"
         run: node sync-sentry.js

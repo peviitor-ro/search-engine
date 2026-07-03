@@ -16,10 +16,7 @@ const jobsSlice = createSlice({
   reducers: {
     setJobs(state, action) {
       const uniqueJobs = action.payload.filter(
-        (job) =>
-          !state.jobs.some(
-            (existingJob) => existingJob.url === job.url
-          )
+        (job) => !state.jobs.some((existingJob) => existingJob.url === job.url)
       );
       state.jobs = [...state.jobs, ...uniqueJobs];
     },

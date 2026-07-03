@@ -25,8 +25,7 @@ const Job = ({
   vdate,
   date
 }) => {
-
-  const isMobile = useMediaQuery("(max-width: 767px)")
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   function displayLocation() {
     const citiesName = location

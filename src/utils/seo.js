@@ -1,4 +1,11 @@
-export function updateSEO({ title, description, ogTitle, ogDescription, ogUrl, ogImage }) {
+export function updateSEO({
+  title,
+  description,
+  ogTitle,
+  ogDescription,
+  ogUrl,
+  ogImage
+}) {
   if (title) {
     document.title = title;
   }
@@ -33,7 +40,9 @@ export function updateSEO({ title, description, ogTitle, ogDescription, ogUrl, o
     twitterTitle.setAttribute("content", ogTitle || title || "");
   }
 
-  const twitterDesc = document.querySelector('meta[name="twitter:description"]');
+  const twitterDesc = document.querySelector(
+    'meta[name="twitter:description"]'
+  );
   if (twitterDesc) {
     twitterDesc.setAttribute("content", ogDescription || description || "");
   }
