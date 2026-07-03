@@ -13,6 +13,8 @@ import {
 import Layout from "../components/Layout";
 import Job from "../components/Job";
 import JobSkeleton from "@/components/ui/job-skeleton";
+import Button from "@/components/ui/button";
+import loadingIcon from "../assets/svg/loading.svg";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
 import { updateSEO, resetSEO } from "../utils/seo";
@@ -25,6 +27,43 @@ const CompanyProfile = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalJobs, setTotalJobs] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const handleLoadMore = async () => {
+    if (loadingMore) return;
+    setLoadingMore(true);
+
+    const nextPage = currentPage + 1;
+    const searchString = createSearchString(
+      null,
+      null,
+      null,
+      [companyDetails.company],
+      null,
+      nextPage
+    );
+
+    try {
+      const jobsData = await getData(searchString);
+      const newJobs = jobsData.jobs || [];
+
+      setJobs((prevJobs) => {
+        const uniqueJobs = newJobs.filter(
+          (job) => !prevJobs.some((existingJob) => existingJob.url === job.url)
+        );
+
+        return [...prevJobs, ...uniqueJobs];
+      });
+
+      setCurrentPage(nextPage);
+    } catch (err) {
+      console.error("Error loading more jobs:", err);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   useEffect(() => {
     const fetchCompanyAndJobs = async () => {
@@ -45,40 +84,19 @@ const CompanyProfile = () => {
         setCompanyDetails(details);
 
         if (details && details.company) {
-          let allFetchedJobs = [];
-          let currentPage = 1;
-          let totalJobs = 0;
-          let hasMore = true;
+          const searchString = createSearchString(
+            null,
+            null,
+            null,
+            [details.company],
+            null,
+            1 // Încarcă doar pagina 1 la început
+          );
+          const jobsData = await getData(searchString);
 
-          while (hasMore) {
-            const searchString = createSearchString(
-              null,
-              null,
-              null,
-              [details.company],
-              null,
-              currentPage
-            );
-
-            const jobsData = await getData(searchString);
-            if (currentPage === 1) {
-              totalJobs = jobsData.total || 0;
-            }
-
-            const currentJobs = jobsData.jobs || [];
-            allFetchedJobs = [...allFetchedJobs, ...currentJobs];
-
-            if (
-              allFetchedJobs.length >= totalJobs ||
-              currentJobs.length === 0
-            ) {
-              hasMore = false;
-            } else {
-              currentPage++;
-            }
-          }
-
-          setJobs(allFetchedJobs);
+          setJobs(jobsData.jobs || []);
+          setTotalJobs(jobsData.total || 0);
+          setCurrentPage(1);
         } else {
           setError(true);
         }
@@ -276,10 +294,8 @@ const CompanyProfile = () => {
           <div className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-gray-500" />
             <span>
-              <span className="font-bold text-gray-900">{jobs.length}</span>{" "}
-              {jobs.length === 1
-                ? "Pozitie disponibila"
-                : "Pozitii disponibile"}
+              <span className="font-bold text-gray-900">{totalJobs}</span>{" "}
+              {totalJobs === 1 ? "Pozitie disponibila" : "Pozitii disponibile"}
             </span>
           </div>
 
@@ -326,20 +342,40 @@ const CompanyProfile = () => {
         </h2>
 
         {jobs.length > 0 ? (
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
-            {jobs.map((job, idx) => (
-              <li key={job.id || idx}>
-                <Job {...job} cif={id} />
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
+              {jobs.map((job, idx) => (
+                <li key={job.id || idx}>
+                  <Job {...job} cif={id} />
+                </li>
+              ))}
+            </ul>
+
+            {loadingMore ? (
+              <div className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait">
+                <img
+                  src={loadingIcon}
+                  alt="loading icon"
+                  className="w-6 m-auto animate-spin"
+                />
+              </div>
+            ) : (
+              <>
+                {totalJobs <= 10 ||
+                  (jobs.length === totalJobs ? null : (
+                    <Button buttonType="loadMore" onClick={handleLoadMore}>
+                      Încarcă mai multe
+                    </Button>
+                  ))}
+              </>
+            )}
+          </>
         ) : (
           <div className="w-full flex items-center justify-center py-12 px-4 rounded-xl border border-gray-100 bg-white">
             <p className="text-gray-500 text-center">
               Momentan nu există joburi active listate pentru această companie.
             </p>
           </div>
-          // <NoResults />
         )}
       </div>
     </Layout>
