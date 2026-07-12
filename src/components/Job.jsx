@@ -120,7 +120,7 @@ const Job = ({
 
   return (
     <div
-      className="bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
+      className="h-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
   hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
   w-full"
     >
@@ -205,7 +205,7 @@ const Job = ({
             </span>
           ))}
           {hasMoreTags && (
-            <span className="px-2 py-1 text-[#6b7280] text-[12px] flex items-center">
+            <span className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]">
               ...
             </span>
           )}
