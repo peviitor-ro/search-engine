@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef, useCallback } from "react";
 // svg
 import loadingIcon from "../assets/svg/loading.svg";
 // components
@@ -37,24 +37,53 @@ const Results = () => {
   //state
   const [isVisible, setIsVisible] = useState(false);
 
-  // loading state for "Incarca mai multe" button
+  // loading state for infinite scroll
   const [loadingMore, setLoadingMore] = useState(false);
+  const observerTarget = useRef(null);
 
-  // fetch more data changing the page value
-  async function fetchMoreData() {
+  const fetchMoreData = useCallback(async () => {
+    if (loadingMore) return;
     const pageVal = findParamInURL("page");
     const pageUrl = pageVal ? Number(pageVal[0] || pageVal) : 1;
     setLoadingMore(true);
+
     const nextPage = pageUrl + 1;
-    const { jobs } = await getData(
+    const { jobs: nextJobs } = await getData(
       createSearchString(q, city, county, company, workmode, nextPage)
     ).catch(() => ({ jobs: [] }));
-    setLoadingMore(false);
-    dispatch(setJobs(jobs));
-    updateUrlParams({ page: nextPage });
-  }
 
-  // scrollUp Button
+    setLoadingMore(false);
+    dispatch(setJobs(nextJobs));
+    updateUrlParams({ page: nextPage });
+  }, [q, city, county, company, workmode, loadingMore, dispatch]);
+
+  // Infinite scroll logic
+  useEffect(() => {
+    if (jobs.length >= total || total === 0) return;
+
+    const currentTarget = observerTarget.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loadingMore) {
+          fetchMoreData();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (currentTarget) {
+      observer.observe(currentTarget);
+    }
+
+    return () => {
+      if (currentTarget) {
+        observer.unobserve(currentTarget);
+      }
+    };
+  }, [jobs, total, loadingMore, fetchMoreData]);
+
+  // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {
     const checkScrollHeight = () => {
       setIsVisible(window.scrollY > 500);
@@ -131,23 +160,17 @@ const Results = () => {
         </>
       )}
 
-      {loadingMore ? (
-        <div className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait">
+      {jobs.length < total && (
+        <div
+          ref={observerTarget}
+          className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait"
+        >
           <img
             src={loadingIcon}
             alt="loading icon"
             className="w-6 m-auto animate-spin"
           />
         </div>
-      ) : (
-        <>
-          {total <= 10 ||
-            (jobs.length === total ? null : (
-              <Button buttonType="loadMore" onClick={fetchMoreData}>
-                Încarcă mai multe
-              </Button>
-            ))}
-        </>
       )}
 
       <Button
