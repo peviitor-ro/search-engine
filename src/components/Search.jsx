@@ -94,6 +94,13 @@ const Search = () => {
   const nrJoburi =
     total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
 
+  const romanianSorting = new Intl.Collator("ro", {
+    sensitivity: "accent",
+    numeric: true
+  });
+
+  orase.sort(romanianSorting.compare);
+
   const [isLocation, setLocation] = useState("");
   const [focusedInput, setFocusedInput] = useState(null);
   const handleClearLocation = () => setLocation("");
