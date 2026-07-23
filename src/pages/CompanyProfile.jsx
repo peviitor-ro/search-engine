@@ -8,7 +8,8 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Globe,
-  Briefcase
+  Briefcase,
+  Code
 } from "lucide-react";
 import Layout from "../components/Layout";
 import Job from "../components/Job";
@@ -168,31 +169,22 @@ const CompanyProfile = () => {
     let siteUrl = Array.isArray(websiteData) ? websiteData[0] : websiteData;
 
     if (!siteUrl || typeof siteUrl !== "string" || siteUrl.trim() === "") {
-      return (
-        <div className="flex items-center gap-2">
-          <Globe className="w-5 h-5 text-gray-500" />
-          <span>
-            Website: <strong>Indisponibil</strong>
-          </span>
-        </div>
-      );
+      return null;
     }
 
     const href = siteUrl.startsWith("http") ? siteUrl : `https://${siteUrl}`;
 
     return (
-      <div className="flex items-center gap-2">
-        <Globe className="w-5 h-5 text-blue-600" />
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 font-medium group relative w-max"
-        >
-          Website
-          <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-blue-600 transition-all duration-300 ease-out group-hover:w-full"></span>
-        </a>
-      </div>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
+      >
+        <Globe className="w-4 h-4" />
+        Website
+        <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
+      </a>
     );
   };
 
@@ -212,21 +204,43 @@ const CompanyProfile = () => {
       : `https://${careerUrl}`;
 
     return (
-      <>
-        <div className="hidden md:block w-px h-5 bg-gray-300"></div>
-        <div className="flex items-center gap-2">
-          <Briefcase className="w-5 h-5 text-blue-600" />
-          <a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 font-medium group relative w-max"
-          >
-            Cariere
-            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-blue-600 transition-all duration-300 ease-out group-hover:w-full"></span>
-          </a>
-        </div>
-      </>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
+      >
+        <Briefcase className="w-4 h-4" />
+        Cariere
+        <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
+      </a>
+    );
+  };
+
+  const renderScraper = (scraperData) => {
+    if (
+      !scraperData ||
+      typeof scraperData !== "string" ||
+      scraperData.trim() === ""
+    ) {
+      return null;
+    }
+
+    const href = scraperData.startsWith("http")
+      ? scraperData
+      : `https://${scraperData}`;
+
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
+      >
+        <Code className="w-4 h-4" />
+        Scraper
+        <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
+      </a>
     );
   };
 
@@ -304,16 +318,21 @@ const CompanyProfile = () => {
             </h1>
           </div>
 
-          <a
-            href={`https://www.google.com/search?q=${encodeURIComponent(`firma cui ${companyDetails.id || id}`)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
-          >
-            Detalii pe Google
-            <ArrowUpRight className="w-4 h-4" />
-            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
-          </a>
+          <div className="flex items-center gap-8 flex-wrap">
+            {renderWebsite(companyDetails.website)}
+            {renderCareer(companyDetails.career)}
+            {renderScraper(companyDetails.scraperFile)}
+            <a
+              href={`https://www.google.com/search?q=${encodeURIComponent(`firma cui ${companyDetails.id || id}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
+            >
+              Detalii pe Google
+              <ArrowUpRight className="w-4 h-4" />
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
+            </a>
+          </div>
         </div>
 
         <div className="w-full bg-[#f3f5f7] rounded-xl flex flex-col md:flex-row md:flex-wrap lg:flex-nowrap items-start md:items-center justify-start md:justify-start lg:justify-between py-5 md:py-4 px-6 md:px-8 gap-4 md:gap-y-4 md:gap-x-6 lg:gap-8 text-sm text-gray-600 mb-10">
@@ -356,11 +375,6 @@ const CompanyProfile = () => {
               <span className="font-bold text-gray-900">{displayGroup}</span>
             </span>
           </div>
-
-          <div className="hidden md:block w-px h-5 bg-gray-300"></div>
-
-          {renderWebsite(companyDetails.website)}
-          {renderCareer(companyDetails.career)}
         </div>
 
         <h2 className="text-xl font-bold mb-6 text-gray-900">
