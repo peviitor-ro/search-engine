@@ -192,6 +192,13 @@ const Footer = () => {
             >
               API
             </Link>
+            <Link
+              to="https://epic.peviitor.ro"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Epic - Find the best place to live
+            </Link>
           </div>
 
           <div className="flex flex-col gap-1">
