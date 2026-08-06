@@ -197,7 +197,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Epic - Find the best place to live
+              Epic
             </Link>
           </div>
 
