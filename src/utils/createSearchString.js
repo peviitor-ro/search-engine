@@ -3,7 +3,7 @@ function removeDiacritics(str) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-// 1. Am schimbat 'remote' în 'workmode' în argumentele funcției
+// Updated remote to workmode
 export function createSearchString(q, city, county, company, workmode, page) {
   const queryParams = [];
 

@@ -17,7 +17,6 @@ import JobSkeleton from "@/components/ui/job-skeleton";
 import loadingIcon from "../assets/svg/loading.svg";
 import { getData } from "../utils/fetchData";
 import { createSearchString } from "../utils/createSearchString";
-import { updateSEO, resetSEO } from "../utils/seo";
 
 const CompanyProfile = () => {
   const { id } = useParams();
@@ -92,7 +91,7 @@ const CompanyProfile = () => {
             null,
             [details.company],
             null,
-            1 // Încarcă doar pagina 1 la început
+            1 // Initial page
           );
           const jobsData = await getData(searchString);
 
@@ -114,31 +113,6 @@ const CompanyProfile = () => {
       fetchCompanyAndJobs();
     }
   }, [id]);
-
-  useEffect(() => {
-    if (!loading && !error && companyDetails) {
-      const jobCount = jobs.length;
-      const jobText =
-        jobCount === 1 ? "1 job activ" : `${jobCount} joburi active`;
-      const descJobText =
-        jobCount === 1
-          ? "1 loc de muncă disponibil"
-          : `${jobCount} locuri de muncă disponibile`;
-
-      updateSEO({
-        title: `Profil Companie: ${companyDetails.company} - ${jobText} | peviitor.ro`,
-        description: `Vezi cele ${descJobText} la compania ${companyDetails.company} în România pe peviitor.ro, motorul tău de căutare pentru joburi.`,
-        ogTitle: `Profil Companie: ${companyDetails.company} - ${jobText} | peviitor.ro`,
-        ogDescription: `Vezi cele ${descJobText} la compania ${companyDetails.company} în România pe peviitor.ro, motorul tău de căutare pentru joburi.`,
-        ogUrl: window.location.href,
-        ogImage: "https://peviitor.ro/peviitor.jpg"
-      });
-    }
-
-    return () => {
-      resetSEO();
-    };
-  }, [loading, error, companyDetails, jobs]);
 
   useEffect(() => {
     if (jobs.length >= totalJobs || totalJobs === 0) return;

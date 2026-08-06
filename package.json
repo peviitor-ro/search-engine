@@ -29,7 +29,6 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0",
     "@sentry/cli": "^2.46.0",
     "@types/node": "^25.3.5",
     "@vitejs/plugin-react": "^4.2.0",
@@ -53,8 +52,6 @@
     "build:final": "vite build --mode final",
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "format:check": "npx prettier --check .",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "format:check": "npx prettier --check ."
   }
 }
