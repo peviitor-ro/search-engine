@@ -40,6 +40,34 @@ const Results = () => {
   // loading state for infinite scroll
   const [loadingMore, setLoadingMore] = useState(false);
   const observerTarget = useRef(null);
+  const hasScrolledToInitialPage = useRef(false);
+
+  useEffect(() => {
+    if (loading || jobs.length === 0) {
+      if (jobs.length === 0) {
+        hasScrolledToInitialPage.current = false;
+      }
+      return;
+    }
+
+    if (hasScrolledToInitialPage.current) return;
+
+    const pageVal = findParamInURL("page");
+    const targetPage = pageVal
+      ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+      : 1;
+
+    if (targetPage > 1) {
+      hasScrolledToInitialPage.current = true;
+      const targetIndex = Math.min((targetPage - 1) * 10, jobs.length - 1);
+      setTimeout(() => {
+        const el = document.getElementById(`job-item-${targetIndex}`);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 150);
+    }
+  }, [loading, jobs]);
 
   const fetchMoreData = useCallback(async () => {
     if (loadingMore) return;
@@ -136,7 +164,7 @@ const Results = () => {
                   },
                   idx
                 ) => (
-                  <li key={idx}>
+                  <li key={idx} id={`job-item-${idx}`}>
                     <Job
                       location={location}
                       company={company}
