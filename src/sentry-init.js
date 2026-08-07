@@ -7,5 +7,11 @@ Sentry.init({
   // For example, automatic IP address collection on events
   sendDefaultPii: true,
   release: packageJson.version,
-  environment: process.env.NODE_ENV // group errors by env
+  environment: process.env.NODE_ENV, // group errors by env
+
+  integrations: [
+    Sentry.httpClientIntegration({
+      failedRequestStatusCodes: [[400, 599]]
+    })
+  ]
 });
