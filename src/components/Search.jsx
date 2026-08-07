@@ -162,25 +162,60 @@ const Search = () => {
     contextSetCity([isLocation]);
   };
 
+  const isInitialLoad = useRef(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
-        const searchString = createSearchString(
-          q,
-          city,
-          county,
-          company,
-          remote,
-          1
-        );
 
-        const { jobs, total } = await getData(searchString);
+        let targetPage = 1;
+        if (isInitialLoad.current) {
+          const pageVal = findParamInURL("page");
+          targetPage = pageVal
+            ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+            : 1;
+          isInitialLoad.current = false;
+        }
 
-        dispatch(clearJobs());
-        dispatch(setJobs(jobs));
-        dispatch(setTotal(total));
-        updateUrlParams({ page: 1 });
+        if (targetPage > 1) {
+          const fetchPromises = [];
+          for (let p = 1; p <= targetPage; p++) {
+            const searchString = createSearchString(
+              q,
+              city,
+              county,
+              company,
+              remote,
+              p
+            );
+            fetchPromises.push(getData(searchString));
+          }
+          const results = await Promise.all(fetchPromises);
+          const combinedJobs = results.flatMap((r) => r.jobs || []);
+          const totalFound = results[0]?.total || 0;
+
+          dispatch(clearJobs());
+          dispatch(setJobs(combinedJobs));
+          dispatch(setTotal(totalFound));
+          updateUrlParams({ page: targetPage });
+        } else {
+          const searchString = createSearchString(
+            q,
+            city,
+            county,
+            company,
+            remote,
+            1
+          );
+
+          const { jobs, total } = await getData(searchString);
+
+          dispatch(clearJobs());
+          dispatch(setJobs(jobs));
+          dispatch(setTotal(total));
+          updateUrlParams({ page: 1 });
+        }
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
