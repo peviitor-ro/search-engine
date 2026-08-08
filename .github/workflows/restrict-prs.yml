@@ -1,0 +1,50 @@
+name: Restrict External Pull Requests
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  check-author:
+    name: Validate PR Author Association
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Author Permission Level
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const allowedAssociations = ['OWNER', 'MEMBER', 'COLLABORATOR', 'CONTRIBUTOR'];
+            const author = context.payload.pull_request.user.login;
+            const association = context.payload.pull_request.author_association;
+
+            console.log(`PR Author: ${author}`);
+            console.log(`Author Association: ${association}`);
+
+            if (!allowedAssociations.includes(association)) {
+              const commentBody = `Hello @${author},\n\n` +
+                `Thank you for your interest! However, Pull Requests in this repository are restricted to organization members, collaborators, and existing contributors.\n\n` +
+                `This Pull Request has been automatically closed. If you would like to contribute or believe this is an error, please contact the peviitor.ro organization maintainers.`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: commentBody
+              });
+
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: context.payload.pull_request.number,
+                state: 'closed'
+              });
+
+              core.setFailed(`PR automatically closed: Author @${author} (${association}) is not an authorized member, collaborator, or contributor.`);
+            } else {
+              console.log(`Author @${author} is authorized (${association}). PR approved for review.`);
+            }
