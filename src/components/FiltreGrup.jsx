@@ -54,7 +54,7 @@ const FiltreGrup = () => {
   // Function to get button label based on index and fields
   const getButtonLabel = (index) => {
     if (index === 0) {
-      return `Oraș ${
+      return `Localitate ${
         fields.orase.length >= 1 ? `(${fields.orase.length})` : ""
       }`;
     } else if (index === 1) {
