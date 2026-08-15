@@ -15,6 +15,8 @@ import {
   setJobs,
   clearJobs,
   setTotal,
+  setPage,
+  setPageSize,
   setNumberOfCompany,
   setLoading
 } from "../reducers/jobsSlice";
@@ -49,21 +51,20 @@ const FilterTags = ({ tags, removeTag }) => {
     return item;
   };
 
-  return (
-    <div className="flex gap-2 flex-wrap">
-      {Object.entries(tags).map(([key, currentArray]) =>
-        currentArray.map((item) => (
-          <Button
-            key={item}
-            buttonType="addFilters"
-            onClick={() => removeTag(key, item)}
-          >
-            {getDisplayText(key, item)}
-            <X className="w-4 h-4" />
-          </Button>
-        ))
-      )}
-    </div>
+  return Object.entries(tags).flatMap(([key, currentArray]) =>
+    currentArray.map((item) => (
+      <Button
+        key={`${key}-${item}`}
+        buttonType="addFilters"
+        onClick={() => removeTag(key, item)}
+        aria-label={`Elimină filtrul ${getDisplayText(key, item)}`}
+      >
+        {getDisplayText(key, item)}
+        <span className="flex h-4 w-4 items-center justify-center rounded-full transition-colors group-hover:bg-background_green/25">
+          <X className="w-3 h-3" />
+        </span>
+      </Button>
+    ))
   );
 };
 
@@ -162,60 +163,46 @@ const Search = () => {
     contextSetCity([isLocation]);
   };
 
-  const isInitialLoad = useRef(true);
+  const prevSearchKey = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
 
+        const searchKey = [q, city, county, company, remote]
+          .map((value) =>
+            Array.isArray(value) ? value.join("|") : String(value)
+          )
+          .join("::");
+        const isFilterChange =
+          prevSearchKey.current !== null && prevSearchKey.current !== searchKey;
+        prevSearchKey.current = searchKey;
+
         let targetPage = 1;
-        if (isInitialLoad.current) {
+        if (!isFilterChange) {
           const pageVal = findParamInURL("page");
           targetPage = pageVal
             ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
             : 1;
-          isInitialLoad.current = false;
         }
 
-        if (targetPage > 1) {
-          const fetchPromises = [];
-          for (let p = 1; p <= targetPage; p++) {
-            const searchString = createSearchString(
-              q,
-              city,
-              county,
-              company,
-              remote,
-              p
-            );
-            fetchPromises.push(getData(searchString));
-          }
-          const results = await Promise.all(fetchPromises);
-          const combinedJobs = results.flatMap((r) => r.jobs || []);
-          const totalFound = results[0]?.total || 0;
+        const searchString = createSearchString(
+          q,
+          city,
+          county,
+          company,
+          remote,
+          targetPage
+        );
 
-          dispatch(clearJobs());
-          dispatch(setJobs(combinedJobs));
-          dispatch(setTotal(totalFound));
-          updateUrlParams({ page: targetPage });
-        } else {
-          const searchString = createSearchString(
-            q,
-            city,
-            county,
-            company,
-            remote,
-            1
-          );
+        const { jobs, total } = await getData(searchString);
 
-          const { jobs, total } = await getData(searchString);
-
-          dispatch(clearJobs());
-          dispatch(setJobs(jobs));
-          dispatch(setTotal(total));
-          updateUrlParams({ page: 1 });
-        }
+        dispatch(setJobs(jobs));
+        dispatch(setTotal(total));
+        dispatch(setPage(targetPage));
+        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
+        updateUrlParams({ page: targetPage });
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -233,8 +220,9 @@ const Search = () => {
     } else {
       dispatch(clearJobs());
       dispatch(setTotal(0));
+      dispatch(setPage(1));
     }
-  }, [dispatch, q, city, remote, company, county, removeTag]);
+  }, [dispatch, q, city, remote, company, county]);
 
   function handleCloseIcon() {
     setText("");
@@ -479,7 +467,7 @@ const Search = () => {
           <FiltreGrup />
 
           {loading ? (
-            <div className="h-[20px] w-[50%] md:w-[16%] my-8 bg-gray-300 animate-pulse rounded-md"></div>
+            <div className="h-[20px] w-[50%] md:w-[16%] my-6 bg-gray-300 animate-pulse rounded-md"></div>
           ) : (
             (() => {
               const isFiltering = [q, city, county, company, remote].some(
@@ -493,7 +481,7 @@ const Search = () => {
 
               if (displayCount > 0) {
                 return (
-                  <h2 className="text-start text-text_grey_darker my-8 text-lg w-full">
+                  <h2 className="text-start text-text_grey_darker my-6 text-lg w-full">
                     {displayCount} {displayLabel}
                   </h2>
                 );
@@ -507,16 +495,14 @@ const Search = () => {
               (param) =>
                 Array.isArray(param) && param.filter(Boolean).length > 0
             ) && (
-              <div className="pb-9 flex gap-2 flex-wrap w-full mt-4">
+              <div className="mb-8 flex w-full flex-wrap items-center gap-2">
                 <FilterTags tags={fields} removeTag={removeTag} />
-                <div className="flex gap-2 ml-4">
-                  <Button
-                    buttonType="deleteFilters"
-                    onClick={handleRemoveAllFilters}
-                  >
-                    Șterge filtre
-                  </Button>
-                </div>
+                <Button
+                  buttonType="deleteFilters"
+                  onClick={handleRemoveAllFilters}
+                >
+                  Șterge filtre
+                </Button>
               </div>
             )}
         </div>

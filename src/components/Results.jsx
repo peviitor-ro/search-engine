@@ -1,17 +1,16 @@
-import { useContext, useState, useEffect, useRef, useCallback } from "react";
-// svg
-import loadingIcon from "../assets/svg/loading.svg";
+import { useContext, useState, useEffect, useCallback } from "react";
 // components
 import Job from "./Job";
 import NoResults from "./NoResults";
 import Button from "@/components/ui/button";
+import Pagination from "@/components/ui/pagination";
 // icons
 import scrollUp from "../assets/svg/scroll-up.svg";
 // context
 import TagsContext from "../context/TagsContext";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setJobs } from "../reducers/jobsSlice";
+import { setJobs, setTotal, setPage, setPageSize } from "../reducers/jobsSlice";
 // function to create the string
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
@@ -33,83 +32,70 @@ const Results = () => {
   // jobs
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
+  const page = useSelector((state) => state.jobs.page);
+  const pageSize = useSelector((state) => state.jobs.pageSize);
   const loading = useSelector((state) => state.jobs.loading);
   //state
   const [isVisible, setIsVisible] = useState(false);
+  const [pageLoading, setPageLoading] = useState(false);
 
-  // loading state for infinite scroll
-  const [loadingMore, setLoadingMore] = useState(false);
-  const observerTarget = useRef(null);
-  const hasScrolledToInitialPage = useRef(false);
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-  useEffect(() => {
-    if (loading || jobs.length === 0) {
-      if (jobs.length === 0) {
-        hasScrolledToInitialPage.current = false;
+  const goToPage = useCallback(
+    async (nextPage, { syncUrl = true } = {}) => {
+      if (
+        nextPage < 1 ||
+        nextPage > totalPages ||
+        nextPage === page ||
+        pageLoading
+      ) {
+        return;
       }
-      return;
-    }
 
-    if (hasScrolledToInitialPage.current) return;
+      setPageLoading(true);
+      const { jobs: newJobs, total: newTotal } = await getData(
+        createSearchString(q, city, county, company, workmode, nextPage)
+      ).catch(() => ({ jobs: [], total }));
+      setPageLoading(false);
 
-    const pageVal = findParamInURL("page");
-    const targetPage = pageVal
-      ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-      : 1;
+      dispatch(setJobs(newJobs));
+      dispatch(setTotal(newTotal));
+      dispatch(setPage(nextPage));
+      if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
+      if (syncUrl) updateUrlParams({ page: nextPage });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [
+      q,
+      city,
+      county,
+      company,
+      workmode,
+      page,
+      pageLoading,
+      totalPages,
+      total,
+      dispatch
+    ]
+  );
 
-    if (targetPage > 1) {
-      hasScrolledToInitialPage.current = true;
-      const targetIndex = Math.min((targetPage - 1) * 10, jobs.length - 1);
-      setTimeout(() => {
-        const el = document.getElementById(`job-item-${targetIndex}`);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 150);
-    }
-  }, [loading, jobs]);
-
-  const fetchMoreData = useCallback(async () => {
-    if (loadingMore) return;
-    const pageVal = findParamInURL("page");
-    const pageUrl = pageVal ? Number(pageVal[0] || pageVal) : 1;
-    setLoadingMore(true);
-
-    const nextPage = pageUrl + 1;
-    const { jobs: nextJobs } = await getData(
-      createSearchString(q, city, county, company, workmode, nextPage)
-    ).catch(() => ({ jobs: [] }));
-
-    setLoadingMore(false);
-    dispatch(setJobs(nextJobs));
-    updateUrlParams({ page: nextPage });
-  }, [q, city, county, company, workmode, loadingMore, dispatch]);
-
-  // Infinite scroll logic
+  // Follow manual edits to the URL's page param (address bar edits, back/forward)
   useEffect(() => {
-    if (jobs.length >= total || total === 0) return;
-
-    const currentTarget = observerTarget.current;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loadingMore) {
-          fetchMoreData();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (currentTarget) {
-      observer.observe(currentTarget);
-    }
-
-    return () => {
-      if (currentTarget) {
-        observer.unobserve(currentTarget);
-      }
+    const syncPageFromUrl = () => {
+      const pageVal = findParamInURL("page");
+      const urlPage = pageVal
+        ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+        : 1;
+      goToPage(urlPage, { syncUrl: false });
     };
-  }, [jobs, total, loadingMore, fetchMoreData]);
+
+    window.addEventListener("hashchange", syncPageFromUrl);
+    window.addEventListener("popstate", syncPageFromUrl);
+    return () => {
+      window.removeEventListener("hashchange", syncPageFromUrl);
+      window.removeEventListener("popstate", syncPageFromUrl);
+    };
+  }, [goToPage]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {
@@ -164,7 +150,7 @@ const Results = () => {
                   },
                   idx
                 ) => (
-                  <li key={idx} id={`job-item-${idx}`}>
+                  <li key={idx}>
                     <Job
                       location={location}
                       company={company}
@@ -188,17 +174,13 @@ const Results = () => {
         </>
       )}
 
-      {jobs.length < total && (
-        <div
-          ref={observerTarget}
-          className="flex justify-center items-center mx-auto my-12 w-fit p-3.5 rounded-full bg-background_green cursor-wait"
-        >
-          <img
-            src={loadingIcon}
-            alt="loading icon"
-            className="w-6 m-auto animate-spin"
-          />
-        </div>
+      {!loading && jobs.length > 0 && (
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          onPageChange={goToPage}
+          disabled={pageLoading}
+        />
       )}
 
       <Button

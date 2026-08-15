@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import TagsContext from "../context/TagsContext";
-import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
+import { MapPin } from "lucide-react";
 import { orase } from "../utils/getCityName";
 import InputField from "@/components/ui/input-field";
+import DropdownSearch from "@/components/ui/dropdown-search";
 import getCityMatch from "../utils/getCityMatch";
 
 const FiltreCities = ({ dropDown }) => {
@@ -31,6 +32,12 @@ const FiltreCities = ({ dropDown }) => {
     setFilteredItems(filtered);
   };
 
+  // Reset the search back to the full list of cities
+  const handleClear = () => {
+    setInputValue("");
+    setFilteredItems(orase);
+  };
+
   // Effect to handle error when no results are found
   useEffect(() => {
     setError(filteredItems.length === 0 && inputValue.length > 0);
@@ -38,25 +45,20 @@ const FiltreCities = ({ dropDown }) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center items-center gap-1 border-b-[1px] border-border_grey">
-        <img
-          src={magnifyGlass}
-          alt="magnify-glass"
-          className="relative left-0 w-[20px] ml-1"
-        />
-        <InputField
-          value={inputValue}
-          placeholder={`Caută oraș`}
-          onChange={handleInputChange}
-          inputType="searchType"
-          type="search"
-        />
-      </div>
+      <DropdownSearch
+        value={inputValue}
+        placeholder="Caută oraș"
+        onChange={handleInputChange}
+        onClear={handleClear}
+      />
 
-      <div className="flex flex-col  py-[1px] px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
+      <div className="flex w-[260px] h-[220px] flex-col overflow-y-auto overflow-x-hidden scrollbar-class px-2 pb-2">
         {error ? (
-          <div className="pl-[10px]">
-            Nu există rezultate pentru {inputValue}
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
+            <MapPin className="h-6 w-6 text-border_grey" aria-hidden="true" />
+            <p className="text-sm text-text_grey_darker">
+              Nu există rezultate pentru „{inputValue}”
+            </p>
           </div>
         ) : (
           filteredItems.map((item, index) => (
@@ -75,7 +77,6 @@ const FiltreCities = ({ dropDown }) => {
           ))
         )}
       </div>
-      <div className="h-3"></div>
     </div>
   );
 };

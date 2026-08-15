@@ -29,13 +29,26 @@
   background-size: cover;
 }
 
+/* Dropdown lists: thumb sits on the panel's white background, so it gets a
+   white border to read as inset rather than as a coloured bar. */
+.scrollbar-class {
+  scrollbar-width: thin;
+  scrollbar-color: #cdd8d7 transparent;
+}
 .scrollbar-class::-webkit-scrollbar {
-  width: 4px;
+  width: 10px;
+}
+.scrollbar-class::-webkit-scrollbar-track {
+  background: transparent;
 }
 .scrollbar-class::-webkit-scrollbar-thumb {
-  background-color: #048a81;
-  border-radius: 26px;
+  background-color: #cdd8d7;
+  border-radius: 9999px;
+  border: 3px solid #ffffff;
   cursor: pointer;
+}
+.scrollbar-class::-webkit-scrollbar-thumb:hover {
+  background-color: #a9bfbc;
 }
 
 /* Search-bar styles + divider | for work and location */

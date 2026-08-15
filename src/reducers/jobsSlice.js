@@ -6,7 +6,9 @@ const initialState = {
   total: 0,
   totalJobs: 0,
   totalCompany: 0,
-  loading: false
+  loading: false,
+  page: 1,
+  pageSize: 10
 };
 
 // Create slice
@@ -15,10 +17,7 @@ const jobsSlice = createSlice({
   initialState,
   reducers: {
     setJobs(state, action) {
-      const uniqueJobs = action.payload.filter(
-        (job) => !state.jobs.some((existingJob) => existingJob.url === job.url)
-      );
-      state.jobs = [...state.jobs, ...uniqueJobs];
+      state.jobs = action.payload;
     },
     clearJobs(state) {
       state.jobs = [];
@@ -31,6 +30,17 @@ const jobsSlice = createSlice({
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
+    },
+    setPage(state, action) {
+      state.page = action.payload;
+    },
+    setPageSize(state, action) {
+      // The API doesn't publish its page size, so infer it from the
+      // largest results page actually seen (a full page is always >= a
+      // trailing partial page, so this converges to the true value).
+      if (action.payload > state.pageSize) {
+        state.pageSize = action.payload;
+      }
     },
     setNumberOfJobs(state, action) {
       state.totalJobs = action.payload;
@@ -48,6 +58,8 @@ export const {
   clearJobs,
   clearTotal,
   setLoading,
+  setPage,
+  setPageSize,
   setNumberOfJobs,
   setNumberOfCompany
 } = jobsSlice.actions;

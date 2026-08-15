@@ -13,9 +13,9 @@ const buttonVariants = cva("", {
       loadMore:
         "flex justify-center items-center px-8 py-3 rounded-full bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto mb-12",
       deleteFilters:
-        "bg-transparent text-center px-2 py-2 text-black border-black border-l",
+        "bg-transparent px-2 py-1 text-sm text-text_grey_darker underline-offset-4 hover:text-background_green hover:underline cursor-pointer",
       addFilters:
-        "py-1 px-4 bg-background_green_light border-background_green border hover:text-black transition-all duration-200 rounded-full flex items-center gap-2 cursor-pointer",
+        "group py-1 pl-3 pr-2 text-sm text-text_grey bg-background_green_light/40 border-background_green border hover:bg-background_green_light transition-colors duration-200 rounded-full flex items-center gap-1.5 cursor-pointer",
       scrollToTop:
         "fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0"
     }

@@ -7,6 +7,12 @@ import {
 
 const TagsContext = createContext();
 
+function arraysEqual(a, b) {
+  if (!Array.isArray(a) || !Array.isArray(b)) return a === b;
+  if (a.length !== b.length) return false;
+  return a.every((value, idx) => value === b[idx]);
+}
+
 export const TagsProvider = ({ children }) => {
   const [fields, setFields] = useState({
     orase: [],
@@ -90,13 +96,16 @@ export const TagsProvider = ({ children }) => {
   };
 
   const contextSetQ = useCallback((text) => {
-    setQ(text);
+    // Bail out on unchanged content so the array reference is preserved and
+    // effects keyed on `q` (e.g. the results search-fetch effect) don't
+    // needlessly re-run, which would otherwise reset pagination to page 1.
+    setQ((prev) => (arraysEqual(prev, text) ? prev : text));
     updateUrlParams({ q: text });
   }, []);
 
   const contextSetCity = useCallback((text) => {
     if (text[0]) {
-      setCity(text);
+      setCity((prev) => (arraysEqual(prev, text) ? prev : text));
     }
     updateUrlParams({ orase: text });
   }, []);
