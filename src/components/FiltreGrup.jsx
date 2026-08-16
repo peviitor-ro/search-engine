@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import TagsContext from "../context/TagsContext";
-import sageata from "../assets/svg/arrow_bottom.svg";
+import { ChevronDown } from "lucide-react";
 import { useLocation } from "react-router-dom";
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
 import { findParamInURL } from "../utils/urlManipulation";
 import InputField from "@/components/ui/input-field";
+import { cn } from "@/lib/utils";
 
 const FiltreGrup = () => {
   const location = useLocation();
@@ -38,35 +39,16 @@ const FiltreGrup = () => {
     setDropDown(updatedDropDown);
   }
 
-  // Function to get button style based on index and fields
-  const getButtonStyle = (index) => {
-    if (index === 0 && fields.orase.length >= 1) {
-      return { color: "#F3781D" };
-    } else if (index === 1 && fields.company.length >= 1) {
-      return { color: "#F3781D" };
-    } else if (index === 2 && fields.remote.length >= 1) {
-      return { color: "#F3781D" };
-    } else {
-      return {};
-    }
-  };
+  // Label + the field each dropdown filters on, in dropdown order
+  const filterMeta = [
+    { label: "Localitate", field: "orase" },
+    { label: "Companie", field: "company" },
+    { label: "Mod de lucru", field: "remote" }
+  ];
 
-  // Function to get button label based on index and fields
-  const getButtonLabel = (index) => {
-    if (index === 0) {
-      return `Localitate ${
-        fields.orase.length >= 1 ? `(${fields.orase.length})` : ""
-      }`;
-    } else if (index === 1) {
-      return `Companie ${
-        fields.company.length >= 1 ? `(${fields.company.length})` : ""
-      }`;
-    } else {
-      return `Mod de lucru ${
-        fields.remote.length >= 1 ? `(${fields.remote.length})` : ""
-      }`;
-    }
-  };
+  // How many values are currently selected for the dropdown at `index`
+  const getSelectedCount = (index) =>
+    fields[filterMeta[index].field]?.length || 0;
 
   // For closing dropDown on click
   useEffect(() => {
@@ -89,86 +71,104 @@ const FiltreGrup = () => {
 
   return (
     <div
-      className="flex items-center justify-center flex-wrap mt-2 md:mx-auto w-fit gap-4 md:gap-4 relative font-PoppinsRegular z-10"
+      className="flex items-center justify-center flex-wrap mt-2 mx-auto w-fit gap-2 md:gap-4 relative font-PoppinsRegular z-10"
       ref={refDropdown}
     >
       {/* Mapping through each dropdown */}
-      {dropDown.map((isOpen, index) => (
-        <div key={index}>
-          {/* Button for toggling the dropdown */}
-          <button
-            className={`${
-              isOpen ? "text-background_green" : ""
-            } ${getButtonStyle(
-              index
-            )} flex items-baseline bg-none border-none px-4 py-2 cursor-pointer hover:text-background_green`}
-            onClick={() => handleDropDown(index)}
-            style={getButtonStyle(index)}
-          >
-            {/* Dynamically set button label based on index */}
-            {getButtonLabel(index)}
-            {/* Arrow icon for indicating dropdown state */}
-            <img
-              src={sageata}
-              className={`${isOpen ? "rotate-180" : ""} ml-2`}
-              alt="drop-down"
-            />
-          </button>
-          {/* Dropdown container */}
-          <div
-            className={`${
-              isOpen ? "block" : "hidden"
-            }  text-lg py-1 border border-background_green rounded-3xl shadow-checbox_shadow absolute bg-white left-1/2 transform -translate-x-1/2 md:left-auto md:transform-none`}
-          >
-            {/* Cities Drop-down */}
-            {index === 0 && <FiltreCities dropDown={dropDown} />}
+      {dropDown.map((isOpen, index) => {
+        const selectedCount = getSelectedCount(index);
+        const hasSelection = selectedCount > 0;
 
-            {/* Companies Drop-down */}
-            {index === 1 && <FiltreCompanies dropDown={dropDown} />}
+        return (
+          // `static` on mobile so the panel centers under the whole group,
+          // `relative` from md up so it anchors to its own trigger.
+          <div key={index} className="static md:relative">
+            {/* Button for toggling the dropdown */}
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              className={cn(
+                "flex items-center gap-2 rounded-full border px-4 py-2 text-sm cursor-pointer transition-colors",
+                hasSelection
+                  ? "border-background_green bg-background_green text-white"
+                  : "border-border_grey bg-white text-text_grey hover:border-background_green hover:text-background_green",
+                isOpen &&
+                  !hasSelection &&
+                  "border-background_green text-background_green"
+              )}
+              onClick={() => handleDropDown(index)}
+            >
+              {filterMeta[index].label}
+              {hasSelection && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-white/25 px-1.5 text-xs">
+                  {selectedCount}
+                </span>
+              )}
+              {/* Arrow icon for indicating dropdown state */}
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 transition-transform",
+                  isOpen && "rotate-180"
+                )}
+                aria-hidden="true"
+              />
+            </button>
+            {/* Dropdown container */}
+            <div
+              className={cn(
+                "absolute top-full mt-2 z-20 overflow-hidden rounded-2xl border border-border_grey bg-white shadow-checbox_shadow",
+                "left-1/2 -translate-x-1/2 md:translate-x-0",
+                index === 2 ? "md:left-auto md:right-0" : "md:left-0",
+                isOpen ? "block" : "hidden"
+              )}
+            >
+              {/* Cities Drop-down */}
+              {index === 0 && <FiltreCities dropDown={dropDown} />}
 
-            {index === 2 && (
-              <div
-                key={index}
-                className="w-[190px] flex flex-col px-2 pt-[30px] pb-[30px]"
-              >
-                <InputField
-                  type="checkbox"
-                  id="on-site"
-                  name="on-site"
-                  value="on-site"
-                  checked={fields.remote.includes("on-site")}
-                  onChange={(e) => handleCheckBoxChange(e, "remote")}
-                  inputType="checkBoxType"
-                  label="Fizic"
-                  item="on-site"
-                />
-                <InputField
-                  type="checkbox"
-                  id="hybrid"
-                  name="hybrid"
-                  value="hybrid"
-                  checked={fields.remote.includes("hybrid")}
-                  onChange={(e) => handleCheckBoxChange(e, "remote")}
-                  inputType="checkBoxType"
-                  label="Hibrid"
-                  item="hybrid"
-                />
-                <InputField
-                  type="checkbox"
-                  id="remote"
-                  name="remote"
-                  value="remote"
-                  checked={fields.remote.includes("remote")}
-                  onChange={(e) => handleCheckBoxChange(e, "remote")}
-                  inputType="checkBoxType"
-                  label="La distanță"
-                  item="remote"
-                />
-              </div>
-            )}
+              {/* Companies Drop-down */}
+              {index === 1 && <FiltreCompanies dropDown={dropDown} />}
+
+              {index === 2 && (
+                <div className="flex w-[240px] flex-col p-3">
+                  <InputField
+                    type="checkbox"
+                    id="on-site"
+                    name="on-site"
+                    value="on-site"
+                    checked={fields.remote.includes("on-site")}
+                    onChange={(e) => handleCheckBoxChange(e, "remote")}
+                    inputType="checkBoxType"
+                    label="Fizic"
+                    item="on-site"
+                  />
+                  <InputField
+                    type="checkbox"
+                    id="hybrid"
+                    name="hybrid"
+                    value="hybrid"
+                    checked={fields.remote.includes("hybrid")}
+                    onChange={(e) => handleCheckBoxChange(e, "remote")}
+                    inputType="checkBoxType"
+                    label="Hibrid"
+                    item="hybrid"
+                  />
+                  <InputField
+                    type="checkbox"
+                    id="remote"
+                    name="remote"
+                    value="remote"
+                    checked={fields.remote.includes("remote")}
+                    onChange={(e) => handleCheckBoxChange(e, "remote")}
+                    inputType="checkBoxType"
+                    label="La distanță"
+                    item="remote"
+                  />
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { getNameOfCompanies } from "../utils/fetchData";
 import TagsContext from "../context/TagsContext";
-import magnifyGlass from "../assets/svg/magniy_glass_icon.svg";
+import { Building2, Loader2 } from "lucide-react";
 import InputField from "@/components/ui/input-field";
+import DropdownSearch from "@/components/ui/dropdown-search";
 
 // Custom debounce hook
 function useDebounce(value, delay) {
@@ -24,76 +25,109 @@ function useDebounce(value, delay) {
 const FiltreCompanies = () => {
   const [inputCompany, setInputCompany] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState([]);
-  const [error, setError] = useState("");
+  // idle = nothing typed, hint = fewer than 3 letters, loading, empty, results
+  const [status, setStatus] = useState("idle");
   const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
   const debouncedInput = useDebounce(inputCompany, 300);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchFilteredCompanies = async () => {
       const searchTerm = debouncedInput.trim();
 
-      if (searchTerm.length >= 3) {
-        try {
-          const companies = await getNameOfCompanies(searchTerm);
-          setFilteredCompanies(companies || []);
-          setError("");
-        } catch (err) {
-          console.error("Error fetching companies:", err);
-          setFilteredCompanies([]);
-        }
-      } else {
+      if (searchTerm.length === 0) {
         setFilteredCompanies([]);
-        if (debouncedInput.length > 0) {
-          setError(
-            "Te rugăm să introduci cel puțin 3 litere pentru a începe căutarea."
-          );
-        } else {
-          setError("");
-        }
+        setStatus("idle");
+        return;
+      }
+
+      if (searchTerm.length < 3) {
+        setFilteredCompanies([]);
+        setStatus("hint");
+        return;
+      }
+
+      setStatus("loading");
+      try {
+        const companies = (await getNameOfCompanies(searchTerm)) || [];
+        // Ignore a response that arrived after the query moved on
+        if (cancelled) return;
+        setFilteredCompanies(companies);
+        setStatus(companies.length > 0 ? "results" : "empty");
+      } catch (err) {
+        console.error("Error fetching companies:", err);
+        if (cancelled) return;
+        setFilteredCompanies([]);
+        setStatus("empty");
       }
     };
 
     fetchFilteredCompanies();
+
+    return () => {
+      cancelled = true;
+    };
   }, [debouncedInput]);
 
   const handleInputChange = (e) => {
     setInputCompany(e.target.value.toUpperCase());
   };
 
+  const handleClear = () => {
+    setInputCompany("");
+    setFilteredCompanies([]);
+    setStatus("idle");
+  };
+
   return (
     <div className="flex flex-col">
-      <div className="flex items-center gap-1 border-b border-border_grey">
-        <img src={magnifyGlass} alt="search" className="w-5 ml-1" />
-        <InputField
-          value={inputCompany}
-          placeholder="Caută companie"
-          onChange={handleInputChange}
-          inputType="searchType"
-          type="search"
-        />
-      </div>
+      <DropdownSearch
+        value={inputCompany}
+        placeholder="Caută companie"
+        onChange={handleInputChange}
+        onClear={handleClear}
+      />
 
-      <div className="flex flex-col py-1 px-1 w-[230px] h-[220px] overflow-y-auto scrollbar-class overflow-x-hidden">
-        {error && (
-          <p className="text-sm text-text_grey_darker mt-2 px-1">{error}</p>
+      <div className="flex w-[260px] h-[220px] flex-col overflow-y-auto overflow-x-hidden scrollbar-class px-2 pb-2">
+        {status === "results" ? (
+          filteredCompanies.map((name, index) => (
+            <InputField
+              key={index}
+              type="checkbox"
+              id={name}
+              name="company"
+              value={name}
+              checked={fields["company"]?.includes(name) || false}
+              onChange={(e) => handleCheckBoxChange(e, "company")}
+              inputType="checkBoxType"
+              label={name}
+              item={name}
+            />
+          ))
+        ) : (
+          <div className="flex h-full flex-col items-center justify-center gap-2 px-4 text-center">
+            {status === "loading" ? (
+              <Loader2 className="h-5 w-5 animate-spin text-background_green" />
+            ) : (
+              <Building2
+                className="h-6 w-6 text-border_grey"
+                aria-hidden="true"
+              />
+            )}
+            <p className="text-sm text-text_grey_darker">
+              {status === "idle" &&
+                "Scrie numele unei companii pentru a o căuta."}
+              {status === "hint" && "Introdu cel puțin 3 litere."}
+              {status === "loading" && "Se caută…"}
+              {status === "empty" && (
+                <>Nu există rezultate pentru „{inputCompany.trim()}”</>
+              )}
+            </p>
+          </div>
         )}
-        {filteredCompanies.map((name, index) => (
-          <InputField
-            key={index}
-            type="checkbox"
-            id={name}
-            name="company"
-            value={name}
-            checked={fields["company"]?.includes(name) || false}
-            onChange={(e) => handleCheckBoxChange(e, "company")}
-            inputType="checkBoxType"
-            label={name}
-            item={name}
-          />
-        ))}
       </div>
-      <div className="h-3" />
     </div>
   );
 };

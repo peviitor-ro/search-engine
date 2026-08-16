@@ -25,6 +25,7 @@ export default {
         background_green: "#2f7973",
         background_green_light: "#bfd5d4",
         background_cards: "#fbfbfb",
+        custom_gray: "#f0f3f6",
         white: "#ffffff",
         custom_teal: "#59948F"
       },
