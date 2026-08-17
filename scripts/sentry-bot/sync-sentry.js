@@ -304,16 +304,11 @@ function extractRequest(event) {
 
 function extractUserContext(event) {
   const user = event.user || {};
-  if (!user.ip_address && !user.email && !user.id && !user.geo?.city)
-    return "_No user context_";
+  if (!user.email && !user.id) return "_No user context_";
 
   const rows = [];
-  if (user.ip_address) rows.push(`| **IP** | ${user.ip_address} |`);
   if (user.email) rows.push(`| **Email** | ${user.email} |`);
   if (user.id) rows.push(`| **User ID** | ${user.id} |`);
-  if (user.geo?.city) rows.push(`| **City** | ${user.geo.city} |`);
-  if (user.geo?.country_code)
-    rows.push(`| **Country** | ${user.geo.country_code} |`);
 
   return rows.length > 0
     ? "| Field | Value |\n|---|---|\n" + rows.join("\n")
@@ -374,15 +369,11 @@ function extractURL(event) {
   return urlTag?.value || "-";
 }
 
-function extractIP(event) {
-  return event.user?.ip_address || "-";
+function extractIP() {
+  return "-";
 }
 
-function extractLocation(event) {
-  const geo = event.user?.geo || {};
-  if (geo.city || geo.region || geo.country_code) {
-    return [geo.city, geo.region, geo.country_code].filter(Boolean).join(", ");
-  }
+function extractLocation() {
   return "-";
 }
 

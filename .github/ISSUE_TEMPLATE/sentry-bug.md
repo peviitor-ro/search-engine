@@ -3,9 +3,9 @@
 > **{{TITLE}}**  
 > {{SUMMARY}}
 
-**🔗 Link Sentry:** [Vezi în Sentry]({{SENTRY_URL}}) (`{{SHORT_ID}}` / ID: `{{ID}}`)  
-**📍 URL / Pagină:** `{{URL}}` | **Release:** `{{RELEASE}}`  
-**📊 Impact:** Apariții: **{{COUNT}}** | Utilizatori afectați: **{{USER_COUNT}}**
+**🔗 Sentry Link:** [View in Sentry]({{SENTRY_URL}}) (`{{SHORT_ID}}` / ID: `{{ID}}`)  
+**📍 URL / Page:** `{{URL}}` | **Release:** `{{RELEASE}}`  
+**📊 Impact:** Occurrences: **{{COUNT}}** | Affected Users: **{{USER_COUNT}}**
 
 ---
 
@@ -23,27 +23,27 @@
 
 ---
 
-### ⚙️ Detalii Mediu & Status
+### ⚙️ Environment & Status Details
 
-| Câmp | Valoare | Câmp | Valoare |
+| Field | Value | Field | Value |
 | :--- | :--- | :--- | :--- |
-| **Nivel (Level)** | `{{LEVEL}}` | **Fișier** | `{{FILENAME}}` |
-| **Status** | `{{STATUS}}` | **Funcție** | `{{FUNCTION}}` |
-| **Browser** | {{BROWSER}} | **Prima apariție** | {{FIRST_SEEN}} |
-| **Sistem Operare (OS)** | {{OS}} | **Ultima apariție** | {{LAST_SEEN}} |
-| **Locație (IP)** | {{IP_ADDRESS}} ({{LOCATION}}) | **Culprit** | `{{CULPRIT}}` |
+| **Level** | `{{LEVEL}}` | **Filename** | `{{FILENAME}}` |
+| **Status** | `{{STATUS}}` | **Function** | `{{FUNCTION}}` |
+| **Browser** | {{BROWSER}} | **First Seen** | {{FIRST_SEEN}} |
+| **OS** | {{OS}} | **Last Seen** | {{LAST_SEEN}} |
+| **Culprit** | `{{CULPRIT}}` | **Project** | `{{PROJECT_NAME}}` |
 
 ---
 
 <details>
-<summary><b>🔍 Detalii Breadcrumbs ({{BREADCRUMB_COUNT}} acțiuni)</b></summary>
+<summary><b>🔍 Breadcrumbs Details ({{BREADCRUMB_COUNT}} actions)</b></summary>
 
 {{BREADCRUMBS}}
 
 </details>
 
 <details>
-<summary><b>🏷️ Tag-uri Sentry & Context Utilizator</b></summary>
+<summary><b>🏷️ Sentry Tags & User Context</b></summary>
 
 {{TAGS}}
 
