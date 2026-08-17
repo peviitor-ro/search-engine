@@ -1,87 +1,15 @@
-### Summary
+### 🚨 Error Summary
 
-{{SUMMARY}}
+> **{{TITLE}}**  
+> {{SUMMARY}}
 
----
-
-### Steps to Reproduce
-
-{{STEPS_TO_REPRODUCE}}
-
----
-
-### Severity
-
-| Field        | Value              |
-| ------------ | ------------------ |
-| **Level**    | {{LEVEL}}          |
-| **Priority** | {{PRIORITY}}       |
-| **Type**     | {{ISSUE_TYPE}}     |
-| **Category** | {{ISSUE_CATEGORY}} |
+**🔗 Link Sentry:** [Vezi în Sentry]({{SENTRY_URL}}) (`{{SHORT_ID}}` / ID: `{{ID}}`)  
+**📍 URL / Pagină:** `{{URL}}` | **Release:** `{{RELEASE}}`  
+**📊 Impact:** Apariții: **{{COUNT}}** | Utilizatori afectați: **{{USER_COUNT}}**
 
 ---
 
-### Sentry Info
-
-| Field          | Value                               |
-| -------------- | ----------------------------------- |
-| **ID**         | `{{ID}}`                            |
-| **Short ID**   | `{{SHORT_ID}}`                      |
-| **Count**      | {{COUNT}}                           |
-| **User Count** | {{USER_COUNT}}                      |
-| **First Seen** | {{FIRST_SEEN}}                      |
-| **Last Seen**  | {{LAST_SEEN}}                       |
-| **Culprit**    | `{{CULPRIT}}`                       |
-| **Status**     | {{STATUS}}                          |
-| **Project**    | {{PROJECT_NAME}} ({{PROJECT_SLUG}}) |
-| **Platform**   | {{PLATFORM}}                        |
-| **Link**       | [View in Sentry]({{SENTRY_URL}})    |
-
----
-
-### Error Details
-
-| Field        | Value             |
-| ------------ | ----------------- |
-| **Type**     | {{ERROR_TYPE}}    |
-| **Value**    | `{{ERROR_VALUE}}` |
-| **Filename** | {{FILENAME}}      |
-| **Function** | {{FUNCTION}}      |
-
----
-
-### User Context
-
-{{USER_CONTEXT}}
-
----
-
-### Environment
-
-| Field        | Value          |
-| ------------ | -------------- |
-| **Browser**  | {{BROWSER}}    |
-| **OS**       | {{OS}}         |
-| **Release**  | {{RELEASE}}    |
-| **URL**      | {{URL}}        |
-| **IP**       | {{IP_ADDRESS}} |
-| **Location** | {{LOCATION}}   |
-
----
-
-### Tags
-
-{{TAGS}}
-
----
-
-### Breadcrumbs ({{BREADCRUMB_COUNT}})
-
-{{BREADCRUMBS}}
-
----
-
-### Stack Trace
+### 💻 Stack Trace
 
 ```
 {{STACK_TRACE}}
@@ -89,6 +17,38 @@
 
 ---
 
-### Request
+### 🌐 HTTP Request
 
 {{REQUEST}}
+
+---
+
+### ⚙️ Detalii Mediu & Status
+
+| Câmp | Valoare | Câmp | Valoare |
+| :--- | :--- | :--- | :--- |
+| **Nivel (Level)** | `{{LEVEL}}` | **Fișier** | `{{FILENAME}}` |
+| **Status** | `{{STATUS}}` | **Funcție** | `{{FUNCTION}}` |
+| **Browser** | {{BROWSER}} | **Prima apariție** | {{FIRST_SEEN}} |
+| **Sistem Operare (OS)** | {{OS}} | **Ultima apariție** | {{LAST_SEEN}} |
+| **Locație (IP)** | {{IP_ADDRESS}} ({{LOCATION}}) | **Culprit** | `{{CULPRIT}}` |
+
+---
+
+<details>
+<summary><b>🔍 Detalii Breadcrumbs ({{BREADCRUMB_COUNT}} acțiuni)</b></summary>
+
+{{BREADCRUMBS}}
+
+</details>
+
+<details>
+<summary><b>🏷️ Tag-uri Sentry & Context Utilizator</b></summary>
+
+{{TAGS}}
+
+{{USER_CONTEXT}}
+
+</details>
+
+<!-- Sentry ID: {{ID}} -->
