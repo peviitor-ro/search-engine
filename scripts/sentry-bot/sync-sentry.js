@@ -597,7 +597,17 @@ async function syncIssues() {
     }
 
     console.log(`Found ${existingSentryIds.size} existing synced issues`);
-    newIssues = issues.filter((issue) => !existingSentryIds.has(issue.id));
+    newIssues = issues.filter((issue) => {
+      // Skip 404 HTTP Client Error noise from creating GitHub issues
+      if (
+        issue.title?.includes("status code: 404") ||
+        issue.title?.includes("HTTP Client Error with status code: 404")
+      ) {
+        console.log(`  -> Skipping 404 HTTP Error issue: ${issue.id} - ${issue.title}`);
+        return false;
+      }
+      return !existingSentryIds.has(issue.id);
+    });
   } else {
     console.log("FORCE_SYNC enabled - syncing all issues");
   }

@@ -11,7 +11,28 @@ Sentry.init({
 
   integrations: [
     Sentry.httpClientIntegration({
-      failedRequestStatusCodes: [[400, 599]]
+      // Track 400-403 and 405-599 (ignore 404 Not Found noise)
+      failedRequestStatusCodes: [
+        [400, 403],
+        [405, 599]
+      ]
     })
-  ]
+  ],
+
+  // Fingerprint HTTP Client errors by status code so Sentry stacks them into 1 issue per status code
+  beforeSend(event) {
+    if (event.exception?.values) {
+      for (const exc of event.exception.values) {
+        if (
+          exc.type === "HTTPClientError" ||
+          exc.value?.includes("HTTP Client Error")
+        ) {
+          const match = exc.value?.match(/status code: (\d+)/);
+          const statusCode = match ? match[1] : "http-error";
+          event.fingerprint = ["http-client-error", statusCode];
+        }
+      }
+    }
+    return event;
+  }
 });
