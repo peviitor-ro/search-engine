@@ -30,7 +30,6 @@ jobs:
           results_format: sarif
           publish_results: true
 
-      # ✅ Updated `upload-artifact` to v4
       - name: "Upload artifact"
         uses: actions/upload-artifact@v4
         with:

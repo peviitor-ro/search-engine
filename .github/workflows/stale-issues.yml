@@ -5,6 +5,8 @@ on:
     - cron: "0 0 * * *" # Runs daily at midnight
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   stale:
     runs-on: ubuntu-latest
@@ -13,7 +15,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/stale@v10
+      - uses: actions/stale@v9
         with:
           # --- Thresholds ---
           days-before-stale: 30
