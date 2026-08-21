@@ -55,10 +55,9 @@ export const getParamsFromURL = () => {
 export const findParamInURL = (key) => {
   const paramsObj = getParamsFromURL();
   if (paramsObj[key]) {
-    if (Array.isArray(paramsObj[key])) {
-      return paramsObj[key].filter(Boolean);
-    }
-    return [paramsObj[key]];
+    const val = paramsObj[key];
+    const arr = Array.isArray(val) ? val : [val];
+    return arr.filter(Boolean);
   }
-  return null;
+  return [];
 };

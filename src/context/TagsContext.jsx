@@ -96,18 +96,21 @@ export const TagsProvider = ({ children }) => {
   };
 
   const contextSetQ = useCallback((text) => {
-    // Bail out on unchanged content so the array reference is preserved and
-    // effects keyed on `q` (e.g. the results search-fetch effect) don't
-    // needlessly re-run, which would otherwise reset pagination to page 1.
-    setQ((prev) => (arraysEqual(prev, text) ? prev : text));
-    updateUrlParams({ q: text });
+    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    setQ((prev) => {
+      if (arraysEqual(prev, cleanText)) return prev;
+      updateUrlParams({ q: cleanText });
+      return cleanText;
+    });
   }, []);
 
   const contextSetCity = useCallback((text) => {
-    if (text[0]) {
-      setCity((prev) => (arraysEqual(prev, text) ? prev : text));
-    }
-    updateUrlParams({ orase: text });
+    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    setCity((prev) => {
+      if (arraysEqual(prev, cleanText)) return prev;
+      updateUrlParams({ orase: cleanText });
+      return cleanText;
+    });
   }, []);
 
   const contextSetField = useCallback((fieldName, value) => {

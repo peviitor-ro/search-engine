@@ -113,6 +113,8 @@ const Search = () => {
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
   useEffect(() => {
+    if (location.pathname !== "/rezultate") return;
+
     const fetchGlobalTotal = async () => {
       try {
         const response = await getNumberOfJobs();
@@ -122,7 +124,7 @@ const Search = () => {
       }
     };
     fetchGlobalTotal();
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -130,16 +132,7 @@ const Search = () => {
     }
   }, [location.pathname, q]);
 
-  useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) {
-      return;
-    }
-    const qParam = findParamInURL("q");
-    const cityParam = findParamInURL("orase");
 
-    contextSetQ(qParam || [""]);
-    contextSetCity(cityParam || [""]);
-  }, [contextSetQ, contextSetCity, location.pathname, location.search]);
 
   useEffect(() => {
     if (!location.pathname.includes("/rezultate")) {
@@ -170,22 +163,21 @@ const Search = () => {
       try {
         dispatch(setLoading(true));
 
+        const pageVal = findParamInURL("page");
+        const targetPage = pageVal
+          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+          : 1;
+
         const searchKey = [q, city, county, company, remote]
           .map((value) =>
             Array.isArray(value) ? value.join("|") : String(value)
           )
-          .join("::");
-        const isFilterChange =
-          prevSearchKey.current !== null && prevSearchKey.current !== searchKey;
-        prevSearchKey.current = searchKey;
+          .join("::") + `::page=${targetPage}`;
 
-        let targetPage = 1;
-        if (!isFilterChange) {
-          const pageVal = findParamInURL("page");
-          targetPage = pageVal
-            ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-            : 1;
+        if (prevSearchKey.current === searchKey) {
+          return;
         }
+        prevSearchKey.current = searchKey;
 
         const searchString = createSearchString(
           q,
@@ -211,6 +203,7 @@ const Search = () => {
     };
 
     if (
+      location.pathname === "/rezultate" ||
       q.length !== 0 ||
       city.length !== 0 ||
       remote.length !== 0 ||
@@ -222,7 +215,7 @@ const Search = () => {
       dispatch(setTotal(0));
       dispatch(setPage(1));
     }
-  }, [dispatch, q, city, remote, company, county]);
+  }, [dispatch, q, city, remote, company, county, location.pathname]);
 
   function handleCloseIcon() {
     setText("");
