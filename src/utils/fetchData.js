@@ -30,18 +30,29 @@ export const getData = async (createQueryString) => {
   }
 };
 
+let totalCachePromise = null;
+
 // get the number of jobs in Romania.
 export const getNumberOfJobs = async () => {
-  try {
-    const response = await fetch(API_TOTAL);
-    if (!response.ok) throw new Error("Invalid response");
-
-    const data = await response.json();
-    return data || 0;
-  } catch (error) {
-    console.error("Error fetching total jobs:", error);
-    return 0;
+  if (totalCachePromise) {
+    return totalCachePromise;
   }
+
+  totalCachePromise = (async () => {
+    try {
+      const response = await fetch(API_TOTAL);
+      if (!response.ok) throw new Error("Invalid response");
+
+      const data = await response.json();
+      return data || 0;
+    } catch (error) {
+      console.error("Error fetching total jobs:", error);
+      totalCachePromise = null;
+      return 0;
+    }
+  })();
+
+  return totalCachePromise;
 };
 
 // get the number of Company we have in our DB
