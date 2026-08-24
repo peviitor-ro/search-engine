@@ -1,6 +1,6 @@
 export const updateUrlParams = (paramsObj) => {
-  const currentUrl = window.location.href;
-  const [baseUrl, queryString] = currentUrl.split("?");
+  const currentHash = window.location.hash || "#/rezultate";
+  const [baseHash, queryString] = currentHash.split("?");
   const params = new URLSearchParams(queryString ? queryString : "");
 
   Object.entries(paramsObj).forEach(([key, value]) => {
@@ -15,16 +15,12 @@ export const updateUrlParams = (paramsObj) => {
     }
   });
 
-  // Replace %2C with commas
   const newQueryStr = Array.from(params)
     .map(([key, val]) => `${key}=${val}`)
     .join("&");
 
-  if (newQueryStr) {
-    window.history.pushState({}, "", `${baseUrl}?${newQueryStr}`);
-  } else {
-    window.history.pushState({}, "", baseUrl);
-  }
+  const newHash = newQueryStr ? `${baseHash}?${newQueryStr}` : baseHash;
+  window.history.replaceState({}, "", newHash);
 };
 
 export const removeFiltersFromURL = () => {
