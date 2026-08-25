@@ -113,12 +113,28 @@ const Search = () => {
   const [filteredCommunes, setFilteredCommunes] = useState(comune);
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
+fix/company-filter-url-sync
   // Wrapper ref catches clicks outside of BOTH inputs & dropdowns
   const containerRef = useRef(null);
   const prevSearchKey = useRef(null);
 
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
+=======
+  useEffect(() => {
+    if (location.pathname !== "/rezultate") return;
+
+    const fetchGlobalTotal = async () => {
+      try {
+        const response = await getNumberOfJobs();
+        setGlobalJobsTotal(response?.total?.jobs || 0);
+      } catch (error) {
+        console.error("Error fetching global job count:", error);
+      }
+    };
+    fetchGlobalTotal();
+  }, [location.pathname]);
+ main
 
   useEffect(() => {
     if (location.pathname === "/rezultate") {
@@ -126,6 +142,7 @@ const Search = () => {
     }
   }, [location.pathname, q]);
 
+ fix/company-filter-url-sync
   // Sync URL Params with Context
   useEffect(() => {
     if (!location.pathname.includes("/rezultate")) return;
@@ -152,6 +169,10 @@ const Search = () => {
   ]);
 
   // Fetch initial company and total job metrics
+
+
+
+ main
   useEffect(() => {
     if (!location.pathname.includes("/rezultate")) return;
 
@@ -194,6 +215,7 @@ const Search = () => {
   appendParam("company", company);
   appendParam("remote", remote);
 
+ fix/company-filter-url-sync
     navigate(`/rezultate?${params.toString()}`);
   };
 
@@ -219,8 +241,52 @@ useEffect(() => {
         targetPage = pageVal
           ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
           : 1;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch(setLoading(true));
+
+        const pageVal = findParamInURL("page");
+        const targetPage = pageVal
+          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+          : 1;
+
+        const searchKey = [q, city, county, company, remote]
+          .map((value) =>
+            Array.isArray(value) ? value.join("|") : String(value)
+          )
+          .join("::") + `::page=${targetPage}`;
+
+        if (prevSearchKey.current === searchKey) {
+          return;
+        }
+        prevSearchKey.current = searchKey;
+
+        const searchString = createSearchString(
+          q,
+          city,
+          county,
+          company,
+          remote,
+          targetPage
+        );
+
+        const { jobs, total } = await getData(searchString);
+
+        dispatch(setJobs(jobs));
+        dispatch(setTotal(total));
+        dispatch(setPage(targetPage));
+        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
+        updateUrlParams({ page: targetPage });
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        dispatch(setLoading(false));
+ main
       }
 
+ fix/company-filter-url-sync
       const searchString = createSearchString(
         q,
         city,
@@ -262,6 +328,22 @@ useEffect(() => {
     dispatch(setPage(1));
   }
 }, [dispatch, q, city, remote, company, county]);
+
+    if (
+      location.pathname === "/rezultate" ||
+      q.length !== 0 ||
+      city.length !== 0 ||
+      remote.length !== 0 ||
+      company.length !== 0
+    ) {
+      fetchData();
+    } else {
+      dispatch(clearJobs());
+      dispatch(setTotal(0));
+      dispatch(setPage(1));
+    }
+  }, [dispatch, q, city, remote, company, county, location.pathname]);
+ main
 
   function handleCloseIcon() {
     setText("");
