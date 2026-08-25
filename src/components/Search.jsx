@@ -128,7 +128,7 @@ const Search = () => {
     setText(q ? String(q) : "");
   }, [isOnResultsPage, q]);
 
-  // Sync URL Params with Context
+// Sync URL Params with Context
   useEffect(() => {
     if (!isOnResultsPage) return;
 
@@ -151,9 +151,10 @@ const Search = () => {
     contextSetRemote,
     location.pathname,
     location.search,
-    location.hash
+    location.hash,
+    isOnResultsPage // <--- Add it right here
   ]);
-
+  
   useEffect(() => {
     if (!isOnResultsPage) return;
 
