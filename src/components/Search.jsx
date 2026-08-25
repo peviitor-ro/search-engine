@@ -1,5 +1,5 @@
 import logo from "../assets/svg/logo.svg";
-import { useEffect, useState, useContext, useCallback, useRef } from "react";
+import { useEffect, useState, useContext, useCallback, useRef, useMemo } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import FlagMagnifyGlass from "../assets/svg/ro_flag_magnifying_glass.svg?react";
@@ -43,7 +43,7 @@ const FilterTags = ({ tags, removeTag }) => {
     "on-site": "Fizic",
     hybrid: "Hibrid",
     remote: "La distanță"
-  };
+  }; 
 
   const getDisplayText = (key, item) => {
     if (key === "remote" || key === "workmode") {
@@ -70,6 +70,11 @@ const FilterTags = ({ tags, removeTag }) => {
   );
 };
 
+// Sorted once outside the component scope to avoid mutating imports
+const sortedOrase = [...orase].sort(
+  new Intl.Collator("ro", { sensitivity: "accent", numeric: true }).compare
+);
+
 const Search = () => {
   const {
     q,
@@ -94,58 +99,38 @@ const Search = () => {
   const dispatch = useDispatch();
 
   const total = useSelector((state) => state.jobs.total);
-  const [globalJobsTotal, setGlobalJobsTotal] = useState(0);
   const loading = useSelector((state) => state.jobs.loading);
-
-  const nrJoburi =
-    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
-
-  const romanianSorting = new Intl.Collator("ro", {
-    sensitivity: "accent",
-    numeric: true
-  });
-
-  orase.sort(romanianSorting.compare);
+  const [globalJobsTotal, setGlobalJobsTotal] = useState(0);
 
   const [isLocation, setLocation] = useState("");
   const [focusedInput, setFocusedInput] = useState(null);
-  const [filteredCities, setFilteredCities] = useState(orase);
+  const [filteredCities, setFilteredCities] = useState(sortedOrase);
   const [filteredCommunes, setFilteredCommunes] = useState(comune);
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
-fix/company-filter-url-sync
   // Wrapper ref catches clicks outside of BOTH inputs & dropdowns
   const containerRef = useRef(null);
   const prevSearchKey = useRef(null);
 
+  const isOnResultsPage = useMemo(
+    () => location.pathname.includes("rezultate") || window.location.hash.includes("rezultate"),
+    [location.pathname]
+  );
+
+  const nrJoburi =
+    total >= 20 ? "de rezultate" : total === 1 ? "rezultat" : "rezultate";
+
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
-=======
-  useEffect(() => {
-    if (location.pathname !== "/rezultate") return;
-
-    const fetchGlobalTotal = async () => {
-      try {
-        const response = await getNumberOfJobs();
-        setGlobalJobsTotal(response?.total?.jobs || 0);
-      } catch (error) {
-        console.error("Error fetching global job count:", error);
-      }
-    };
-    fetchGlobalTotal();
-  }, [location.pathname]);
- main
 
   useEffect(() => {
-    if (location.pathname === "/rezultate") {
-      setText(q + "");
-    }
-  }, [location.pathname, q]);
+    if (!isOnResultsPage) return;
+    setText(q ? String(q) : "");
+  }, [isOnResultsPage, q]);
 
- fix/company-filter-url-sync
   // Sync URL Params with Context
   useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) return;
+    if (!isOnResultsPage) return;
 
     const qParam = findParamInURL("q");
     const cityParam = findParamInURL("orase");
@@ -153,8 +138,8 @@ fix/company-filter-url-sync
     const companyParam = findParamInURL("company");
     const remoteParam = findParamInURL("remote");
 
-    contextSetQ(qParam || [""]);
-    contextSetCity(cityParam || [""]);
+    if (contextSetQ) contextSetQ(qParam || [""]);
+    if (contextSetCity) contextSetCity(cityParam || [""]);
     if (contextSetCounty) contextSetCounty(countyParam || [""]);
     if (contextSetCompany) contextSetCompany(companyParam || [""]);
     if (contextSetRemote) contextSetRemote(remoteParam || [""]);
@@ -165,176 +150,131 @@ fix/company-filter-url-sync
     contextSetCompany,
     contextSetRemote,
     location.pathname,
-    location.search
+    location.search,
+    location.hash
   ]);
 
-  // Fetch initial company and total job metrics
-
-
-
- main
   useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) return;
+    if (!isOnResultsPage) return;
 
-    const numbersInfo = async () => {
-      const companyNumber = await getNumberOfCompany();
-      dispatch(setNumberOfCompany(companyNumber));
+    let isSubscribed = true;
+    const fetchNumbersInfo = async () => {
+      try {
+        const companyNumber = await getNumberOfCompany();
+        if (isSubscribed) dispatch(setNumberOfCompany(companyNumber));
 
-      if (typeof getNumberOfJobs === "function") {
-        const jobsCount = await getNumberOfJobs();
-        setGlobalJobsTotal(jobsCount || 0);
+        if (typeof getNumberOfJobs === "function") {
+          const jobsCount = await getNumberOfJobs();
+          if (isSubscribed) {
+            const numericalTotal = typeof jobsCount === "object" && jobsCount !== null 
+              ? (jobsCount?.total?.jobs || jobsCount?.total || 0) 
+              : Number(jobsCount) || 0;
+            setGlobalJobsTotal(numericalTotal);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load metrics:", error);
       }
     };
-    numbersInfo();
-  }, [dispatch, location.pathname]);
 
-  const handleUpdateQ = async (e) => {
-  e.preventDefault();
-  contextSetQ([text]);
+    fetchNumbersInfo();
+    return () => {
+      isSubscribed = false;
+    };
+  }, [dispatch, isOnResultsPage]);
 
-  let targetCity = city;
-  if (isLocation.trim() !== "") {
-    targetCity = [isLocation];
-    contextSetCity(targetCity);
-  }
+  const handleUpdateQ = (e) => {
+    e.preventDefault();
 
-  const params = new URLSearchParams();
-  if (text) params.set("q", text);
-
-  const appendParam = (paramName, arrayData) => {
-    if (Array.isArray(arrayData)) {
-      const validItems = arrayData.filter(Boolean);
-      if (validItems.length > 0) {
-        params.set(paramName, validItems.join(","));
-      }
+    let targetCity = city;
+    if (isLocation.trim() !== "") {
+      targetCity = [isLocation];
     }
+
+    const params = new URLSearchParams();
+    if (text) params.set("q", text);
+
+    const appendParam = (paramName, arrayData) => {
+      if (Array.isArray(arrayData)) {
+        const validItems = arrayData.filter(Boolean);
+        if (validItems.length > 0) {
+          params.set(paramName, validItems.join(","));
+        }
+      }
+    };
+
+    appendParam("orase", targetCity);
+    appendParam("judete", county);
+    appendParam("company", company);
+    appendParam("remote", remote);
+
+    navigate(`/rezultate?${params.toString()}`, { replace: false });
   };
-
-  appendParam("orase", targetCity);
-  appendParam("judete", county);
-  appendParam("company", company);
-  appendParam("remote", remote);
-
- fix/company-filter-url-sync
-    navigate(`/rezultate?${params.toString()}`);
-  };
-
-// Inside Search.jsx -> useEffect for fetchData
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      dispatch(setLoading(true));
-
-      const searchKey = [q, city, county, company, remote]
-        .map((value) =>
-          Array.isArray(value) ? value.join("|") : String(value)
-        )
-        .join("::");
-
-      const isFilterChange =
-        prevSearchKey.current !== null && prevSearchKey.current !== searchKey;
-      prevSearchKey.current = searchKey;
-
-      let targetPage = 1;
-      if (!isFilterChange) {
-        const pageVal = findParamInURL("page");
-        targetPage = pageVal
-          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-          : 1;
 
   useEffect(() => {
+    if (!isOnResultsPage) return;
+
+    let active = true;
+
     const fetchData = async () => {
+      const cleanParam = (val) => {
+        if (Array.isArray(val)) return val.filter(Boolean).join("|");
+        return val ? String(val).trim() : "";
+      };
+
+      const qStr = cleanParam(q);
+      const cityStr = cleanParam(city);
+      const countyStr = cleanParam(county);
+      const companyStr = cleanParam(company);
+      const remoteStr = cleanParam(remote);
+
+      const pageVal = findParamInURL("page");
+      const targetPage = pageVal ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1 : 1;
+
+      const searchKey = `${qStr}::${cityStr}::${countyStr}::${companyStr}::${remoteStr}::page=${targetPage}`;
+
+      if (prevSearchKey.current === searchKey) return;
+      prevSearchKey.current = searchKey;
+
       try {
         dispatch(setLoading(true));
 
-        const pageVal = findParamInURL("page");
-        const targetPage = pageVal
-          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-          : 1;
+        const searchString = createSearchString(q, city, county, company, remote, targetPage);
+        const response = await getData(searchString);
 
-        const searchKey = [q, city, county, company, remote]
-          .map((value) =>
-            Array.isArray(value) ? value.join("|") : String(value)
-          )
-          .join("::") + `::page=${targetPage}`;
+        const jobs = response?.jobs || response?.data || (Array.isArray(response) ? response : []);
+        const totalCount = response?.total ?? response?.totalCount ?? jobs.length;
 
-        if (prevSearchKey.current === searchKey) {
-          return;
+        if (active) {
+          dispatch(setJobs(jobs));
+          dispatch(setTotal(totalCount));
+          dispatch(setPage(targetPage));
+          if (jobs.length > 0) dispatch(setPageSize(jobs.length));
+
+          if (findParamInURL("page") !== String(targetPage)) {
+            updateUrlParams({ page: targetPage });
+          }
         }
-        prevSearchKey.current = searchKey;
-
-        const searchString = createSearchString(
-          q,
-          city,
-          county,
-          company,
-          remote,
-          targetPage
-        );
-
-        const { jobs, total } = await getData(searchString);
-
-        dispatch(setJobs(jobs));
-        dispatch(setTotal(total));
-        dispatch(setPage(targetPage));
-        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-        updateUrlParams({ page: targetPage });
       } catch (error) {
         console.error("Failed to fetch data:", error);
+        if (active) {
+          dispatch(clearJobs());
+          dispatch(setTotal(0));
+        }
       } finally {
-        dispatch(setLoading(false));
- main
+        if (active) {
+          dispatch(setLoading(false));
+        }
       }
-
- fix/company-filter-url-sync
-      const searchString = createSearchString(
-        q,
-        city,
-        county,
-        company,
-        remote,
-        targetPage
-      );
-
-      const { jobs, total } = await getData(searchString);
-
-      dispatch(setJobs(jobs));
-      dispatch(setTotal(total));
-      dispatch(setPage(targetPage));
-      if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-
-      // ONLY update page parameter if it's explicitly set or changed
-      if (findParamInURL("page") !== String(targetPage)) {
-        updateUrlParams({ page: targetPage });
-      }
-    } catch (error) {
-      console.error("Failed to fetch data:", error);
-    } finally {
-      dispatch(setLoading(false));
-    }
-  };
-
-  if (
-    q.length !== 0 ||
-    city.length !== 0 ||
-    remote.length !== 0 ||
-    company.length !== 0 ||
-    county.length !== 0
-  ) {
-    fetchData();
-  } else {
-    dispatch(clearJobs());
-    dispatch(setTotal(0));
-    dispatch(setPage(1));
-  }
-}, [dispatch, q, city, remote, company, county]);
+    };
 
     if (
-      location.pathname === "/rezultate" ||
       q.length !== 0 ||
       city.length !== 0 ||
       remote.length !== 0 ||
-      company.length !== 0
+      company.length !== 0 ||
+      county.length !== 0 ||
+      location.pathname === "/rezultate"
     ) {
       fetchData();
     } else {
@@ -342,13 +282,16 @@ useEffect(() => {
       dispatch(setTotal(0));
       dispatch(setPage(1));
     }
-  }, [dispatch, q, city, remote, company, county, location.pathname]);
- main
+
+    return () => {
+      active = false;
+    };
+  }, [dispatch, q, city, remote, company, county, location.pathname, isOnResultsPage]);
 
   function handleCloseIcon() {
     setText("");
     updateUrlParams({ q: null });
-    contextSetQ([""]);
+    if (contextSetQ) contextSetQ([""]);
   }
 
   const filterCities = useCallback((input) => {
@@ -360,7 +303,6 @@ useEffect(() => {
     filterCities(isLocation);
   }, [isLocation, filterCities]);
 
-  // Click outside listener for all input suggestions
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
@@ -377,25 +319,27 @@ useEffect(() => {
     };
   }, [focusedInput]);
 
-  const fetchSuggestions = async (text) => {
-    try {
-      const response = await getJobSuggestion(text);
-      setJobSuggestions(response?.suggestions || []);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (text) {
-        fetchSuggestions(text);
+    let active = true;
+    const timer = setTimeout(async () => {
+      if (text.length >= 3) {
+        try {
+          const response = await getJobSuggestion(text);
+          if (active) {
+            setJobSuggestions(Array.isArray(response?.suggestions) ? response.suggestions : []);
+          }
+        } catch (error) {
+          console.error("Error fetching suggestions:", error);
+        }
       } else {
         setJobSuggestions([]);
       }
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
   }, [text]);
 
   return (
@@ -408,21 +352,19 @@ useEffect(() => {
         width: "100%"
       }}
       className={`max-w-[1440px] mx-auto ${
-        location.pathname === "/rezultate" ? "md:flex-row lg:flex-row" : ""
+        isOnResultsPage ? "md:flex-row lg:flex-row" : ""
       }`}
     >
       <div
         className={`flex items-center justify-between flex-col mt-5 gap-2 lg:gap-0 lg:flex-row ${
-          location.pathname === "/"
-            ? "w-[100%] mt-0 md:flex-col sm:items-center"
-            : ""
+          !isOnResultsPage ? "w-[100%] mt-0 md:flex-col sm:items-center" : ""
         } ${
-          location.pathname === "/rezultate"
+          isOnResultsPage
             ? "w-full max-w-[1440px] mx-auto px-4 md:px-14 md:justify-center lg:justify-between"
             : ""
         }`}
       >
-        {location.pathname === "/rezultate" && (
+        {isOnResultsPage && (
           <a href="/" className="logo lg:mr-3" style={{ minWidth: "54px" }}>
             <img src={logo} alt="peviitor" />
           </a>
@@ -432,34 +374,33 @@ useEffect(() => {
           ref={containerRef}
           onSubmit={handleUpdateQ}
           className={`flex flex-col items-center relative lg:justify-between lg:mt-0 lg:gap-0 lg:flex-row max-w-full ${
-            location.pathname === "/" ? "gap-2 mt-4 md:gap-2" : ""
+            !isOnResultsPage ? "gap-2 mt-4 md:gap-2" : ""
           } ${
-            location.pathname === "/rezultate"
+            isOnResultsPage
               ? "w-full gap-1 sm:justify-center sm:w-auto md:justify-center md:items-center md:w-[90%]"
               : ""
           }`}
         >
           <div
             className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px] ${
-              location.pathname === "/" ? "relative xl:w-[485px]" : ""
+              !isOnResultsPage ? "relative xl:w-[485px]" : ""
             } ${
-              location.pathname === "/rezultate"
+              isOnResultsPage
                 ? "sm:flex-col sm:w-[400px] md:w-[580px] lg:w-[90%] 2xl:w-[90%]"
                 : ""
             }`}
           >
-            {/* Job Title Input */}
             <div
               className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full h-[54px] ${
-                location.pathname === "/rezultate" ? "w-full" : ""
+                isOnResultsPage ? "w-full" : ""
               } ${
-                location.pathname !== "/"
+                isOnResultsPage
                   ? "lg:border-r-2 border-[#89969C]"
                   : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
               } ${
                 focusedInput === "jobTitle" &&
                 text.length >= 3 &&
-                location.pathname === "/"
+                !isOnResultsPage
                   ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
                   : ""
               }`}
@@ -481,32 +422,28 @@ useEffect(() => {
               )}
             </div>
 
-            {/* Dropdown for Job Title */}
-            {location.pathname === "/" &&
+            {!isOnResultsPage &&
               focusedInput === "jobTitle" &&
               text.length >= 3 && (
                 <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 border-[#89969C] lg:rounded-3xl lg:rounded-t-none p-0 lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10 bg-white">
-                  {jobSuggestions &&
-                    jobSuggestions.length > 0 &&
-                    jobSuggestions.map((suggestion, index) => (
-                      <li
-                        key={index}
-                        className={`px-12 py-2 cursor-pointer ${
-                          index % 2 === 0 ? "bg-custom-gray" : "bg-white"
-                        } hover:bg-gray-200`}
-                        onMouseDown={() => {
-                          setText(suggestion.term);
-                          setFocusedInput(null);
-                        }}
-                      >
-                        {suggestion.term}
-                      </li>
-                    ))}
+                  {jobSuggestions?.map((suggestion, index) => (
+                    <li
+                      key={suggestion.term || index}
+                      className={`px-12 py-2 cursor-pointer ${
+                        index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                      } hover:bg-gray-200`}
+                      onMouseDown={() => {
+                        setText(suggestion.term);
+                        setFocusedInput(null);
+                      }}
+                    >
+                      {suggestion.term}
+                    </li>
+                  ))}
                 </ul>
               )}
           </div>
 
-          {/* Location Input Wrapper */}
           <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
             <div
               style={{ height: "54px" }}
@@ -537,7 +474,7 @@ useEffect(() => {
               <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10 bg-white">
                 {filteredCities.map((suggestion, index) => (
                   <li
-                    key={`city-${index}`}
+                    key={`city-${suggestion}-${index}`}
                     className={`px-12 py-2 cursor-pointer ${
                       index % 2 === 0 ? "bg-custom-gray" : "bg-white"
                     } hover:bg-gray-200`}
@@ -551,7 +488,7 @@ useEffect(() => {
                 ))}
                 {filteredCommunes.map((suggestion, index) => (
                   <li
-                    key={`commune-${index}`}
+                    key={`commune-${suggestion}-${index}`}
                     className={`px-12 py-2 cursor-pointer ${
                       index % 2 === 0 ? "bg-custom-gray" : "bg-white"
                     } hover:bg-gray-200`}
@@ -573,8 +510,7 @@ useEffect(() => {
         </form>
       </div>
 
-      {/* Results Header and Active Filters */}
-      {location.pathname === "/rezultate" && (
+      {isOnResultsPage && (
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-14">
           <FiltreGrup />
 
