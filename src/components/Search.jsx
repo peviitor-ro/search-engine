@@ -150,7 +150,7 @@ fix/company-filter-url-sync
     const qParam = findParamInURL("q");
     const cityParam = findParamInURL("orase");
     const countyParam = findParamInURL("judete");
-    const companyParam = findParamInURL("companie");
+    const companyParam = findParamInURL("company");
     const remoteParam = findParamInURL("remote");
 
     contextSetQ(qParam || [""]);
