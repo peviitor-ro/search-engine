@@ -37,11 +37,10 @@ const Results = () => {
   const loading = useSelector((state) => state.jobs.loading);
   //state
   const [isVisible, setIsVisible] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-  // Main data fetcher for initial load, filter changes, and page refreshes
+  // Main data fetcher for initial load, filter changes, and pagination/page refreshes
   useEffect(() => {
     let isMounted = true;
 
@@ -71,7 +70,6 @@ const Results = () => {
           dispatch(setTotal(0));
         }
       } finally {
-        // CRITICAL: Guaranteed to turn off loading state so it never loops infinitely
         if (isMounted) {
           dispatch(setLoading(false));
         }
@@ -86,44 +84,23 @@ const Results = () => {
   }, [q, city, workmode, county, company, page, dispatch]);
 
   const goToPage = useCallback(
-    async (nextPage, { syncUrl = true } = {}) => {
+    (nextPage, { syncUrl = true } = {}) => {
       if (
         nextPage < 1 ||
         nextPage > totalPages ||
         nextPage === page ||
-        pageLoading
+        loading
       ) {
         return;
       }
 
-      setPageLoading(true);
-      const response = await getData(
-        createSearchString(q, city, county, company, workmode, nextPage)
-      ).catch(() => ({ jobs: [], total }));
-      setPageLoading(false);
-
-      const newJobs = response?.jobs || response?.data || (Array.isArray(response) ? response : []);
-      const newTotal = response?.total ?? response?.totalCount ?? total;
-
-      dispatch(setJobs(newJobs));
-      dispatch(setTotal(newTotal));
       dispatch(setPage(nextPage));
-      if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
-      if (syncUrl) updateUrlParams({ page: nextPage });
+      if (syncUrl) {
+        updateUrlParams({ page: nextPage });
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [
-      q,
-      city,
-      county,
-      company,
-      workmode,
-      page,
-      pageLoading,
-      totalPages,
-      total,
-      dispatch
-    ]
+    [page, totalPages, loading, dispatch]
   );
 
   // Follow manual edits to the URL's page param (address bar edits, back/forward)
@@ -133,7 +110,9 @@ const Results = () => {
       const urlPage = pageVal
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
-      goToPage(urlPage, { syncUrl: false });
+      if (urlPage !== page) {
+        dispatch(setPage(urlPage));
+      }
     };
 
     window.addEventListener("hashchange", syncPageFromUrl);
@@ -142,7 +121,7 @@ const Results = () => {
       window.removeEventListener("hashchange", syncPageFromUrl);
       window.removeEventListener("popstate", syncPageFromUrl);
     };
-  }, [goToPage]);
+  }, [page, dispatch]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {
@@ -226,7 +205,7 @@ const Results = () => {
           currentPage={page}
           totalPages={totalPages}
           onPageChange={goToPage}
-          disabled={pageLoading}
+          disabled={loading}
         />
       )}
 

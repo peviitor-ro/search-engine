@@ -11,7 +11,6 @@ import { orase } from "../utils/getCityName";
 import { comune } from "../utils/getCommuneName";
 import getCityMatch from "../utils/getCityMatch";
 import getCommuneMatch from "../utils/getCommuneMatch";
-import { createSearchString } from "../utils/createSearchString";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
 // Components
@@ -21,18 +20,11 @@ import Button from "@/components/ui/button";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import {
-  setJobs,
-  clearJobs,
-  setTotal,
-  setPage,
-  setPageSize,
   setNumberOfCompany,
-  setLoading
 } from "../reducers/jobsSlice";
 
 // Data Fetching
 import {
-  getData,
   getNumberOfCompany,
   getJobSuggestion,
   getNumberOfJobs
@@ -110,7 +102,6 @@ const Search = () => {
 
   // Wrapper ref catches clicks outside of BOTH inputs & dropdowns
   const containerRef = useRef(null);
-  const prevSearchKey = useRef(null);
 
   const isOnResultsPage = useMemo(
     () => location.pathname.includes("rezultate") || window.location.hash.includes("rezultate"),
@@ -128,7 +119,7 @@ const Search = () => {
     setText(q ? String(q) : "");
   }, [isOnResultsPage, q]);
 
-// Sync URL Params with Context
+  // Sync URL Params with Context
   useEffect(() => {
     if (!isOnResultsPage) return;
 
@@ -152,7 +143,7 @@ const Search = () => {
     location.pathname,
     location.search,
     location.hash,
-    isOnResultsPage // <--- Add it right here
+    isOnResultsPage
   ]);
   
   useEffect(() => {
@@ -211,83 +202,6 @@ const Search = () => {
 
     navigate(`/rezultate?${params.toString()}`, { replace: false });
   };
-
-  useEffect(() => {
-    if (!isOnResultsPage) return;
-
-    let active = true;
-
-    const fetchData = async () => {
-      const cleanParam = (val) => {
-        if (Array.isArray(val)) return val.filter(Boolean).join("|");
-        return val ? String(val).trim() : "";
-      };
-
-      const qStr = cleanParam(q);
-      const cityStr = cleanParam(city);
-      const countyStr = cleanParam(county);
-      const companyStr = cleanParam(company);
-      const remoteStr = cleanParam(remote);
-
-      const pageVal = findParamInURL("page");
-      const targetPage = pageVal ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1 : 1;
-
-      const searchKey = `${qStr}::${cityStr}::${countyStr}::${companyStr}::${remoteStr}::page=${targetPage}`;
-
-      if (prevSearchKey.current === searchKey) return;
-      prevSearchKey.current = searchKey;
-
-      try {
-        dispatch(setLoading(true));
-
-        const searchString = createSearchString(q, city, county, company, remote, targetPage);
-        const response = await getData(searchString);
-
-        const jobs = response?.jobs || response?.data || (Array.isArray(response) ? response : []);
-        const totalCount = response?.total ?? response?.totalCount ?? jobs.length;
-
-        if (active) {
-          dispatch(setJobs(jobs));
-          dispatch(setTotal(totalCount));
-          dispatch(setPage(targetPage));
-          if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-
-          if (findParamInURL("page") !== String(targetPage)) {
-            updateUrlParams({ page: targetPage });
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-        if (active) {
-          dispatch(clearJobs());
-          dispatch(setTotal(0));
-        }
-      } finally {
-        if (active) {
-          dispatch(setLoading(false));
-        }
-      }
-    };
-
-    if (
-      q.length !== 0 ||
-      city.length !== 0 ||
-      remote.length !== 0 ||
-      company.length !== 0 ||
-      county.length !== 0 ||
-      location.pathname === "/rezultate"
-    ) {
-      fetchData();
-    } else {
-      dispatch(clearJobs());
-      dispatch(setTotal(0));
-      dispatch(setPage(1));
-    }
-
-    return () => {
-      active = false;
-    };
-  }, [dispatch, q, city, remote, company, county, location.pathname, isOnResultsPage]);
 
   function handleCloseIcon() {
     setText("");
@@ -395,9 +309,9 @@ const Search = () => {
               className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full h-[54px] ${
                 isOnResultsPage ? "w-full" : ""
               } ${
-                isOnResultsPage
-                  ? "lg:border-r-2 border-[#89969C]"
-                  : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
+                !isOnResultsPage
+                  ? "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
+                  : ""
               } ${
                 focusedInput === "jobTitle" &&
                 text.length >= 3 &&
@@ -444,66 +358,69 @@ const Search = () => {
                 </ul>
               )}
           </div>
-
-          <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
-            <div
-              style={{ height: "54px" }}
-              className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none ${
-                focusedInput === "location"
-                  ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                  : ""
-              }`}
-            >
-              <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
-              <input
-                type="text"
-                value={isLocation}
-                onChange={(e) => setLocation(e.target.value)}
-                onFocus={() => handleFocus("location")}
-                placeholder="Adaugă o locație"
-                className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
-              />
-              {isLocation && (
-                <CloseIcon
-                  className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
-                  onClick={handleClearLocation}
+          
+   {/* Location input container is only visible on the landing page */}
+          {location.pathname === "/" && (
+            <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
+              <div
+                style={{ height: "54px" }}
+                className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none ${
+                  focusedInput === "location"
+                    ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                    : ""
+                }`}
+              >
+                <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
+                <input
+                  type="text"
+                  value={isLocation}
+                  onChange={(e) => setLocation(e.target.value)}
+                  onFocus={() => handleFocus("location")}
+                  placeholder="Adaugă o locație"
+                  className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
                 />
+                {isLocation && (
+                  <CloseIcon
+                    className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
+                    onClick={handleClearLocation}
+                  />
+                )}
+              </div>
+
+              {focusedInput === "location" && (
+                <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10 bg-white">
+                  {filteredCities.map((suggestion, index) => (
+                    <li
+                      key={`city-${suggestion}-${index}`}
+                      className={`px-12 py-2 cursor-pointer ${
+                        index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                      } hover:bg-gray-200`}
+                      onClick={() => {
+                        setLocation(suggestion);
+                        setFocusedInput(null);
+                      }}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                  {filteredCommunes.map((suggestion, index) => (
+                    <li
+                      key={`commune-${suggestion}-${index}`}
+                      className={`px-12 py-2 cursor-pointer ${
+                        index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                      } hover:bg-gray-200`}
+                      onClick={() => {
+                        setLocation(suggestion);
+                        setFocusedInput(null);
+                      }}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
-
-            {focusedInput === "location" && (
-              <ul className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10 bg-white">
-                {filteredCities.map((suggestion, index) => (
-                  <li
-                    key={`city-${suggestion}-${index}`}
-                    className={`px-12 py-2 cursor-pointer ${
-                      index % 2 === 0 ? "bg-custom-gray" : "bg-white"
-                    } hover:bg-gray-200`}
-                    onClick={() => {
-                      setLocation(suggestion);
-                      setFocusedInput(null);
-                    }}
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-                {filteredCommunes.map((suggestion, index) => (
-                  <li
-                    key={`commune-${suggestion}-${index}`}
-                    className={`px-12 py-2 cursor-pointer ${
-                      index % 2 === 0 ? "bg-custom-gray" : "bg-white"
-                    } hover:bg-gray-200`}
-                    onClick={() => {
-                      setLocation(suggestion);
-                      setFocusedInput(null);
-                    }}
-                  >
-                    {suggestion}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          )}
 
           <Button type="submit" buttonType="search">
             Caută
