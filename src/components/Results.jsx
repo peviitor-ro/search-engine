@@ -53,16 +53,27 @@ const Results = () => {
       }
 
       setPageLoading(true);
-      const { jobs: newJobs, total: newTotal } = await getData(
+      let { jobs: newJobs, total: newTotal } = await getData(
         createSearchString(q, city, county, company, workmode, nextPage)
       ).catch(() => ({ jobs: [], total }));
+
+      let validPage = nextPage;
+      if (newTotal > 0 && newJobs.length === 0 && nextPage > 1) {
+        validPage = 1;
+        const fallback = await getData(
+          createSearchString(q, city, county, company, workmode, validPage)
+        ).catch(() => ({ jobs: [], total }));
+        newJobs = fallback.jobs;
+        newTotal = fallback.total;
+      }
       setPageLoading(false);
 
       dispatch(setJobs(newJobs));
       dispatch(setTotal(newTotal));
-      dispatch(setPage(nextPage));
+      dispatch(setPage(validPage));
       if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
-      if (syncUrl) updateUrlParams({ page: nextPage });
+      if (syncUrl || validPage !== nextPage)
+        updateUrlParams({ page: validPage });
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     [
@@ -86,7 +97,8 @@ const Results = () => {
       const urlPage = pageVal
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
-      goToPage(urlPage, { syncUrl: false });
+      const validPage = Math.max(1, Math.min(urlPage, totalPages));
+      goToPage(validPage, { syncUrl: validPage !== urlPage });
     };
 
     window.addEventListener("hashchange", syncPageFromUrl);
@@ -95,7 +107,7 @@ const Results = () => {
       window.removeEventListener("hashchange", syncPageFromUrl);
       window.removeEventListener("popstate", syncPageFromUrl);
     };
-  }, [goToPage]);
+  }, [goToPage, totalPages]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {

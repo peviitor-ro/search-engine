@@ -49,7 +49,7 @@ export const TagsProvider = ({ children }) => {
       ...prevFields,
       [type]: updatedArray
     }));
-    updateUrlParams({ [type]: updatedArray });
+    updateUrlParams({ [type]: updatedArray, page: 1 });
     // Update the state for string creation.
     if (type === "orase") {
       setCity(updatedArray);
@@ -73,7 +73,7 @@ export const TagsProvider = ({ children }) => {
       updatedArray.splice(index, 1);
     }
 
-    updateUrlParams({ [type]: updatedArray });
+    updateUrlParams({ [type]: updatedArray, page: 1 });
 
     // Update state with the updated array
     setFields((prevFields) => ({
@@ -96,19 +96,27 @@ export const TagsProvider = ({ children }) => {
   };
 
   const contextSetQ = useCallback((text) => {
-    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    const cleanText = Array.isArray(text)
+      ? text.filter(Boolean)
+      : text
+        ? [text]
+        : [];
     setQ((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ q: cleanText });
+      updateUrlParams({ q: cleanText, page: 1 });
       return cleanText;
     });
   }, []);
 
   const contextSetCity = useCallback((text) => {
-    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    const cleanText = Array.isArray(text)
+      ? text.filter(Boolean)
+      : text
+        ? [text]
+        : [];
     setCity((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ orase: cleanText });
+      updateUrlParams({ orase: cleanText, page: 1 });
       return cleanText;
     });
   }, []);

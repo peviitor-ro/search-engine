@@ -89,6 +89,7 @@ const Search = () => {
   const dispatch = useDispatch();
 
   const total = useSelector((state) => state.jobs.total);
+  const jobs = useSelector((state) => state.jobs.jobs);
   const [globalJobsTotal, setGlobalJobsTotal] = useState(0);
 
   const loading = useSelector((state) => state.jobs.loading);
@@ -132,8 +133,6 @@ const Search = () => {
     }
   }, [location.pathname, q]);
 
-
-
   useEffect(() => {
     if (!location.pathname.includes("/rezultate")) {
       return;
@@ -149,35 +148,49 @@ const Search = () => {
   const handleUpdateQ = async (e) => {
     e.preventDefault();
 
+    prevSearchKey.current = null;
+    dispatch(setLoading(true));
+    contextSetQ([text]);
+    contextSetCity([isLocation]);
     if (location.pathname !== "/rezultate") {
       await navigate("/rezultate");
     }
-    contextSetQ([text]);
-    contextSetCity([isLocation]);
   };
 
   const prevSearchKey = useRef(null);
 
   useEffect(() => {
+    if (location.pathname !== "/rezultate") {
+      if (location.pathname === "/") {
+        prevSearchKey.current = null;
+        dispatch(clearJobs());
+        dispatch(setTotal(0));
+        dispatch(setPage(1));
+        dispatch(setLoading(true));
+      }
+      return;
+    }
+
+    const pageVal = findParamInURL("page");
+    const targetPage = pageVal
+      ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+      : 1;
+
+    const searchKey =
+      [q, city, county, company, remote]
+        .map((value) =>
+          Array.isArray(value) ? value.join("|") : String(value)
+        )
+        .join("::") + `::page=${targetPage}`;
+
+    if (prevSearchKey.current === searchKey && jobs.length > 0) {
+      return;
+    }
+    prevSearchKey.current = searchKey;
+
     const fetchData = async () => {
       try {
         dispatch(setLoading(true));
-
-        const pageVal = findParamInURL("page");
-        const targetPage = pageVal
-          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-          : 1;
-
-        const searchKey = [q, city, county, company, remote]
-          .map((value) =>
-            Array.isArray(value) ? value.join("|") : String(value)
-          )
-          .join("::") + `::page=${targetPage}`;
-
-        if (prevSearchKey.current === searchKey) {
-          return;
-        }
-        prevSearchKey.current = searchKey;
 
         const searchString = createSearchString(
           q,
@@ -188,13 +201,37 @@ const Search = () => {
           targetPage
         );
 
-        const { jobs, total } = await getData(searchString);
+        let { jobs: fetchedJobs, total: fetchedTotal } =
+          await getData(searchString);
+        let currentPage = targetPage;
 
-        dispatch(setJobs(jobs));
-        dispatch(setTotal(total));
-        dispatch(setPage(targetPage));
-        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-        updateUrlParams({ page: targetPage });
+        // Auto-correct if requested page is out of bounds
+        if (fetchedTotal > 0 && fetchedJobs.length === 0 && targetPage > 1) {
+          currentPage = 1;
+          const fallbackSearchString = createSearchString(
+            q,
+            city,
+            county,
+            company,
+            remote,
+            currentPage
+          );
+          const fallbackData = await getData(fallbackSearchString);
+          fetchedJobs = fallbackData.jobs;
+          fetchedTotal = fallbackData.total;
+          prevSearchKey.current =
+            [q, city, county, company, remote]
+              .map((value) =>
+                Array.isArray(value) ? value.join("|") : String(value)
+              )
+              .join("::") + `::page=${currentPage}`;
+        }
+
+        dispatch(setJobs(fetchedJobs));
+        dispatch(setTotal(fetchedTotal));
+        dispatch(setPage(currentPage));
+        if (fetchedJobs.length > 0) dispatch(setPageSize(fetchedJobs.length));
+        updateUrlParams({ page: currentPage });
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -202,24 +239,21 @@ const Search = () => {
       }
     };
 
-    if (
-      location.pathname === "/rezultate" ||
-      q.length !== 0 ||
-      city.length !== 0 ||
-      remote.length !== 0 ||
-      company.length !== 0
-    ) {
-      fetchData();
-    } else {
-      dispatch(clearJobs());
-      dispatch(setTotal(0));
-      dispatch(setPage(1));
-    }
-  }, [dispatch, q, city, remote, company, county, location.pathname]);
+    fetchData();
+  }, [
+    dispatch,
+    q,
+    city,
+    remote,
+    company,
+    county,
+    location.pathname,
+    jobs.length
+  ]);
 
   function handleCloseIcon() {
     setText("");
-    updateUrlParams({ q: null });
+    updateUrlParams({ q: null, page: 1 });
     contextSetQ([""]);
   }
 
