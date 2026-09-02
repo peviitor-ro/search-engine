@@ -10,7 +10,7 @@ import scrollUp from "../assets/svg/scroll-up.svg";
 import TagsContext from "../context/TagsContext";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setJobs, setTotal, setPage, setPageSize } from "../reducers/jobsSlice";
+import { setJobs, setTotal, setPage, setPageSize, setLoading } from "../reducers/jobsSlice";
 // function to create the string
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
@@ -37,57 +37,106 @@ const Results = () => {
   const loading = useSelector((state) => state.jobs.loading);
   //state
   const [isVisible, setIsVisible] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
+  // Main data fetcher for initial load, filter changes, and pagination/page refreshes
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchJobs = async () => {
+      try {
+        dispatch(setLoading(true));
+
+        const pageVal = findParamInURL("page");
+        const targetPage = pageVal
+          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+          : page;
+
+        const searchString = createSearchString(
+          q,
+          city,
+          county,
+          company,
+          workmode,
+          targetPage
+        );
+        const response = await getData(searchString || "").catch(() => ({
+          jobs: [],
+          total: 0
+        }));
+
+        let newJobs =
+          response?.jobs ||
+          response?.data ||
+          (Array.isArray(response) ? response : []);
+        let newTotal =
+          response?.total ?? response?.totalCount ?? newJobs.length;
+        let currentPage = targetPage;
+
+        // Auto-correct if requested page is out of bounds
+        if (newTotal > 0 && newJobs.length === 0 && targetPage > 1) {
+          currentPage = 1;
+          const fallbackSearchString = createSearchString(
+            q,
+            city,
+            county,
+            company,
+            workmode,
+            currentPage
+          );
+          const fallback = await getData(fallbackSearchString || "").catch(
+            () => ({ jobs: [], total: 0 })
+          );
+          newJobs = fallback?.jobs || [];
+          newTotal = fallback?.total ?? fallback?.totalCount ?? newJobs.length;
+          updateUrlParams({ page: currentPage }, true);
+        }
+
+        if (isMounted) {
+          dispatch(setJobs(newJobs));
+          dispatch(setTotal(newTotal));
+          dispatch(setPage(currentPage));
+          if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
+        }
+      } catch (error) {
+        console.error("Failed to fetch jobs:", error);
+        if (isMounted) {
+          dispatch(setJobs([]));
+          dispatch(setTotal(0));
+        }
+      } finally {
+        if (isMounted) {
+          dispatch(setLoading(false));
+        }
+      }
+    };
+
+    fetchJobs();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [q, city, workmode, county, company, page, dispatch]);
+
   const goToPage = useCallback(
-    async (nextPage, { syncUrl = true } = {}) => {
+    (nextPage, { syncUrl = true } = {}) => {
+      const validPage = Math.max(1, Math.min(nextPage, totalPages));
       if (
-        nextPage < 1 ||
-        nextPage > totalPages ||
-        nextPage === page ||
-        pageLoading
+        validPage < 1 ||
+        (validPage === page && jobs.length > 0) ||
+        loading
       ) {
         return;
       }
 
-      setPageLoading(true);
-      let { jobs: newJobs, total: newTotal } = await getData(
-        createSearchString(q, city, county, company, workmode, nextPage)
-      ).catch(() => ({ jobs: [], total }));
-
-      let validPage = nextPage;
-      if (newTotal > 0 && newJobs.length === 0 && nextPage > 1) {
-        validPage = 1;
-        const fallback = await getData(
-          createSearchString(q, city, county, company, workmode, validPage)
-        ).catch(() => ({ jobs: [], total }));
-        newJobs = fallback.jobs;
-        newTotal = fallback.total;
-      }
-      setPageLoading(false);
-
-      dispatch(setJobs(newJobs));
-      dispatch(setTotal(newTotal));
       dispatch(setPage(validPage));
-      if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
-      if (syncUrl || validPage !== nextPage)
+      if (syncUrl) {
         updateUrlParams({ page: validPage });
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [
-      q,
-      city,
-      county,
-      company,
-      workmode,
-      page,
-      pageLoading,
-      totalPages,
-      total,
-      dispatch
-    ]
+    [page, totalPages, loading, jobs.length, dispatch]
   );
 
   // Follow manual edits to the URL's page param (address bar edits, back/forward)
@@ -98,7 +147,9 @@ const Results = () => {
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
       const validPage = Math.max(1, Math.min(urlPage, totalPages));
-      goToPage(validPage, { syncUrl: validPage !== urlPage });
+      if (validPage !== page) {
+        dispatch(setPage(validPage));
+      }
     };
 
     window.addEventListener("hashchange", syncPageFromUrl);
@@ -107,7 +158,7 @@ const Results = () => {
       window.removeEventListener("hashchange", syncPageFromUrl);
       window.removeEventListener("popstate", syncPageFromUrl);
     };
-  }, [goToPage, totalPages]);
+  }, [page, totalPages, dispatch]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {
@@ -191,7 +242,7 @@ const Results = () => {
           currentPage={page}
           totalPages={totalPages}
           onPageChange={goToPage}
-          disabled={pageLoading}
+          disabled={loading}
         />
       )}
 
