@@ -52,12 +52,12 @@ export const TagsProvider = ({ children }) => {
     } else {
       updatedValues = updatedValues.filter((item) => item !== value);
     }
-
     if (updatedValues.length > 0) {
       params.set(type, updatedValues.join(","));
     } else {
       params.delete(type);
     }
+    params.set("page", "1");
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
@@ -78,6 +78,7 @@ export const TagsProvider = ({ children }) => {
     } else {
       params.delete(type);
     }
+    params.set("page", "1");
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
@@ -85,19 +86,27 @@ export const TagsProvider = ({ children }) => {
 
   // Context Setters - use replace: true so they don't bloat the history stack
   const contextSetQ = useCallback((text) => {
-    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    const cleanText = Array.isArray(text)
+      ? text.filter(Boolean)
+      : text
+        ? [text]
+        : [];
     setQ((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ q: cleanText }, true); // Pass true for replaceState
+      updateUrlParams({ q: cleanText, page: 1 }, true);
       return cleanText;
     });
   }, []);
 
   const contextSetCity = useCallback((text) => {
-    const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
+    const cleanText = Array.isArray(text)
+      ? text.filter(Boolean)
+      : text
+        ? [text]
+        : [];
     setCity((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ orase: cleanText }, true);
+      updateUrlParams({ orase: cleanText, page: 1 }, true);
       return cleanText;
     });
   }, []);
@@ -106,7 +115,7 @@ export const TagsProvider = ({ children }) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setCounty((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ judete: cleanText }, true);
+      updateUrlParams({ judete: cleanText, page: 1 }, true);
       return cleanText;
     });
   }, []);
@@ -115,7 +124,7 @@ export const TagsProvider = ({ children }) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setCompany((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ company: cleanText }, true);
+      updateUrlParams({ company: cleanText, page: 1 }, true);
       return cleanText;
     });
   }, []);
@@ -124,7 +133,7 @@ export const TagsProvider = ({ children }) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setRemote((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ remote: cleanText }, true);
+      updateUrlParams({ remote: cleanText, page: 1 }, true);
       return cleanText;
     });
   }, []);
@@ -176,6 +185,7 @@ export const TagsProvider = ({ children }) => {
     const qValue = params.get("q");
     const newParams = new URLSearchParams();
     if (qValue) newParams.set("q", qValue);
+    newParams.set("page", "1");
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${newParams.toString()}`, { replace: false });

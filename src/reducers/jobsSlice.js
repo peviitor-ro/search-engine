@@ -6,7 +6,7 @@ const initialState = {
   total: 0,
   totalJobs: 0,
   totalCompany: 0,
-  loading: false,
+  loading: true,
   page: 1,
   pageSize: 10
 };

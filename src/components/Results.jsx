@@ -49,18 +49,54 @@ const Results = () => {
         dispatch(setLoading(true));
 
         const pageVal = findParamInURL("page");
-        const targetPage = pageVal ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1 : page;
+        const targetPage = pageVal
+          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+          : page;
 
-        const searchString = createSearchString(q, city, county, company, workmode, targetPage);
-        const response = await getData(searchString || "").catch(() => ({ jobs: [], total: 0 }));
+        const searchString = createSearchString(
+          q,
+          city,
+          county,
+          company,
+          workmode,
+          targetPage
+        );
+        const response = await getData(searchString || "").catch(() => ({
+          jobs: [],
+          total: 0
+        }));
 
-        const newJobs = response?.jobs || response?.data || (Array.isArray(response) ? response : []);
-        const newTotal = response?.total ?? response?.totalCount ?? newJobs.length;
+        let newJobs =
+          response?.jobs ||
+          response?.data ||
+          (Array.isArray(response) ? response : []);
+        let newTotal =
+          response?.total ?? response?.totalCount ?? newJobs.length;
+        let currentPage = targetPage;
+
+        // Auto-correct if requested page is out of bounds
+        if (newTotal > 0 && newJobs.length === 0 && targetPage > 1) {
+          currentPage = 1;
+          const fallbackSearchString = createSearchString(
+            q,
+            city,
+            county,
+            company,
+            workmode,
+            currentPage
+          );
+          const fallback = await getData(fallbackSearchString || "").catch(
+            () => ({ jobs: [], total: 0 })
+          );
+          newJobs = fallback?.jobs || [];
+          newTotal = fallback?.total ?? fallback?.totalCount ?? newJobs.length;
+          updateUrlParams({ page: currentPage }, true);
+        }
 
         if (isMounted) {
           dispatch(setJobs(newJobs));
           dispatch(setTotal(newTotal));
-          dispatch(setPage(targetPage));
+          dispatch(setPage(currentPage));
           if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
         }
       } catch (error) {
@@ -85,22 +121,22 @@ const Results = () => {
 
   const goToPage = useCallback(
     (nextPage, { syncUrl = true } = {}) => {
+      const validPage = Math.max(1, Math.min(nextPage, totalPages));
       if (
-        nextPage < 1 ||
-        nextPage > totalPages ||
-        nextPage === page ||
+        validPage < 1 ||
+        (validPage === page && jobs.length > 0) ||
         loading
       ) {
         return;
       }
 
-      dispatch(setPage(nextPage));
+      dispatch(setPage(validPage));
       if (syncUrl) {
-        updateUrlParams({ page: nextPage });
+        updateUrlParams({ page: validPage });
       }
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [page, totalPages, loading, dispatch]
+    [page, totalPages, loading, jobs.length, dispatch]
   );
 
   // Follow manual edits to the URL's page param (address bar edits, back/forward)
@@ -110,8 +146,9 @@ const Results = () => {
       const urlPage = pageVal
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
-      if (urlPage !== page) {
-        dispatch(setPage(urlPage));
+      const validPage = Math.max(1, Math.min(urlPage, totalPages));
+      if (validPage !== page) {
+        dispatch(setPage(validPage));
       }
     };
 
@@ -121,7 +158,7 @@ const Results = () => {
       window.removeEventListener("hashchange", syncPageFromUrl);
       window.removeEventListener("popstate", syncPageFromUrl);
     };
-  }, [page, dispatch]);
+  }, [page, totalPages, dispatch]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {

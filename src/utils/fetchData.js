@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
 const API_LOGO = import.meta.env.VITE_API_LOGO;
 const API_COMPANIES = import.meta.env.VITE_API_COMPANIES;
-const API_SUGGEST = import.meta.env.VITE_API_SUGGEST;
+// const API_SUGGEST = import.meta.env.VITE_API_SUGGEST; // DEACTIVATED UNTIL FIXED IN BACKEND
 const API_TOTAL = import.meta.env.VITE_API_TOTAL;
 
 // Fetch the jobs using the string created by user inputs/checkbox.
@@ -89,7 +89,10 @@ export const getNameOfCompanies = async (searchQuery = "") => {
 };
 
 // Fetch job suggestions
-export const getJobSuggestion = async (value) => {
+// DEACTIVATED UNTIL FIXED IN BACKEND
+export const getJobSuggestion = async (/* value */) => {
+  return [];
+  /*
   try {
     const response = await fetch(`${API_SUGGEST}?q=${value}`);
     if (!response.ok) throw new Error("Invalid response");
@@ -100,4 +103,5 @@ export const getJobSuggestion = async (value) => {
     console.error("Error fetching suggestions:", error);
     return [];
   }
+  */
 };

@@ -26,7 +26,7 @@ import {
 // Data Fetching
 import {
   getNumberOfCompany,
-  getJobSuggestion,
+  // getJobSuggestion, // DEACTIVATED UNTIL FIXED IN BACKEND
   getNumberOfJobs
 } from "../utils/fetchData";
 
@@ -98,7 +98,7 @@ const Search = () => {
   const [focusedInput, setFocusedInput] = useState(null);
   const [filteredCities, setFilteredCities] = useState(sortedOrase);
   const [filteredCommunes, setFilteredCommunes] = useState(comune);
-  const [jobSuggestions, setJobSuggestions] = useState([]);
+  // const [jobSuggestions] = useState([]); // DEZACTIVATED UNTIL SUGGESTION FETCH FIX
 
   // Wrapper ref catches clicks outside of BOTH inputs & dropdowns
   const containerRef = useRef(null);
@@ -199,13 +199,14 @@ const Search = () => {
     appendParam("judete", county);
     appendParam("company", company);
     appendParam("remote", remote);
+    params.set("page", "1");
 
     navigate(`/rezultate?${params.toString()}`, { replace: false });
   };
 
   function handleCloseIcon() {
     setText("");
-    updateUrlParams({ q: null });
+    updateUrlParams({ q: null, page: 1 });
     if (contextSetQ) contextSetQ([""]);
   }
 
@@ -234,6 +235,8 @@ const Search = () => {
     };
   }, [focusedInput]);
 
+  // DEACTIVATED UNTIL FIXED IN BACKEND
+  /*
   useEffect(() => {
     let active = true;
     const timer = setTimeout(async () => {
@@ -241,7 +244,9 @@ const Search = () => {
         try {
           const response = await getJobSuggestion(text);
           if (active) {
-            setJobSuggestions(Array.isArray(response?.suggestions) ? response.suggestions : []);
+            setJobSuggestions(
+              Array.isArray(response?.suggestions) ? response.suggestions : []
+            );
           }
         } catch (error) {
           console.error("Error fetching suggestions:", error);
@@ -256,6 +261,7 @@ const Search = () => {
       clearTimeout(timer);
     };
   }, [text]);
+  */
 
   return (
     <div
@@ -313,11 +319,13 @@ const Search = () => {
                   ? "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
                   : ""
               } ${
+                /* DEZACTIVATED UNTIL SUGGESTION FETCH FIX
                 focusedInput === "jobTitle" &&
                 text.length >= 3 &&
                 !isOnResultsPage
                   ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
                   : ""
+                */ ""
               }`}
             >
               <FlagMagnifyGlass className="ml-5" />
@@ -337,6 +345,8 @@ const Search = () => {
               )}
             </div>
 
+            {/* DEZACTIVATED UNTIL SUGGESTION FETCH FIX */}
+            {/*
             {!isOnResultsPage &&
               focusedInput === "jobTitle" &&
               text.length >= 3 && (
@@ -357,6 +367,7 @@ const Search = () => {
                   ))}
                 </ul>
               )}
+            */}
           </div>
           
    {/* Location input container is only visible on the landing page */}
