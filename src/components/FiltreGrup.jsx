@@ -1,34 +1,20 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import { ChevronDown } from "lucide-react";
-import { useLocation } from "react-router-dom";
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
-import { findParamInURL } from "../utils/urlManipulation";
 import InputField from "@/components/ui/input-field";
 import { cn } from "@/lib/utils";
 
 const FiltreGrup = () => {
-  const location = useLocation();
   // use it for closing dropdown on click
   const refDropdown = useRef();
 
   // Destructuring fields and handleCheckBoxChange from the context
-  const { fields, handleCheckBoxChange, contextSetField } =
-    useContext(TagsContext);
+  const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
   // State for dropdown visibility
   const [dropDown, setDropDown] = useState([false, false, false]);
-
-  useEffect(() => {
-    //Keeping the state in sync with the URL params
-    const cityParam = findParamInURL("orase");
-    const remoteParam = findParamInURL("remote");
-    const companyParam = findParamInURL("company");
-    contextSetField("orase", cityParam);
-    contextSetField("remote", remoteParam);
-    contextSetField("company", companyParam);
-  }, [contextSetField, location.search]);
 
   // Function to handle dropdown toggle
   function handleDropDown(index) {
