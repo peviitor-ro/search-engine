@@ -59,6 +59,11 @@ export const TagsProvider = ({ children }) => {
     }
     params.set("page", "1");
 
+    setFields((prev) => ({ ...prev, [type]: updatedValues }));
+    if (type === "orase") setCity(updatedValues);
+    if (type === "remote") setRemote(updatedValues);
+    if (type === "company") setCompany(updatedValues);
+
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
   };
@@ -79,6 +84,11 @@ export const TagsProvider = ({ children }) => {
       params.delete(type);
     }
     params.set("page", "1");
+
+    setFields((prev) => ({ ...prev, [type]: updatedValues }));
+    if (type === "orase") setCity(updatedValues);
+    if (type === "remote") setRemote(updatedValues);
+    if (type === "company") setCompany(updatedValues);
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
@@ -186,6 +196,18 @@ export const TagsProvider = ({ children }) => {
     const newParams = new URLSearchParams();
     if (qValue) newParams.set("q", qValue);
     newParams.set("page", "1");
+
+    setFields({
+      orase: [],
+      remote: [],
+      company: [],
+      county: [],
+      experienta: []
+    });
+    setCity([]);
+    setRemote([]);
+    setCompany([]);
+    setCounty([]);
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${newParams.toString()}`, { replace: false });

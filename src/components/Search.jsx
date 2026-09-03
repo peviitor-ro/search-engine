@@ -487,7 +487,7 @@ const Search = () => {
               (param) =>
                 Array.isArray(param) && param.filter(Boolean).length > 0
             ) && (
-              <div className="mb-8 flex w-full flex-wrap items-center gap-2">
+              <div className="mt-6 mb-12 flex w-full flex-wrap items-center gap-2">
                 <FilterTags tags={fields} removeTag={removeTag} />
                 <Button
                   buttonType="deleteFilters"
