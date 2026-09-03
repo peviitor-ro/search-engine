@@ -16,8 +16,14 @@ export const getData = async (createQueryString) => {
       !data.response ||
       !Array.isArray(data.response.docs)
     ) {
-      console.warn("Solr / Backend error. Fallback to empty data.", data);
-      return { jobs: [], total: 0 };
+      const errorMessage =
+        data?.error ||
+        `Invalid server response: ${response.status || "unknown"}`;
+      console.warn(
+        "Solr / Backend error. Re-throwing for caller fallback.",
+        data
+      );
+      throw new Error(errorMessage);
     }
 
     return {
@@ -26,7 +32,7 @@ export const getData = async (createQueryString) => {
     };
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    return { jobs: [], total: 0 };
+    throw error;
   }
 };
 
