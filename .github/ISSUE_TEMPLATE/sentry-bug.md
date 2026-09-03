@@ -25,13 +25,13 @@
 
 ### ⚙️ Environment & Status Details
 
-| Field | Value | Field | Value |
-| :--- | :--- | :--- | :--- |
-| **Level** | `{{LEVEL}}` | **Filename** | `{{FILENAME}}` |
-| **Status** | `{{STATUS}}` | **Function** | `{{FUNCTION}}` |
-| **Browser** | {{BROWSER}} | **First Seen** | {{FIRST_SEEN}} |
-| **OS** | {{OS}} | **Last Seen** | {{LAST_SEEN}} |
-| **Culprit** | `{{CULPRIT}}` | **Project** | `{{PROJECT_NAME}}` |
+| Field       | Value         | Field          | Value              |
+| :---------- | :------------ | :------------- | :----------------- |
+| **Level**   | `{{LEVEL}}`   | **Filename**   | `{{FILENAME}}`     |
+| **Status**  | `{{STATUS}}`  | **Function**   | `{{FUNCTION}}`     |
+| **Browser** | {{BROWSER}}   | **First Seen** | {{FIRST_SEEN}}     |
+| **OS**      | {{OS}}        | **Last Seen**  | {{LAST_SEEN}}      |
+| **Culprit** | `{{CULPRIT}}` | **Project**    | `{{PROJECT_NAME}}` |
 
 ---
 
