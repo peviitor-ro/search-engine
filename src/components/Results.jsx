@@ -1,26 +1,28 @@
-import { useContext, useState, useEffect, useCallback, useRef } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 // components
 import Job from "./Job";
 import NoResults from "./NoResults";
 import Button from "@/components/ui/button";
 import Pagination from "@/components/ui/pagination";
 // icons
-import scrollUp from "../assets/svg/scroll-up.svg";
 // context
 import TagsContext from "../context/TagsContext";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setJobs, setTotal, setPage, setPageSize } from "../reducers/jobsSlice";
+import { setNetworkError } from "../reducers/jobsSlice";
 // function to create the string
 import { createSearchString } from "../utils/createSearchString";
-// functions to fetch the data
-import { getData } from "../utils/fetchData";
+// central data fetching manager
+import { fetchAndHandleJobs } from "../utils/fetchData";
 import JobSkeleton from "@/components/ui/job-skeleton";
-import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
+import { findParamInURL } from "../utils/urlManipulation";
+import { AlertTriangle, ArrowLeft, ArrowUp } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Results = () => {
   // redux
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // context
   const {
     q,
@@ -29,37 +31,21 @@ const Results = () => {
     county,
     company
   } = useContext(TagsContext);
-  // jobs
+  // jobs slice state
   const jobs = useSelector((state) => state.jobs.jobs);
   const total = useSelector((state) => state.jobs.total);
   const page = useSelector((state) => state.jobs.page);
   const pageSize = useSelector((state) => state.jobs.pageSize);
   const loading = useSelector((state) => state.jobs.loading);
-  // state
+  const networkError = useSelector((state) => state.jobs.networkError);
+
+  // local UI state
   const [isVisible, setIsVisible] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
-  const [networkError, setNetworkError] = useState(false);
-
-  // Robust Cache keyed by the exact search query string for that specific page
-  const pageCache = useRef({});
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
-  // Automatically cache successfully loaded data mapped to its exact search query string
-  useEffect(() => {
-    if (jobs.length > 0) {
-      const currentQueryKey = createSearchString(
-        q,
-        city,
-        county,
-        company,
-        workmode,
-        page
-      );
-      pageCache.current[currentQueryKey] = { jobs, total };
-    }
-  }, [jobs, page, total, q, city, county, company, workmode]);
-
+  // Centralized page switching using fetchAndHandleJobs
   const goToPage = useCallback(
     async (nextPage, { syncUrl = true } = {}) => {
       if (
@@ -72,7 +58,6 @@ const Results = () => {
       }
 
       setPageLoading(true);
-      setNetworkError(false);
 
       const targetQueryKey = createSearchString(
         q,
@@ -84,30 +69,12 @@ const Results = () => {
       );
 
       try {
-        // Try fetching fresh data from the network
-        const { jobs: newJobs, total: newTotal } =
-          await getData(targetQueryKey);
-
-        // Success: update state normally
-        dispatch(setJobs(newJobs));
-        dispatch(setTotal(newTotal));
-        dispatch(setPage(nextPage));
-        if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
-        if (syncUrl) updateUrlParams({ page: nextPage });
-      } catch (error) {
-        // Network failed (offline). Check if this exact page/filter combination is in cache!
-        if (pageCache.current[targetQueryKey]) {
-          const cachedData = pageCache.current[targetQueryKey];
-          dispatch(setJobs(cachedData.jobs));
-          dispatch(setTotal(cachedData.total));
-          dispatch(setPage(nextPage));
-          if (cachedData.jobs.length > 0)
-            dispatch(setPageSize(cachedData.jobs.length));
-          if (syncUrl) updateUrlParams({ page: nextPage });
-        } else {
-          // Never visited or cached, trigger inline network error view
-          setNetworkError(true);
+        await fetchAndHandleJobs(targetQueryKey, nextPage, dispatch);
+        if (!syncUrl) {
+          // URL syncing logic handled internally by fetchAndHandleJobs
         }
+      } catch (error) {
+        console.error("Pagination fetch error:", error);
       } finally {
         setPageLoading(false);
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -182,10 +149,9 @@ const Results = () => {
           ))}
         </ul>
       ) : networkError ? (
-        // Inline layout matching the second picture style
         <div className="w-full max-w-[1440px] mx-auto px-4 md:px-14 py-24 text-center flex flex-col items-center justify-center">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-3xl">
-            ⚠️
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 text-red-600">
+            <AlertTriangle className="h-8 w-8" aria-hidden="true" />
           </div>
           <h2 className="text-3xl font-bold text-slate-900 mb-3">
             Conexiune eșuată
@@ -194,6 +160,25 @@ const Results = () => {
             Nu se poate încărca pagina următoare în modul offline. Puteți reveni
             la pagina anterioară sau continuați cu rezultatele deja încărcate.
           </p>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-background_green px-6 py-3 font-medium text-white transition hover:shadow-button_shadow"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              Înapoi
+            </button>
+            {jobs.length > 0 && (
+              <button
+                type="button"
+                onClick={() => dispatch(setNetworkError(false))}
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-background_green px-6 py-3 font-medium text-background_green transition hover:bg-background_green/10"
+              >
+                Continuă cu rezultatele
+              </button>
+            )}
+          </div>
         </div>
       ) : (
         <>
@@ -254,7 +239,7 @@ const Results = () => {
         className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
         onClick={handleScrollToTop}
       >
-        <img src={scrollUp} alt="scroll-up" />
+        <ArrowUp aria-label="Derulează în sus" />
       </Button>
     </div>
   );

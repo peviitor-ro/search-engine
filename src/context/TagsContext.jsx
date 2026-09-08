@@ -39,6 +39,15 @@ export const TagsProvider = ({ children }) => {
     return new URLSearchParams(rawSearch);
   }, [location.hash, location.search]);
 
+  // Automatically sync state from URL parameters when location changes
+  useEffect(() => {
+    setQ(findParamInURL("q") || []);
+    setCity(findParamInURL("orase") || []);
+    setRemote(findParamInURL("remote") || []);
+    setCompany(findParamInURL("company") || []);
+    setCounty(findParamInURL("judete") || []);
+  }, [location.search, location.hash]);
+
   // Use replace: false only for explicit user actions (like checkboxes)
   const handleCheckBoxChange = (e, type) => {
     const { value, checked } = e.target;
@@ -58,11 +67,6 @@ export const TagsProvider = ({ children }) => {
       params.delete(type);
     }
     params.set("page", "1");
-
-    setFields((prev) => ({ ...prev, [type]: updatedValues }));
-    if (type === "orase") setCity(updatedValues);
-    if (type === "remote") setRemote(updatedValues);
-    if (type === "company") setCompany(updatedValues);
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
@@ -84,11 +88,6 @@ export const TagsProvider = ({ children }) => {
       params.delete(type);
     }
     params.set("page", "1");
-
-    setFields((prev) => ({ ...prev, [type]: updatedValues }));
-    if (type === "orase") setCity(updatedValues);
-    if (type === "remote") setRemote(updatedValues);
-    if (type === "company") setCompany(updatedValues);
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
@@ -156,26 +155,20 @@ export const TagsProvider = ({ children }) => {
 
     switch (fieldName) {
       case "orase":
-        setCity(newValue);
         updateUrlParams({ orase: newValue }, true);
         break;
       case "remote":
-        setRemote(newValue);
         updateUrlParams({ remote: newValue }, true);
         break;
       case "company":
-        setCompany(newValue);
         updateUrlParams({ company: newValue }, true);
         break;
       case "judete":
-        setCounty(newValue);
         updateUrlParams({ judete: newValue }, true);
         break;
       default:
         return;
     }
-
-    setFields((prev) => ({ ...prev, [fieldName]: newValue }));
   }, []);
 
   useEffect(() => {
@@ -196,18 +189,6 @@ export const TagsProvider = ({ children }) => {
     const newParams = new URLSearchParams();
     if (qValue) newParams.set("q", qValue);
     newParams.set("page", "1");
-
-    setFields({
-      orase: [],
-      remote: [],
-      company: [],
-      county: [],
-      experienta: []
-    });
-    setCity([]);
-    setRemote([]);
-    setCompany([]);
-    setCounty([]);
 
     const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
     navigate(`${targetPath}?${newParams.toString()}`, { replace: false });

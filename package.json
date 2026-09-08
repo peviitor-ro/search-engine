@@ -53,6 +53,7 @@
     "build:production": "vite build --mode production",
     "build:final": "vite build --mode final",
     "preview": "vite preview",
+    "test": "vitest",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format:check": "npx prettier --check ."
   }

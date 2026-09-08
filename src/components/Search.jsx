@@ -1,3 +1,4 @@
+import { fetchAndHandleJobs, getJobSuggestion, getNumberOfJobs } from "../utils/fetchData";
 import logo from "../assets/svg/logo.svg";
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
@@ -10,25 +11,14 @@ import { orase } from "../utils/getCityName";
 import FiltreGrup from "./FiltreGrup";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-// functions to update the jobSlice state.
+// only the active reducer actions used in this component
 import {
-  setJobs,
   clearJobs,
   setTotal,
-  setPage,
-  setPageSize,
-  setNumberOfCompany,
-  setLoading
+  setPage
 } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
-// functions to fetch the data
-import {
-  getData,
-  getNumberOfCompany,
-  getJobSuggestion,
-  getNumberOfJobs
-} from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "@/components/ui/button";
 import getCityMatch from "../utils/getCityMatch";
@@ -112,6 +102,7 @@ const Search = () => {
 
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
+  // Fetch Global Total Jobs
   useEffect(() => {
     if (location.pathname !== "/rezultate") return;
 
@@ -126,23 +117,43 @@ const Search = () => {
     fetchGlobalTotal();
   }, [location.pathname]);
 
+  // Sync text input with query parameter
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
     }
   }, [location.pathname, q]);
 
+  // Main Data Fetching Effect (Centralized helper)
   useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) {
-      return;
-    }
+    if (
+      location.pathname === "/rezultate" ||
+      q.length !== 0 ||
+      city.length !== 0 ||
+      remote.length !== 0 ||
+      company.length !== 0
+    ) {
+      const pageVal = findParamInURL("page");
+      const targetPage = pageVal
+        ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+        : 1;
 
-    const numbersInfo = async () => {
-      const companyNumber = await getNumberOfCompany();
-      dispatch(setNumberOfCompany(companyNumber));
-    };
-    numbersInfo();
-  }, [dispatch, location.pathname]);
+      const searchString = createSearchString(
+        q,
+        city,
+        county,
+        company,
+        remote,
+        targetPage
+      );
+
+      fetchAndHandleJobs(searchString, targetPage, dispatch);
+    } else {
+      dispatch(clearJobs());
+      dispatch(setTotal(0));
+      dispatch(setPage(1));
+    }
+  }, [dispatch, q, city, remote, company, county, location.pathname]);
 
   const handleUpdateQ = async (e) => {
     e.preventDefault();
@@ -154,73 +165,11 @@ const Search = () => {
     contextSetCity([isLocation]);
   };
 
-  const prevSearchKey = useRef(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch(setLoading(true));
-
-        const pageVal = findParamInURL("page");
-        const targetPage = pageVal
-          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-          : 1;
-
-        const searchKey =
-          [q, city, county, company, remote]
-            .map((value) =>
-              Array.isArray(value) ? value.join("|") : String(value)
-            )
-            .join("::") + `::page=${targetPage}`;
-
-        if (prevSearchKey.current === searchKey) {
-          return;
-        }
-        prevSearchKey.current = searchKey;
-
-        const searchString = createSearchString(
-          q,
-          city,
-          county,
-          company,
-          remote,
-          targetPage
-        );
-
-        const { jobs, total } = await getData(searchString);
-
-        dispatch(setJobs(jobs));
-        dispatch(setTotal(total));
-        dispatch(setPage(targetPage));
-        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-        updateUrlParams({ page: targetPage });
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-
-    if (
-      location.pathname === "/rezultate" ||
-      q.length !== 0 ||
-      city.length !== 0 ||
-      remote.length !== 0 ||
-      company.length !== 0
-    ) {
-      fetchData();
-    } else {
-      dispatch(clearJobs());
-      dispatch(setTotal(0));
-      dispatch(setPage(1));
-    }
-  }, [dispatch, q, city, remote, company, county, location.pathname]);
-
-  function handleCloseIcon() {
+  const handleCloseIcon = () => {
     setText("");
     updateUrlParams({ q: null });
     contextSetQ([""]);
-  }
+  };
 
   const filterCities = useCallback((input) => {
     setFilteredCities(getCityMatch(input));
@@ -247,9 +196,9 @@ const Search = () => {
     };
   }, [focusedInput]);
 
-  const fetchSuggestions = async (text) => {
+  const fetchSuggestions = async (searchText) => {
     try {
-      const response = await getJobSuggestion(text);
+      const response = await getJobSuggestion(searchText);
       setJobSuggestions(response?.suggestions || []);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -385,11 +334,11 @@ const Search = () => {
                 <div
                   style={{ height: "54px" }}
                   className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
-                      ${
-                        focusedInput === "location"
-                          ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                          : ""
-                      }`}
+                    ${
+                      focusedInput === "location"
+                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                        : ""
+                    }`}
                 >
                   <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
                   <input
