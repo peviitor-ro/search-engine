@@ -594,7 +594,9 @@ async function syncIssues() {
         issue.title?.includes("status code: 404") ||
         issue.title?.includes("HTTP Client Error with status code: 404")
       ) {
-        console.log(`  -> Skipping 404 HTTP Error issue: ${issue.id} - ${issue.title}`);
+        console.log(
+          `  -> Skipping 404 HTTP Error issue: ${issue.id} - ${issue.title}`
+        );
         return false;
       }
       return !existingSentryIds.has(issue.id);

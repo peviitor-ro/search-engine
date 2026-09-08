@@ -8,7 +8,8 @@ const initialState = {
   totalCompany: 0,
   loading: true,
   page: 1,
-  pageSize: 10
+  pageSize: 10,
+  networkError: false // Track network or connection status
 };
 
 // Create slice
@@ -47,6 +48,9 @@ const jobsSlice = createSlice({
     },
     setNumberOfCompany(state, action) {
       state.totalCompany = action.payload;
+    },
+    setNetworkError(state, action) {
+      state.networkError = action.payload;
     }
   }
 });
@@ -61,7 +65,8 @@ export const {
   setPage,
   setPageSize,
   setNumberOfJobs,
-  setNumberOfCompany
+  setNumberOfCompany,
+  setNetworkError
 } = jobsSlice.actions;
 
 // Export reducer

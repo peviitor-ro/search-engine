@@ -39,6 +39,15 @@ export const TagsProvider = ({ children }) => {
     return new URLSearchParams(rawSearch);
   }, [location.hash, location.search]);
 
+  // Automatically sync state from URL parameters when location changes
+  useEffect(() => {
+    setQ(findParamInURL("q") || []);
+    setCity(findParamInURL("orase") || []);
+    setRemote(findParamInURL("remote") || []);
+    setCompany(findParamInURL("company") || []);
+    setCounty(findParamInURL("judete") || []);
+  }, [location.search, location.hash]);
+
   // Use replace: false only for explicit user actions (like checkboxes)
   const handleCheckBoxChange = (e, type) => {
     const { value, checked } = e.target;
@@ -146,26 +155,20 @@ export const TagsProvider = ({ children }) => {
 
     switch (fieldName) {
       case "orase":
-        setCity(newValue);
         updateUrlParams({ orase: newValue }, true);
         break;
       case "remote":
-        setRemote(newValue);
         updateUrlParams({ remote: newValue }, true);
         break;
       case "company":
-        setCompany(newValue);
         updateUrlParams({ company: newValue }, true);
         break;
       case "judete":
-        setCounty(newValue);
         updateUrlParams({ judete: newValue }, true);
         break;
       default:
         return;
     }
-
-    setFields((prev) => ({ ...prev, [fieldName]: newValue }));
   }, []);
 
   useEffect(() => {
