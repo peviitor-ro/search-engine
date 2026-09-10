@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { getData } from "./fetchData";
+import { fetchAndHandleJobs, getData } from "./fetchData";
 
 describe("getData", () => {
   afterEach(() => {
@@ -86,5 +86,36 @@ describe("getData", () => {
     );
 
     await expect(getData("q=qa&page=1")).rejects.toThrow("Solr failed");
+  });
+
+  it("keeps the current results when a new page cannot be loaded offline", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => Promise.reject(new TypeError("Failed to fetch")))
+    );
+    const dispatchedActions = [];
+
+    await fetchAndHandleJobs("q=qa&page=2", 2, (action) => {
+      dispatchedActions.push(action);
+    });
+
+    expect(
+      dispatchedActions.some(
+        (action) => action.type.endsWith("/setNetworkError") && action.payload
+      )
+    ).toBe(true);
+    expect(
+      dispatchedActions.some(
+        (action) =>
+          action.type.endsWith("/setJobs") &&
+          Array.isArray(action.payload) &&
+          action.payload.length === 0
+      )
+    ).toBe(false);
+    expect(
+      dispatchedActions.some(
+        (action) => action.type.endsWith("/setTotal") && action.payload === 0
+      )
+    ).toBe(false);
   });
 });

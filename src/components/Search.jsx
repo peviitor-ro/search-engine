@@ -69,7 +69,6 @@ const Search = () => {
     deleteAll,
     handleRemoveAllFilters,
     contextSetQ,
-    contextSetCity,
     fields
   } = useContext(TagsContext);
 
@@ -158,11 +157,26 @@ const Search = () => {
   const handleUpdateQ = async (e) => {
     e.preventDefault();
 
-    if (location.pathname !== "/rezultate") {
-      await navigate("/rezultate");
+    const targetCity = isLocation.trim() !== "" ? [isLocation] : city;
+    const params = new URLSearchParams();
+
+    if (text) {
+      params.set("q", text);
     }
-    contextSetQ([text]);
-    contextSetCity([isLocation]);
+
+    const appendParam = (paramName, values) => {
+      const validValues = Array.isArray(values) ? values.filter(Boolean) : [];
+      if (validValues.length > 0) {
+        params.set(paramName, validValues.join(","));
+      }
+    };
+
+    appendParam("orase", targetCity);
+    appendParam("judete", county);
+    appendParam("company", company);
+    appendParam("remote", remote);
+
+    navigate(`/rezultate?${params.toString()}`, { replace: false });
   };
 
   const handleCloseIcon = () => {

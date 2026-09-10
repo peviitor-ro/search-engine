@@ -4,7 +4,6 @@ import Job from "./Job";
 import NoResults from "./NoResults";
 import Button from "@/components/ui/button";
 import Pagination from "@/components/ui/pagination";
-// icons
 // context
 import TagsContext from "../context/TagsContext";
 // redux
@@ -164,7 +163,7 @@ const Results = () => {
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-background_green px-6 py-3 font-medium text-white transition hover:shadow-button_shadow"
+              className="inline-flex items-center gap-2 rounded-full bg-background_green px-6 py-3 font-medium text-white transition hover:shadow-button_shadow"
             >
               <ArrowLeft className="h-4 w-4" aria-hidden="true" />
               Înapoi
@@ -173,7 +172,7 @@ const Results = () => {
               <button
                 type="button"
                 onClick={() => dispatch(setNetworkError(false))}
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-background_green px-6 py-3 font-medium text-background_green transition hover:bg-background_green/10"
+                className="inline-flex items-center gap-2 rounded-full border border-background_green px-6 py-3 font-medium text-background_green transition hover:bg-background_green/10"
               >
                 Continuă cu rezultatele
               </button>

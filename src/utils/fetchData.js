@@ -218,8 +218,6 @@ export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => 
       } else {
         // Truly offline with no cache available
         dispatch(setNetworkError(true));
-        dispatch(setJobs([]));
-        dispatch(setTotal(0));
       }
     } else {
       // 2. Server-side or Solr error (Network is fine, but server failed / returned bad data)
