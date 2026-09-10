@@ -79,8 +79,8 @@ const FiltreGrup = () => {
                   ? "border-background_green bg-background_green text-white"
                   : "border-border_grey bg-white text-text_grey hover:border-background_green hover:text-background_green",
                 isOpen &&
-                  !hasSelection &&
-                  "border-background_green text-background_green"
+                !hasSelection &&
+                "border-background_green text-background_green"
               )}
               onClick={() => handleDropDown(index)}
             >
@@ -112,7 +112,7 @@ const FiltreGrup = () => {
               {index === 0 && <FiltreCities dropDown={dropDown} />}
 
               {/* Companies Drop-down */}
-              {index === 1 && <FiltreCompanies dropDown={dropDown} />}
+              {index === 1 && isOpen && <FiltreCompanies />}
 
               {index === 2 && (
                 <div className="flex w-[240px] flex-col p-3">
