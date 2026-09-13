@@ -152,7 +152,7 @@ const Footer = () => {
               <strong>Implică-te!</strong>
             </h3>
             <Link
-              to="https://oportunitatisicariere.ro/echipa.html"
+              to="https://discord.gg/KPMkdUfQNu"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -165,19 +165,6 @@ const Footer = () => {
             >
               Cum poți ajuta
             </Link>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <h3>
-              <strong>Organizație</strong>
-            </h3>
-            <Link
-              to="https://oportunitatisicariere.ro/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Despre noi
-            </Link>
             <Link
               to="https://oportunitatisicariere.ro/misiunea-noastra.html"
               target="_blank"
@@ -185,6 +172,12 @@ const Footer = () => {
             >
               Misiune
             </Link>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <h3>
+              <strong>Ecosistem</strong>
+            </h3>
             <Link
               to="https://api.peviitor.ro/"
               target="_blank"
