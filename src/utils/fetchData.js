@@ -178,16 +178,27 @@ export const getJobSuggestion = async (/* value */) => {
   return [];
 };
 
+let currentFetchId = 0;
+
 /**
  * Centralized data fetching, caching, and Redux state handling.
  * Distinguishes between true network/offline failures and server/Solr errors.
  */
-export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => {
+export const fetchAndHandleJobs = async (
+  searchString,
+  targetPage,
+  dispatch,
+  { syncUrl = true, replaceUrl = false } = {}
+) => {
+  const fetchId = ++currentFetchId;
+
   try {
     dispatch(setLoading(true));
     dispatch(setNetworkError(false)); // Reset error state on new attempt
 
     const { jobs, total } = await getData(searchString);
+
+    if (fetchId !== currentFetchId) return;
 
     dispatch(setJobs(jobs));
     dispatch(setTotal(total));
@@ -195,8 +206,12 @@ export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => 
     if (jobs.length > 0) {
       dispatch(setPageSize(jobs.length));
     }
-    updateUrlParams({ page: targetPage });
+    if (syncUrl) {
+      updateUrlParams({ page: targetPage }, replaceUrl);
+    }
   } catch (error) {
+    if (fetchId !== currentFetchId) return;
+
     console.error("Fetch error encountered:", error);
 
     // 1. Determine if this is a true offline or network failure
@@ -207,6 +222,8 @@ export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => 
 
       // Attempt cache fallback for offline scenarios
       const cachedData = readCachedData(searchString);
+      if (fetchId !== currentFetchId) return;
+
       if (cachedData) {
         dispatch(setJobs(cachedData.jobs));
         dispatch(setTotal(cachedData.total));
@@ -214,7 +231,9 @@ export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => 
         if (cachedData.jobs.length > 0) {
           dispatch(setPageSize(cachedData.jobs.length));
         }
-        updateUrlParams({ page: targetPage });
+        if (syncUrl) {
+          updateUrlParams({ page: targetPage }, replaceUrl);
+        }
       } else {
         // Truly offline with no cache available
         dispatch(setNetworkError(true));
@@ -229,6 +248,8 @@ export const fetchAndHandleJobs = async (searchString, targetPage, dispatch) => 
       dispatch(setTotal(0));
     }
   } finally {
-    dispatch(setLoading(false));
+    if (fetchId === currentFetchId) {
+      dispatch(setLoading(false));
+    }
   }
 };
