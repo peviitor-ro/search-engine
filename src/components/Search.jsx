@@ -1,3 +1,4 @@
+import { fetchAndHandleJobs, getJobSuggestion, getNumberOfJobs } from "../utils/fetchData";
 import logo from "../assets/svg/logo.svg";
 import { useEffect, useState, useContext, useCallback, useRef, useMemo } from "react";
 import TagsContext from "../context/TagsContext";
@@ -19,6 +20,7 @@ import Button from "@/components/ui/button";
 
 // Redux
 import { useSelector, useDispatch } from "react-redux";
+ feature/issue-two-combined
 import {
   setNumberOfCompany,
 } from "../reducers/jobsSlice";
@@ -29,6 +31,22 @@ import {
   getJobSuggestion,
   getNumberOfJobs
 } from "../utils/fetchData";
+
+// only the active reducer actions used in this component
+import {
+  clearJobs,
+  setTotal,
+  setPage
+} from "../reducers/jobsSlice";
+// utils fetch functions
+import { createSearchString } from "../utils/createSearchString";
+import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
+import Button from "@/components/ui/button";
+import getCityMatch from "../utils/getCityMatch";
+import { comune } from "../utils/getCommuneName";
+import getCommuneMatch from "../utils/getCommuneMatch";
+import { X } from "lucide-react";
+ main
 
 const FilterTags = ({ tags, removeTag }) => {
   const translateWorkmode = {
@@ -114,15 +132,34 @@ const Search = () => {
   const handleClearLocation = () => setLocation("");
   const handleFocus = (input) => setFocusedInput(input);
 
+  // Fetch Global Total Jobs
   useEffect(() => {
+ feature/issue-two-combined
     if (!isOnResultsPage) return;
     setText(q ? String(q) : "");
   }, [isOnResultsPage, q]);
 
   // Sync URL Params with Context
+
+    if (location.pathname !== "/rezultate") return;
+
+    const fetchGlobalTotal = async () => {
+      try {
+        const response = await getNumberOfJobs();
+        setGlobalJobsTotal(response?.total?.jobs || 0);
+      } catch (error) {
+        console.error("Error fetching global job count:", error);
+      }
+    };
+    fetchGlobalTotal();
+  }, [location.pathname]);
+
+  // Sync text input with query parameter
+ main
   useEffect(() => {
     if (!isOnResultsPage) return;
 
+ feature/issue-two-combined
     const qParam = findParamInURL("q");
     const cityParam = findParamInURL("orase");
     const countyParam = findParamInURL("judete");
@@ -202,13 +239,59 @@ const Search = () => {
     params.set("page", "1");
 
     navigate(`/rezultate?${params.toString()}`, { replace: false });
+
+  // Main Data Fetching Effect (Centralized helper)
+  useEffect(() => {
+    if (
+      location.pathname === "/rezultate" ||
+      q.length !== 0 ||
+      city.length !== 0 ||
+      remote.length !== 0 ||
+      company.length !== 0
+    ) {
+      const pageVal = findParamInURL("page");
+      const targetPage = pageVal
+        ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+        : 1;
+
+      const searchString = createSearchString(
+        q,
+        city,
+        county,
+        company,
+        remote,
+        targetPage
+      );
+
+      fetchAndHandleJobs(searchString, targetPage, dispatch);
+    } else {
+      dispatch(clearJobs());
+      dispatch(setTotal(0));
+      dispatch(setPage(1));
+    }
+  }, [dispatch, q, city, remote, company, county, location.pathname]);
+
+  const handleUpdateQ = async (e) => {
+    e.preventDefault();
+
+    if (location.pathname !== "/rezultate") {
+      await navigate("/rezultate");
+    }
+    contextSetQ([text]);
+    contextSetCity([isLocation]);
+ main
   };
 
-  function handleCloseIcon() {
+  const handleCloseIcon = () => {
     setText("");
     updateUrlParams({ q: null });
+ feature/issue-two-combined
     if (contextSetQ) contextSetQ([""]);
   }
+
+    contextSetQ([""]);
+  };
+ main
 
   const filterCities = useCallback((input) => {
     setFilteredCities(getCityMatch(input));
@@ -235,6 +318,18 @@ const Search = () => {
     };
   }, [focusedInput]);
 
+ feature/issue-two-combined
+
+  const fetchSuggestions = async (searchText) => {
+    try {
+      const response = await getJobSuggestion(searchText);
+      setJobSuggestions(response?.suggestions || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+ main
   useEffect(() => {
     let active = true;
     const timer = setTimeout(async () => {
@@ -298,6 +393,7 @@ const Search = () => {
           }`}
         >
           <div
+ feature/issue-two-combined
             className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px] ${
               !isOnResultsPage ? "relative xl:w-[485px]" : ""
             } ${
@@ -305,8 +401,18 @@ const Search = () => {
                 ? "sm:flex-col sm:w-[400px] md:w-[580px] lg:w-[90%] 2xl:w-[90%]"
                 : ""
             }`}
+
+            className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px]
+                ${location.pathname === "/" ? "relative xl:w-[485px] " : ""}
+                ${
+                  location.pathname === "/rezultate"
+                    ? "sm:flex-col sm:w-[400px] md:w-[580px] lg:w-[90%] 2xl:w-[90%]"
+                    : ""
+                }`}
+ main
           >
             <div
+ feature/issue-two-combined
               className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full h-[54px] ${
                 isOnResultsPage ? "w-full" : ""
               } ${
@@ -320,6 +426,22 @@ const Search = () => {
                   ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
                   : ""
               }`}
+
+              className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full h-[54px]
+    ${location.pathname === "/rezultate" ? "w-full" : ""}
+    ${
+      location.pathname !== "/"
+        ? "lg:border-r-2 border-[#89969C] "
+        : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
+    }
+    ${
+      focusedInput === "jobTitle" &&
+      text.length >= 3 &&
+      location.pathname === "/"
+        ? "lg:border-b-[#eeeeee] lg:rounded-bl-none"
+        : ""
+    }`}
+ main
             >
               <FlagMagnifyGlass className="ml-5" />
               <input
@@ -359,6 +481,7 @@ const Search = () => {
                 </ul>
               )}
           </div>
+ feature/issue-two-combined
           
    {/* Location input container is only visible on the landing page */}
           {location.pathname === "/" && (
@@ -385,6 +508,74 @@ const Search = () => {
                     className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
                     onClick={handleClearLocation}
                   />
+
+
+          {/* Add Location Input */}
+          <div ref={dropdownRef}>
+            {" "}
+            {location.pathname === "/" && (
+              <div className="flex items-center justify-between w-[300px] mt-1 relative md:w-[480px] lg:w-[241px] lg:mt-0">
+                <div
+                  style={{ height: "54px" }}
+                  className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
+                    ${
+                      focusedInput === "location"
+                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                        : ""
+                    }`}
+                >
+                  <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
+                  <input
+                    type="text"
+                    value={isLocation}
+                    onChange={(e) => setLocation(e.target.value)}
+                    onFocus={() => handleFocus("location")}
+                    placeholder="Adaugă o locație"
+                    className="w-full py-3 px-4 pl-2 bg-transparent outline-none border-none focus:outline-none focus:ring-0"
+                  />
+                  {isLocation && (
+                    <CloseIcon
+                      className="w-4 h-4 mr-6 fill-slate-500 cursor-pointer"
+                      onClick={handleClearLocation}
+                    />
+                  )}
+                </div>
+
+                {focusedInput === "location" && (
+                  <ul
+                    className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C]
+                    lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10"
+                  >
+                    {filteredCities.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className={`px-12 py-2 cursor-pointer ${
+                          index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                        } hover:bg-gray-200`}
+                        onClick={() => {
+                          setLocation(suggestion);
+                          setFocusedInput(null);
+                        }}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                    {filteredCommunes.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className={`px-12 py-2 cursor-pointer ${
+                          index % 2 === 0 ? "bg-custom-gray" : "bg-white"
+                        } hover:bg-gray-200`}
+                        onClick={() => {
+                          setLocation(suggestion);
+                          setFocusedInput(null);
+                        }}
+                      >
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+ main
                 )}
               </div>
 
@@ -462,7 +653,7 @@ const Search = () => {
               (param) =>
                 Array.isArray(param) && param.filter(Boolean).length > 0
             ) && (
-              <div className="mb-8 flex w-full flex-wrap items-center gap-2">
+              <div className="mt-6 mb-12 flex w-full flex-wrap items-center gap-2">
                 <FilterTags tags={fields} removeTag={removeTag} />
                 <Button
                   buttonType="deleteFilters"
