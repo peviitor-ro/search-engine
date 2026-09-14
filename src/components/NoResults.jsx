@@ -3,7 +3,7 @@ import strut from "../assets/svg/strut.svg";
 
 const NoResults = () => {
   return (
-    <div className="flex flex-col items-center justify-center text-text_grey_darker gap-20 md:flex-row px-4">
+    <div className="flex flex-col items-center justify-center text-text_grey_darker gap-20 md:flex-row px-4 pt-8">
       <div>
         <h2 className="lg:text-5xl md:text-4xl text-3xl font-semibold leading-none md:leading-16 text-left mb-4 md:mb-3">
           Ups! <br />

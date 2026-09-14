@@ -1,3 +1,4 @@
+import { fetchAndHandleJobs, getJobSuggestion, getNumberOfJobs } from "../utils/fetchData";
 import logo from "../assets/svg/logo.svg";
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
@@ -10,25 +11,14 @@ import { orase } from "../utils/getCityName";
 import FiltreGrup from "./FiltreGrup";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-// functions to update the jobSlice state.
+// only the active reducer actions used in this component
 import {
-  setJobs,
   clearJobs,
   setTotal,
-  setPage,
-  setPageSize,
-  setNumberOfCompany,
-  setLoading
+  setPage
 } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
-// functions to fetch the data
-import {
-  getData,
-  getNumberOfCompany,
-  getJobSuggestion,
-  getNumberOfJobs
-} from "../utils/fetchData";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "@/components/ui/button";
 import getCityMatch from "../utils/getCityMatch";
@@ -112,7 +102,10 @@ const Search = () => {
 
   const [jobSuggestions, setJobSuggestions] = useState([]);
 
+  // Fetch Global Total Jobs
   useEffect(() => {
+    if (location.pathname !== "/rezultate") return;
+
     const fetchGlobalTotal = async () => {
       try {
         const response = await getNumberOfJobs();
@@ -122,36 +115,45 @@ const Search = () => {
       }
     };
     fetchGlobalTotal();
-  }, []);
+  }, [location.pathname]);
 
+  // Sync text input with query parameter
   useEffect(() => {
     if (location.pathname === "/rezultate") {
       setText(q + "");
     }
   }, [location.pathname, q]);
 
+  // Main Data Fetching Effect (Centralized helper)
   useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) {
-      return;
+    if (
+      location.pathname === "/rezultate" ||
+      q.length !== 0 ||
+      city.length !== 0 ||
+      remote.length !== 0 ||
+      company.length !== 0
+    ) {
+      const pageVal = findParamInURL("page");
+      const targetPage = pageVal
+        ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+        : 1;
+
+      const searchString = createSearchString(
+        q,
+        city,
+        county,
+        company,
+        remote,
+        targetPage
+      );
+
+      fetchAndHandleJobs(searchString, targetPage, dispatch);
+    } else {
+      dispatch(clearJobs());
+      dispatch(setTotal(0));
+      dispatch(setPage(1));
     }
-    const qParam = findParamInURL("q");
-    const cityParam = findParamInURL("orase");
-
-    contextSetQ(qParam || [""]);
-    contextSetCity(cityParam || [""]);
-  }, [contextSetQ, contextSetCity, location.pathname, location.search]);
-
-  useEffect(() => {
-    if (!location.pathname.includes("/rezultate")) {
-      return;
-    }
-
-    const numbersInfo = async () => {
-      const companyNumber = await getNumberOfCompany();
-      dispatch(setNumberOfCompany(companyNumber));
-    };
-    numbersInfo();
-  }, [dispatch, location.pathname]);
+  }, [dispatch, q, city, remote, company, county, location.pathname]);
 
   const handleUpdateQ = async (e) => {
     e.preventDefault();
@@ -163,72 +165,11 @@ const Search = () => {
     contextSetCity([isLocation]);
   };
 
-  const prevSearchKey = useRef(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        dispatch(setLoading(true));
-
-        const searchKey = [q, city, county, company, remote]
-          .map((value) =>
-            Array.isArray(value) ? value.join("|") : String(value)
-          )
-          .join("::");
-        const isFilterChange =
-          prevSearchKey.current !== null && prevSearchKey.current !== searchKey;
-        prevSearchKey.current = searchKey;
-
-        let targetPage = 1;
-        if (!isFilterChange) {
-          const pageVal = findParamInURL("page");
-          targetPage = pageVal
-            ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
-            : 1;
-        }
-
-        const searchString = createSearchString(
-          q,
-          city,
-          county,
-          company,
-          remote,
-          targetPage
-        );
-
-        const { jobs, total } = await getData(searchString);
-
-        dispatch(setJobs(jobs));
-        dispatch(setTotal(total));
-        dispatch(setPage(targetPage));
-        if (jobs.length > 0) dispatch(setPageSize(jobs.length));
-        updateUrlParams({ page: targetPage });
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
-      } finally {
-        dispatch(setLoading(false));
-      }
-    };
-
-    if (
-      q.length !== 0 ||
-      city.length !== 0 ||
-      remote.length !== 0 ||
-      company.length !== 0
-    ) {
-      fetchData();
-    } else {
-      dispatch(clearJobs());
-      dispatch(setTotal(0));
-      dispatch(setPage(1));
-    }
-  }, [dispatch, q, city, remote, company, county]);
-
-  function handleCloseIcon() {
+  const handleCloseIcon = () => {
     setText("");
     updateUrlParams({ q: null });
     contextSetQ([""]);
-  }
+  };
 
   const filterCities = useCallback((input) => {
     setFilteredCities(getCityMatch(input));
@@ -255,9 +196,9 @@ const Search = () => {
     };
   }, [focusedInput]);
 
-  const fetchSuggestions = async (text) => {
+  const fetchSuggestions = async (searchText) => {
     try {
-      const response = await getJobSuggestion(text);
+      const response = await getJobSuggestion(searchText);
       setJobSuggestions(response?.suggestions || []);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -318,7 +259,7 @@ const Search = () => {
                 }`}
         >
           <div
-            className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px] 
+            className={`flex items-center justify-between rounded-full w-[300px] md:w-[480px] lg:w-[340px]
                 ${location.pathname === "/" ? "relative xl:w-[485px] " : ""}
                 ${
                   location.pathname === "/rezultate"
@@ -334,7 +275,7 @@ const Search = () => {
       location.pathname !== "/"
         ? "lg:border-r-2 border-[#89969C] "
         : "lg:border-r-0 lg:rounded-tr-none lg:rounded-br-none divider"
-    } 
+    }
     ${
       focusedInput === "jobTitle" &&
       text.length >= 3 &&
@@ -393,11 +334,11 @@ const Search = () => {
                 <div
                   style={{ height: "54px" }}
                   className={`flex items-center relative w-full border border-[#89969C] bg-white rounded-full lg:border-l-0 lg:rounded-tl-none lg:rounded-bl-none
-                      ${
-                        focusedInput === "location"
-                          ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
-                          : ""
-                      }`}
+                    ${
+                      focusedInput === "location"
+                        ? "lg:border-b-[#eeeeee] lg:rounded-br-none"
+                        : ""
+                    }`}
                 >
                   <MapPinIcon className="w-6 h-6 text-gray-500 ml-5" />
                   <input
@@ -418,7 +359,7 @@ const Search = () => {
 
                 {focusedInput === "location" && (
                   <ul
-                    className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C] 
+                    className="hidden lg:block lg:absolute lg:left-0 lg:w-full lg:border lg:border-t-0 lg:border-[#89969C]
                     lg:rounded-3xl lg:rounded-t-none lg:mt-4 lg:max-h-[150px] lg:overflow-y-scroll custom-scrollbar lg:bottom-0 lg:transform lg:translate-y-full lg:box-border z-10"
                   >
                     {filteredCities.map((suggestion, index) => (
@@ -495,7 +436,7 @@ const Search = () => {
               (param) =>
                 Array.isArray(param) && param.filter(Boolean).length > 0
             ) && (
-              <div className="mb-8 flex w-full flex-wrap items-center gap-2">
+              <div className="mt-6 mb-12 flex w-full flex-wrap items-center gap-2">
                 <FilterTags tags={fields} removeTag={removeTag} />
                 <Button
                   buttonType="deleteFilters"
