@@ -1,6 +1,4 @@
-// import { useEffect } from "react";
-import { createHashRouter, RouterProvider } from "react-router-dom";
-// import Clarity from "@microsoft/clarity";
+import { createHashRouter, RouterProvider, Outlet } from "react-router-dom";
 // Pages
 import Landing from "./pages/Landing";
 import Rezultate from "./pages/Rezultate";
@@ -11,31 +9,45 @@ import Page404 from "./pages/Page404";
 // context
 import { TagsProvider } from "./context/TagsContext";
 
+// Layout component rendered inside the router
+const RootLayout = () => {
+  return (
+    <TagsProvider>
+      <Outlet />
+    </TagsProvider>
+  );
+};
+
 const router = createHashRouter(
   [
     {
-      path: "",
-      element: <Landing />
-    },
-    {
-      path: "company/:id",
-      element: <CompanyProfile />
-    },
-    {
-      path: "rezultate",
-      element: <Rezultate />
-    },
-    {
-      path: "conditii-de-utilizare",
-      element: <TermsOfUse />
-    },
-    {
-      path: "politica-de-confidentialitate",
-      element: <Privacy />
-    },
-    {
-      path: "*",
-      element: <Page404 />
+      element: <RootLayout />,
+      children: [
+        {
+          path: "",
+          element: <Landing />
+        },
+        {
+          path: "company/:id",
+          element: <CompanyProfile />
+        },
+        {
+          path: "rezultate",
+          element: <Rezultate />
+        },
+        {
+          path: "conditii-de-utilizare",
+          element: <TermsOfUse />
+        },
+        {
+          path: "politica-de-confidentialitate",
+          element: <Privacy />
+        },
+        {
+          path: "*",
+          element: <Page404 />
+        }
+      ]
     }
   ],
   {
@@ -51,20 +63,7 @@ const router = createHashRouter(
 );
 
 function App() {
-  // useEffect(() => {
-  // const clarityId = import.meta.env.VITE_CLARITY_ID;
-  // if (import.meta.env.PROD && clarityId) {
-  //   Clarity.init(clarityId);
-  // }
-  // Local testing
-  // if (clarityId) { Clarity.init(clarityId); }
-  // }, []);
-
-  return (
-    <TagsProvider>
-      <RouterProvider router={router} />
-    </TagsProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

@@ -8,7 +8,8 @@ const initialState = {
   totalCompany: 0,
   loading: false,
   page: 1,
-  pageSize: 10
+  pageSize: 10,
+  networkError: false
 };
 
 // Create slice
@@ -42,6 +43,9 @@ const jobsSlice = createSlice({
         state.pageSize = action.payload;
       }
     },
+    setNetworkError(state, action) {
+      state.networkError = action.payload;
+    },
     setNumberOfJobs(state, action) {
       state.totalJobs = action.payload;
     },
@@ -60,6 +64,7 @@ export const {
   setLoading,
   setPage,
   setPageSize,
+  setNetworkError,
   setNumberOfJobs,
   setNumberOfCompany
 } = jobsSlice.actions;

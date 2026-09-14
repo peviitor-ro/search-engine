@@ -10,11 +10,18 @@ import scrollUp from "../assets/svg/scroll-up.svg";
 import TagsContext from "../context/TagsContext";
 // redux
 import { useSelector, useDispatch } from "react-redux";
-import { setJobs, setTotal, setPage, setPageSize } from "../reducers/jobsSlice";
+import {
+  setJobs,
+  setTotal,
+  setPage,
+  setPageSize,
+  setLoading,
+  setNetworkError
+} from "../reducers/jobsSlice";
 // function to create the string
 import { createSearchString } from "../utils/createSearchString";
 // functions to fetch the data
-import { getData } from "../utils/fetchData";
+import { getCachedData, getData } from "../utils/fetchData";
 import JobSkeleton from "@/components/ui/job-skeleton";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 
@@ -35,48 +42,90 @@ const Results = () => {
   const page = useSelector((state) => state.jobs.page);
   const pageSize = useSelector((state) => state.jobs.pageSize);
   const loading = useSelector((state) => state.jobs.loading);
+  const networkError = useSelector((state) => state.jobs.networkError);
   //state
   const [isVisible, setIsVisible] = useState(false);
-  const [pageLoading, setPageLoading] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
 
+  // Main data fetcher for initial load, filter changes, and pagination/page refreshes
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchJobs = async () => {
+      try {
+        const pageVal = findParamInURL("page");
+        const targetPage = pageVal
+          ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
+          : 1;
+
+        const searchString = createSearchString(q, city, county, company, workmode, targetPage);
+        const cachedData = getCachedData(searchString || "");
+
+        if (cachedData && isMounted) {
+          dispatch(setJobs(cachedData.jobs));
+          dispatch(setTotal(cachedData.total));
+          dispatch(setPage(targetPage));
+          dispatch(setNetworkError(false));
+          dispatch(setLoading(false));
+        } else {
+          dispatch(setLoading(true));
+        }
+
+        const response = await getData(searchString || "");
+
+        if (response.networkError) {
+          if (isMounted) dispatch(setNetworkError(true));
+          return;
+        }
+
+        const newJobs = response?.jobs || response?.data || (Array.isArray(response) ? response : []);
+        const newTotal = response?.total ?? response?.totalCount ?? newJobs.length;
+
+        if (isMounted) {
+          dispatch(setJobs(newJobs));
+          dispatch(setTotal(newTotal));
+          dispatch(setPage(targetPage));
+          dispatch(setNetworkError(false));
+          if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
+        }
+      } catch (error) {
+        console.error("Failed to fetch jobs:", error);
+        if (isMounted) {
+          dispatch(setNetworkError(true));
+        }
+      } finally {
+        if (isMounted) {
+          dispatch(setLoading(false));
+        }
+      }
+    };
+
+    fetchJobs();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [q, city, workmode, county, company, page, dispatch]);
+
   const goToPage = useCallback(
-    async (nextPage, { syncUrl = true } = {}) => {
+    (nextPage, { syncUrl = true } = {}) => {
       if (
         nextPage < 1 ||
         nextPage > totalPages ||
         nextPage === page ||
-        pageLoading
+        loading
       ) {
         return;
       }
 
-      setPageLoading(true);
-      const { jobs: newJobs, total: newTotal } = await getData(
-        createSearchString(q, city, county, company, workmode, nextPage)
-      ).catch(() => ({ jobs: [], total }));
-      setPageLoading(false);
-
-      dispatch(setJobs(newJobs));
-      dispatch(setTotal(newTotal));
       dispatch(setPage(nextPage));
-      if (newJobs.length > 0) dispatch(setPageSize(newJobs.length));
-      if (syncUrl) updateUrlParams({ page: nextPage });
+      if (syncUrl) {
+        updateUrlParams({ page: nextPage });
+      }
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    [
-      q,
-      city,
-      county,
-      company,
-      workmode,
-      page,
-      pageLoading,
-      totalPages,
-      total,
-      dispatch
-    ]
+    [page, totalPages, loading, dispatch]
   );
 
   // Follow manual edits to the URL's page param (address bar edits, back/forward)
@@ -86,7 +135,9 @@ const Results = () => {
       const urlPage = pageVal
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
-      goToPage(urlPage, { syncUrl: false });
+      if (urlPage !== page) {
+        dispatch(setPage(urlPage));
+      }
     };
 
     window.addEventListener("hashchange", syncPageFromUrl);
@@ -95,7 +146,7 @@ const Results = () => {
       window.removeEventListener("hashchange", syncPageFromUrl);
       window.removeEventListener("popstate", syncPageFromUrl);
     };
-  }, [goToPage]);
+  }, [page, dispatch]);
 
   // Listen to window scroll height to show/hide the scroll to top button
   useEffect(() => {
@@ -129,6 +180,15 @@ const Results = () => {
             </li>
           ))}
         </ul>
+      ) : networkError ? (
+        <div className="w-full max-w-[1440px] mx-auto px-4 md:px-14 py-24 text-center">
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">
+            Conexiune eșuată
+          </h2>
+          <p className="text-slate-600 max-w-md mx-auto text-base leading-relaxed">
+            Nu se poate încărca pagina următoare, verificați conexiunea la internet.
+          </p>
+        </div>
       ) : (
         <>
           {jobs.length > 0 ? (
@@ -179,7 +239,7 @@ const Results = () => {
           currentPage={page}
           totalPages={totalPages}
           onPageChange={goToPage}
-          disabled={pageLoading}
+          disabled={loading}
         />
       )}
 

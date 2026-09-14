@@ -1,34 +1,20 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import TagsContext from "../context/TagsContext";
 import { ChevronDown } from "lucide-react";
-import { useLocation } from "react-router-dom";
 import FiltreCompanies from "./FiltreCompanies";
 import FiltreCities from "./FiltreCities";
-import { findParamInURL } from "../utils/urlManipulation";
 import InputField from "@/components/ui/input-field";
 import { cn } from "@/lib/utils";
 
 const FiltreGrup = () => {
-  const location = useLocation();
   // use it for closing dropdown on click
   const refDropdown = useRef();
 
   // Destructuring fields and handleCheckBoxChange from the context
-  const { fields, handleCheckBoxChange, contextSetField } =
-    useContext(TagsContext);
+  const { fields, handleCheckBoxChange } = useContext(TagsContext);
 
   // State for dropdown visibility
   const [dropDown, setDropDown] = useState([false, false, false]);
-
-  useEffect(() => {
-    //Keeping the state in sync with the URL params
-    const cityParam = findParamInURL("orase");
-    const remoteParam = findParamInURL("remote");
-    const companyParam = findParamInURL("company");
-    contextSetField("orase", cityParam);
-    contextSetField("remote", remoteParam);
-    contextSetField("company", companyParam);
-  }, [contextSetField, location.search]);
 
   // Function to handle dropdown toggle
   function handleDropDown(index) {
@@ -93,8 +79,8 @@ const FiltreGrup = () => {
                   ? "border-background_green bg-background_green text-white"
                   : "border-border_grey bg-white text-text_grey hover:border-background_green hover:text-background_green",
                 isOpen &&
-                  !hasSelection &&
-                  "border-background_green text-background_green"
+                !hasSelection &&
+                "border-background_green text-background_green"
               )}
               onClick={() => handleDropDown(index)}
             >
@@ -126,7 +112,7 @@ const FiltreGrup = () => {
               {index === 0 && <FiltreCities dropDown={dropDown} />}
 
               {/* Companies Drop-down */}
-              {index === 1 && <FiltreCompanies dropDown={dropDown} />}
+              {index === 1 && isOpen && <FiltreCompanies />}
 
               {index === 2 && (
                 <div className="flex w-[240px] flex-col p-3">
