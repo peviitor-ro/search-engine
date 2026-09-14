@@ -147,7 +147,9 @@ const Search = () => {
         targetPage
       );
 
-      fetchAndHandleJobs(searchString, targetPage, dispatch);
+      fetchAndHandleJobs(searchString, targetPage, dispatch, {
+        syncUrl: false
+      });
     } else {
       dispatch(clearJobs());
       dispatch(setTotal(0));

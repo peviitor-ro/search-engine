@@ -47,13 +47,17 @@ const Results = () => {
 
   // Centralized page switching using fetchAndHandleJobs
   const goToPage = useCallback(
-    async (nextPage, { syncUrl = true } = {}) => {
+    async (nextPage, { syncUrl = true, replaceUrl = false } = {}) => {
       if (
         nextPage < 1 ||
         nextPage > totalPages ||
-        (nextPage === page && jobs.length > 0) ||
-        pageLoading
+        (nextPage === page && jobs.length > 0)
       ) {
+        return;
+      }
+
+      // If user clicked pagination in UI and a page is already loading, prevent spam clicks
+      if (syncUrl && pageLoading) {
         return;
       }
 
@@ -69,10 +73,10 @@ const Results = () => {
       );
 
       try {
-        await fetchAndHandleJobs(targetQueryKey, nextPage, dispatch);
-        if (!syncUrl) {
-          // URL syncing logic handled internally by fetchAndHandleJobs
-        }
+        await fetchAndHandleJobs(targetQueryKey, nextPage, dispatch, {
+          syncUrl,
+          replaceUrl
+        });
       } catch (error) {
         console.error("Pagination fetch error:", error);
       } finally {

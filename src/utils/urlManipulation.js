@@ -62,9 +62,11 @@ export const removeFiltersFromURL = () => {
 };
 
 export const getParamsFromURL = () => {
-  const queryString =
-    window.location.search || window.location.hash.split("?")[1];
-  const params = new URLSearchParams(queryString || "");
+  const hashQuery = window.location.hash.includes("?")
+    ? window.location.hash.split("?")[1]
+    : "";
+  const queryString = hashQuery || window.location.search || "";
+  const params = new URLSearchParams(queryString);
   const paramsObj = {};
 
   for (const [key, value] of params.entries()) {

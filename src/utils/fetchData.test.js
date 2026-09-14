@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { getData } from "./fetchData";
+import { getData, fetchAndHandleJobs } from "./fetchData";
+import * as urlManipulation from "./urlManipulation";
 
 describe("getData", () => {
   afterEach(() => {
@@ -86,5 +87,87 @@ describe("getData", () => {
     );
 
     await expect(getData("q=qa&page=1")).rejects.toThrow("Solr failed");
+  });
+});
+
+describe("fetchAndHandleJobs", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it("updates URL params when syncUrl is true (default)", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              response: { docs: [{ id: 1 }], numFound: 1 }
+            })
+        })
+      )
+    );
+
+    const updateUrlParamsSpy = vi
+      .spyOn(urlManipulation, "updateUrlParams")
+      .mockImplementation(() => {});
+    const dispatch = vi.fn();
+
+    await fetchAndHandleJobs("q=test&page=2", 2, dispatch);
+
+    expect(updateUrlParamsSpy).toHaveBeenCalledWith({ page: 2 }, false);
+  });
+
+  it("skips updating URL params when syncUrl is false (e.g. browser back/forward)", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              response: { docs: [{ id: 1 }], numFound: 1 }
+            })
+        })
+      )
+    );
+
+    const updateUrlParamsSpy = vi
+      .spyOn(urlManipulation, "updateUrlParams")
+      .mockImplementation(() => {});
+    const dispatch = vi.fn();
+
+    await fetchAndHandleJobs("q=test&page=2", 2, dispatch, { syncUrl: false });
+
+    expect(updateUrlParamsSpy).not.toHaveBeenCalled();
+  });
+
+  it("passes replaceUrl parameter to updateUrlParams when requested", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() =>
+        Promise.resolve({
+          ok: true,
+          json: () =>
+            Promise.resolve({
+              response: { docs: [{ id: 1 }], numFound: 1 }
+            })
+        })
+      )
+    );
+
+    const updateUrlParamsSpy = vi
+      .spyOn(urlManipulation, "updateUrlParams")
+      .mockImplementation(() => {});
+    const dispatch = vi.fn();
+
+    await fetchAndHandleJobs("q=test&page=3", 3, dispatch, {
+      syncUrl: true,
+      replaceUrl: true
+    });
+
+    expect(updateUrlParamsSpy).toHaveBeenCalledWith({ page: 3 }, true);
   });
 });
