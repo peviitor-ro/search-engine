@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
-  findParamInURL,
-  updateUrlParams
+  findParamInURL
 } from "../utils/urlManipulation";
 
 const TagsContext = createContext();
@@ -93,7 +92,7 @@ export const TagsProvider = ({ children }) => {
     navigate(`${targetPath}?${params.toString()}`, { replace: false });
   };
 
-  // Context Setters - use replace: true so they don't bloat the history stack
+  // Context Setters - preserve existing URL params and use replace: true
   const contextSetQ = useCallback((text) => {
     const cleanText = Array.isArray(text)
       ? text.filter(Boolean)
@@ -102,10 +101,21 @@ export const TagsProvider = ({ children }) => {
         : [];
     setQ((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ q: cleanText, page: 1 }, true);
+
+      const params = getCurrentParams();
+      if (cleanText.length > 0) {
+        params.set("q", cleanText.join(","));
+      } else {
+        params.delete("q");
+      }
+      params.set("page", "1");
+
+      const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+      navigate(`${targetPath}?${params.toString()}`, { replace: true });
+
       return cleanText;
     });
-  }, []);
+  }, [getCurrentParams, location.pathname, navigate]);
 
   const contextSetCity = useCallback((text) => {
     const cleanText = Array.isArray(text)
@@ -115,61 +125,94 @@ export const TagsProvider = ({ children }) => {
         : [];
     setCity((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ orase: cleanText, page: 1 }, true);
+
+      const params = getCurrentParams();
+      if (cleanText.length > 0) {
+        params.set("orase", cleanText.join(","));
+      } else {
+        params.delete("orase");
+      }
+      params.set("page", "1");
+
+      const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+      navigate(`${targetPath}?${params.toString()}`, { replace: true });
+
       return cleanText;
     });
-  }, []);
+  }, [getCurrentParams, location.pathname, navigate]);
 
   const contextSetCounty = useCallback((text) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setCounty((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ judete: cleanText, page: 1 }, true);
+
+      const params = getCurrentParams();
+      if (cleanText.length > 0) {
+        params.set("judete", cleanText.join(","));
+      } else {
+        params.delete("judete");
+      }
+      params.set("page", "1");
+
+      const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+      navigate(`${targetPath}?${params.toString()}`, { replace: true });
+
       return cleanText;
     });
-  }, []);
+  }, [getCurrentParams, location.pathname, navigate]);
 
   const contextSetCompany = useCallback((text) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setCompany((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ company: cleanText, page: 1 }, true);
+
+      const params = getCurrentParams();
+      if (cleanText.length > 0) {
+        params.set("company", cleanText.join(","));
+      } else {
+        params.delete("company");
+      }
+      params.set("page", "1");
+
+      const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+      navigate(`${targetPath}?${params.toString()}`, { replace: true });
+
       return cleanText;
     });
-  }, []);
+  }, [getCurrentParams, location.pathname, navigate]);
 
   const contextSetRemote = useCallback((text) => {
     const cleanText = Array.isArray(text) ? text.filter(Boolean) : (text ? [text] : []);
     setRemote((prev) => {
       if (arraysEqual(prev, cleanText)) return prev;
-      updateUrlParams({ remote: cleanText, page: 1 }, true);
+
+      const params = getCurrentParams();
+      if (cleanText.length > 0) {
+        params.set("remote", cleanText.join(","));
+      } else {
+        params.delete("remote");
+      }
+      params.set("page", "1");
+
+      const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+      navigate(`${targetPath}?${params.toString()}`, { replace: true });
+
       return cleanText;
     });
-  }, []);
+  }, [getCurrentParams, location.pathname, navigate]);
 
   const contextSetField = useCallback((fieldName, value) => {
     const allowedFields = ["orase", "remote", "company", "judete"];
     if (!allowedFields.includes(fieldName) || !value) return;
 
     const newValue = Array.isArray(value) ? value : [value];
+    const params = getCurrentParams();
+    params.set(fieldName, newValue.join(","));
+    params.set("page", "1");
 
-    switch (fieldName) {
-      case "orase":
-        updateUrlParams({ orase: newValue }, true);
-        break;
-      case "remote":
-        updateUrlParams({ remote: newValue }, true);
-        break;
-      case "company":
-        updateUrlParams({ company: newValue }, true);
-        break;
-      case "judete":
-        updateUrlParams({ judete: newValue }, true);
-        break;
-      default:
-        return;
-    }
-  }, []);
+    const targetPath = location.pathname.includes("rezultate") ? location.pathname : "/rezultate";
+    navigate(`${targetPath}?${params.toString()}`, { replace: true });
+  }, [getCurrentParams, location.pathname, navigate]);
 
   useEffect(() => {
     setFields({
