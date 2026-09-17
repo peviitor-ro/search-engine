@@ -1,0 +1,43 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    fontFamily: {
+      PoppinsLight: ["PoppinsLight", "sans-serif"],
+      JustMandrone: ["JustMandrone", "sans-serif"],
+      PoppinsRegular: ["PoppinsRegular", "sans-serif"]
+    },
+    screens: {
+      xs: "320px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px"
+    },
+    extend: {
+      colors: {
+        border_grey: "#dbdcdc",
+        border_grey_lighter: "#dfe3e6",
+        text_orange: "#f3781d",
+        text_grey: "#4b4646",
+        text_grey_darker: "#6f777a",
+        background_green: "#2f7973",
+        background_green_light: "#bfd5d4",
+        background_cards: "#fbfbfb",
+        custom_gray: "#f0f3f6",
+        white: "#ffffff",
+        custom_teal: "#59948F"
+      },
+      boxShadow: {
+        card_shadow: "0px 1px 3px 1px #00000026",
+        hover_card_shadow: "0px 1px 2px 0px #0000004d",
+        button_shadow: "0px 5px 5px 0px #00000040 inset",
+        checbox_shadow: "0px 4px 14px 0px #0000001a",
+        teal_rings:
+          "0 0 0 3px rgba(89, 148, 143, 0.4), 0 0 0 6px rgba(89, 148, 143, 0.15)"
+      }
+    }
+  },
+  plugins: []
+};

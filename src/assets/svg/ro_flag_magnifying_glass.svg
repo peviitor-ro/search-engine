@@ -1,0 +1,32 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="11" cy="11" r="8" fill="url(#gold-gradient)" />
+  <circle cx="11" cy="11" r="7" fill="url(#flag-gradient)" />
+  
+  <!-- Magnifying glass handle -->
+  <path d="M21 21L16.65 16.65" stroke="#090A0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="11" cy="11" r="8.1" fill="none" stroke="#f3781d" stroke-width="1.5" filter="url(#3d-shadow)"/>
+  <defs>
+    <radialGradient id="gold-gradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" /> 
+      <stop offset="70%" stop-color="#FFA500" /> 
+      <stop offset="100%" stop-color="#8B4513" /> 
+    </radialGradient>
+
+    <linearGradient id="flag-gradient" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#002B7F" />
+      <stop offset="33.33%" stop-color="#002B7F" />
+      <stop offset="33.33%" stop-color="#FCD116" /> 
+      <stop offset="66.66%" stop-color="#FCD116" />
+      <stop offset="66.66%" stop-color="#CE1126" /> 
+      <stop offset="100%" stop-color="#CE1126" />
+    </linearGradient>
+
+    <!-- Shadow for 3D effect -->
+    <filter id="3d-shadow" x="-10%" y="-20%" r="" width="115%" height="125%">
+        <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="rgba(0, 0, 0, 0.3)" />
+        <feComponentTransfer>
+            <feFuncA type="linear" slope="0.9"/>
+        </feComponentTransfer>
+    </filter>
+  </defs>
+</svg>

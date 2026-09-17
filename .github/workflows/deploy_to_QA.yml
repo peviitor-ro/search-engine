@@ -1,0 +1,42 @@
+name: Deploy frontend build artifact to QA server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  deploy_ftp:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Copy .env.qa to project root
+        run: cp env/.env.qa .env.qa
+
+      - name: Build frontend to ./build
+        run: npm run build:qa
+
+      - name: Deploy build folder via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.QA_FTP_HOST }}
+          username: ${{ secrets.QA_FTP_USER }}
+          password: ${{ secrets.QA_FTP_PASSWD }}
+          local-dir: ./dist/
+          server-dir: /htdocs/

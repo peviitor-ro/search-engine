@@ -1,0 +1,6 @@
+Only unique jobs in the array :
+  setJobs(state, action) : 
+    - In the setJobs reducer, before adding new jobs to the state, we filter out any duplicates based on the id of each job. This ensures that only unique jobs are added to the state.
+    - We use the some method to check if any job in the current state already has the same id as the new job being added. If a job with the same id exists, it's considered a duplicate and filtered out.
+    - uniqueJobs contains only the new jobs that are not duplicates.
+    - Then, we concatenate uniqueJobs with the existing state jobs array to update the state with unique jobs.
