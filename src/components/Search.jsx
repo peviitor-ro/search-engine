@@ -158,14 +158,19 @@ const Search = () => {
   }, [dispatch, q, city, remote, company, county, location.pathname]);
 
   const handleUpdateQ = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (location.pathname !== "/rezultate") {
-      await navigate("/rezultate");
+  if (location.pathname !== "/rezultate") {
+    await navigate("/rezultate");
+    // Only set the city from the input if they actually typed something on the home page
+    if (isLocation) {
+      contextSetCity([isLocation]);
     }
-    contextSetQ([text]);
-    contextSetCity([isLocation]);
-  };
+  }
+  
+  // Always update the search query text
+  contextSetQ([text]);
+};
 
   const handleCloseIcon = () => {
     setText("");
