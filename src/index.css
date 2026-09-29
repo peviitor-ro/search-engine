@@ -146,3 +146,11 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+/* Accessibility: Add visible black focus outline for keyboard navigation */
+button:focus-visible,
+input[type="submit"]:focus-visible,
+button[type="submit"]:focus-visible {
+  outline: 2px solid #000 !important;
+  outline-offset: 2px;
+}
