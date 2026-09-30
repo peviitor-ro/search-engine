@@ -16,7 +16,7 @@ import { createSearchString } from "../utils/createSearchString";
 import { fetchAndHandleJobs } from "../utils/fetchData";
 import JobSkeleton from "@/components/ui/job-skeleton";
 import { findParamInURL } from "../utils/urlManipulation";
-import { AlertTriangle, ArrowLeft, ArrowUp } from "lucide-react";
+import { AlertTriangle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Results = () => {
@@ -40,7 +40,6 @@ const Results = () => {
   const networkError = useSelector((state) => state.jobs.networkError);
 
   // local UI state
-  const [isVisible, setIsVisible] = useState(false);
   const [pageLoading, setPageLoading] = useState(false);
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
@@ -115,20 +114,6 @@ const Results = () => {
       window.removeEventListener("popstate", syncPageFromUrl);
     };
   }, [goToPage]);
-
-  // Listen to window scroll height to show/hide the scroll to top button
-  useEffect(() => {
-    const checkScrollHeight = () => {
-      setIsVisible(window.scrollY > 500);
-    };
-    window.addEventListener("scroll", checkScrollHeight);
-
-    return () => window.removeEventListener("scroll", checkScrollHeight);
-  }, []);
-
-  function handleScrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
 
   function handleStringDecode(str) {
     if (!str) return "";
@@ -238,13 +223,6 @@ const Results = () => {
         />
       )}
 
-      <Button
-        buttonType="scrollToTop"
-        className={`${isVisible ? "opacity-100 pointer-events-auto" : ""}`}
-        onClick={handleScrollToTop}
-      >
-        <ArrowUp aria-label="Derulează în sus" />
-      </Button>
     </div>
   );
 };

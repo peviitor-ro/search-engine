@@ -461,7 +461,7 @@ const TermsOfUse = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/"
-                className="fixed bottom-6 right-4 md:right-8 z-50 flex items-center justify-center p-3 bg-background_green text-white rounded-full shadow-lg opacity-80 hover:opacity-100 hover:shadow-button_shadow transition-all duration-300"
+                className="fixed bottom-6 right-20 z-50 flex items-center justify-center p-3 bg-background_green text-white rounded-full shadow-lg opacity-80 hover:opacity-100 hover:shadow-button_shadow transition-all duration-300"
                 aria-label="Întoarcere la pagina principală"
               >
                 <House />
