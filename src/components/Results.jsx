@@ -2,7 +2,6 @@ import { useContext, useState, useEffect, useCallback } from "react";
 // components
 import Job from "./Job";
 import NoResults from "./NoResults";
-import Button from "@/components/ui/button";
 import Pagination from "@/components/ui/pagination";
 // icons
 // context
