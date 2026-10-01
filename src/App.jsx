@@ -6,6 +6,7 @@ import TermsOfUse from "./pages/TermsOfUse";
 import Privacy from "./pages/Privacy";
 import CompanyProfile from "./pages/CompanyProfile";
 import Page404 from "./pages/Page404";
+import ScrollToTop from "./components/ScrollToTop";
 // context
 import { TagsProvider } from "./context/TagsContext";
 
@@ -14,6 +15,7 @@ const RootLayout = () => {
   return (
     <TagsProvider>
       <Outlet />
+      <ScrollToTop />
     </TagsProvider>
   );
 };

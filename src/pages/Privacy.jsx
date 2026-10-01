@@ -453,7 +453,7 @@ const Privacy = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/"
-                className="fixed bottom-6 right-4 md:right-8 z-50 flex items-center justify-center p-3 bg-background_green text-white rounded-full shadow-lg opacity-80 hover:opacity-100 hover:shadow-button_shadow transition-all duration-300"
+                className="fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-background_green text-white shadow-lg transition-all duration-300 hover:shadow-button_shadow"
                 aria-label="Întoarcere la pagina principală"
               >
                 <House />

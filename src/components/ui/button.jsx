@@ -17,7 +17,7 @@ const buttonVariants = cva("", {
       addFilters:
         "group py-1 pl-3 pr-2 text-sm text-text_grey bg-background_green_light/40 border-background_green border hover:bg-background_green_light transition-colors duration-200 rounded-full flex items-center gap-1.5 cursor-pointer",
       scrollToTop:
-        "fixed bottom-12 right-[-40px] md:right-2.5 transition-opacity ease-in-out duration-300 pointer-events-none opacity-0"
+        "fixed bottom-6 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-background_green text-white shadow-lg transition-opacity ease-in-out duration-300 pointer-events-none opacity-0 hover:shadow-button_shadow"
     }
   },
   defaultVariants: {
