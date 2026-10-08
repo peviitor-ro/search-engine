@@ -297,6 +297,17 @@ const CompanyProfile = () => {
             {renderCareer(companyDetails.career)}
             {renderScraper(companyDetails.scraperFile)}
             <a
+              href={`https://firme.peviitor.ro`} // Or add specific route/params if applicable
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
+            >
+              Catalog Firme
+              <ArrowUpRight className="w-4 h-4" />
+              <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-[#4a8990] transition-all duration-300 ease-out group-hover:w-full"></span>
+            </a>
+
+            <a
               href={`https://www.google.com/search?q=${encodeURIComponent(`firma cui ${companyDetails.id || id}`)}`}
               target="_blank"
               rel="noopener noreferrer"
