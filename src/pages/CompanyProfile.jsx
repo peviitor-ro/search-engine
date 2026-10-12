@@ -296,8 +296,9 @@ const CompanyProfile = () => {
             {renderWebsite(companyDetails.website)}
             {renderCareer(companyDetails.career)}
             {renderScraper(companyDetails.scraperFile)}
+
             <a
-              href={`https://firme.peviitor.ro`} // Or add specific route/params if applicable
+              href={`https://firme.peviitor.ro/companie.html?id=${encodeURIComponent(companyDetails.id || id)}&name=${encodeURIComponent(companyDetails.company)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#4a8990] text-sm font-medium flex items-center gap-1 group relative w-max"
