@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
 import { Link, useLocation } from "react-router-dom";
@@ -26,6 +27,7 @@ const Job = ({
   date
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
+  const [showAllTags, setShowAllTags] = useState(false);
 
   function displayLocation() {
     const citiesName = location
@@ -100,9 +102,10 @@ const Job = ({
     .filter((tag) => tag.length > 0);
 
   const tags = processedTags.length > 0 ? processedTags : ["Fără tag-uri"];
-  const maxTags = 7;
-  const displayTags = tags.slice(0, maxTags);
+  const maxTags = 4;
   const hasMoreTags = tags.length > maxTags;
+  const hiddenTagsCount = tags.length - maxTags;
+  const displayTags = showAllTags ? tags : tags.slice(0, maxTags);
 
   const rawDate = vdate || date;
   const dateUI = rawDate
@@ -205,9 +208,15 @@ const Job = ({
             </span>
           ))}
           {hasMoreTags && (
-            <span className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]">
-              ...
-            </span>
+            <button
+              type="button"
+              onClick={() => setShowAllTags((prev) => !prev)}
+              aria-expanded={showAllTags}
+              title={showAllTags ? "Arată mai puține" : "Arată toate tag-urile"}
+              className="px-2 py-1 bg-[#f3f4f6] text-background_green font-medium rounded-md text-[12px] hover:bg-[#e5e7eb] transition-colors cursor-pointer"
+            >
+              {showAllTags ? "Mai puțin" : `+${hiddenTagsCount}`}
+            </button>
           )}
         </div>
       </div>
