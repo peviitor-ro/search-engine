@@ -1,9 +1,13 @@
-import { fetchAndHandleJobs, getJobSuggestion, getNumberOfJobs } from "../utils/fetchData";
+import {
+  fetchAndHandleJobs,
+  getJobSuggestion,
+  getNumberOfJobs
+} from "../utils/fetchData";
 import logo from "../assets/svg/logo.svg";
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import FlagMagnifyGlass from "../assets/svg/ro_flag_magnifying_glass.svg?react";
+import FlagMapRomania from "../assets/svg/flag_map_of_romania.svg?react";
 import CloseIcon from "../assets/svg/close_icon.svg?react";
 import MapPinIcon from "../assets/svg/map_pin.svg?react";
 import { orase } from "../utils/getCityName";
@@ -12,11 +16,7 @@ import FiltreGrup from "./FiltreGrup";
 // redux
 import { useSelector, useDispatch } from "react-redux";
 // only the active reducer actions used in this component
-import {
-  clearJobs,
-  setTotal,
-  setPage
-} from "../reducers/jobsSlice";
+import { clearJobs, setTotal, setPage } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
@@ -158,19 +158,19 @@ const Search = () => {
   }, [dispatch, q, city, remote, company, county, location.pathname]);
 
   const handleUpdateQ = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (location.pathname !== "/rezultate") {
-    await navigate("/rezultate");
-    // Only set the city from the input if they actually typed something on the home page
-    if (isLocation) {
-      contextSetCity([isLocation]);
+    if (location.pathname !== "/rezultate") {
+      await navigate("/rezultate");
+      // Only set the city from the input if they actually typed something on the home page
+      if (isLocation) {
+        contextSetCity([isLocation]);
+      }
     }
-  }
-  
-  // Always update the search query text
-  contextSetQ([text]);
-};
+
+    // Always update the search query text
+    contextSetQ([text]);
+  };
 
   const handleCloseIcon = () => {
     setText("");
@@ -291,7 +291,7 @@ const Search = () => {
         : ""
     }`}
             >
-              <FlagMagnifyGlass className="ml-5" />
+              <FlagMapRomania className="ml-5 w-10 h-10" />
               <input
                 type="text"
                 value={text}
