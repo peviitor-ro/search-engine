@@ -16,13 +16,12 @@ export function capitalizeJobTitle(title) {
 
   return title
     .toLowerCase()
-    .split(/([-])/g)
-    .map((word) => {
-      if (!word.trim() || word === "-") return word;
-      if (exceptions.includes(word)) return word;
-      return word.charAt(0).toUpperCase() + word.slice(1);
+    .split(/(\s+|[-–—/])/g)
+    .map((word, index) => {
+      if (!word.trim() || /^[-–—/]$/.test(word)) return word;
+      if (index > 0 && exceptions.includes(word)) return word;
+      return word.replace(/\p{L}/u, (letter) => letter.toUpperCase());
     })
-
     .join("");
 }
 

@@ -102,17 +102,17 @@ const Job = ({
           : "group hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40"
       }`}
     >
-      <div className="flex-1 p-5">
+      <div className="flex-1 min-w-0 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
           <TruncatedText
             text={capitalizeJobTitle(title)}
             lines={isMobile ? 2 : 1}
             disableTruncation={isMobile}
             as="h3"
-            className="text-[18px] font-semibold text-[#111827] flex-1"
+            className="text-[18px] font-semibold text-[#111827] flex-1 min-w-0 [overflow-wrap:anywhere]"
           />
           <span
-            className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
+            className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap flex-shrink-0 mt-0.5 ${workTypeColor}`}
           >
             {workTypeLabel}
           </span>
@@ -169,7 +169,7 @@ const Job = ({
           {displayTags.map((tag, index) => (
             <span
               key={index}
-              className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]"
+              className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px] max-w-full [overflow-wrap:anywhere]"
             >
               {tag}
             </span>
