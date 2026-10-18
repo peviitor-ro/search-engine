@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
+import { Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowUpRight, CalendarClock } from "lucide-react";
@@ -11,8 +11,7 @@ import {
 } from "./ui/tooltip.jsx";
 import TruncatedText from "./ui/truncated-text.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
-
-const exceptions = ["de", "lui"];
+import JobLocation from "./JobLocation.jsx";
 
 const Job = ({
   location,
@@ -28,33 +27,7 @@ const Job = ({
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [showAllTags, setShowAllTags] = useState(false);
-
-  function displayLocation() {
-    const citiesName = location
-      ?.filter((el) => el)
-      .map((el) => {
-        return String(el)
-          .toLowerCase()
-          .split(/([ -])/g)
-          .map((word) => {
-            return exceptions.includes(word)
-              ? word
-              : word.charAt(0).toUpperCase() + word.slice(1);
-          })
-          .join("");
-      });
-
-    if (!citiesName || citiesName.length === 0) {
-      if (Array.isArray(workmode) && workmode.length > 0)
-        return workmode.join(", ");
-      if (typeof workmode === "string" && workmode.trim().length > 0)
-        return workmode;
-      return "România";
-    }
-    if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
-    if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
-    return citiesName.join(", ");
-  }
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const routerLocation = useLocation();
   const isProfilePage = routerLocation.pathname.includes("/company");
@@ -123,9 +96,11 @@ const Job = ({
 
   return (
     <div
-      className="h-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
-  hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
-  w-full"
+      className={`relative h-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch w-full ${
+        isModalOpen
+          ? "border-custom_teal/40"
+          : "group hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40"
+      }`}
     >
       <div className="flex-1 min-w-0 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
@@ -169,15 +144,7 @@ const Job = ({
             )}
           </div>
 
-          <div className="flex items-start gap-2 text-[#6b7280]">
-            <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <TruncatedText
-              text={displayLocation()}
-              lines={isMobile ? 2 : 1}
-              disableTruncation={isMobile}
-              className="text-[13px] leading-tight text-[#6b7280]"
-            />
-          </div>
+          <JobLocation location={location} onModalToggle={setIsModalOpen} />
         </div>
 
         <div className="flex items-center justify-between gap-3 flex-wrap w-full mb-3">
