@@ -19,6 +19,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearJobs, setTotal, setPage } from "../reducers/jobsSlice";
 // utils fetch functions
 import { createSearchString } from "../utils/createSearchString";
+import { getJobsPerPage } from "../utils/jobsPerPage";
 import { findParamInURL, updateUrlParams } from "../utils/urlManipulation";
 import Button from "@/components/ui/button";
 import getCityMatch from "../utils/getCityMatch";
@@ -138,17 +139,20 @@ const Search = () => {
         ? Number(Array.isArray(pageVal) ? pageVal[0] : pageVal) || 1
         : 1;
 
+      const jobsPerPage = getJobsPerPage();
       const searchString = createSearchString(
         q,
         city,
         county,
         company,
         remote,
-        targetPage
+        targetPage,
+        jobsPerPage
       );
 
       fetchAndHandleJobs(searchString, targetPage, dispatch, {
-        syncUrl: false
+        syncUrl: false,
+        pageSize: jobsPerPage
       });
     } else {
       dispatch(clearJobs());
