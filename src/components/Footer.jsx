@@ -106,7 +106,7 @@ const Footer = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  to="https://barfa.peviitor.ro/Peviitor"
+                  to="https://meet.jit.si/PEVIITOR.RO"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mx-1"
