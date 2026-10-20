@@ -4,7 +4,15 @@ function removeDiacritics(str) {
 }
 
 // Updated remote to workmode
-export function createSearchString(q, city, county, company, workmode, page) {
+export function createSearchString(
+  q,
+  city,
+  county,
+  company,
+  workmode,
+  page,
+  rows
+) {
   const queryParams = [];
 
   // Check and include q if not empty
@@ -53,6 +61,11 @@ export function createSearchString(q, city, county, company, workmode, page) {
 
   // Always include page
   queryParams.push(`page=${page}`);
+
+  // Number of jobs per page (the API defaults to 12 when missing)
+  if (rows) {
+    queryParams.push(`rows=${rows}`);
+  }
 
   return queryParams.join("&");
 }

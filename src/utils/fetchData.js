@@ -188,7 +188,7 @@ export const fetchAndHandleJobs = async (
   searchString,
   targetPage,
   dispatch,
-  { syncUrl = true, replaceUrl = false } = {}
+  { syncUrl = true, replaceUrl = false, pageSize } = {}
 ) => {
   const fetchId = ++currentFetchId;
 
@@ -203,8 +203,8 @@ export const fetchAndHandleJobs = async (
     dispatch(setJobs(jobs));
     dispatch(setTotal(total));
     dispatch(setPage(targetPage));
-    if (jobs.length > 0) {
-      dispatch(setPageSize(jobs.length));
+    if (pageSize) {
+      dispatch(setPageSize(pageSize));
     }
     if (syncUrl) {
       updateUrlParams({ page: targetPage }, replaceUrl);
@@ -228,8 +228,8 @@ export const fetchAndHandleJobs = async (
         dispatch(setJobs(cachedData.jobs));
         dispatch(setTotal(cachedData.total));
         dispatch(setPage(targetPage));
-        if (cachedData.jobs.length > 0) {
-          dispatch(setPageSize(cachedData.jobs.length));
+        if (pageSize) {
+          dispatch(setPageSize(pageSize));
         }
         if (syncUrl) {
           updateUrlParams({ page: targetPage }, replaceUrl);
