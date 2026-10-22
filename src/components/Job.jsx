@@ -11,13 +11,8 @@ import {
 } from "./ui/tooltip.jsx";
 import TruncatedText from "./ui/truncated-text.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
- feature/job-title-quick-search
 import QuickSearchTooltip from "./QuickSearchTooltip.jsx";
-
-const exceptions = ["de", "lui"];
-
 import JobLocation from "./JobLocation.jsx";
- main
 
 const Job = ({
   location,
@@ -32,42 +27,13 @@ const Job = ({
   date
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
- feature/job-title-quick-search
   const navigate = useNavigate();
 
   const handleQuickSearch = (keyword) => {
     navigate(`/rezultate?q=${encodeURIComponent(keyword)}`);
   };
-
-  function displayLocation() {
-    const citiesName = location
-      ?.filter((el) => el)
-      .map((el) => {
-        return String(el)
-          .toLowerCase()
-          .split(/([ -])/g)
-          .map((word) => {
-            return exceptions.includes(word)
-              ? word
-              : word.charAt(0).toUpperCase() + word.slice(1);
-          })
-          .join("");
-      });
-
-    if (!citiesName || citiesName.length === 0) {
-      if (Array.isArray(workmode) && workmode.length > 0)
-        return workmode.join(", ");
-      if (typeof workmode === "string" && workmode.trim().length > 0)
-        return workmode;
-      return "România";
-    }
-    if (citiesName[0].toLowerCase() === "all") return "Toate orasele";
-    if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
-    return citiesName.join(", ");
-  }
   const [showAllTags, setShowAllTags] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
- main
 
   const routerLocation = useLocation();
   const isProfilePage = routerLocation.pathname.includes("/company");
@@ -144,7 +110,6 @@ const Job = ({
     >
       <div className="flex-1 min-w-0 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
- feature/job-title-quick-search
           <QuickSearchTooltip onSearch={handleQuickSearch}>
             <TruncatedText
               text={capitalizeJobTitle(title)}
@@ -154,15 +119,6 @@ const Job = ({
               className="text-[18px] font-semibold text-[#111827] flex-1 cursor-text select-text"
             />
           </QuickSearchTooltip>
-
-          <TruncatedText
-            text={capitalizeJobTitle(title)}
-            lines={isMobile ? 2 : 1}
-            disableTruncation={isMobile}
-            as="h3"
-            className="text-[18px] font-semibold text-[#111827] flex-1 min-w-0 [overflow-wrap:anywhere]"
-          />
-main
           <span
             className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap flex-shrink-0 mt-0.5 ${workTypeColor}`}
           >
