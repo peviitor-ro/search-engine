@@ -1,6 +1,6 @@
 import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUpRight, CalendarClock } from "lucide-react";
 import {
   Tooltip,
@@ -10,6 +10,7 @@ import {
 } from "./ui/tooltip.jsx";
 import TruncatedText from "./ui/truncated-text.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
+import QuickSearchTooltip from "./QuickSearchTooltip.jsx";
 
 const exceptions = ["de", "lui"];
 
@@ -26,6 +27,11 @@ const Job = ({
   date
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
+  const navigate = useNavigate();
+
+  const handleQuickSearch = (keyword) => {
+    navigate(`/rezultate?q=${encodeURIComponent(keyword)}`);
+  };
 
   function displayLocation() {
     const citiesName = location
@@ -126,13 +132,15 @@ const Job = ({
     >
       <div className="flex-1 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
-          <TruncatedText
-            text={capitalizeJobTitle(title)}
-            lines={isMobile ? 2 : 1}
-            disableTruncation={isMobile}
-            as="h3"
-            className="text-[18px] font-semibold text-[#111827] flex-1"
-          />
+          <QuickSearchTooltip onSearch={handleQuickSearch}>
+            <TruncatedText
+              text={capitalizeJobTitle(title)}
+              lines={isMobile ? 2 : 1}
+              disableTruncation={isMobile}
+              as="h3"
+              className="text-[18px] font-semibold text-[#111827] flex-1 cursor-text select-text"
+            />
+          </QuickSearchTooltip>
           <span
             className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
           >
