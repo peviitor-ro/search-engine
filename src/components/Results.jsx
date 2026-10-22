@@ -15,6 +15,7 @@ import { createSearchString } from "../utils/createSearchString";
 import { fetchAndHandleJobs } from "../utils/fetchData";
 import JobSkeleton from "@/components/ui/job-skeleton";
 import { findParamInURL } from "../utils/urlManipulation";
+import { getJobsPerPage, convertPage } from "../utils/jobsPerPage";
 import { AlertTriangle, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -45,11 +46,17 @@ const Results = () => {
 
   // Centralized page switching using fetchAndHandleJobs
   const goToPage = useCallback(
-    async (nextPage, { syncUrl = true, replaceUrl = false } = {}) => {
+    async (
+      nextPage,
+      { syncUrl = true, replaceUrl = false, nextPageSize = pageSize } = {}
+    ) => {
+      const isResize = nextPageSize !== pageSize;
+      const nextTotalPages = Math.max(1, Math.ceil(total / nextPageSize));
+
       if (
         nextPage < 1 ||
-        nextPage > totalPages ||
-        (nextPage === page && jobs.length > 0)
+        nextPage > nextTotalPages ||
+        (nextPage === page && jobs.length > 0 && !isResize)
       ) {
         return;
       }
@@ -67,19 +74,23 @@ const Results = () => {
         county,
         company,
         workmode,
-        nextPage
+        nextPage,
+        nextPageSize
       );
 
       try {
         await fetchAndHandleJobs(targetQueryKey, nextPage, dispatch, {
           syncUrl,
-          replaceUrl
+          replaceUrl,
+          pageSize: nextPageSize
         });
       } catch (error) {
         console.error("Pagination fetch error:", error);
       } finally {
         setPageLoading(false);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (!isResize) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
     },
     [
@@ -89,12 +100,37 @@ const Results = () => {
       company,
       workmode,
       page,
+      pageSize,
+      total,
       pageLoading,
-      totalPages,
       jobs.length,
       dispatch
     ]
   );
+
+  // Refetch when the resolution changes the number of jobs that fit on screen,
+  // keeping the first visible job on the new page.
+  useEffect(() => {
+    let timer;
+    const handleResize = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        const nextPageSize = getJobsPerPage();
+        if (nextPageSize === pageSize || loading || jobs.length === 0) return;
+
+        goToPage(convertPage(page, pageSize, nextPageSize), {
+          replaceUrl: true,
+          nextPageSize
+        });
+      }, 300);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [goToPage, page, pageSize, loading, jobs.length]);
 
   // Follow manual edits to the URL's page param (address bar edits, back/forward)
   useEffect(() => {
@@ -130,7 +166,7 @@ const Results = () => {
     <div className="w-full">
       {loading ? (
         <ul className="w-full max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 px-4 md:px-14 pb-12">
-          {Array.from({ length: 6 }).map((_, idx) => (
+          {Array.from({ length: getJobsPerPage() }).map((_, idx) => (
             <li key={idx}>
               <JobSkeleton />
             </li>

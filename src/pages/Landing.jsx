@@ -74,15 +74,23 @@ const Landing = () => {
               la un click distanță
             </h1>
             <h2 className="text-lg leading-6 text-text_grey">
-              Peste{" "}
-              <strong className="text-black">
-                {loading ? (
-                  <div className="animate-pulse inline-block h-3 bg-gray-300 rounded w-16"></div>
-                ) : (
-                  data?.total.jobs
-                )}
-              </strong>{" "}
-              de locuri de muncă din România actualizate zilnic
+              {loading ? (
+                <>
+                  Peste{" "}
+                  <div className="animate-pulse inline-block h-3 bg-gray-300 rounded w-16" />
+                  {" "}de locuri de muncă din România actualizate zilnic
+                </>
+              ) : data?.total.jobs > 0 ? (
+                <>
+                  Peste{" "}
+                  <strong className="text-black">
+                    {data.total.jobs}
+                  </strong>{" "}
+                  de locuri de muncă din România actualizate zilnic
+                </>
+              ) : (
+                "Descoperă locuri de muncă din România, actualizate zilnic."
+              )}
             </h2>
           </div>
         </div>

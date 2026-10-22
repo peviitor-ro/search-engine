@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { DEFAULT_JOBS_PER_PAGE } from "../utils/jobsPerPage";
 
 // Define initial state
 const initialState = {
@@ -8,7 +9,7 @@ const initialState = {
   totalCompany: 0,
   loading: true,
   page: 1,
-  pageSize: 10,
+  pageSize: DEFAULT_JOBS_PER_PAGE,
   networkError: false // Track network or connection status
 };
 
@@ -36,12 +37,7 @@ const jobsSlice = createSlice({
       state.page = action.payload;
     },
     setPageSize(state, action) {
-      // The API doesn't publish its page size, so infer it from the
-      // largest results page actually seen (a full page is always >= a
-      // trailing partial page, so this converges to the true value).
-      if (action.payload > state.pageSize) {
-        state.pageSize = action.payload;
-      }
+      state.pageSize = action.payload;
     },
     setNumberOfJobs(state, action) {
       state.totalJobs = action.payload;

@@ -1,4 +1,5 @@
-import { MapPin, Building2, ExternalLink, Wallet } from "lucide-react";
+import { useState } from "react";
+import { Building2, ExternalLink, Wallet } from "lucide-react";
 import { capitalizeJobTitle, formatSalary } from "../utils/textFormat.js";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUpRight, CalendarClock } from "lucide-react";
@@ -10,9 +11,13 @@ import {
 } from "./ui/tooltip.jsx";
 import TruncatedText from "./ui/truncated-text.jsx";
 import { useMediaQuery } from "@uidotdev/usehooks";
+ feature/job-title-quick-search
 import QuickSearchTooltip from "./QuickSearchTooltip.jsx";
 
 const exceptions = ["de", "lui"];
+
+import JobLocation from "./JobLocation.jsx";
+ main
 
 const Job = ({
   location,
@@ -27,6 +32,7 @@ const Job = ({
   date
 }) => {
   const isMobile = useMediaQuery("(max-width: 767px)");
+ feature/job-title-quick-search
   const navigate = useNavigate();
 
   const handleQuickSearch = (keyword) => {
@@ -59,6 +65,9 @@ const Job = ({
     if (citiesName.length > 5) return citiesName.slice(0, 5).join(", ");
     return citiesName.join(", ");
   }
+  const [showAllTags, setShowAllTags] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+ main
 
   const routerLocation = useLocation();
   const isProfilePage = routerLocation.pathname.includes("/company");
@@ -106,9 +115,10 @@ const Job = ({
     .filter((tag) => tag.length > 0);
 
   const tags = processedTags.length > 0 ? processedTags : ["Fără tag-uri"];
-  const maxTags = 7;
-  const displayTags = tags.slice(0, maxTags);
+  const maxTags = 4;
   const hasMoreTags = tags.length > maxTags;
+  const hiddenTagsCount = tags.length - maxTags;
+  const displayTags = showAllTags ? tags : tags.slice(0, maxTags);
 
   const rawDate = vdate || date;
   const dateUI = rawDate
@@ -126,12 +136,15 @@ const Job = ({
 
   return (
     <div
-      className="h-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch group 
-  hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40
-  w-full"
+      className={`relative h-full bg-white border border-[#e5e7eb] rounded-xl overflow-hidden transition-all duration-300 flex flex-col md:flex-row md:items-stretch w-full ${
+        isModalOpen
+          ? "border-custom_teal/40"
+          : "group hover:border-custom_teal hover:ring-1 hover:ring-custom_teal/20 hover:ring-offset-1 hover:ring-offset-custom_teal/40"
+      }`}
     >
-      <div className="flex-1 p-5">
+      <div className="flex-1 min-w-0 p-5">
         <div className="flex items-start justify-between gap-3 mb-3">
+ feature/job-title-quick-search
           <QuickSearchTooltip onSearch={handleQuickSearch}>
             <TruncatedText
               text={capitalizeJobTitle(title)}
@@ -141,8 +154,17 @@ const Job = ({
               className="text-[18px] font-semibold text-[#111827] flex-1 cursor-text select-text"
             />
           </QuickSearchTooltip>
+
+          <TruncatedText
+            text={capitalizeJobTitle(title)}
+            lines={isMobile ? 2 : 1}
+            disableTruncation={isMobile}
+            as="h3"
+            className="text-[18px] font-semibold text-[#111827] flex-1 min-w-0 [overflow-wrap:anywhere]"
+          />
+main
           <span
-            className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap mt-0.5 ${workTypeColor}`}
+            className={`px-2 py-1 rounded-full text-[12px] font-medium whitespace-nowrap flex-shrink-0 mt-0.5 ${workTypeColor}`}
           >
             {workTypeLabel}
           </span>
@@ -174,15 +196,7 @@ const Job = ({
             )}
           </div>
 
-          <div className="flex items-start gap-2 text-[#6b7280]">
-            <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <TruncatedText
-              text={displayLocation()}
-              lines={isMobile ? 2 : 1}
-              disableTruncation={isMobile}
-              className="text-[13px] leading-tight text-[#6b7280]"
-            />
-          </div>
+          <JobLocation location={location} onModalToggle={setIsModalOpen} />
         </div>
 
         <div className="flex items-center justify-between gap-3 flex-wrap w-full mb-3">
@@ -207,15 +221,21 @@ const Job = ({
           {displayTags.map((tag, index) => (
             <span
               key={index}
-              className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]"
+              className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px] max-w-full [overflow-wrap:anywhere]"
             >
               {tag}
             </span>
           ))}
           {hasMoreTags && (
-            <span className="px-2 py-1 bg-[#f3f4f6] text-[#374151] rounded-md text-[12px]">
-              ...
-            </span>
+            <button
+              type="button"
+              onClick={() => setShowAllTags((prev) => !prev)}
+              aria-expanded={showAllTags}
+              title={showAllTags ? "Arată mai puține" : "Arată toate tag-urile"}
+              className="px-2 py-1 bg-[#f3f4f6] text-background_green font-medium rounded-md text-[12px] hover:bg-[#e5e7eb] transition-colors cursor-pointer"
+            >
+              {showAllTags ? "Mai puțin" : `+${hiddenTagsCount}`}
+            </button>
           )}
         </div>
       </div>
