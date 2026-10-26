@@ -9,7 +9,7 @@ const QuickSearchTooltip = ({ children, onSearch }) => {
       const selection = window.getSelection();
       const selectedText = selection ? selection.toString().trim() : "";
 
-      // Ensure selection is inside this specific job title container and meets length constraints (2 - 50 chars)
+      // Ensure selection is inside this specific component and meets length constraints (2 - 50 chars)
       if (
         containerRef.current &&
         containerRef.current.contains(selection.anchorNode) &&
@@ -19,11 +19,12 @@ const QuickSearchTooltip = ({ children, onSearch }) => {
         const range = selection.getRangeAt(0);
         const rect = range.getBoundingClientRect();
 
+        // Position exactly centered horizontally and just above the selection using viewport rect
         setTooltip({
           visible: true,
           text: selectedText,
           x: rect.left + rect.width / 2,
-          y: rect.top - 10 + window.scrollY,
+          y: rect.top - 8, // 8px spacing above the text
         });
       } else {
         // Dismiss if clicking outside the tooltip
@@ -65,11 +66,11 @@ const QuickSearchTooltip = ({ children, onSearch }) => {
       {children}
       {tooltip.visible && (
         <div
-          className="quick-search-tooltip fixed z-50 transform -translate-x-1/2 -translate-y-full bg-slate-900 text-white text-xs px-3 py-1.5 rounded-lg shadow-xl cursor-pointer flex items-center gap-1.5 transition-all duration-150"
+          className="quick-search-tooltip fixed z-50 transform -translate-x-1/2 -translate-y-full bg-slate-900 text-white text-xs px-3.5 py-1.5 rounded-lg shadow-xl cursor-pointer flex items-center gap-1.5 transition-all duration-150"
           style={{ left: `${tooltip.x}px`, top: `${tooltip.y}px` }}
           onClick={handleSearchClick}
         >
-          <span className="font-medium">Caută «{tooltip.text}»</span>
+          <span className="font-medium whitespace-nowrap">Caută «{tooltip.text}»</span>
         </div>
       )}
     </div>
