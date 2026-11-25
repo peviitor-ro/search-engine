@@ -16,7 +16,7 @@ const Privacy = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center min-h-screen landing-page w-full">
+    <div className="winter-keep-bg flex flex-col items-center min-h-screen landing-page w-full">
       <main className="w-full flex-1 flex flex-col mb-8">
         <header
           role="banner"
@@ -453,7 +453,7 @@ const Privacy = () => {
             <TooltipTrigger asChild>
               <Link
                 to="/"
-                className="fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-background_green text-white shadow-lg transition-all duration-300 hover:shadow-button_shadow"
+                className="winter-snow-btn winter-snow-btn-round fixed bottom-20 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-background_green text-white shadow-lg transition-all duration-300 hover:shadow-button_shadow"
                 aria-label="Întoarcere la pagina principală"
               >
                 <House />

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 26" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="icicleBody1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#d8f0ff" stop-opacity="0.88" />
+      <stop offset="100%" stop-color="#9ad4ff" stop-opacity="0.72" />
+    </linearGradient>
+    <linearGradient id="icicleGlint1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path
+    fill="url(#icicleBody1)"
+    d="M 8,0
+       L 112,0
+       C 104,1.5 99,2 95,2.5
+       C 92,3 90,9 88,16
+       C 87,18.5 86,18.5 85,15.5
+       C 83,8 80,2.5 75,2
+       C 68,1.5 63,2 60,2.5
+       C 57.5,3 56,8 54.5,12.5
+       C 53.8,14.5 52.8,14.5 52,12
+       C 50.5,7 48,2 43,2
+       C 37,2 33,2.5 30,3.5
+       C 27,4.5 25,13 22.5,22
+       C 21.5,25 20.5,25 19.5,21.5
+       C 17,12 14,3 8,0 Z"
+  />
+  <path
+    fill="url(#icicleGlint1)"
+    d="M 20.5,2 L 22,20 L 20,20 Z
+       M 86,2 L 87.3,14 L 85.5,14 Z"
+  />
+</svg>

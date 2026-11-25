@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 26" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="icicleBody2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#d8f0ff" stop-opacity="0.88" />
+      <stop offset="100%" stop-color="#9ad4ff" stop-opacity="0.72" />
+    </linearGradient>
+    <linearGradient id="icicleGlint2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path
+    fill="url(#icicleBody2)"
+    d="M 2,0
+       L 116,0
+       C 108,1.5 102,2.5 98,5.5
+       C 97,6.5 96,6.5 95,5
+       C 93,2 89,2 84,2.5
+       C 81,3 79,6 77.5,8.5
+       C 76.5,10 75.5,10 74.5,8
+       C 72.5,4.5 69,2.5 64,3
+       C 60,3.5 58,9 56,14.5
+       C 55,17 54,17 53,14
+       C 51,8 48.5,3.5 44.5,3.5
+       C 40,3.5 37.5,12 35,21.5
+       C 34,24.5 33,24.5 32,21
+       C 29.5,11 27.5,4 23.5,4
+       C 19,4 16.5,14 13.5,24.5
+       C 12.5,26.5 11.5,26.5 10.5,24
+       C 8,14 6,5 2,0 Z"
+  />
+  <path
+    fill="url(#icicleGlint2)"
+    d="M 11.5,2 L 13,22 L 11,22 Z
+       M 33,2 L 34.4,19.5 L 32.5,19.5 Z"
+  />
+</svg>

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 30" fill="none">
+  <defs>
+    <linearGradient id="hatRed" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="65%" stop-color="#dc2626" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+    <linearGradient id="hatFur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#dbeaf7" />
+    </linearGradient>
+  </defs>
+  <g transform="translate(36 0) scale(-1 1)">
+    <path
+      fill="url(#hatRed)"
+      d="M 8,21
+         C 9,10 16,3 24,4
+         C 29,4.5 31.5,8 30.5,13
+         C 29.5,11 27,9.5 24,10.5
+         C 25.5,13.5 27,17 28,21 Z"
+    />
+    <path
+      fill="#ffffff"
+      fill-opacity="0.22"
+      d="M 11,17
+         C 12.5,10 17.5,5.8 23.5,6
+         C 19,7.5 14.5,11.5 13,17 Z"
+    />
+    <circle cx="31.5" cy="14" r="3.4" fill="url(#hatFur)" />
+    <circle cx="30.6" cy="13" r="1.2" fill="#ffffff" fill-opacity="0.9" />
+    <path
+      fill="url(#hatFur)"
+      d="M 5.5,21.5
+         C 5.5,19 8.5,18 11.5,19
+         C 14,17.8 18,17.8 20.5,19
+         C 23.5,17.8 27.5,18.5 29.5,20.5
+         C 30.5,21.5 30,24 28,24.5
+         C 25.5,25.2 23,24.2 20.5,25
+         C 17.5,25.8 14.5,24.5 11.5,25
+         C 8.5,25.5 5.5,24 5.5,21.5 Z"
+    />
+  </g>
+</svg>

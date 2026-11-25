@@ -9,6 +9,7 @@ import Page404 from "./pages/Page404";
 import ScrollToTop from "./components/ScrollToTop";
 // context
 import { TagsProvider } from "./context/TagsContext";
+import { SeasonalThemeProvider } from "./context/SeasonalThemeProvider";
 
 // Layout component rendered inside the router
 const RootLayout = () => {
@@ -65,7 +66,11 @@ const router = createHashRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <SeasonalThemeProvider>
+      <RouterProvider router={router} />
+    </SeasonalThemeProvider>
+  );
 }
 
 export default App;

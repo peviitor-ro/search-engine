@@ -275,7 +275,7 @@ const CompanyProfile = () => {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen text-gray-800 ">
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-base text-gray-500 hover:text-gray-800 transition-colors mb-8 group"
+          className="winter-contrast-text winter-contrast-hover flex items-center gap-2 text-base text-gray-500 hover:text-gray-800 transition-colors mb-8 group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Inapoi la rezultate
@@ -287,12 +287,12 @@ const CompanyProfile = () => {
               <Building2 className="w-12 h-12" strokeWidth={1.5} />
             </div>
 
-            <h1 className="text-3xl font-bold text-[#4a8990]">
+            <h1 className="winter-contrast-heading text-3xl font-bold text-[#4a8990]">
               {companyDetails.company}
             </h1>
           </div>
 
-          <div className="flex items-center gap-8 flex-wrap">
+          <div className="winter-company-links flex items-center gap-8 flex-wrap">
             {renderWebsite(companyDetails.website)}
             {renderCareer(companyDetails.career)}
             {renderScraper(companyDetails.scraperFile)}
@@ -363,7 +363,7 @@ const CompanyProfile = () => {
           </div>
         </div>
 
-        <h2 className="text-xl font-bold mb-6 text-gray-900">
+        <h2 className="winter-contrast-heading text-xl font-bold mb-6 text-gray-900">
           Pozitii disponibile:
         </h2>
 

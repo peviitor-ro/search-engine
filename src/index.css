@@ -29,6 +29,284 @@
   background-size: cover;
 }
 
+.winter-snow-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  filter: brightness(1.1) contrast(1) saturate(1.05)
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+}
+
+.winter-lens-blur {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  -webkit-mask-image: radial-gradient(
+    circle at center,
+    transparent 40%,
+    black 90%
+  );
+  mask-image: radial-gradient(circle at center, transparent 40%, black 90%);
+}
+
+html.winter-theme:has(.winter-keep-bg) .winter-snow-canvas,
+html.winter-theme:has(.winter-keep-bg) .winter-lens-blur {
+  display: none;
+}
+
+html.winter-theme .landing-page:not(.winter-keep-bg),
+html.winter-theme .rezultate-pagina {
+  background: transparent;
+}
+
+html.winter-theme .winter-contrast-text {
+  color: #e2eefb;
+}
+
+html.winter-theme .winter-contrast-hover:hover {
+  color: #ffffff;
+}
+
+html.winter-theme .winter-contrast-text strong,
+html.winter-theme .winter-contrast-heading {
+  color: #ffffff;
+}
+
+html.winter-theme .winter-company-links a {
+  color: #d6e9ff;
+}
+
+html.winter-theme .winter-company-links a:hover {
+  color: #ffffff;
+}
+
+html.winter-theme .winter-company-links a span {
+  background-color: #ffffff;
+}
+
+html.winter-theme .winter-filter-chip {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(210, 236, 255, 0.78);
+  color: #ffffff;
+  backdrop-filter: blur(4px);
+}
+
+html.winter-theme .winter-filter-chip:hover {
+  background-color: rgba(255, 255, 255, 0.28);
+  border-color: #ffffff;
+}
+
+html.winter-theme .winter-filter-chip::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: calc(100% + 1px);
+  height: 11px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("./assets/svg/icicles.svg");
+  filter: drop-shadow(0 1px 2px rgba(130, 210, 255, 0.35));
+}
+
+html.winter-theme .winter-filter-chip[data-icicle="2"]::after {
+  background-image: url("./assets/svg/icicles-2.svg");
+}
+
+html.winter-theme .winter-filter-chip[data-icicle="3"]::after {
+  background-image: url("./assets/svg/icicles-3.svg");
+}
+
+html.winter-theme .winter-keep-bg .winter-contrast-text,
+html.winter-theme .winter-keep-bg .winter-contrast-text strong {
+  color: inherit;
+}
+
+html.winter-theme
+  nav[aria-label="Paginare rezultate"]
+  button:not(.bg-background_green),
+html.winter-theme nav[aria-label="Paginare rezultate"] span {
+  color: #e2eefb;
+}
+
+html.winter-theme
+  nav[aria-label="Paginare rezultate"]
+  button:not(.bg-background_green):hover {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+}
+
+html.winter-theme .winter-snow-btn::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -1px;
+  right: -1px;
+  height: 28px;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url("./assets/svg/snow-cap.svg");
+  filter: drop-shadow(0 2px 2px rgba(15, 45, 55, 0.2));
+}
+
+html.winter-theme .winter-snow-btn-round::before {
+  top: -2px;
+  left: -1px;
+  right: -1px;
+  height: 52%;
+  background-image: url("./assets/svg/snow-cap-circle.svg");
+}
+
+.winter-santa-hat {
+  display: none;
+}
+
+@keyframes winter-logo-pop {
+  0% {
+    transform: scale(0);
+    animation-timing-function: cubic-bezier(0.74, 1.72, 0.57, 1.01);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes winter-holiday-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.65))
+      drop-shadow(0 0 4.5px rgba(251, 191, 36, 0.42));
+  }
+  25% {
+    filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.65))
+      drop-shadow(0 0 4.5px rgba(248, 113, 113, 0.42));
+  }
+  50% {
+    filter: drop-shadow(0 0 2px rgba(16, 185, 129, 0.65))
+      drop-shadow(0 0 4.5px rgba(52, 211, 153, 0.42));
+  }
+  75% {
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.65))
+      drop-shadow(0 0 4.5px rgba(125, 211, 252, 0.42));
+  }
+}
+
+@keyframes winter-santa-hat-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0) rotate(-28deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-14deg);
+  }
+}
+
+html.winter-theme .winter-logo-svg {
+  width: 107px;
+  height: 32px;
+  overflow: visible;
+}
+
+html.winter-theme .winter-logo-svg g[clip-path] {
+  clip-path: none;
+}
+
+html.winter-theme .winter-logo-svg g[mask] {
+  mask: none;
+}
+
+html.winter-theme .winter-logo-svg g[mask] > path {
+  fill: #f4f9ff;
+  transform: scale(0);
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+  animation: winter-logo-pop 0.52s cubic-bezier(0.74, 1.72, 0.57, 1.01)
+    var(--pop-delay) forwards;
+}
+
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(n + 3) {
+  animation:
+    winter-logo-pop 0.52s cubic-bezier(0.74, 1.72, 0.57, 1.01) var(--pop-delay)
+      forwards,
+    winter-holiday-glow 4.8s ease-in-out var(--glow-delay) infinite;
+}
+
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(1) {
+  --pop-delay: 0.064s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(2) {
+  --pop-delay: 0.128s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(3) {
+  --pop-delay: 0.192s;
+  --glow-delay: 1.05s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(4) {
+  --pop-delay: 0.256s;
+  --glow-delay: 1.45s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(5) {
+  --pop-delay: 0.32s;
+  --glow-delay: 1.85s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(6) {
+  --pop-delay: 0.384s;
+  --glow-delay: 2.25s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(7) {
+  --pop-delay: 0.448s;
+  --glow-delay: 2.65s;
+}
+html.winter-theme .winter-logo-svg g[mask] > path:nth-child(8) {
+  --pop-delay: 0.512s;
+  --glow-delay: 3.05s;
+}
+
+html.winter-theme .winter-santa-hat {
+  display: block;
+  position: absolute;
+  top: -4.5px;
+  left: -5.5px;
+  width: 21px;
+  height: 17px;
+  pointer-events: none;
+  transform-origin: 55% 85%;
+  opacity: 0;
+  filter: drop-shadow(0 1px 1.5px rgba(15, 35, 50, 0.25));
+  animation: winter-santa-hat-drop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.85s
+    forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.winter-theme {
+    animation: none;
+  }
+
+  html.winter-theme .winter-logo-svg g[mask] > path {
+    animation: none;
+    transform: none;
+  }
+
+  html.winter-theme .winter-logo-svg g[mask] > path:nth-child(n + 3) {
+    filter: drop-shadow(0 0 1.5px rgba(245, 158, 11, 0.35));
+  }
+
+  html.winter-theme .winter-santa-hat {
+    animation: none;
+    opacity: 1;
+    transform: rotate(-14deg);
+  }
+}
+
 /* Dropdown lists: thumb sits on the panel's white background, so it gets a
    white border to read as inset rather than as a coloured bar. */
 .scrollbar-class {
