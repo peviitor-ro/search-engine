@@ -13,7 +13,7 @@ const buttonVariants = cva("", {
       loadMore:
         "winter-snow-btn relative flex justify-center items-center px-8 py-3 rounded-full bg-background_green text-white font-medium text-lg leading-6 hover:shadow-button_shadow cursor-pointer mx-auto mb-12",
       deleteFilters:
-        "winter-contrast-text winter-contrast-hover bg-transparent px-2 py-1 text-sm text-text_grey_darker underline-offset-4 hover:text-background_green hover:underline cursor-pointer",
+        "winter-contrast-text winter-contrast-hover group relative w-max bg-transparent mx-2 py-1 text-sm text-text_grey_darker hover:text-background_green cursor-pointer",
       addFilters:
         "winter-filter-chip relative group py-1 pl-3 pr-2 text-sm text-text_grey bg-background_green_light/40 border-background_green border hover:bg-background_green_light transition-colors duration-200 rounded-full flex items-center gap-1.5 cursor-pointer",
       scrollToTop:

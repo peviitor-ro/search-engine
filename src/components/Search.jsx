@@ -477,6 +477,7 @@ const Search = () => {
                   onClick={handleRemoveAllFilters}
                 >
                   Șterge filtre
+                  <span className="winter-delete-underline absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-background_green transition-all duration-300 ease-out group-hover:w-full" />
                 </Button>
               </div>
             )}

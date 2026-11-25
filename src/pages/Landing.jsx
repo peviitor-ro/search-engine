@@ -15,7 +15,7 @@ import SantaSleigh from "../components/SantaSleigh";
 import { useSeasonalTheme } from "../context/seasonalThemeContext";
 
 const Landing = () => {
-  const { isWinter } = useSeasonalTheme();
+  const { isSantaSleigh } = useSeasonalTheme();
   const navRef = useRef(null);
   const heroTextRef = useRef(null);
   const audioRef = useRef(null);
@@ -65,34 +65,18 @@ const Landing = () => {
   }, []);
 
   useEffect(() => {
-    if (!isWinter) return undefined;
+    if (!isSantaSleigh) return undefined;
     const audio = audioRef.current;
     if (!audio) return undefined;
 
     audio.volume = 0.85;
     audio.currentTime = 0;
 
-    let unlockHandler = null;
-    const cleanupUnlock = () => {
-      if (!unlockHandler) return;
-      window.removeEventListener("pointerdown", unlockHandler);
-      window.removeEventListener("keydown", unlockHandler);
-      window.removeEventListener("touchstart", unlockHandler);
-      unlockHandler = null;
-    };
-
     try {
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.catch === "function") {
         playPromise.catch(() => {
-          unlockHandler = () => {
-            audio.currentTime = 0;
-            audio.play().catch(() => {});
-            cleanupUnlock();
-          };
-          window.addEventListener("pointerdown", unlockHandler, { once: true });
-          window.addEventListener("keydown", unlockHandler, { once: true });
-          window.addEventListener("touchstart", unlockHandler, { once: true });
+          // Browser autoplay policy blocked unmuted audio on load
         });
       }
     } catch {
@@ -100,7 +84,6 @@ const Landing = () => {
     }
 
     return () => {
-      cleanupUnlock();
       try {
         audio.pause();
         audio.currentTime = 0;
@@ -108,11 +91,11 @@ const Landing = () => {
         // Ignore pause errors in jsdom
       }
     };
-  }, [isWinter]);
+  }, [isSantaSleigh]);
 
   return (
     <div className="landing-page flex flex-col justify-between items-center py-5 min-h-[100vh] overflow-x-clip">
-      {isWinter && (
+      {isSantaSleigh && (
         <audio
           ref={audioRef}
           src={sleighBells}
@@ -164,7 +147,7 @@ const Landing = () => {
           </div>
         </div>
         <div className="order-3 lg:order-1 relative z-10">
-          {isWinter ? (
+          {isSantaSleigh ? (
             <SantaSleigh logoRef={navRef} heroTextRef={heroTextRef} />
           ) : (
             <img

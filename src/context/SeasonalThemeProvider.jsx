@@ -5,7 +5,8 @@ import {
   SEASONS,
   SEASON_THEME_CLASSES,
   getActiveSeason,
-  getNextSeasonTransitionMs
+  getNextSeasonTransitionMs,
+  isSantaSleighSeason
 } from "../utils/seasonalTheme";
 
 // Max 32-bit signed int delay for setTimeout (~24.8 days)
@@ -13,6 +14,9 @@ const MAX_TIMEOUT_MS = 2147483647;
 
 export const SeasonalThemeProvider = ({ children }) => {
   const [season, setSeason] = useState(() => getActiveSeason());
+  const [isSantaSleigh, setIsSantaSleigh] = useState(() =>
+    isSantaSleighSeason()
+  );
 
   useEffect(() => {
     const root = document.documentElement;
@@ -34,6 +38,7 @@ export const SeasonalThemeProvider = ({ children }) => {
     const scheduleCheck = () => {
       const now = new Date();
       setSeason(getActiveSeason(now));
+      setIsSantaSleigh(isSantaSleighSeason(now));
 
       const msUntilNextTransition = getNextSeasonTransitionMs(now);
       const delay = Math.min(
@@ -56,7 +61,7 @@ export const SeasonalThemeProvider = ({ children }) => {
   const isWinter = season === SEASONS.WINTER;
 
   return (
-    <SeasonalThemeContext.Provider value={{ season, isWinter }}>
+    <SeasonalThemeContext.Provider value={{ season, isWinter, isSantaSleigh }}>
       <SeasonalBackground />
       {children}
     </SeasonalThemeContext.Provider>

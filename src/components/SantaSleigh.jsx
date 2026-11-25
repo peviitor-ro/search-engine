@@ -1263,7 +1263,6 @@ const SantaSleigh = ({ logoRef, heroTextRef }) => {
       ref={containerRef}
       role="img"
       aria-label="Model 3D interactiv cu Moș Crăciun și elful său pe sania cu cadouri"
-      title="Trage pentru a roti modelul 3D"
       className="w-[300px] h-[200px] sm:w-[340px] sm:h-[227px] md:w-[376px] md:h-[251px] mt-6 lg:mt-0 select-none"
     />
   );

@@ -1,35 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 26" preserveAspectRatio="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 34" preserveAspectRatio="none">
   <defs>
-    <linearGradient id="icicleBody1" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
-      <stop offset="55%" stop-color="#d8f0ff" stop-opacity="0.88" />
-      <stop offset="100%" stop-color="#9ad4ff" stop-opacity="0.72" />
+    <linearGradient id="iceBody1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f8ff" stop-opacity="0.88" />
+      <stop offset="35%" stop-color="#a8e2ff" stop-opacity="0.72" />
+      <stop offset="78%" stop-color="#69c2f5" stop-opacity="0.62" />
+      <stop offset="100%" stop-color="#dff6ff" stop-opacity="0.92" />
     </linearGradient>
-    <linearGradient id="icicleGlint1" x1="0" y1="0" x2="0" y2="1">
+    <linearGradient id="iceShadow1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4ba7e0" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#2b7cb8" stop-opacity="0.22" />
+    </linearGradient>
+    <linearGradient id="iceHighlight1" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="65%" stop-color="#ffffff" stop-opacity="0.6" />
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
     </linearGradient>
   </defs>
+
+  <!-- Delicate frozen rim -->
   <path
-    fill="url(#icicleBody1)"
-    d="M 8,0
-       L 112,0
-       C 104,1.5 99,2 95,2.5
-       C 92,3 90,9 88,16
-       C 87,18.5 86,18.5 85,15.5
-       C 83,8 80,2.5 75,2
-       C 68,1.5 63,2 60,2.5
-       C 57.5,3 56,8 54.5,12.5
-       C 53.8,14.5 52.8,14.5 52,12
-       C 50.5,7 48,2 43,2
-       C 37,2 33,2.5 30,3.5
-       C 27,4.5 25,13 22.5,22
-       C 21.5,25 20.5,25 19.5,21.5
-       C 17,12 14,3 8,0 Z"
+    fill="url(#iceBody1)"
+    d="M 4,0 L 136,0
+       C 132,1.6 128,1.8 124,1.3
+       L 121.6,15.5 C 121.3,17.2 120.7,17.2 120.4,15.5 L 118.4,1.6
+       C 113,2 108,1.5 104,1.2
+       L 100.8,26.5 C 100.4,29.2 99.6,29.2 99.2,26.5 L 96.4,1.8
+       C 93.5,2.2 91.5,1.8 89.6,1.4
+       L 88.2,11.2 C 88,12.5 87.5,12.5 87.3,11.2 L 86.1,1.6
+       C 80,2.1 75,1.4 70,1.3
+       L 67.6,20.2 C 67.3,22.2 66.7,22.2 66.4,20.2 L 64.2,1.7
+       C 58,2 51,1.5 46,1.3
+       L 44.6,9.5 C 44.4,10.6 43.9,10.6 43.7,9.5 L 42.5,1.5
+       C 37.5,1.8 34,1.6 31.2,1.4
+       L 27.9,30.8 C 27.5,33.6 26.6,33.6 26.2,30.8 L 23.2,1.8
+       C 20,2.2 17.6,1.8 15.6,1.4
+       L 14.1,13.5 C 13.9,14.8 13.3,14.8 13.1,13.5 L 11.7,1.5
+       C 9,1.8 6.5,1.2 4,0 Z"
   />
+
+  <!-- Crystalline blue shadow facets (right half of each icicle) -->
   <path
-    fill="url(#icicleGlint1)"
-    d="M 20.5,2 L 22,20 L 20,20 Z
-       M 86,2 L 87.3,14 L 85.5,14 Z"
+    fill="url(#iceShadow1)"
+    d="M 27.1,1.8 L 29.8,1.8 L 27.1,31.2 Z
+       M 67.0,1.7 L 69.1,1.7 L 67.0,20.6 Z
+       M 100.0,1.6 L 102.6,1.6 L 100.0,27.0 Z
+       M 121.0,1.5 L 122.9,1.5 L 121.0,15.8 Z"
+  />
+
+  <!-- Crisp white glass specular ridges (left edge of each icicle) -->
+  <path
+    fill="url(#iceHighlight1)"
+    d="M 24.4,1.6 L 26.1,1.6 L 26.9,28.5 Z
+       M 65.1,1.5 L 66.3,1.5 L 66.9,18.5 Z
+       M 97.4,1.5 L 98.9,1.5 L 99.8,24.5 Z
+       M 119.2,1.4 L 120.3,1.4 L 120.9,13.8 Z
+       M 12.6,1.5 L 13.4,1.5 L 13.6,12.2 Z"
   />
 </svg>

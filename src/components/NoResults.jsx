@@ -1,7 +1,12 @@
-// svg
+// assets
 import strut from "../assets/svg/strut.svg";
+import ren from "../assets/images/ren.webp";
+// context
+import { useSeasonalTheme } from "../context/seasonalThemeContext";
 
 const NoResults = () => {
+  const { isWinter } = useSeasonalTheme();
+
   return (
     <div className="flex flex-col items-center justify-center text-text_grey_darker gap-20 md:flex-row px-4 pt-8">
       <div>
@@ -13,7 +18,11 @@ const NoResults = () => {
           Elimină din filtre sau începe o căutare nouă
         </h3>
       </div>
-      <img className="w-250px" src={strut} alt="not-found" />
+      <img
+        className={isWinter ? "w-[321px] max-w-full h-auto" : "w-250px"}
+        src={isWinter ? ren : strut}
+        alt="not-found"
+      />
     </div>
   );
 };

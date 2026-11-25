@@ -7,13 +7,22 @@ export const SEASON_THEME_CLASSES = {
 };
 
 const JANUARY = 0;
-const FEBRUARY = 1;
-const MARCH = 2;
-const DECEMBER = 10;
+const DECEMBER = 11;
+
+// For testing purposes, force santa sleigh season (TRUE = JOB SANTA) !!!
+const FORCE_SANTA_SLEIGH = false;
+
+export function isSantaSleighSeason(date = new Date()) {
+  if (FORCE_SANTA_SLEIGH) return true;
+  const month = date.getMonth();
+  const day = date.getDate();
+  return (month === 11 && day >= 21) || (month === JANUARY && day <= 8);
+}
 
 export function getActiveSeason(date = new Date()) {
   const month = date.getMonth();
-  if (month === DECEMBER || month === JANUARY || month === FEBRUARY) {
+  const day = date.getDate();
+  if (month === DECEMBER || (month === JANUARY && day <= 8)) {
     return SEASONS.WINTER;
   }
   return null;
@@ -23,16 +32,19 @@ export function isWinterSeason(date = new Date()) {
   return getActiveSeason(date) === SEASONS.WINTER;
 }
 
-// Computes ms until the next season boundary (Dec 1 or Mar 1, handling year wrap)
+// Computes ms until the next seasonal boundary (Dec 1, Dec 21, or Jan 9)
 export function getNextSeasonTransitionMs(date = new Date()) {
   const year = date.getFullYear();
   const month = date.getMonth();
+  const day = date.getDate();
 
   let nextBoundary;
-  if (month === DECEMBER) {
-    nextBoundary = new Date(year + 1, MARCH, 1, 0, 0, 0, 0);
-  } else if (month === JANUARY || month === FEBRUARY) {
-    nextBoundary = new Date(year, MARCH, 1, 0, 0, 0, 0);
+  if (month === DECEMBER && day < 21) {
+    nextBoundary = new Date(year, DECEMBER, 21, 0, 0, 0, 0);
+  } else if (month === DECEMBER) {
+    nextBoundary = new Date(year + 1, JANUARY, 9, 0, 0, 0, 0);
+  } else if (month === JANUARY && day <= 8) {
+    nextBoundary = new Date(year, JANUARY, 9, 0, 0, 0, 0);
   } else {
     nextBoundary = new Date(year, DECEMBER, 1, 0, 0, 0, 0);
   }
