@@ -71,7 +71,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange, disabled }) => {
             className={cn(
               "min-w-10 h-10 px-2 rounded-full text-sm font-medium transition-colors disabled:pointer-events-none",
               page === currentPage
-                ? "bg-background_green text-white"
+                ? "winter-snow-btn winter-snow-btn-round relative bg-background_green text-white"
                 : "text-text_grey_darker hover:bg-background_green_light"
             )}
           >

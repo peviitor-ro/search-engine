@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="snowCircleBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="62%" stop-color="#f5faff" />
+      <stop offset="100%" stop-color="#d4e7f7" />
+    </linearGradient>
+    <linearGradient id="snowCircleHighlight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path
+    fill="url(#snowCircleBody)"
+    d="M 2.5,34
+       C 7,17 20,5 38,1.8
+       C 46,0.5 54,0.5 62,1.8
+       C 80,5 93,17 97.5,34
+       C 98,37.5 94,39 91.5,36.5
+       C 87.5,32.5 85,25 78.5,20.5
+       C 73,16.8 68,20.5 62.5,17
+       C 56.5,13.5 52,18.5 46,16.5
+       C 40,14.5 35.5,19 29.5,17.5
+       C 23.5,16 19.5,21.5 15.5,26.5
+       C 12,31 10.5,35.5 7.5,37
+       C 4.5,38.5 2,36.8 2.5,34 Z"
+  />
+  <path
+    fill="url(#snowCircleHighlight)"
+    d="M 10,27
+       C 15,14 27,6.5 42,4.5
+       C 48,3.8 52,3.8 58,4.5
+       C 73,6.5 85,14 90,27
+       C 83,18 72,11.5 58,9.8
+       C 52,9.2 48,9.2 42,9.8
+       C 28,11.5 17,18 10,27 Z"
+  />
+</svg>

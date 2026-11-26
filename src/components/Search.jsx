@@ -3,7 +3,7 @@ import {
   getJobSuggestion,
   getNumberOfJobs
 } from "../utils/fetchData";
-import logo from "../assets/svg/logo.svg";
+import Logo from "./Logo";
 import { useEffect, useState, useContext, useCallback, useRef } from "react";
 import TagsContext from "../context/TagsContext";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -42,20 +42,43 @@ const FilterTags = ({ tags, removeTag }) => {
     return item;
   };
 
+  const hashString = (seed) => {
+    let hash = 2166136261;
+    for (let i = 0; i < seed.length; i++) {
+      hash ^= seed.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+  };
+
+  let prevVariant = null;
+
   return Object.entries(tags).flatMap(([key, currentArray]) =>
-    currentArray.map((item) => (
-      <Button
-        key={`${key}-${item}`}
-        buttonType="addFilters"
-        onClick={() => removeTag(key, item)}
-        aria-label={`Elimină filtrul ${getDisplayText(key, item)}`}
-      >
-        {getDisplayText(key, item)}
-        <span className="flex h-4 w-4 items-center justify-center rounded-full transition-colors group-hover:bg-background_green/25">
-          <X className="w-3 h-3" />
-        </span>
-      </Button>
-    ))
+    currentArray.map((item) => {
+      const filterKey = `${key}-${item}`;
+      const hash = hashString(filterKey);
+      let variant = (hash % 3) + 1;
+      if (variant === prevVariant) {
+        const alternatives = [1, 2, 3].filter((v) => v !== prevVariant);
+        variant = alternatives[(hash >>> 2) % alternatives.length];
+      }
+      prevVariant = variant;
+
+      return (
+        <Button
+          key={filterKey}
+          buttonType="addFilters"
+          data-icicle={variant}
+          onClick={() => removeTag(key, item)}
+          aria-label={`Elimină filtrul ${getDisplayText(key, item)}`}
+        >
+          {getDisplayText(key, item)}
+          <span className="flex h-4 w-4 items-center justify-center rounded-full transition-colors group-hover:bg-background_green/25">
+            <X className="w-3 h-3" />
+          </span>
+        </Button>
+      );
+    })
   );
 };
 
@@ -256,7 +279,7 @@ const Search = () => {
       >
         {location.pathname === "/rezultate" && (
           <a href="/" className="logo lg:mr-3" style={{ minWidth: "54px" }}>
-            <img src={logo} alt="peviitor" />
+            <Logo alt="peviitor" />
           </a>
         )}
         <form
@@ -433,7 +456,7 @@ const Search = () => {
 
               if (displayCount > 0) {
                 return (
-                  <h2 className="text-start text-text_grey_darker my-6 text-lg w-full">
+                  <h2 className="winter-contrast-text text-start text-text_grey_darker my-6 text-lg w-full">
                     {displayCount} {displayLabel}
                   </h2>
                 );
@@ -454,6 +477,7 @@ const Search = () => {
                   onClick={handleRemoveAllFilters}
                 >
                   Șterge filtre
+                  <span className="winter-delete-underline absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-background_green transition-all duration-300 ease-out group-hover:w-full" />
                 </Button>
               </div>
             )}

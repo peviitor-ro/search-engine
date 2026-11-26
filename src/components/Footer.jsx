@@ -205,7 +205,7 @@ const Footer = () => {
           </div>
         </div>
       </section>
-      <section className="flex flex-col items-center mt-[20px] text-text_grey_darker lg:flex-row lg:gap-4">
+      <section className="winter-contrast-text flex flex-col items-center mt-[20px] text-steel_grey lg:flex-row lg:gap-4">
         <p> © {year} - Toate drepturile rezervate</p>
         <Link
           to="https://www.oportunitatisicariere.ro"
