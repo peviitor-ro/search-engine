@@ -74,7 +74,7 @@ const Job = ({
     .map((tag) => (tag ? String(tag).trim() : ""))
     .filter((tag) => tag.length > 0);
 
-  const tags = processedTags.length > 0 ? processedTags : ["Fără tag-uri"];
+  const tags = processedTags;
   const maxTags = 4;
   const hasMoreTags = tags.length > maxTags;
   const hiddenTagsCount = tags.length - maxTags;
@@ -165,7 +165,7 @@ const Job = ({
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 min-h-6">
           {displayTags.map((tag, index) => (
             <span
               key={index}
