@@ -7,7 +7,7 @@ export const SEASON_THEME_CLASSES = {
 };
 
 const JANUARY = 0;
-const DECEMBER = 10;
+const DECEMBER = 11;
 
 // For testing purposes, force santa sleigh season (TRUE = JOB SANTA) !!!
 const FORCE_SANTA_SLEIGH = false;
