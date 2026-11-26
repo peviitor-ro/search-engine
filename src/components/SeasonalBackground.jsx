@@ -224,7 +224,7 @@ const SeasonalBackground = () => {
         { length: MILKY_WAY_STAR_COUNT },
         createMilkyWayStar
       );
-      const snowMultiplier = width < 768 ? 0.4 : width >= 1024 ? 1.5 : 1;
+      const snowMultiplier = width < 768 ? 0.4 : width >= 1024 ? 1.3 : 1;
       snowflakes = [];
       [
         [600, 1],
